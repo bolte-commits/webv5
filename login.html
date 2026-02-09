@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Phone - Body Insight</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Monument Extended';
+            src: url('fonts/PPMonumentExtended-Black.otf') format('opentype');
+            font-weight: 800;
+        }
+
+        :root {
+            --primary: #0F0F0F;
+            --accent: #007aff;
+            --accent-dark: #0051D5;
+            --text: #1A1A1A;
+            --text-light: #666;
+            --bg: #FAFAFA;
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 18px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Monument Extended', sans-serif;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(250, 250, 250, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1.5rem 4rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: -0.03em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .page-hero {
+            padding: 10rem 4rem 4rem;
+            text-align: center;
+            background: var(--primary);
+            color: white;
+        }
+
+        .page-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .page-hero p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover { color: white; }
+        .back-link svg { width: 20px; height: 20px; }
+
+        /* Step indicator */
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            margin: 3rem auto 2rem;
+            max-width: 220px;
+        }
+
+        .step-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            background: var(--white);
+            color: #bbb;
+            transition: all 0.4s;
+            flex-shrink: 0;
+        }
+
+        .step-circle.active {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: white;
+        }
+
+        .step-circle.completed {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: white;
+        }
+
+        .step-line {
+            flex: 1;
+            height: 2px;
+            background: #ddd;
+            transition: background 0.4s;
+        }
+
+        .step-line.active {
+            background: var(--accent);
+        }
+
+        /* Content area */
+        .content-section {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .step-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            display: none;
+        }
+
+        .step-card.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-card .subtitle {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        /* Phone input */
+        .phone-input-wrap {
+            display: flex;
+            align-items: center;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .phone-input-wrap:focus-within {
+            border-color: var(--accent);
+        }
+
+        .phone-prefix {
+            padding: 1rem 0.8rem 1rem 1.2rem;
+            font-weight: 700;
+            color: var(--text);
+            background: #f8f8f8;
+            font-size: 1rem;
+            user-select: none;
+        }
+
+        .phone-input-wrap input {
+            flex: 1;
+            border: none;
+            padding: 1rem;
+            font-size: 1rem;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            letter-spacing: 0.05em;
+        }
+
+        /* OTP inputs */
+        .otp-inputs {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .otp-inputs input {
+            width: 60px;
+            height: 64px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .otp-inputs input:focus {
+            border-color: var(--accent);
+        }
+
+        .resend-link {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .resend-link button {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            text-decoration: underline;
+        }
+
+        .resend-link button:hover {
+            color: var(--accent-dark);
+        }
+
+        .pill-btn {
+            background: var(--accent);
+            color: white;
+            padding: 0.9rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'DM Sans', sans-serif;
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+
+        .pill-btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+        }
+
+        .pill-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 4rem;
+            width: 100%;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .footer-logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section a {
+            display: block;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover { color: white; }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .logo { font-size: 1.5rem; }
+            .page-hero { padding: 8rem 1.5rem 3rem; }
+            .page-hero h1 { font-size: 2.2rem; }
+            .content-section { padding: 0 1.5rem 3rem; }
+            .step-card { padding: 1.5rem; }
+            .step-card h2 { font-size: 1.3rem; }
+            .otp-inputs input { width: 52px; height: 56px; font-size: 1.3rem; }
+            footer { padding: 3rem 1.5rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <a href="index.html" class="logo">BODY INSIGHT</a>
+            <div class="nav-links">
+                <a href="index.html#how-it-works">How it works</a>
+                <a href="index.html#pricing">Pricing</a>
+                <a href="schedule.html">Book</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <a id="back-link" href="select-time.html" class="back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Back to time selection
+        </a>
+        <h1>Verify your phone</h1>
+        <p>Quick verification before we confirm your booking.</p>
+    </section>
+
+    <!-- Step indicator: 2 steps on this page -->
+    <div class="step-indicator">
+        <div class="step-circle active" id="step-circle-1">1</div>
+        <div class="step-line" id="step-line-1"></div>
+        <div class="step-circle" id="step-circle-2">2</div>
+    </div>
+
+    <section class="content-section">
+
+        <!-- Step 1: Phone number -->
+        <div class="step-card active" id="step-1">
+            <h2>Enter your phone number</h2>
+            <p class="subtitle">We'll send you a one-time verification code.</p>
+            <div class="phone-input-wrap">
+                <span class="phone-prefix">+91</span>
+                <input type="tel" id="phone-input" placeholder="98765 43210" maxlength="10" inputmode="numeric">
+            </div>
+            <button class="pill-btn" id="send-otp-btn" disabled>Send OTP</button>
+        </div>
+
+        <!-- Step 2: OTP verification -->
+        <div class="step-card" id="step-2">
+            <h2>Verify OTP</h2>
+            <p class="subtitle">Enter the 4-digit code sent to <strong id="phone-display"></strong></p>
+            <div class="otp-inputs">
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="0">
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="1">
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="2">
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="3">
+            </div>
+            <div class="resend-link">
+                <button id="resend-btn">Resend OTP</button>
+            </div>
+            <button class="pill-btn" id="verify-btn" disabled>Verify</button>
+        </div>
+
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">BODY INSIGHT</div>
+                <p style="color: rgba(255, 255, 255, 0.7); margin-top: 1rem; max-width: 300px;">Medical-grade DEXA scanning across India. Know your body. Track real progress.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Product</h4>
+                <a href="index.html#scan">The Scan</a>
+                <a href="index.html#how-it-works">How it Works</a>
+                <a href="index.html#pricing">Pricing</a>
+                <a href="#">Sample Report</a>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <a href="#">About Us</a>
+                <a href="#">For Companies</a>
+                <a href="#">For Sports Teams</a>
+                <a href="schedule.html">Locations</a>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <a href="#">FAQ</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Body Insight. Medical measurements, not medical advice. Consult your physician for health decisions.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Parse URL params (booking info passed through)
+        const params = new URLSearchParams(window.location.search);
+        const landmark = params.get('landmark') || '';
+        const day = params.get('day') || '';
+        const date = params.get('date') || '';
+        const time = params.get('time') || '';
+        const slot = params.get('slot') || '';
+
+        // Back link preserves params
+        const backParams = new URLSearchParams({ landmark, day, date, time });
+        document.getElementById('back-link').href = 'select-time.html?' + backParams.toString();
+
+        // ---- Step management ----
+        function goToStep(n) {
+            document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
+            document.getElementById('step-' + n).classList.add('active');
+
+            for (let i = 1; i <= 2; i++) {
+                const circle = document.getElementById('step-circle-' + i);
+                circle.classList.remove('active', 'completed');
+                if (i < n) {
+                    circle.classList.add('completed');
+                    circle.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                } else if (i === n) {
+                    circle.classList.add('active');
+                }
+            }
+            document.getElementById('step-line-1').classList.toggle('active', n >= 2);
+        }
+
+        // ---- Step 1: Phone ----
+        const phoneInput = document.getElementById('phone-input');
+        const sendOtpBtn = document.getElementById('send-otp-btn');
+
+        phoneInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '');
+            sendOtpBtn.disabled = this.value.length < 10;
+        });
+
+        sendOtpBtn.addEventListener('click', function() {
+            document.getElementById('phone-display').textContent = '+91 ' + phoneInput.value;
+            goToStep(2);
+            document.querySelector('.otp-digit[data-index="0"]').focus();
+        });
+
+        // ---- Step 2: OTP ----
+        const otpDigits = document.querySelectorAll('.otp-digit');
+        const verifyBtn = document.getElementById('verify-btn');
+
+        otpDigits.forEach((input, i) => {
+            input.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '');
+                if (this.value && i < 3) otpDigits[i + 1].focus();
+                checkOtpFilled();
+            });
+
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && !this.value && i > 0) otpDigits[i - 1].focus();
+            });
+
+            input.addEventListener('paste', function(e) {
+                e.preventDefault();
+                const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+                for (let j = 0; j < 4 && j < pasted.length; j++) otpDigits[j].value = pasted[j];
+                if (pasted.length >= 4) otpDigits[3].focus();
+                checkOtpFilled();
+            });
+        });
+
+        function checkOtpFilled() {
+            verifyBtn.disabled = !Array.from(otpDigits).every(d => d.value.length === 1);
+        }
+
+        verifyBtn.addEventListener('click', function() {
+            // Simulated — any 4 digits accepted. Navigate to confirm page with phone.
+            const phone = phoneInput.value;
+            const confirmParams = new URLSearchParams({ landmark, day, date, time, slot, phone });
+            window.location.href = 'confirm.html?' + confirmParams.toString();
+        });
+
+        document.getElementById('resend-btn').addEventListener('click', function() {
+            otpDigits.forEach(d => { d.value = ''; });
+            otpDigits[0].focus();
+            verifyBtn.disabled = true;
+        });
+    </script>
+</body>
+</html>

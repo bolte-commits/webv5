@@ -22,11 +22,7 @@
             --white: #FFFFFF;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'DM Sans', sans-serif;
@@ -83,9 +79,7 @@
             transition: color 0.3s;
         }
 
-        .nav-links a:hover {
-            color: var(--accent);
-        }
+        .nav-links a:hover { color: var(--accent); }
 
         .page-hero {
             padding: 10rem 4rem 4rem;
@@ -118,177 +112,42 @@
             transition: color 0.3s;
         }
 
-        .back-link:hover {
-            color: white;
-        }
-
-        .back-link svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        /* Step indicator */
-        .step-indicator {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0;
-            margin: 3rem auto 2rem;
-            max-width: 340px;
-        }
-
-        .step-circle {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1rem;
-            border: 2px solid #ddd;
-            background: var(--white);
-            color: #bbb;
-            transition: all 0.4s;
-            flex-shrink: 0;
-        }
-
-        .step-circle.active {
-            border-color: var(--accent);
-            background: var(--accent);
-            color: white;
-        }
-
-        .step-circle.completed {
-            border-color: var(--accent);
-            background: var(--accent);
-            color: white;
-        }
-
-        .step-line {
-            flex: 1;
-            height: 2px;
-            background: #ddd;
-            transition: background 0.4s;
-        }
-
-        .step-line.active {
-            background: var(--accent);
-        }
+        .back-link:hover { color: white; }
+        .back-link svg { width: 20px; height: 20px; }
 
         /* Content area */
         .content-section {
             max-width: 520px;
             margin: 0 auto;
-            padding: 0 2rem 4rem;
+            padding: 3rem 2rem 4rem;
         }
 
-        /* Cards */
-        .step-card {
+        /* Card */
+        .card {
             background: white;
             border-radius: 16px;
             padding: 2.5rem;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            display: none;
-        }
-
-        .step-card.active {
-            display: block;
             animation: fadeIn 0.4s ease;
         }
+
+        .card.hidden { display: none; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .step-card h2 {
+        .card h2 {
+            font-family: 'Monument Extended', sans-serif;
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
 
-        .step-card .subtitle {
+        .card .subtitle {
             color: var(--text-light);
             margin-bottom: 2rem;
             font-size: 0.95rem;
-        }
-
-        /* Phone input */
-        .phone-input-wrap {
-            display: flex;
-            align-items: center;
-            border: 2px solid #e8e8e8;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: border-color 0.3s;
-        }
-
-        .phone-input-wrap:focus-within {
-            border-color: var(--accent);
-        }
-
-        .phone-prefix {
-            padding: 1rem 0.8rem 1rem 1.2rem;
-            font-weight: 700;
-            color: var(--text);
-            background: #f8f8f8;
-            font-size: 1rem;
-            user-select: none;
-        }
-
-        .phone-input-wrap input {
-            flex: 1;
-            border: none;
-            padding: 1rem;
-            font-size: 1rem;
-            font-family: 'DM Sans', sans-serif;
-            outline: none;
-            letter-spacing: 0.05em;
-        }
-
-        /* OTP inputs */
-        .otp-inputs {
-            display: flex;
-            gap: 0.8rem;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .otp-inputs input {
-            width: 60px;
-            height: 64px;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            border: 2px solid #e8e8e8;
-            border-radius: 12px;
-            font-family: 'DM Sans', sans-serif;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .otp-inputs input:focus {
-            border-color: var(--accent);
-        }
-
-        .resend-link {
-            text-align: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .resend-link button {
-            background: none;
-            border: none;
-            color: var(--accent);
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            text-decoration: underline;
-        }
-
-        .resend-link button:hover {
-            color: var(--accent-dark);
         }
 
         /* Form fields */
@@ -368,15 +227,10 @@
             font-weight: 600;
         }
 
-        .coupon-msg.success {
-            color: #16a34a;
-        }
+        .coupon-msg.success { color: #16a34a; }
+        .coupon-msg.error { color: #dc2626; }
 
-        .coupon-msg.error {
-            color: #dc2626;
-        }
-
-        /* Booking summary (shown in step 3) */
+        /* Booking summary */
         .booking-summary {
             background: #f0f7ff;
             border-radius: 12px;
@@ -463,12 +317,6 @@
         .pill-btn:hover {
             background: var(--accent-dark);
             transform: translateY(-2px);
-        }
-
-        .pill-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
         }
 
         /* Success state */
@@ -608,9 +456,7 @@
             transition: color 0.3s;
         }
 
-        .footer-section a:hover {
-            color: white;
-        }
+        .footer-section a:hover { color: white; }
 
         .footer-bottom {
             text-align: center;
@@ -621,56 +467,17 @@
         }
 
         @media (max-width: 768px) {
-            nav {
-                padding: 1rem 1.5rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .logo {
-                font-size: 1.5rem;
-            }
-
-            .page-hero {
-                padding: 8rem 1.5rem 3rem;
-            }
-
-            .page-hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .content-section {
-                padding: 0 1.5rem 3rem;
-            }
-
-            .step-card {
-                padding: 1.5rem;
-            }
-
-            .step-card h2 {
-                font-size: 1.3rem;
-            }
-
-            .otp-inputs input {
-                width: 52px;
-                height: 56px;
-                font-size: 1.3rem;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            footer {
-                padding: 3rem 1.5rem;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .logo { font-size: 1.5rem; }
+            .page-hero { padding: 8rem 1.5rem 3rem; }
+            .page-hero h1 { font-size: 2.2rem; }
+            .content-section { padding: 2rem 1.5rem 3rem; }
+            .card { padding: 1.5rem; }
+            .card h2 { font-size: 1.3rem; }
+            .form-row { grid-template-columns: 1fr; }
+            footer { padding: 3rem 1.5rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 2rem; }
         }
     </style>
 </head>
@@ -692,49 +499,13 @@
             Back to time selection
         </a>
         <h1>Complete your booking</h1>
-        <p>Verify your phone number and fill in your details to confirm.</p>
+        <p>Fill in your details to confirm the scan.</p>
     </section>
-
-    <!-- Step indicator -->
-    <div class="step-indicator">
-        <div class="step-circle active" id="step-circle-1">1</div>
-        <div class="step-line" id="step-line-1"></div>
-        <div class="step-circle" id="step-circle-2">2</div>
-        <div class="step-line" id="step-line-2"></div>
-        <div class="step-circle" id="step-circle-3">3</div>
-    </div>
 
     <section class="content-section">
 
-        <!-- Step 1: Phone number -->
-        <div class="step-card active" id="step-1">
-            <h2>Enter your phone number</h2>
-            <p class="subtitle">We'll send you a one-time verification code.</p>
-            <div class="phone-input-wrap">
-                <span class="phone-prefix">+91</span>
-                <input type="tel" id="phone-input" placeholder="98765 43210" maxlength="10" inputmode="numeric">
-            </div>
-            <button class="pill-btn" id="send-otp-btn" disabled>Send OTP</button>
-        </div>
-
-        <!-- Step 2: OTP verification -->
-        <div class="step-card" id="step-2">
-            <h2>Verify OTP</h2>
-            <p class="subtitle">Enter the 4-digit code sent to <strong id="phone-display"></strong></p>
-            <div class="otp-inputs">
-                <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="0">
-                <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="1">
-                <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="2">
-                <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="3">
-            </div>
-            <div class="resend-link">
-                <button id="resend-btn">Resend OTP</button>
-            </div>
-            <button class="pill-btn" id="verify-btn" disabled>Verify</button>
-        </div>
-
-        <!-- Step 3: Booking details -->
-        <div class="step-card" id="step-3">
+        <!-- Booking details form -->
+        <div class="card" id="form-card">
             <h2>Your details</h2>
             <p class="subtitle">Fill in your information to complete the booking.</p>
 
@@ -744,7 +515,7 @@
                 <div class="summary-details" id="summary-details"></div>
                 <div class="summary-price" id="summary-price">
                     <span class="price-label">Total</span>
-                    <span><span class="price-value" id="price-display">&#8377;2,999</span></span>
+                    <span><span class="price-value">&#8377;2,999</span></span>
                 </div>
             </div>
 
@@ -795,7 +566,7 @@
         </div>
 
         <!-- Success state -->
-        <div class="step-card" id="step-success">
+        <div class="card hidden" id="success-card">
             <div class="success-state">
                 <div class="success-checkmark">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -816,7 +587,6 @@
                 <div class="footer-logo">BODY INSIGHT</div>
                 <p style="color: rgba(255, 255, 255, 0.7); margin-top: 1rem; max-width: 300px;">Medical-grade DEXA scanning across India. Know your body. Track real progress.</p>
             </div>
-
             <div class="footer-section">
                 <h4>Product</h4>
                 <a href="index.html#scan">The Scan</a>
@@ -824,7 +594,6 @@
                 <a href="index.html#pricing">Pricing</a>
                 <a href="#">Sample Report</a>
             </div>
-
             <div class="footer-section">
                 <h4>Company</h4>
                 <a href="#">About Us</a>
@@ -832,7 +601,6 @@
                 <a href="#">For Sports Teams</a>
                 <a href="schedule.html">Locations</a>
             </div>
-
             <div class="footer-section">
                 <h4>Support</h4>
                 <a href="#">FAQ</a>
@@ -841,7 +609,6 @@
                 <a href="#">Terms of Service</a>
             </div>
         </div>
-
         <div class="footer-bottom">
             <p>&copy; 2024 Body Insight. Medical measurements, not medical advice. Consult your physician for health decisions.</p>
         </div>
@@ -855,110 +622,15 @@
         const date = params.get('date') || '--';
         const time = params.get('time') || '--';
         const slot = params.get('slot') || '--';
+        const phone = params.get('phone') || '';
 
-        // Set back link to preserve params
+        // Back link to time selection
         const backParams = new URLSearchParams({ landmark, day, date, time });
         document.getElementById('back-link').href = 'select-time.html?' + backParams.toString();
 
-        // Populate booking summary in step 3
+        // Populate booking summary
         document.getElementById('summary-landmark').textContent = landmark;
         document.getElementById('summary-details').textContent = day + ', ' + date + ' at ' + slot;
-
-        // ---- Step management ----
-        let currentStep = 1;
-        let userPhone = '';
-
-        function goToStep(n) {
-            currentStep = n;
-            // Update cards
-            document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
-            const target = n === 4 ? 'step-success' : 'step-' + n;
-            document.getElementById(target).classList.add('active');
-
-            // Update circles
-            for (let i = 1; i <= 3; i++) {
-                const circle = document.getElementById('step-circle-' + i);
-                circle.classList.remove('active', 'completed');
-                if (i < n) {
-                    circle.classList.add('completed');
-                    circle.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-                } else if (i === n && n <= 3) {
-                    circle.classList.add('active');
-                } else if (i === n && n === 4) {
-                    circle.classList.add('completed');
-                    circle.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-                }
-            }
-
-            // Update lines
-            document.getElementById('step-line-1').classList.toggle('active', n >= 2);
-            document.getElementById('step-line-2').classList.toggle('active', n >= 3);
-        }
-
-        // ---- Step 1: Phone ----
-        const phoneInput = document.getElementById('phone-input');
-        const sendOtpBtn = document.getElementById('send-otp-btn');
-
-        phoneInput.addEventListener('input', function() {
-            this.value = this.value.replace(/\D/g, '');
-            sendOtpBtn.disabled = this.value.length < 10;
-        });
-
-        sendOtpBtn.addEventListener('click', function() {
-            userPhone = phoneInput.value;
-            document.getElementById('phone-display').textContent = '+91 ' + userPhone;
-            goToStep(2);
-            // Auto-focus first OTP input
-            document.querySelector('.otp-digit[data-index="0"]').focus();
-        });
-
-        // ---- Step 2: OTP ----
-        const otpDigits = document.querySelectorAll('.otp-digit');
-        const verifyBtn = document.getElementById('verify-btn');
-
-        otpDigits.forEach((input, i) => {
-            input.addEventListener('input', function() {
-                this.value = this.value.replace(/\D/g, '');
-                if (this.value && i < 3) {
-                    otpDigits[i + 1].focus();
-                }
-                checkOtpFilled();
-            });
-
-            input.addEventListener('keydown', function(e) {
-                if (e.key === 'Backspace' && !this.value && i > 0) {
-                    otpDigits[i - 1].focus();
-                }
-            });
-
-            // Allow paste of full OTP
-            input.addEventListener('paste', function(e) {
-                e.preventDefault();
-                const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
-                for (let j = 0; j < 4 && j < pasted.length; j++) {
-                    otpDigits[j].value = pasted[j];
-                }
-                if (pasted.length >= 4) otpDigits[3].focus();
-                checkOtpFilled();
-            });
-        });
-
-        function checkOtpFilled() {
-            const filled = Array.from(otpDigits).every(d => d.value.length === 1);
-            verifyBtn.disabled = !filled;
-        }
-
-        verifyBtn.addEventListener('click', function() {
-            // Simulated — any 4 digits accepted
-            goToStep(3);
-            document.getElementById('name-input').focus();
-        });
-
-        document.getElementById('resend-btn').addEventListener('click', function() {
-            otpDigits.forEach(d => { d.value = ''; });
-            otpDigits[0].focus();
-            verifyBtn.disabled = true;
-        });
 
         // ---- Pricing ----
         const BASE_PRICE = 2999;
@@ -992,7 +664,6 @@
         const couponMsg = document.getElementById('coupon-msg');
         const couponApplyBtn = document.getElementById('coupon-apply-btn');
 
-        // Accepted coupon codes (simulated)
         const validCoupons = {
             'FIRST50':      { discount: 50, label: '50% off your first scan' },
             'BODYINSIGHT':  { discount: 20, label: '20% off' },
@@ -1009,7 +680,7 @@
             if (validCoupons[code]) {
                 appliedCoupon = code;
                 finalPrice = Math.round(BASE_PRICE * (1 - validCoupons[code].discount / 100));
-                couponMsg.textContent = 'Coupon applied — ' + validCoupons[code].label;
+                couponMsg.textContent = 'Coupon applied \u2014 ' + validCoupons[code].label;
                 couponMsg.classList.add('success');
                 couponApplyBtn.textContent = 'Applied';
                 couponInput.disabled = true;
@@ -1024,14 +695,14 @@
             }
         });
 
-        // ---- Step 3: Booking details form ----
+        // ---- Form submit ----
         document.getElementById('details-form').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const name = document.getElementById('name-input').value.trim();
             const email = document.getElementById('email-input').value.trim();
 
-            // Generate a reference number
+            // Generate reference number
             const ref = 'BI-' + Date.now().toString(36).toUpperCase().slice(-6);
             document.getElementById('ref-number').textContent = 'Ref: ' + ref;
 
@@ -1043,16 +714,18 @@
                 '<div class="summary-row"><span class="label">Name</span><span class="value">' + name + '</span></div>' +
                 '<div class="summary-row"><span class="label">Email</span><span class="value">' + email + '</span></div>';
             if (appliedCoupon) {
-                summaryHTML += '<div class="summary-row"><span class="label">Coupon</span><span class="value" style="color:#16a34a">' + appliedCoupon + ' — ' + validCoupons[appliedCoupon].label + '</span></div>';
+                summaryHTML += '<div class="summary-row"><span class="label">Coupon</span><span class="value" style="color:#16a34a">' + appliedCoupon + ' \u2014 ' + validCoupons[appliedCoupon].label + '</span></div>';
                 summaryHTML += '<div class="summary-row"><span class="label">Amount</span><span class="value"><span style="text-decoration:line-through;color:#aaa;margin-right:0.4rem">' + formatPrice(BASE_PRICE) + '</span>' + formatPrice(finalPrice) + '</span></div>';
             } else {
                 summaryHTML += '<div class="summary-row"><span class="label">Amount</span><span class="value">' + formatPrice(BASE_PRICE) + '</span></div>';
             }
             document.getElementById('success-summary').innerHTML = summaryHTML;
 
-            goToStep(4);
+            // Switch to success
+            document.getElementById('form-card').classList.add('hidden');
+            document.getElementById('success-card').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
-
 </body>
 </html>
