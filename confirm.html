@@ -258,28 +258,29 @@
             font-size: 0.95rem;
         }
 
-        .booking-summary .summary-price {
-            margin-top: 0.8rem;
-            padding-top: 0.8rem;
-            border-top: 1px solid rgba(0, 81, 213, 0.15);
+        .summary-price {
+            margin-top: 1rem;
+            padding: 1rem 1.2rem;
+            background: #f8f8f8;
+            border-radius: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .booking-summary .summary-price .price-label {
+        .summary-price .price-label {
             font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-light);
         }
 
-        .booking-summary .summary-price .price-value {
+        .summary-price .price-value {
             font-weight: 800;
             font-size: 1.3rem;
             color: var(--text);
         }
 
-        .booking-summary .summary-price .price-original {
+        .summary-price .price-original {
             text-decoration: line-through;
             color: #aaa;
             font-weight: 500;
@@ -287,7 +288,7 @@
             margin-right: 0.5rem;
         }
 
-        .booking-summary .summary-price .price-discount-tag {
+        .summary-price .price-discount-tag {
             display: inline-block;
             background: #dcfce7;
             color: #16a34a;
@@ -498,8 +499,8 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
             Back to time selection
         </a>
-        <h1>Complete your booking</h1>
-        <p>Fill in your details to confirm the scan.</p>
+        <h1 id="hero-title">Complete your booking</h1>
+        <p id="hero-subtitle">Fill in your details to confirm the scan.</p>
     </section>
 
     <section class="content-section">
@@ -513,10 +514,6 @@
                 <div class="summary-title">Booking summary</div>
                 <div class="summary-location" id="summary-landmark"></div>
                 <div class="summary-details" id="summary-details"></div>
-                <div class="summary-price" id="summary-price">
-                    <span class="price-label">Total</span>
-                    <span><span class="price-value">&#8377;2,999</span></span>
-                </div>
             </div>
 
             <form id="details-form" autocomplete="on">
@@ -560,6 +557,10 @@
                         <button type="button" class="coupon-apply-btn" id="coupon-apply-btn">Apply</button>
                     </div>
                     <div class="coupon-msg" id="coupon-msg"></div>
+                </div>
+                <div class="summary-price" id="summary-price">
+                    <span class="price-label">Total</span>
+                    <span><span class="price-value">&#8377;2,999</span></span>
                 </div>
                 <button type="submit" class="pill-btn">Confirm Booking</button>
             </form>
@@ -724,6 +725,9 @@
             // Switch to success
             document.getElementById('form-card').classList.add('hidden');
             document.getElementById('success-card').classList.remove('hidden');
+            document.getElementById('hero-title').textContent = 'You\u2019re all set!';
+            document.getElementById('hero-subtitle').textContent = 'Your scan has been booked. See you there!';
+            document.getElementById('back-link').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>

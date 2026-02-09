@@ -384,8 +384,8 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
             Back to time selection
         </a>
-        <h1>Verify your phone</h1>
-        <p>Quick verification before we confirm your booking.</p>
+        <h1 id="hero-title">Verify your phone</h1>
+        <p id="hero-subtitle">Quick verification before we confirm your booking.</p>
     </section>
 
     <!-- Step indicator: 2 steps on this page -->
@@ -473,9 +473,21 @@
         document.getElementById('back-link').href = 'select-time.html?' + backParams.toString();
 
         // ---- Step management ----
+        const heroTitle = document.getElementById('hero-title');
+        const heroSubtitle = document.getElementById('hero-subtitle');
+
+        const stepContent = {
+            1: { title: 'Verify your phone', subtitle: 'Quick verification before we confirm your booking.' },
+            2: { title: 'Enter the code', subtitle: 'We sent a 4-digit OTP to your phone number.' }
+        };
+
         function goToStep(n) {
             document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
             document.getElementById('step-' + n).classList.add('active');
+
+            // Update hero
+            heroTitle.textContent = stepContent[n].title;
+            heroSubtitle.textContent = stepContent[n].subtitle;
 
             for (let i = 1; i <= 2; i++) {
                 const circle = document.getElementById('step-circle-' + i);
