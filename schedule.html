@@ -860,7 +860,7 @@
 
         citySelect.addEventListener('change', function() {
             const selectedCity = this.value;
-            
+
             citySections.forEach(section => {
                 if (selectedCity === 'all') {
                     section.classList.add('active');
@@ -869,6 +869,20 @@
                 } else {
                     section.classList.remove('active');
                 }
+            });
+        });
+
+        // Wire up Book buttons to navigate to select-time page
+        document.querySelectorAll('.book-btn:not(.full)').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const row = this.closest('.date-row');
+                const landmark = row.querySelector('.date-landmark').textContent;
+                const day = row.querySelector('.date-day').textContent;
+                const date = row.querySelector('.date-date').textContent;
+                const time = row.querySelector('.date-time').textContent;
+                const params = new URLSearchParams({ landmark, day, date, time });
+                window.location.href = 'select-time.html?' + params.toString();
             });
         });
     </script>
