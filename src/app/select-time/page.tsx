@@ -94,10 +94,6 @@ function SelectTimeContent() {
               <div className={styles.detailLabel}>Hours</div>
               <div className={styles.detailValue}>{time}</div>
             </div>
-            <div className={styles.detailItem}>
-              <div className={styles.detailLabel}>Duration</div>
-              <div className={styles.detailValue}>~15 min</div>
-            </div>
           </div>
           <div className={styles.scanInfo}>
             <svg
