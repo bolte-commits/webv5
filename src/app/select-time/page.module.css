@@ -1,0 +1,214 @@
+.contentSection {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.eventCard {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    margin-bottom: 3rem;
+}
+
+.eventCard h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.eventDetails {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.5rem;
+}
+
+.detailItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.detailLabel {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.detailValue {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.scanInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 1.5rem;
+    background: #f0f7ff;
+    border-radius: 12px;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--accent-dark);
+}
+
+.scanInfo svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.timeSection h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.timeSection p {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+.timeGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.8rem;
+}
+
+.timeSlot {
+    padding: 1rem;
+    background: white;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text);
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+}
+
+.timeSlot:hover {
+    border-color: var(--accent);
+    background: #f0f7ff;
+    transform: translateY(-2px);
+}
+
+.timeSlotSelected {
+    composes: timeSlot;
+    border-color: var(--accent);
+    background: var(--accent);
+    color: white;
+}
+
+.timeSlotSelected:hover {
+    background: var(--accent);
+    color: white;
+}
+
+.timeSlotUnavailable {
+    composes: timeSlot;
+    background: #f5f5f5;
+    color: #ccc;
+    cursor: not-allowed;
+    border-color: #eee;
+}
+
+.timeSlotUnavailable:hover {
+    transform: none;
+    border-color: #eee;
+    background: #f5f5f5;
+    color: #ccc;
+}
+
+.confirmBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    z-index: 100;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.confirmBarVisible {
+    composes: confirmBar;
+    transform: translateY(0);
+}
+
+.selectedTime {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.selectedTime span {
+    color: var(--accent);
+}
+
+.confirmBtn {
+    background: var(--accent);
+    color: white;
+    padding: 0.9rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+}
+
+.confirmBtn:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .contentSection {
+        padding: 3rem 1.5rem;
+    }
+
+    .eventCard {
+        padding: 1.5rem;
+    }
+
+    .eventCard h2 {
+        font-size: 1.4rem;
+    }
+
+    .eventDetails {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .timeGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .timeSection h2 {
+        font-size: 1.4rem;
+    }
+
+    .confirmBar,
+    .confirmBarVisible {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem 1.5rem;
+    }
+
+    .confirmBtn {
+        width: 100%;
+        text-align: center;
+    }
+}

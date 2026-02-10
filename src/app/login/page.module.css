@@ -1,0 +1,163 @@
+.stepIndicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    margin: 3rem auto 2rem;
+    max-width: 220px;
+}
+
+.stepCircle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    background: var(--white);
+    color: #bbb;
+    transition: all 0.4s;
+    flex-shrink: 0;
+}
+
+.stepCircleActive {
+    composes: stepCircle;
+    border-color: var(--accent);
+    background: var(--accent);
+    color: white;
+}
+
+.stepCircleCompleted {
+    composes: stepCircle;
+    border-color: var(--accent);
+    background: var(--accent);
+    color: white;
+}
+
+.stepLine {
+    flex: 1;
+    height: 2px;
+    background: #ddd;
+    transition: background 0.4s;
+}
+
+.stepLineActive {
+    composes: stepLine;
+    background: var(--accent);
+}
+
+.contentSection {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+}
+
+.stepCard {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    display: none;
+}
+
+.stepCardActive {
+    composes: stepCard;
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+
+.stepCard h2,
+.stepCardActive h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+.emailInput {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.emailInput:focus {
+    border-color: var(--accent);
+}
+
+.otpInputs {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.otpDigit {
+    width: 60px;
+    height: 64px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.otpDigit:focus {
+    border-color: var(--accent);
+}
+
+.resendLink {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.resendLink button {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    text-decoration: underline;
+}
+
+.resendLink button:hover {
+    color: var(--accent-dark);
+}
+
+@media (max-width: 768px) {
+    .contentSection {
+        padding: 0 1.5rem 3rem;
+    }
+
+    .stepCard,
+    .stepCardActive {
+        padding: 1.5rem;
+    }
+
+    .stepCard h2,
+    .stepCardActive h2 {
+        font-size: 1.3rem;
+    }
+
+    .otpDigit {
+        width: 52px;
+        height: 56px;
+        font-size: 1.3rem;
+    }
+}

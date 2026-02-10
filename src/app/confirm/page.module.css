@@ -1,0 +1,304 @@
+.contentSection {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 3rem 2rem 4rem;
+}
+
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    animation: fadeIn 0.4s ease;
+}
+
+.cardHidden {
+    display: none;
+}
+
+.card h2 {
+    font-family: 'Monument Extended', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+/* Form fields */
+.formGroup {
+    margin-bottom: 1.2rem;
+}
+
+.formGroup label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+.formGroup input,
+.formGroup select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.3s;
+    background: var(--white);
+    color: var(--text);
+}
+
+.formGroup input:focus,
+.formGroup select:focus {
+    border-color: var(--accent);
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Coupon */
+.couponWrap {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+}
+
+.couponWrap input {
+    flex: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.couponApplyBtn {
+    padding: 0.85rem 1.3rem;
+    border-radius: 12px;
+    border: 2px solid var(--accent);
+    background: var(--white);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    transition: all 0.3s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.couponApplyBtn:hover {
+    background: var(--accent);
+    color: white;
+}
+
+.couponMsg {
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
+    font-weight: 600;
+}
+
+.couponMsgSuccess {
+    composes: couponMsg;
+    color: #16a34a;
+}
+
+.couponMsgError {
+    composes: couponMsg;
+    color: #dc2626;
+}
+
+/* Booking summary */
+.bookingSummary {
+    background: #f0f7ff;
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.summaryTitle {
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-dark);
+    margin-bottom: 0.6rem;
+}
+
+.summaryLocation {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.summaryDetails {
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.summaryPrice {
+    margin-top: 1rem;
+    padding: 1rem 1.2rem;
+    background: #f8f8f8;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.priceLabel {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.priceValue {
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--text);
+}
+
+.priceOriginal {
+    text-decoration: line-through;
+    color: #aaa;
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin-right: 0.5rem;
+}
+
+.priceDiscountTag {
+    display: inline-block;
+    background: #dcfce7;
+    color: #16a34a;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 50px;
+    margin-left: 0.5rem;
+}
+
+/* Success state */
+.successState {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.successCheckmark {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #22c55e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    animation: scaleIn 0.5s ease;
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0); }
+    60% { transform: scale(1.15); }
+    to { transform: scale(1); }
+}
+
+.successCheckmark svg {
+    width: 40px;
+    height: 40px;
+    color: white;
+    stroke: white;
+    animation: drawCheck 0.4s 0.3s ease forwards;
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+}
+
+@keyframes drawCheck {
+    to { stroke-dashoffset: 0; }
+}
+
+.successState h2 {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.successSub {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+.refNumber {
+    display: inline-block;
+    background: #f0f7ff;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    color: var(--accent-dark);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+}
+
+.successSummary {
+    background: #f8f8f8;
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    font-size: 0.95rem;
+}
+
+.summaryRowLabel {
+    color: var(--text-light);
+}
+
+.summaryRowValue {
+    font-weight: 600;
+}
+
+.backHome {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 0.9rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.backHome:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .contentSection {
+        padding: 2rem 1.5rem 3rem;
+    }
+
+    .card {
+        padding: 1.5rem;
+    }
+
+    .card h2 {
+        font-size: 1.3rem;
+    }
+
+    .formRow {
+        grid-template-columns: 1fr;
+    }
+}

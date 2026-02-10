@@ -1,0 +1,347 @@
+/* ===== Monument Extended @font-face ===== */
+@font-face {
+    font-family: 'Monument Extended';
+    src: url('/fonts/PPMonumentExtended-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Monument Extended';
+    src: url('/fonts/PPMonumentExtended-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Monument Extended';
+    src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* ===== CSS Variables ===== */
+:root {
+    --primary: #0F0F0F;
+    --accent: #007aff;
+    --accent-dark: #0051D5;
+    --text: #1A1A1A;
+    --text-light: #666;
+    --bg: #FAFAFA;
+    --white: #FFFFFF;
+}
+
+/* ===== Reset ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+body {
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    width: 100%;
+    line-height: 1.6;
+    font-size: 18px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Monument Extended', sans-serif;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+/* ===== Navigation ===== */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(250, 250, 250, 0.95);
+    backdrop-filter: blur(20px);
+    z-index: 1000;
+    padding: 1.5rem 4rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    animation: slideDown 0.6s ease;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.nav-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: var(--font-syne), 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary);
+    text-decoration: none;
+    letter-spacing: -0.03em;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent);
+}
+
+.nav-links .cta-button {
+    color: white !important;
+}
+
+.nav-links .cta-button:hover {
+    color: white !important;
+}
+
+.cta-button {
+    background: var(--accent);
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s;
+    display: inline-block;
+}
+
+.cta-button:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+}
+
+/* ===== Page Hero ===== */
+.page-hero {
+    padding: 10rem 4rem 4rem;
+    text-align: center;
+    background: var(--primary);
+    color: white;
+}
+
+.page-hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.page-hero p {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* ===== Back Link ===== */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    transition: color 0.3s;
+}
+
+.back-link:hover {
+    color: white;
+}
+
+.back-link svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ===== Pill Button ===== */
+.pill-btn {
+    background: var(--accent);
+    color: white;
+    padding: 0.9rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.pill-btn:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+}
+
+.pill-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ===== Footer ===== */
+footer {
+    background: var(--primary);
+    color: white;
+    padding: 4rem;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 4rem;
+    width: 100%;
+}
+
+.footer-logo {
+    font-family: var(--font-syne), 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.footer-section h4 {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.footer-section a {
+    display: block;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    margin-bottom: 0.8rem;
+    transition: color 0.3s;
+}
+
+.footer-section a:hover {
+    color: white;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ===== Shared Keyframes ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Responsive: 1024px ===== */
+@media (max-width: 1024px) {
+    nav {
+        padding: 1.5rem 2rem;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+/* ===== Responsive: 768px ===== */
+@media (max-width: 768px) {
+    nav {
+        padding: 1rem 1.5rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    .page-hero {
+        padding: 8rem 1.5rem 3rem;
+    }
+
+    .page-hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .page-hero p {
+        font-size: 1.1rem;
+    }
+
+    footer {
+        padding: 3rem 1.5rem;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+/* ===== Responsive: 480px ===== */
+@media (max-width: 480px) {
+    nav {
+        padding: 1rem 1rem;
+    }
+
+    .logo {
+        font-size: 1.3rem;
+    }
+
+    .cta-button {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+    }
+
+    .footer-logo {
+        font-size: 1.5rem;
+    }
+}
