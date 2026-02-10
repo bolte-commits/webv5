@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Phone - Body Insight</title>
+    <title>Verify Email - Body Insight</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         @font-face {
@@ -79,9 +79,7 @@
             transition: color 0.3s;
         }
 
-        .nav-links a:hover {
-            color: var(--accent);
-        }
+        .nav-links a:hover { color: var(--accent); }
 
         .page-hero {
             padding: 10rem 4rem 4rem;
@@ -162,9 +160,7 @@
             transition: background 0.4s;
         }
 
-        .step-line.active {
-            background: var(--accent);
-        }
+        .step-line.active { background: var(--accent); }
 
         /* Content area */
         .content-section {
@@ -202,38 +198,19 @@
             font-size: 0.95rem;
         }
 
-        /* Phone input */
-        .phone-input-wrap {
-            display: flex;
-            align-items: center;
+        /* Email input */
+        .email-input {
+            width: 100%;
+            padding: 1rem;
             border: 2px solid #e8e8e8;
             border-radius: 12px;
-            overflow: hidden;
-            transition: border-color 0.3s;
-        }
-
-        .phone-input-wrap:focus-within {
-            border-color: var(--accent);
-        }
-
-        .phone-prefix {
-            padding: 1rem 0.8rem 1rem 1.2rem;
-            font-weight: 700;
-            color: var(--text);
-            background: #f8f8f8;
-            font-size: 1rem;
-            user-select: none;
-        }
-
-        .phone-input-wrap input {
-            flex: 1;
-            border: none;
-            padding: 1rem;
             font-size: 1rem;
             font-family: 'DM Sans', sans-serif;
             outline: none;
-            letter-spacing: 0.05em;
+            transition: border-color 0.3s;
         }
+
+        .email-input:focus { border-color: var(--accent); }
 
         /* OTP inputs */
         .otp-inputs {
@@ -256,9 +233,7 @@
             transition: border-color 0.3s;
         }
 
-        .otp-inputs input:focus {
-            border-color: var(--accent);
-        }
+        .otp-inputs input:focus { border-color: var(--accent); }
 
         .resend-link {
             text-align: center;
@@ -276,9 +251,7 @@
             text-decoration: underline;
         }
 
-        .resend-link button:hover {
-            color: var(--accent-dark);
-        }
+        .resend-link button:hover { color: var(--accent-dark); }
 
         .pill-btn {
             background: var(--accent);
@@ -384,11 +357,11 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
             Back to time selection
         </a>
-        <h1 id="hero-title">Verify your phone</h1>
+        <h1 id="hero-title">Verify your email</h1>
         <p id="hero-subtitle">Quick verification before we confirm your booking.</p>
     </section>
 
-    <!-- Step indicator: 2 steps on this page -->
+    <!-- Step indicator -->
     <div class="step-indicator">
         <div class="step-circle active" id="step-circle-1">1</div>
         <div class="step-line" id="step-line-1"></div>
@@ -397,21 +370,18 @@
 
     <section class="content-section">
 
-        <!-- Step 1: Phone number -->
+        <!-- Step 1: Email -->
         <div class="step-card active" id="step-1">
-            <h2>Enter your phone number</h2>
+            <h2>Enter your email</h2>
             <p class="subtitle">We'll send you a one-time verification code.</p>
-            <div class="phone-input-wrap">
-                <span class="phone-prefix">+91</span>
-                <input type="tel" id="phone-input" placeholder="98765 43210" maxlength="10" inputmode="numeric">
-            </div>
+            <input type="email" class="email-input" id="email-input" placeholder="you@example.com">
             <button class="pill-btn" id="send-otp-btn" disabled>Send OTP</button>
         </div>
 
         <!-- Step 2: OTP verification -->
         <div class="step-card" id="step-2">
             <h2>Verify OTP</h2>
-            <p class="subtitle">Enter the 4-digit code sent to <strong id="phone-display"></strong></p>
+            <p class="subtitle">Enter the 4-digit code sent to <strong id="email-display"></strong></p>
             <div class="otp-inputs">
                 <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="0">
                 <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="1">
@@ -477,15 +447,14 @@
         const heroSubtitle = document.getElementById('hero-subtitle');
 
         const stepContent = {
-            1: { title: 'Verify your phone', subtitle: 'Quick verification before we confirm your booking.' },
-            2: { title: 'Enter the code', subtitle: 'We sent a 4-digit OTP to your phone number.' }
+            1: { title: 'Verify your email', subtitle: 'Quick verification before we confirm your booking.' },
+            2: { title: 'Enter the code', subtitle: 'We sent a 4-digit OTP to your email.' }
         };
 
         function goToStep(n) {
             document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
             document.getElementById('step-' + n).classList.add('active');
 
-            // Update hero
             heroTitle.textContent = stepContent[n].title;
             heroSubtitle.textContent = stepContent[n].subtitle;
 
@@ -502,17 +471,21 @@
             document.getElementById('step-line-1').classList.toggle('active', n >= 2);
         }
 
-        // ---- Step 1: Phone ----
-        const phoneInput = document.getElementById('phone-input');
+        // ---- Step 1: Email ----
+        const emailInput = document.getElementById('email-input');
         const sendOtpBtn = document.getElementById('send-otp-btn');
 
-        phoneInput.addEventListener('input', function() {
-            this.value = this.value.replace(/\D/g, '');
-            sendOtpBtn.disabled = this.value.length < 10;
+        // Simple email validation
+        function isValidEmail(str) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
+        }
+
+        emailInput.addEventListener('input', function() {
+            sendOtpBtn.disabled = !isValidEmail(this.value.trim());
         });
 
         sendOtpBtn.addEventListener('click', function() {
-            document.getElementById('phone-display').textContent = '+91 ' + phoneInput.value;
+            document.getElementById('email-display').textContent = emailInput.value.trim();
             goToStep(2);
             document.querySelector('.otp-digit[data-index="0"]').focus();
         });
@@ -546,9 +519,9 @@
         }
 
         verifyBtn.addEventListener('click', function() {
-            // Simulated — any 4 digits accepted. Navigate to confirm page with phone.
-            const phone = phoneInput.value;
-            const confirmParams = new URLSearchParams({ landmark, day, date, time, slot, phone });
+            // Simulated — any 4 digits accepted. Navigate to confirm page with email.
+            const email = emailInput.value.trim();
+            const confirmParams = new URLSearchParams({ landmark, day, date, time, slot, email });
             window.location.href = 'confirm.html?' + confirmParams.toString();
         });
 

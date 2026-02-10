@@ -522,8 +522,8 @@
                     <input type="text" id="name-input" placeholder="Your full name" required>
                 </div>
                 <div class="form-group">
-                    <label for="email-input">Email</label>
-                    <input type="email" id="email-input" placeholder="you@example.com" required>
+                    <label for="phone-input">Phone number</label>
+                    <input type="tel" id="phone-input" placeholder="98765 43210" maxlength="10" inputmode="numeric" required>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
@@ -623,7 +623,7 @@
         const date = params.get('date') || '--';
         const time = params.get('time') || '--';
         const slot = params.get('slot') || '--';
-        const phone = params.get('phone') || '';
+        const email = params.get('email') || '';
 
         // Back link to time selection
         const backParams = new URLSearchParams({ landmark, day, date, time });
@@ -701,7 +701,7 @@
             e.preventDefault();
 
             const name = document.getElementById('name-input').value.trim();
-            const email = document.getElementById('email-input').value.trim();
+            const phone = document.getElementById('phone-input').value.trim();
 
             // Generate reference number
             const ref = 'BI-' + Date.now().toString(36).toUpperCase().slice(-6);
@@ -713,7 +713,8 @@
                 '<div class="summary-row"><span class="label">Date</span><span class="value">' + day + ', ' + date + '</span></div>' +
                 '<div class="summary-row"><span class="label">Time slot</span><span class="value">' + slot + '</span></div>' +
                 '<div class="summary-row"><span class="label">Name</span><span class="value">' + name + '</span></div>' +
-                '<div class="summary-row"><span class="label">Email</span><span class="value">' + email + '</span></div>';
+                '<div class="summary-row"><span class="label">Email</span><span class="value">' + email + '</span></div>' +
+                '<div class="summary-row"><span class="label">Phone</span><span class="value">+91 ' + phone + '</span></div>';
             if (appliedCoupon) {
                 summaryHTML += '<div class="summary-row"><span class="label">Coupon</span><span class="value" style="color:#16a34a">' + appliedCoupon + ' \u2014 ' + validCoupons[appliedCoupon].label + '</span></div>';
                 summaryHTML += '<div class="summary-row"><span class="label">Amount</span><span class="value"><span style="text-decoration:line-through;color:#aaa;margin-right:0.4rem">' + formatPrice(BASE_PRICE) + '</span>' + formatPrice(finalPrice) + '</span></div>';
