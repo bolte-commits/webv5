@@ -53,11 +53,7 @@ function SelectTimeContent() {
     if (token) {
       router.push("/confirm?appointmentId=" + selectedId);
     } else {
-      const params = new URLSearchParams({
-        eventId,
-        appointmentId: selectedId,
-      });
-      router.push("/login?" + params.toString());
+      router.push("/login?appointmentId=" + selectedId);
     }
   };
 

@@ -13,7 +13,6 @@ function LoginContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const eventId = searchParams.get("eventId") || "";
   const appointmentId = searchParams.get("appointmentId") || "";
 
   const [step, setStep] = useState(1);
@@ -37,7 +36,6 @@ function LoginContent() {
     },
   };
 
-  const backParams = new URLSearchParams({ eventId });
 
   const handleSendOtp = async () => {
     setError("");
@@ -108,8 +106,8 @@ function LoginContent() {
       <PageHero
         title={stepContent[step].title}
         subtitle={stepContent[step].subtitle}
-        backHref={`/select-time?${backParams.toString()}`}
-        backLabel="Back to time selection"
+        backHref="/schedule"
+        backLabel="Back to schedule"
         backLinkId="back-link"
         titleId="hero-title"
         subtitleId="hero-subtitle"
