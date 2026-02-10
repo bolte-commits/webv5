@@ -23,17 +23,13 @@ export async function sendOtp(
 }
 
 export interface UserProfile {
-  _id: string;
-  name: string;
   email: string;
   phone: string;
+  name: string;
   dateOfBirth: string;
   height: number;
   weight: number;
   gender: string;
-  emailVerified: boolean;
-  isAdmin: boolean;
-  isTechnician: boolean;
 }
 
 export async function verifyOtp(
@@ -59,8 +55,15 @@ export async function verifyOtp(
     return {
       success: true,
       token: data.token,
-      profile: data.profile,
-      isComplete: data.isComplete,
+      profile: {
+        email: data.email,
+        phone: data.phone,
+        name: data.name,
+        dateOfBirth: data.dateOfBirth,
+        height: data.height,
+        weight: data.weight,
+        gender: data.gender,
+      },
     };
   } catch {
     return { success: false, error: "Network error. Please try again." };

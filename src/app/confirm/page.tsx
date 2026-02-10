@@ -1,24 +1,29 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
-import { confirmBooking } from "@/app/actions/booking";
-import { fetchAppointments, type EventInfo } from "@/app/actions/schedule";
-import { getStoredProfile, getStoredToken } from "@/lib/auth";
+import {
+  confirmBooking,
+  checkPendingAppointment,
+  cancelUpcomingAppointment,
+  getAppointment,
+  type AppointmentDetails,
+  type PendingDetails,
+} from "@/app/actions/booking";
+import { getStoredProfile, getStoredToken, logout } from "@/lib/auth";
 import { BASE_PRICE, VALID_COUPONS, formatPrice } from "@/lib/constants";
 import styles from "./page.module.css";
 
 function ConfirmContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const eventId = searchParams.get("eventId") || "";
   const appointmentId = searchParams.get("appointmentId") || "";
-  const slot = searchParams.get("slot") || "--";
-  const email = searchParams.get("email") || "";
 
-  const [event, setEvent] = useState<EventInfo | null>(null);
+  const [appt, setAppt] = useState<AppointmentDetails | null>(null);
+  const [email, setEmail] = useState("");
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -37,15 +42,47 @@ function ConfirmContent() {
   const [couponLocked, setCouponLocked] = useState(false);
   const [success, setSuccess] = useState(false);
   const [refNumber, setRefNumber] = useState("");
+  const [hasPending, setHasPending] = useState(false);
+  const [pendingDetails, setPendingDetails] = useState<PendingDetails | null>(null);
+  const [checkingPending, setCheckingPending] = useState(true);
+  const [cancelling, setCancelling] = useState(false);
+  const [cancelError, setCancelError] = useState("");
+
+  const redirectToLogin = () => {
+    logout();
+    const params = new URLSearchParams({ appointmentId });
+    router.push("/login?" + params.toString());
+  };
 
   useEffect(() => {
     const t = getStoredToken();
-    if (t) setToken(t);
+    if (t) {
+      setToken(t);
+      checkPendingAppointment(t).then((result) => {
+        if (result.unauthorized) {
+          redirectToLogin();
+          return;
+        }
+        if (result.hasPending && result.details) {
+          setHasPending(true);
+          setPendingDetails(result.details);
+        }
+        setCheckingPending(false);
+      });
+    } else {
+      setCheckingPending(false);
+    }
 
     const profile = getStoredProfile();
     if (profile) {
+      if (profile.email) setEmail(profile.email);
       if (profile.name) setName(profile.name);
-      if (profile.phone) setPhone(profile.phone);
+      if (profile.phone) {
+        const raw = profile.phone.replace(/\D/g, "");
+        if (raw.length === 10) {
+          setPhone(raw);
+        }
+      }
       if (profile.height) setHeight(String(profile.height));
       if (profile.weight) setWeight(String(profile.weight));
       if (profile.gender) setGender(profile.gender);
@@ -59,16 +96,15 @@ function ConfirmContent() {
       }
     }
 
-    if (eventId) {
-      fetchAppointments(Number(eventId)).then((result) => {
-        if (result.success && result.event) {
-          setEvent(result.event);
+    if (appointmentId) {
+      getAppointment(appointmentId).then((result) => {
+        if (result.success && result.details) {
+          setAppt(result.details);
         }
       });
     }
-  }, [eventId]);
-
-  const backParams = new URLSearchParams({ eventId });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appointmentId]);
 
   const handleApplyCoupon = () => {
     const code = couponCode.trim().toUpperCase();
@@ -102,10 +138,10 @@ function ConfirmContent() {
     e.preventDefault();
     setLoading(true);
     const result = await confirmBooking({
-      landmark: event?.landmark || "",
+      landmark: appt?.landmark || "",
       day: "",
-      date: event?.fullDate || "",
-      slot,
+      date: appt?.date || "",
+      slot: appt?.time || "",
       email,
       name,
       phone,
@@ -116,7 +152,6 @@ function ConfirmContent() {
       couponCode: appliedCoupon,
       finalPrice,
       token,
-      eventId: Number(eventId),
       appointmentId,
     });
     setLoading(false);
@@ -127,26 +162,135 @@ function ConfirmContent() {
     }
   };
 
-  const heroTitle = success ? "You\u2019re all set!" : "Complete your booking";
-  const heroSubtitle = success
-    ? "Your scan has been booked. See you there!"
-    : "Fill in your details to confirm the scan.";
+  const heroTitle = hasPending
+    ? "You already have a booking"
+    : success
+      ? "You\u2019re all set!"
+      : "Complete your booking";
+  const heroSubtitle = hasPending
+    ? "You can only have one active appointment at a time."
+    : success
+      ? "Your scan has been booked. See you there!"
+      : "Fill in your details to confirm the scan.";
 
   return (
     <>
       <PageHero
         title={heroTitle}
         subtitle={heroSubtitle}
-        backHref={success ? undefined : `/select-time?${backParams.toString()}`}
-        backLabel={success ? undefined : "Back to time selection"}
+        backHref={success || hasPending ? undefined : "/schedule"}
+        backLabel={success || hasPending ? undefined : "Back to schedule"}
         backLinkId="back-link"
         titleId="hero-title"
         subtitleId="hero-subtitle"
       />
 
       <section className={styles.contentSection}>
+        {/* Loading while checking pending appointment */}
+        {checkingPending && (
+          <div className={styles.card}>
+            <div className={styles.skeletonLine} style={{ width: "40%", height: "1.5rem", marginBottom: "0.5rem" }} />
+            <div className={styles.skeletonLine} style={{ width: "65%", height: "0.9rem", marginBottom: "2rem" }} />
+            <div className={styles.skeletonBlock} />
+            <div className={styles.skeletonLine} style={{ width: "30%", height: "0.85rem", marginBottom: "0.5rem" }} />
+            <div className={styles.skeletonLine} style={{ width: "100%", height: "3rem", marginBottom: "1.2rem" }} />
+            <div className={styles.skeletonLine} style={{ width: "30%", height: "0.85rem", marginBottom: "0.5rem" }} />
+            <div className={styles.skeletonLine} style={{ width: "100%", height: "3rem", marginBottom: "1.2rem" }} />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "1.2rem" }}>
+              <div>
+                <div className={styles.skeletonLine} style={{ width: "40%", height: "0.85rem", marginBottom: "0.5rem" }} />
+                <div className={styles.skeletonLine} style={{ width: "100%", height: "3rem" }} />
+              </div>
+              <div>
+                <div className={styles.skeletonLine} style={{ width: "40%", height: "0.85rem", marginBottom: "0.5rem" }} />
+                <div className={styles.skeletonLine} style={{ width: "100%", height: "3rem" }} />
+              </div>
+            </div>
+            <div className={styles.skeletonLine} style={{ width: "100%", height: "3.2rem", borderRadius: "50px", marginTop: "1rem" }} />
+          </div>
+        )}
+
+        {/* Already has a pending booking */}
+        {!checkingPending && hasPending && (
+          <div className={styles.card}>
+            <div className={styles.successState}>
+              <div className={styles.pendingIcon}>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+              </div>
+              <h2>Existing appointment found</h2>
+              {pendingDetails && (
+                <div className={styles.pendingSummary}>
+                  <div className={styles.summaryRow}>
+                    <span className={styles.summaryRowLabel}>Location</span>
+                    <span className={styles.summaryRowValue}>{pendingDetails.landmark}</span>
+                  </div>
+                  <div className={styles.summaryRow}>
+                    <span className={styles.summaryRowLabel}>Area</span>
+                    <span className={styles.summaryRowValue}>{pendingDetails.area}</span>
+                  </div>
+                  <div className={styles.summaryRow}>
+                    <span className={styles.summaryRowLabel}>Date</span>
+                    <span className={styles.summaryRowValue}>{pendingDetails.date}</span>
+                  </div>
+                  <div className={styles.summaryRow}>
+                    <span className={styles.summaryRowLabel}>Time</span>
+                    <span className={styles.summaryRowValue}>{pendingDetails.time}</span>
+                  </div>
+                </div>
+              )}
+              <p className={styles.successSub}>
+                Cancel it to book a new one, or use a different email if this booking is for someone else.
+              </p>
+              {cancelError && (
+                <p className={styles.cancelError}>{cancelError}</p>
+              )}
+              <div className={styles.pendingActions}>
+                <button
+                  className={styles.cancelApptBtn}
+                  disabled={cancelling}
+                  onClick={async () => {
+                    if (!pendingDetails?.pendingAppointmentId || !token) return;
+                    setCancelError("");
+                    setCancelling(true);
+                    const result = await cancelUpcomingAppointment(token, pendingDetails.pendingAppointmentId);
+                    setCancelling(false);
+                    if (result.unauthorized) {
+                      redirectToLogin();
+                      return;
+                    }
+                    if (result.success) {
+                      setHasPending(false);
+                    } else {
+                      setCancelError(result.error || "Failed to cancel appointment");
+                    }
+                  }}
+                >
+                  {cancelling ? "Cancelling..." : "Cancel existing appointment"}
+                </button>
+                <button
+                  className={styles.switchEmailBtn}
+                  onClick={redirectToLogin}
+                >
+                  Use a different email
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Booking details form */}
-        {!success && (
+        {!success && !hasPending && !checkingPending && (
           <div className={styles.card}>
             <h2>Your details</h2>
             <p className={styles.subtitle}>
@@ -156,10 +300,10 @@ function ConfirmContent() {
             <div className={styles.bookingSummary}>
               <div className={styles.summaryTitle}>Booking summary</div>
               <div className={styles.summaryLocation}>
-                {event ? event.landmark : "Loading..."}
+                {appt ? appt.landmark : "Loading..."}
               </div>
               <div className={styles.summaryDetails}>
-                {event ? event.fullDate : "--"} at {slot}
+                {appt ? appt.date : "--"} at {appt ? appt.time : "--"}
               </div>
             </div>
 
@@ -185,7 +329,7 @@ function ConfirmContent() {
                   inputMode="numeric"
                   required
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
                 />
               </div>
               <div className={styles.formRow}>
@@ -333,18 +477,18 @@ function ConfirmContent() {
                 <div className={styles.summaryRow}>
                   <span className={styles.summaryRowLabel}>Location</span>
                   <span className={styles.summaryRowValue}>
-                    {event?.landmark || "--"}
+                    {appt?.landmark || "--"}
                   </span>
                 </div>
                 <div className={styles.summaryRow}>
                   <span className={styles.summaryRowLabel}>Date</span>
                   <span className={styles.summaryRowValue}>
-                    {event?.fullDate || "--"}
+                    {appt?.date || "--"}
                   </span>
                 </div>
                 <div className={styles.summaryRow}>
                   <span className={styles.summaryRowLabel}>Time slot</span>
-                  <span className={styles.summaryRowValue}>{slot}</span>
+                  <span className={styles.summaryRowValue}>{appt?.time || "--"}</span>
                 </div>
                 <div className={styles.summaryRow}>
                   <span className={styles.summaryRowLabel}>Name</span>
@@ -356,7 +500,7 @@ function ConfirmContent() {
                 </div>
                 <div className={styles.summaryRow}>
                   <span className={styles.summaryRowLabel}>Phone</span>
-                  <span className={styles.summaryRowValue}>+91 {phone}</span>
+                  <span className={styles.summaryRowValue}>{phone}</span>
                 </div>
                 {appliedCoupon && (
                   <>

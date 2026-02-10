@@ -28,6 +28,28 @@
     font-size: 0.95rem;
 }
 
+/* Loading skeleton */
+.skeletonLine {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+}
+
+.skeletonBlock {
+    background: linear-gradient(90deg, #e8f0fe 25%, #dce8fb 50%, #e8f0fe 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 12px;
+    height: 80px;
+    margin-bottom: 2rem;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
 /* Form fields */
 .formGroup {
     margin-bottom: 1.2rem;
@@ -188,6 +210,89 @@
 .successState {
     text-align: center;
     padding: 2rem 0;
+}
+
+.pendingIcon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #f59e0b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.pendingIcon svg {
+    width: 40px;
+    height: 40px;
+    color: white;
+    stroke: white;
+}
+
+.pendingSummary {
+    background: #fff7ed;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+.pendingActions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.cancelApptBtn {
+    background: #dc2626;
+    color: white;
+    padding: 0.9rem 2.5rem;
+    border-radius: 50px;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    transition: all 0.3s;
+}
+
+.cancelApptBtn:hover {
+    background: #b91c1c;
+    transform: translateY(-2px);
+}
+
+.cancelApptBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.switchEmailBtn {
+    background: none;
+    border: 2px solid #e8e8e8;
+    color: var(--text);
+    padding: 0.9rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    transition: all 0.3s;
+}
+
+.switchEmailBtn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.cancelError {
+    color: #dc2626;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
 }
 
 .successCheckmark {

@@ -1,4 +1,5 @@
 interface StoredProfile {
+  email?: string;
   name?: string;
   phone?: string;
   dateOfBirth?: string;

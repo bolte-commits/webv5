@@ -20,7 +20,7 @@ export default function Navbar() {
     };
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
-  }, []);
+  }, [pathname]);
 
   const handleLogout = () => {
     logout();

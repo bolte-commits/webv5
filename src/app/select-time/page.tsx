@@ -9,6 +9,7 @@ import {
   type EventInfo,
 } from "@/app/actions/schedule";
 import { formatPrice } from "@/lib/constants";
+import { getStoredToken } from "@/lib/auth";
 import styles from "./page.module.css";
 
 function SelectTimeContent() {
@@ -48,12 +49,16 @@ function SelectTimeContent() {
 
   const handleConfirm = () => {
     if (!selectedId || !selectedLabel) return;
-    const params = new URLSearchParams({
-      eventId,
-      appointmentId: selectedId,
-      slot: selectedLabel,
-    });
-    router.push("/login?" + params.toString());
+    const token = getStoredToken();
+    if (token) {
+      router.push("/confirm?appointmentId=" + selectedId);
+    } else {
+      const params = new URLSearchParams({
+        eventId,
+        appointmentId: selectedId,
+      });
+      router.push("/login?" + params.toString());
+    }
   };
 
   return (

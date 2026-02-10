@@ -15,7 +15,6 @@ function LoginContent() {
 
   const eventId = searchParams.get("eventId") || "";
   const appointmentId = searchParams.get("appointmentId") || "";
-  const slot = searchParams.get("slot") || "";
 
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
@@ -91,13 +90,7 @@ function LoginContent() {
     if (result.success) {
       if (result.token) setStoredToken(result.token);
       if (result.profile) setStoredProfile(result.profile);
-      const confirmParams = new URLSearchParams({
-        eventId,
-        appointmentId,
-        slot,
-        email: email.trim(),
-      });
-      router.push("/confirm?" + confirmParams.toString());
+      router.push("/confirm?appointmentId=" + appointmentId);
     } else {
       setError(result.error || "Invalid OTP");
     }
