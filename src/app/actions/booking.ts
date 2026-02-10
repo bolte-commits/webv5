@@ -106,41 +106,41 @@ export async function cancelUpcomingAppointment(
   }
 }
 
-interface BookingData {
-  landmark: string;
-  day: string;
-  date: string;
-  slot: string;
-  email: string;
+export interface BookingPayload {
+  token: string;
+  appointmentId: string;
   name: string;
-  phone: string;
-  age: string;
-  gender: string;
-  height: string;
-  weight: string;
-  couponCode: string;
+  dateOfBirth: string;
+  coupon?: string;
+  height?: number;
+  weight?: number;
+  gender?: string;
+}
+
+export interface BookingPricing {
+  basePrice: number;
+  discount: number;
   finalPrice: number;
-  token?: string;
-  appointmentId?: string;
 }
 
 export async function confirmBooking(
-  data: BookingData
-): Promise<{ success: boolean; refNumber: string }> {
-  // When your backend is ready, uncomment:
-  // const res = await fetch(`${API_BASE}/book`, {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "X-API-Key": process.env.API_SECRET!,
-  //   },
-  //   body: JSON.stringify(data),
-  // });
-  // const result = await res.json();
-  // return { success: result.success, refNumber: result.refNumber };
-
-  // Simulated
-  console.log(`[server] Confirming booking for ${data.name} at ${data.landmark}`);
-  const ref = "BI-" + Date.now().toString(36).toUpperCase().slice(-6);
-  return { success: true, refNumber: ref };
+  data: BookingPayload
+): Promise<{ success: boolean; pricing?: BookingPricing; unauthorized?: boolean; error?: string }> {
+  try {
+    const res = await fetch(`${AUTH_API_BASE}/bookAppointment`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    const result = await res.json();
+    if (res.status === 401) {
+      return { success: false, unauthorized: true };
+    }
+    if (!res.ok) {
+      return { success: false, error: result.message || "Booking failed" };
+    }
+    return { success: true, pricing: result.pricing };
+  } catch {
+    return { success: false, error: "Network error. Please try again." };
+  }
 }

@@ -11,9 +11,10 @@ import {
   getAppointment,
   type AppointmentDetails,
   type PendingDetails,
+  type BookingPricing,
 } from "@/app/actions/booking";
 import { getStoredProfile, getStoredToken, logout } from "@/lib/auth";
-import { BASE_PRICE, VALID_COUPONS, formatPrice } from "@/lib/constants";
+import { formatPrice } from "@/lib/constants";
 import styles from "./page.module.css";
 
 function ConfirmContent() {
@@ -26,22 +27,15 @@ function ConfirmContent() {
   const [email, setEmail] = useState("");
 
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [age, setAge] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
   const [gender, setGender] = useState("");
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [token, setToken] = useState("");
   const [couponCode, setCouponCode] = useState("");
-  const [appliedCoupon, setAppliedCoupon] = useState("");
-  const [finalPrice, setFinalPrice] = useState(BASE_PRICE);
-  const [couponMsg, setCouponMsg] = useState<{
-    text: string;
-    type: "success" | "error" | "";
-  }>({ text: "", type: "" });
-  const [couponLocked, setCouponLocked] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [refNumber, setRefNumber] = useState("");
+  const [pricing, setPricing] = useState<BookingPricing | null>(null);
+  const [bookingError, setBookingError] = useState("");
   const [hasPending, setHasPending] = useState(false);
   const [pendingDetails, setPendingDetails] = useState<PendingDetails | null>(null);
   const [checkingPending, setCheckingPending] = useState(true);
@@ -50,8 +44,7 @@ function ConfirmContent() {
 
   const redirectToLogin = () => {
     logout();
-    const params = new URLSearchParams({ appointmentId });
-    router.push("/login?" + params.toString());
+    router.push("/login?appointmentId=" + appointmentId);
   };
 
   useEffect(() => {
@@ -77,21 +70,13 @@ function ConfirmContent() {
     if (profile) {
       if (profile.email) setEmail(profile.email);
       if (profile.name) setName(profile.name);
-      if (profile.phone) {
-        const raw = profile.phone.replace(/\D/g, "");
-        if (raw.length === 10) {
-          setPhone(raw);
-        }
-      }
       if (profile.height) setHeight(String(profile.height));
       if (profile.weight) setWeight(String(profile.weight));
       if (profile.gender) setGender(profile.gender);
       if (profile.dateOfBirth) {
-        const birthYear = new Date(profile.dateOfBirth).getFullYear();
-        const currentYear = new Date().getFullYear();
-        const calculatedAge = currentYear - birthYear;
-        if (calculatedAge > 0 && calculatedAge < 150) {
-          setAge(String(calculatedAge));
+        const d = new Date(profile.dateOfBirth);
+        if (!isNaN(d.getTime())) {
+          setDateOfBirth(d.toISOString().split("T")[0]);
         }
       }
     }
@@ -106,59 +91,33 @@ function ConfirmContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appointmentId]);
 
-  const handleApplyCoupon = () => {
-    const code = couponCode.trim().toUpperCase();
-    if (!code) {
-      setCouponMsg({ text: "", type: "" });
-      return;
-    }
-    if (VALID_COUPONS[code]) {
-      setAppliedCoupon(code);
-      setFinalPrice(
-        Math.round(BASE_PRICE * (1 - VALID_COUPONS[code].discount / 100))
-      );
-      setCouponMsg({
-        text: `Coupon applied — ${VALID_COUPONS[code].label}`,
-        type: "success",
-      });
-      setCouponLocked(true);
-    } else {
-      setAppliedCoupon("");
-      setFinalPrice(BASE_PRICE);
-      setCouponMsg({
-        text: "Invalid coupon code. Please try again.",
-        type: "error",
-      });
-    }
-  };
-
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setBookingError("");
     setLoading(true);
     const result = await confirmBooking({
-      landmark: appt?.landmark || "",
-      day: "",
-      date: appt?.date || "",
-      slot: appt?.time || "",
-      email,
-      name,
-      phone,
-      age,
-      gender,
-      height,
-      weight,
-      couponCode: appliedCoupon,
-      finalPrice,
       token,
       appointmentId,
+      name,
+      dateOfBirth,
+      coupon: couponCode.trim().toUpperCase() || undefined,
+      height: height ? Number(height) : undefined,
+      weight: weight ? Number(weight) : undefined,
+      gender: gender || undefined,
     });
     setLoading(false);
+    if (result.unauthorized) {
+      redirectToLogin();
+      return;
+    }
     if (result.success) {
-      setRefNumber(result.refNumber);
+      if (result.pricing) setPricing(result.pricing);
       setSuccess(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      setBookingError(result.error || "Booking failed. Please try again.");
     }
   };
 
@@ -320,48 +279,28 @@ function ConfirmContent() {
                 />
               </div>
               <div className={styles.formGroup}>
-                <label htmlFor="phone-input">Phone number</label>
+                <label htmlFor="dob-input">Date of birth</label>
                 <input
-                  type="tel"
-                  id="phone-input"
-                  placeholder="98765 43210"
-                  maxLength={10}
-                  inputMode="numeric"
+                  type="date"
+                  id="dob-input"
                   required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
+                  value={dateOfBirth}
+                  onChange={(e) => setDateOfBirth(e.target.value)}
                 />
               </div>
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="age-input">Age</label>
-                  <input
-                    type="number"
-                    id="age-input"
-                    placeholder="25"
-                    min={10}
-                    max={120}
-                    required
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="gender-input">Gender</label>
-                  <select
-                    id="gender-input"
-                    required
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
-                  >
-                    <option value="" disabled>
-                      Select
-                    </option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="gender-input">Gender</label>
+                <select
+                  id="gender-input"
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Select
+                  </option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
               </div>
               <div className={styles.formRow}>
                 <div className={styles.formGroup}>
@@ -370,9 +309,8 @@ function ConfirmContent() {
                     type="number"
                     id="height-input"
                     placeholder="170"
-                    min={50}
-                    max={250}
-                    required
+                    min={120}
+                    max={210}
                     value={height}
                     onChange={(e) => setHeight(e.target.value)}
                   />
@@ -383,9 +321,8 @@ function ConfirmContent() {
                     type="number"
                     id="weight-input"
                     placeholder="70"
-                    min={20}
-                    max={300}
-                    required
+                    min={35}
+                    max={135}
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
                   />
@@ -393,58 +330,25 @@ function ConfirmContent() {
               </div>
               <div className={styles.formGroup}>
                 <label htmlFor="coupon-input">Coupon code (optional)</label>
-                <div className={styles.couponWrap}>
-                  <input
-                    type="text"
-                    id="coupon-input"
-                    placeholder="e.g. FIRST50"
-                    value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value)}
-                    disabled={couponLocked}
-                  />
-                  <button
-                    type="button"
-                    className={styles.couponApplyBtn}
-                    onClick={handleApplyCoupon}
-                    disabled={couponLocked}
-                  >
-                    {couponLocked ? "Applied" : "Apply"}
-                  </button>
-                </div>
-                {couponMsg.text && (
-                  <div
-                    className={
-                      couponMsg.type === "success"
-                        ? styles.couponMsgSuccess
-                        : styles.couponMsgError
-                    }
-                  >
-                    {couponMsg.text}
-                  </div>
-                )}
+                <input
+                  type="text"
+                  id="coupon-input"
+                  placeholder="e.g. FIRST50"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                />
               </div>
               <div className={styles.summaryPrice}>
-                <span className={styles.priceLabel}>Total</span>
-                <span>
-                  {appliedCoupon ? (
-                    <>
-                      <span className={styles.priceOriginal}>
-                        {formatPrice(BASE_PRICE)}
-                      </span>
-                      <span className={styles.priceValue}>
-                        {formatPrice(finalPrice)}
-                      </span>
-                      <span className={styles.priceDiscountTag}>
-                        {VALID_COUPONS[appliedCoupon].discount}% off
-                      </span>
-                    </>
-                  ) : (
-                    <span className={styles.priceValue}>
-                      {formatPrice(BASE_PRICE)}
-                    </span>
-                  )}
+                <span className={styles.priceLabel}>Price</span>
+                <span className={styles.priceValue}>
+                  {appt ? formatPrice(appt.amount) : "--"}
                 </span>
               </div>
+              {bookingError && (
+                <p style={{ color: "#dc2626", fontSize: "0.9rem", fontWeight: 600, marginTop: "0.75rem", textAlign: "center" }}>
+                  {bookingError}
+                </p>
+              )}
               <button type="submit" className="pill-btn" disabled={loading}>
                 {loading ? "Confirming..." : "Confirm Booking"}
               </button>
@@ -472,7 +376,6 @@ function ConfirmContent() {
               <p className={styles.successSub}>
                 You&apos;re all set. A confirmation has been sent to your email.
               </p>
-              <div className={styles.refNumber}>Ref: {refNumber}</div>
               <div className={styles.successSummary}>
                 <div className={styles.summaryRow}>
                   <span className={styles.summaryRowLabel}>Location</span>
@@ -498,45 +401,33 @@ function ConfirmContent() {
                   <span className={styles.summaryRowLabel}>Email</span>
                   <span className={styles.summaryRowValue}>{email}</span>
                 </div>
-                <div className={styles.summaryRow}>
-                  <span className={styles.summaryRowLabel}>Phone</span>
-                  <span className={styles.summaryRowValue}>{phone}</span>
-                </div>
-                {appliedCoupon && (
+                {pricing && (
                   <>
-                    <div className={styles.summaryRow}>
-                      <span className={styles.summaryRowLabel}>Coupon</span>
-                      <span
-                        className={styles.summaryRowValue}
-                        style={{ color: "#16a34a" }}
-                      >
-                        {appliedCoupon} — {VALID_COUPONS[appliedCoupon].label}
-                      </span>
-                    </div>
-                    <div className={styles.summaryRow}>
-                      <span className={styles.summaryRowLabel}>Amount</span>
-                      <span className={styles.summaryRowValue}>
-                        <span
-                          style={{
-                            textDecoration: "line-through",
-                            color: "#aaa",
-                            marginRight: "0.4rem",
-                          }}
-                        >
-                          {formatPrice(BASE_PRICE)}
+                    {pricing.discount > 0 ? (
+                      <div className={styles.summaryRow}>
+                        <span className={styles.summaryRowLabel}>Amount</span>
+                        <span className={styles.summaryRowValue}>
+                          <span
+                            style={{
+                              textDecoration: "line-through",
+                              color: "#aaa",
+                              marginRight: "0.4rem",
+                            }}
+                          >
+                            {formatPrice(pricing.basePrice)}
+                          </span>
+                          {formatPrice(pricing.finalPrice)}
                         </span>
-                        {formatPrice(finalPrice)}
-                      </span>
-                    </div>
+                      </div>
+                    ) : (
+                      <div className={styles.summaryRow}>
+                        <span className={styles.summaryRowLabel}>Amount</span>
+                        <span className={styles.summaryRowValue}>
+                          {formatPrice(pricing.finalPrice)}
+                        </span>
+                      </div>
+                    )}
                   </>
-                )}
-                {!appliedCoupon && (
-                  <div className={styles.summaryRow}>
-                    <span className={styles.summaryRowLabel}>Amount</span>
-                    <span className={styles.summaryRowValue}>
-                      {formatPrice(BASE_PRICE)}
-                    </span>
-                  </div>
                 )}
               </div>
               <Link href="/schedule" className={styles.backHome}>

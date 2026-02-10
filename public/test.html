@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Body Insight — DEXA Report</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pri: #0F0F0F;
+    --acc: #007aff;
+    --txt: #1A1A1A;
+    --dim: #999;
+    --bg: #F2F2F4;
+    --card: #FFFFFF;
+    --grn: #34d399;
+    --red: #f87171;
+    --pur: #c084fc;
+    --ylw: #fbbf24;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #999;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .page {
+    width: 800px;
+    height: 1200px;
+    background: var(--bg);
+    box-shadow: 0 20px 80px rgba(0,0,0,0.2);
+    display: grid;
+    grid-template-rows: auto auto 1fr auto auto;
+    overflow: hidden;
+  }
+
+  /* ===== HEADER ===== */
+  .hdr {
+    background: var(--pri);
+    padding: 18px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hdr-l { display: flex; align-items: center; gap: 10px; }
+
+  .hdr-icon {
+    width: 28px; height: 28px;
+    background: var(--acc);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hdr-icon svg { width: 15px; height: 15px; }
+
+  .hdr-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.03em;
+  }
+
+  .hdr-r {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  .hdr-r strong { color: rgba(255,255,255,0.7); }
+
+  /* ===== PATIENT ===== */
+  .pat {
+    background: var(--card);
+    display: flex;
+  }
+
+  .pat-c {
+    flex: 1;
+    padding: 12px 16px;
+    border-right: 1px solid #f0f0f0;
+  }
+
+  .pat-c:last-child { border-right: none; }
+
+  .pat-l {
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    font-weight: 600;
+  }
+
+  .pat-v {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--txt);
+    margin-top: 1px;
+  }
+
+  /* ===== DASHBOARD ===== */
+  .dash {
+    padding: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    overflow: hidden;
+  }
+
+  .crd {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .crd-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    margin-bottom: 12px;
+  }
+
+  /* -- BODY FAT CARD (left) -- */
+  .bf-big {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+
+  .bf-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 5.5rem;
+    font-weight: 800;
+    line-height: 0.9;
+    color: var(--pri);
+    letter-spacing: -0.04em;
+  }
+
+  .bf-pct {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ddd;
+  }
+
+  .bf-tag {
+    display: inline-block;
+    background: #d1fae5;
+    color: #065f46;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    align-self: flex-start;
+  }
+
+  .bf-text {
+    font-size: 0.88rem;
+    color: var(--dim);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+
+  /* scale */
+  .scale { position: relative; padding-top: 24px; margin-bottom: 8px; }
+
+  .scale-bar {
+    height: 16px;
+    border-radius: 8px;
+    background: linear-gradient(90deg,
+      #f87171 0%, #f87171 16.3%,
+      #34d399 16.3%, #34d399 32.6%,
+      #6ee7b7 32.6%, #6ee7b7 48.8%,
+      #fbbf24 48.8%, #fbbf24 65.1%,
+      #fb923c 65.1%, #fb923c 83.7%,
+      #f87171 83.7%, #f87171 100%
+    );
+  }
+
+  .scale-you {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .scale-you-t {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--pri);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 2px solid var(--pri);
+    margin-bottom: 2px;
+  }
+
+  .scale-you-a {
+    width: 0; height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid var(--pri);
+  }
+
+  .scale-ticks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    color: #ccc;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .scale-leg {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .sleg {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--txt);
+    padding: 10px 14px;
+    background: var(--bg);
+    border-radius: 10px;
+    flex: 1;
+  }
+
+  .sleg-d {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .sleg-r {
+    color: var(--dim);
+    font-size: 0.78rem;
+    margin-left: auto;
+  }
+
+  /* -- COMPOSITION CARD (right) -- */
+  .comp-total {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--pri);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .comp-total-u {
+    font-size: 1rem;
+    color: var(--dim);
+    font-weight: 600;
+  }
+
+  .comp-sub {
+    font-size: 0.78rem;
+    color: var(--dim);
+    margin-bottom: 14px;
+  }
+
+  .comp-bar {
+    display: flex;
+    height: 28px;
+    border-radius: 8px;
+    overflow: hidden;
+    gap: 2px;
+    margin-bottom: 16px;
+  }
+
+  .cseg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: white;
+    border-radius: 6px;
+  }
+
+  .cseg-l { background: var(--acc); flex: 63.9; }
+  .cseg-f { background: var(--red); flex: 6.6; }
+  .cseg-b { background: var(--pur); flex: 2.9; }
+
+  .comp-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .crow {
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 16px 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .crow::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 4px;
+  }
+
+  .crow-lean::before { background: var(--acc); }
+  .crow-fat::before  { background: var(--red); }
+  .crow-bone::before { background: var(--pur); }
+
+  .crow-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+  }
+
+  .crow-name {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .crow-lean .crow-name { color: var(--acc); }
+  .crow-fat .crow-name  { color: var(--red); }
+  .crow-bone .crow-name { color: var(--pur); }
+
+  .crow-val {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+  }
+
+  .crow-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--pri);
+    line-height: 1;
+  }
+
+  .crow-u {
+    font-size: 0.7rem;
+    color: var(--dim);
+    font-weight: 600;
+  }
+
+  .crow-pct {
+    font-size: 0.7rem;
+    color: var(--dim);
+    font-weight: 600;
+    margin-left: 8px;
+  }
+
+  .crow-desc {
+    font-size: 0.72rem;
+    color: var(--dim);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .crow-range {
+    height: 6px;
+    border-radius: 3px;
+    position: relative;
+  }
+
+  .cr-lean { background: linear-gradient(90deg, #fca5a5 0%, #fde047 25%, #86efac 55%, #34d399 100%); }
+  .cr-fat  { background: linear-gradient(90deg, #86efac 0%, #34d399 30%, #fde047 55%, #fca5a5 80%, #f87171 100%); }
+  .cr-bone { background: linear-gradient(90deg, #fca5a5 0%, #fde047 25%, #86efac 45%, #34d399 65%, #fde047 85%, #fca5a5 100%); }
+
+  .cr-dot {
+    position: absolute;
+    top: -5px;
+    width: 15px; height: 15px;
+    background: white;
+    border: 3px solid var(--pri);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+
+  .crow-verdict {
+    margin-top: 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .cvd { width: 6px; height: 6px; border-radius: 50%; }
+
+  /* -- TAKEAWAYS (full width) -- */
+  .tk-crd {
+    grid-column: 1 / -1;
+  }
+
+  .tk-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .tk {
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tk-ico {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .tk-ico svg { width: 19px; height: 19px; }
+
+  .tki-b { background: #dbeafe; color: #2563eb; }
+  .tki-g { background: #d1fae5; color: #059669; }
+  .tki-r { background: #fee2e2; color: #dc2626; }
+  .tki-p { background: #f3e8ff; color: #9333ea; }
+
+  .tk h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--txt);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .tk p {
+    font-size: 0.75rem;
+    color: var(--dim);
+    line-height: 1.55;
+  }
+
+  /* ===== FOOTER ===== */
+  .ftr {
+    background: var(--pri);
+    padding: 14px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ftr-l { display: flex; align-items: center; gap: 10px; }
+
+  .ftr-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    color: white;
+    font-size: 0.85rem;
+  }
+
+  .ftr-sep { width: 1px; height: 12px; background: rgba(255,255,255,0.15); }
+
+  .ftr-tag {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.3);
+    font-style: italic;
+  }
+
+  .ftr-r {
+    display: flex;
+    gap: 18px;
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .ftr-r span { display: flex; align-items: center; gap: 5px; }
+  .ftr-r svg { width: 11px; height: 11px; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="hdr">
+    <div class="hdr-l">
+      <div class="hdr-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </div>
+      <span class="hdr-name">bodyinsight</span>
+    </div>
+    <div class="hdr-r"><strong>DEXA Body Composition</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+
+  <div class="dash">
+
+    <!-- LEFT: Body Fat -->
+    <div class="crd">
+      <div class="crd-label">Body Fat</div>
+      <div class="bf-big">
+        <span class="bf-num">9.0</span>
+        <span class="bf-pct">%</span>
+      </div>
+      <span class="bf-tag">Ultra Lean</span>
+      <p class="bf-text">The percentage of your weight that comes from fat — the single most important indicator of body composition and health.</p>
+
+      <div class="scale">
+        <div class="scale-you" style="left:20.9%;">
+          <span class="scale-you-t">You</span>
+          <span class="scale-you-a"></span>
+        </div>
+        <div class="scale-bar"></div>
+      </div>
+      <div class="scale-ticks"><span>0%</span><span>7%</span><span>14%</span><span>21%</span><span>28%</span><span>36%</span><span>43%</span></div>
+
+      <div class="scale-leg">
+        <div class="sleg"><span class="sleg-d" style="background:#f87171;"></span>Low fat risk<span class="sleg-r">0 – 7%</span></div>
+        <div class="sleg"><span class="sleg-d" style="background:#34d399;"></span>Ultra lean<span class="sleg-r">7 – 14%</span></div>
+        <div class="sleg"><span class="sleg-d" style="background:#6ee7b7;"></span>Lean<span class="sleg-r">14 – 21%</span></div>
+        <div class="sleg"><span class="sleg-d" style="background:#fbbf24;"></span>Moderate<span class="sleg-r">21 – 28%</span></div>
+        <div class="sleg"><span class="sleg-d" style="background:#fb923c;"></span>Excess fat<span class="sleg-r">28 – 36%</span></div>
+        <div class="sleg"><span class="sleg-d" style="background:#f87171;"></span>High fat risk<span class="sleg-r">36 – 43%</span></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Composition + Ranges combined -->
+    <div class="crd">
+      <div class="crd-label">Composition</div>
+      <div>
+        <span class="comp-total">73.4 <span class="comp-total-u">kg</span></span>
+        <div class="comp-sub">Total mass = Lean + Fat + Bone minerals</div>
+      </div>
+      <div class="comp-bar">
+        <div class="cseg cseg-l">Lean 87.1%</div>
+        <div class="cseg cseg-f"></div>
+        <div class="cseg cseg-b"></div>
+      </div>
+      <div class="comp-rows">
+        <div class="crow crow-lean">
+          <div class="crow-top">
+            <span class="crow-name">Lean Mass</span>
+            <div class="crow-val">
+              <span class="crow-num">63.9</span>
+              <span class="crow-u">kg</span>
+              <span class="crow-pct">87.1%</span>
+            </div>
+          </div>
+          <div class="crow-desc">Muscles, organs, water, connective tissue</div>
+          <div class="crow-range cr-lean"><div class="cr-dot" style="left:75%;"></div></div>
+          <div class="crow-verdict" style="color:#059669;"><span class="cvd" style="background:#34d399;"></span> Good</div>
+        </div>
+        <div class="crow crow-fat">
+          <div class="crow-top">
+            <span class="crow-name">Fat Mass</span>
+            <div class="crow-val">
+              <span class="crow-num">6.6</span>
+              <span class="crow-u">kg</span>
+              <span class="crow-pct">9.0%</span>
+            </div>
+          </div>
+          <div class="crow-desc">Essential and storage fat across the body</div>
+          <div class="crow-range cr-fat"><div class="cr-dot" style="left:12%;"></div></div>
+          <div class="crow-verdict" style="color:#dc2626;"><span class="cvd" style="background:#f87171;"></span> Low</div>
+        </div>
+        <div class="crow crow-bone">
+          <div class="crow-top">
+            <span class="crow-name">Bone Mineral</span>
+            <div class="crow-val">
+              <span class="crow-num">2.9</span>
+              <span class="crow-u">kg</span>
+              <span class="crow-pct">3.9%</span>
+            </div>
+          </div>
+          <div class="crow-desc">Mineral content indicating skeletal strength</div>
+          <div class="crow-range cr-bone"><div class="cr-dot" style="left:50%;"></div></div>
+          <div class="crow-verdict" style="color:#d97706;"><span class="cvd" style="background:#fbbf24;"></span> Average</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM: Takeaways -->
+    <div class="crd tk-crd">
+      <div class="crd-label">Key Takeaways</div>
+      <div class="tk-grid">
+        <div class="tk">
+          <div class="tk-ico tki-g">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+          </div>
+          <h4>Excellent lean mass</h4>
+          <p>87% lean is well above average. Resistance training is clearly working.</p>
+        </div>
+        <div class="tk">
+          <div class="tk-ico tki-r">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <h4>Fat is very low</h4>
+          <p>9% nears essential-fat levels. Prioritize nutrition and recovery.</p>
+        </div>
+        <div class="tk">
+          <div class="tk-ico tki-p">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h4>Bones are normal</h4>
+          <p>2.9 kg mineral is on track. Weight-bearing exercise helps long-term.</p>
+        </div>
+        <div class="tk">
+          <div class="tk-ico tki-b">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h4>DEXA-accurate</h4>
+          <p>73.4 kg total — more precise than any bathroom scale.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ftr">
+    <div class="ftr-l">
+      <span class="ftr-logo">bodyinsight</span>
+      <span class="ftr-sep"></span>
+      <span class="ftr-tag">Know your body like never before</span>
+    </div>
+    <div class="ftr-r">
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        support@bodyinsight.in
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        bodyinsight.in
+      </span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
