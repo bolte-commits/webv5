@@ -126,6 +126,21 @@
     font-size: 0.95rem;
 }
 
+.privateTag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-left: 0.6rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 50px;
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--text-light);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    vertical-align: middle;
+}
+
 .bookBtn {
     background: var(--accent);
     color: white;

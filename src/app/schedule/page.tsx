@@ -13,6 +13,7 @@ interface EventEntry {
   date: string;
   time: string;
   full: boolean;
+  isPrivate: boolean;
 }
 
 interface AreaGroup {
@@ -34,6 +35,7 @@ function groupByArea(events: ScheduleEvent[]): AreaGroup[] {
       date: ev.date,
       time: ev.time,
       full: ev.isFull,
+      isPrivate: ev.isPrivate || false,
     });
   }
 
@@ -141,6 +143,15 @@ export default function SchedulePage() {
                     <div className={styles.dateInfo}>
                       <div className={styles.dateLandmark}>
                         {entry.landmark}
+                        {entry.isPrivate && (
+                          <span className={styles.privateTag}>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                            </svg>
+                            Invite only
+                          </span>
+                        )}
                       </div>
                       <div className={styles.dateDay}>{entry.day}</div>
                       <div className={styles.dateDate}>{entry.date}</div>

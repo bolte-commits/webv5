@@ -12,6 +12,7 @@ export interface ScheduleEvent {
   date: string;
   time: string;
   isFull: boolean;
+  isPrivate?: boolean;
 }
 
 export async function fetchSchedule(): Promise<{
