@@ -18,6 +18,8 @@ interface BookingData {
   couponCode: string;
   finalPrice: number;
   token?: string;
+  appointmentId?: string;
+  eventId?: number;
 }
 
 export async function confirmBooking(

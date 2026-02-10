@@ -13,10 +13,8 @@ function LoginContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const landmark = searchParams.get("landmark") || "";
-  const day = searchParams.get("day") || "";
-  const date = searchParams.get("date") || "";
-  const time = searchParams.get("time") || "";
+  const eventId = searchParams.get("eventId") || "";
+  const appointmentId = searchParams.get("appointmentId") || "";
   const slot = searchParams.get("slot") || "";
 
   const [step, setStep] = useState(1);
@@ -40,7 +38,7 @@ function LoginContent() {
     },
   };
 
-  const backParams = new URLSearchParams({ landmark, day, date, time });
+  const backParams = new URLSearchParams({ eventId });
 
   const handleSendOtp = async () => {
     setError("");
@@ -94,10 +92,8 @@ function LoginContent() {
       if (result.token) setStoredToken(result.token);
       if (result.profile) setStoredProfile(result.profile);
       const confirmParams = new URLSearchParams({
-        landmark,
-        day,
-        date,
-        time,
+        eventId,
+        appointmentId,
         slot,
         email: email.trim(),
       });

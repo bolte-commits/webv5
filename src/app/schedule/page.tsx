@@ -131,14 +131,7 @@ export default function SchedulePage() {
           <div key={group.area} className={styles.areaGroup}>
             <h2 className={styles.areaHeader}>{group.area}</h2>
             <div className={styles.datesList}>
-              {group.entries.map((entry) => {
-                const params = new URLSearchParams({
-                  landmark: entry.landmark,
-                  day: entry.day,
-                  date: entry.date,
-                  time: entry.time,
-                });
-                return (
+              {group.entries.map((entry) => (
                   <div key={entry.eventId} className={styles.dateRow}>
                     <div className={styles.dateInfo}>
                       <div className={styles.dateLandmark}>
@@ -161,15 +154,14 @@ export default function SchedulePage() {
                       <span className={styles.bookBtnFull}>Full</span>
                     ) : (
                       <Link
-                        href={`/select-time?${params.toString()}`}
+                        href={`/select-time?eventId=${entry.eventId}`}
                         className={styles.bookBtn}
                       >
                         Book
                       </Link>
                     )}
                   </div>
-                );
-              })}
+              ))}
             </div>
           </div>
         ))}

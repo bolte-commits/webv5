@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import { confirmBooking } from "@/app/actions/booking";
+import { fetchAppointments, type EventInfo } from "@/app/actions/schedule";
 import { getStoredProfile, getStoredToken } from "@/lib/auth";
 import { BASE_PRICE, VALID_COUPONS, formatPrice } from "@/lib/constants";
 import styles from "./page.module.css";
@@ -12,12 +13,12 @@ import styles from "./page.module.css";
 function ConfirmContent() {
   const searchParams = useSearchParams();
 
-  const landmark = searchParams.get("landmark") || "Unknown Location";
-  const day = searchParams.get("day") || "--";
-  const date = searchParams.get("date") || "--";
-  const time = searchParams.get("time") || "--";
+  const eventId = searchParams.get("eventId") || "";
+  const appointmentId = searchParams.get("appointmentId") || "";
   const slot = searchParams.get("slot") || "--";
   const email = searchParams.get("email") || "";
+
+  const [event, setEvent] = useState<EventInfo | null>(null);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -57,9 +58,17 @@ function ConfirmContent() {
         }
       }
     }
-  }, []);
 
-  const backParams = new URLSearchParams({ landmark, day, date, time });
+    if (eventId) {
+      fetchAppointments(Number(eventId)).then((result) => {
+        if (result.success && result.event) {
+          setEvent(result.event);
+        }
+      });
+    }
+  }, [eventId]);
+
+  const backParams = new URLSearchParams({ eventId });
 
   const handleApplyCoupon = () => {
     const code = couponCode.trim().toUpperCase();
@@ -93,9 +102,9 @@ function ConfirmContent() {
     e.preventDefault();
     setLoading(true);
     const result = await confirmBooking({
-      landmark,
-      day,
-      date,
+      landmark: event?.landmark || "",
+      day: "",
+      date: event?.fullDate || "",
       slot,
       email,
       name,
@@ -107,6 +116,8 @@ function ConfirmContent() {
       couponCode: appliedCoupon,
       finalPrice,
       token,
+      eventId: Number(eventId),
+      appointmentId,
     });
     setLoading(false);
     if (result.success) {
@@ -144,9 +155,11 @@ function ConfirmContent() {
 
             <div className={styles.bookingSummary}>
               <div className={styles.summaryTitle}>Booking summary</div>
-              <div className={styles.summaryLocation}>{landmark}</div>
+              <div className={styles.summaryLocation}>
+                {event ? event.landmark : "Loading..."}
+              </div>
               <div className={styles.summaryDetails}>
-                {day}, {date} at {slot}
+                {event ? event.fullDate : "--"} at {slot}
               </div>
             </div>
 
@@ -319,12 +332,14 @@ function ConfirmContent() {
               <div className={styles.successSummary}>
                 <div className={styles.summaryRow}>
                   <span className={styles.summaryRowLabel}>Location</span>
-                  <span className={styles.summaryRowValue}>{landmark}</span>
+                  <span className={styles.summaryRowValue}>
+                    {event?.landmark || "--"}
+                  </span>
                 </div>
                 <div className={styles.summaryRow}>
                   <span className={styles.summaryRowLabel}>Date</span>
                   <span className={styles.summaryRowValue}>
-                    {day}, {date}
+                    {event?.fullDate || "--"}
                   </span>
                 </div>
                 <div className={styles.summaryRow}>

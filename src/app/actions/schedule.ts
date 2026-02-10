@@ -15,6 +15,65 @@ export interface ScheduleEvent {
   isPrivate?: boolean;
 }
 
+export interface Appointment {
+  _id: string;
+  displayTime: string;
+  amount: number;
+  basePrice: number;
+  finalPrice: number;
+}
+
+export interface EventInfo {
+  area: string;
+  landmark: string;
+  locationUrl: string;
+  date: string;
+  fullDate: string;
+  amount: number;
+  isPrivate: boolean;
+  accessText: string;
+}
+
+export async function fetchAppointments(eventId: number): Promise<{
+  success: boolean;
+  appointments: Appointment[];
+  event: EventInfo | null;
+  promo: string;
+  error?: string;
+}> {
+  try {
+    const res = await fetch(`${API_BASE}/findAvailableAppointments`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ eventId }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      return {
+        success: false,
+        appointments: [],
+        event: null,
+        promo: "",
+        error: data.message || "Failed to fetch appointments",
+      };
+    }
+    return {
+      success: true,
+      appointments: data.appointments || [],
+      event: data.event || null,
+      promo: data.promo || "",
+    };
+  } catch {
+    return {
+      success: false,
+      appointments: [],
+      event: null,
+      promo: "",
+      error: "Network error. Please try again.",
+    };
+  }
+}
+
 export async function fetchSchedule(): Promise<{
   success: boolean;
   events: ScheduleEvent[];
