@@ -104,10 +104,10 @@
 }
 
 .otpDigit {
-    width: 60px;
-    height: 64px;
+    width: 48px;
+    height: 56px;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
     border: 2px solid #e8e8e8;
     border-radius: 12px;
@@ -156,8 +156,8 @@
     }
 
     .otpDigit {
-        width: 52px;
-        height: 56px;
-        font-size: 1.3rem;
+        width: 42px;
+        height: 48px;
+        font-size: 1.2rem;
     }
 }

@@ -3,7 +3,11 @@
 import { useState, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import PageHero from "@/components/PageHero";
+import { sendOtp, verifyOtp } from "@/app/actions/auth";
+import { setStoredToken, setStoredProfile } from "@/lib/auth";
 import styles from "./page.module.css";
+
+const OTP_LENGTH = 6;
 
 function LoginContent() {
   const searchParams = useSearchParams();
@@ -17,8 +21,10 @@ function LoginContent() {
 
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState(["", "", "", ""]);
+  const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(""));
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   const isOtpFilled = otp.every((d) => d.length === 1);
@@ -30,15 +36,23 @@ function LoginContent() {
     },
     2: {
       title: "Enter the code",
-      subtitle: "We sent a 4-digit OTP to your email.",
+      subtitle: "We sent a 6-digit OTP to your email.",
     },
   };
 
   const backParams = new URLSearchParams({ landmark, day, date, time });
 
-  const handleSendOtp = () => {
-    setStep(2);
-    setTimeout(() => otpRefs.current[0]?.focus(), 100);
+  const handleSendOtp = async () => {
+    setError("");
+    setLoading(true);
+    const result = await sendOtp(email.trim());
+    setLoading(false);
+    if (result.success) {
+      setStep(2);
+      setTimeout(() => otpRefs.current[0]?.focus(), 100);
+    } else {
+      setError(result.error || "Failed to send OTP");
+    }
   };
 
   const handleOtpChange = (index: number, value: string) => {
@@ -46,7 +60,7 @@ function LoginContent() {
     const newOtp = [...otp];
     newOtp[index] = cleaned;
     setOtp(newOtp);
-    if (cleaned && index < 3) {
+    if (cleaned && index < OTP_LENGTH - 1) {
       otpRefs.current[index + 1]?.focus();
     }
   };
@@ -64,28 +78,40 @@ function LoginContent() {
     e.preventDefault();
     const pasted = e.clipboardData.getData("text").replace(/\D/g, "");
     const newOtp = [...otp];
-    for (let j = 0; j < 4 && j < pasted.length; j++) {
+    for (let j = 0; j < OTP_LENGTH && j < pasted.length; j++) {
       newOtp[j] = pasted[j];
     }
     setOtp(newOtp);
-    if (pasted.length >= 4) otpRefs.current[3]?.focus();
+    if (pasted.length >= OTP_LENGTH) otpRefs.current[OTP_LENGTH - 1]?.focus();
   };
 
-  const handleVerify = () => {
-    const confirmParams = new URLSearchParams({
-      landmark,
-      day,
-      date,
-      time,
-      slot,
-      email: email.trim(),
-    });
-    router.push("/confirm?" + confirmParams.toString());
+  const handleVerify = async () => {
+    setError("");
+    setLoading(true);
+    const result = await verifyOtp(email.trim(), otp.join(""));
+    setLoading(false);
+    if (result.success) {
+      if (result.token) setStoredToken(result.token);
+      if (result.profile) setStoredProfile(result.profile);
+      const confirmParams = new URLSearchParams({
+        landmark,
+        day,
+        date,
+        time,
+        slot,
+        email: email.trim(),
+      });
+      router.push("/confirm?" + confirmParams.toString());
+    } else {
+      setError(result.error || "Invalid OTP");
+    }
   };
 
-  const handleResend = () => {
-    setOtp(["", "", "", ""]);
+  const handleResend = async () => {
+    setOtp(Array(OTP_LENGTH).fill(""));
+    setError("");
     otpRefs.current[0]?.focus();
+    await sendOtp(email.trim());
   };
 
   return (
@@ -152,14 +178,19 @@ function LoginContent() {
             className={styles.emailInput}
             placeholder="you@example.com"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => { setEmail(e.target.value.toLowerCase()); setError(""); }}
           />
+          {error && step === 1 && (
+            <p style={{ color: "#dc2626", fontSize: "0.9rem", marginTop: "0.5rem", fontWeight: 600 }}>
+              {error}
+            </p>
+          )}
           <button
             className="pill-btn"
-            disabled={!isValidEmail}
+            disabled={!isValidEmail || loading}
             onClick={handleSendOtp}
           >
-            Send OTP
+            {loading ? "Sending..." : "Send OTP"}
           </button>
         </div>
 
@@ -169,7 +200,7 @@ function LoginContent() {
         >
           <h2>Verify OTP</h2>
           <p className={styles.subtitle}>
-            Enter the 4-digit code sent to <strong>{email.trim()}</strong>
+            Enter the 6-digit code sent to <strong>{email.trim()}</strong>
           </p>
           <div className={styles.otpInputs}>
             {otp.map((digit, i) => (
@@ -187,15 +218,20 @@ function LoginContent() {
               />
             ))}
           </div>
+          {error && step === 2 && (
+            <p style={{ color: "#dc2626", fontSize: "0.9rem", marginBottom: "0.5rem", fontWeight: 600, textAlign: "center" }}>
+              {error}
+            </p>
+          )}
           <div className={styles.resendLink}>
             <button onClick={handleResend}>Resend OTP</button>
           </div>
           <button
             className="pill-btn"
-            disabled={!isOtpFilled}
+            disabled={!isOtpFilled || loading}
             onClick={handleVerify}
           >
-            Verify
+            {loading ? "Verifying..." : "Verify"}
           </button>
         </div>
       </section>

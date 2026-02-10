@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
+import { confirmBooking } from "@/app/actions/booking";
+import { getStoredProfile, getStoredToken } from "@/lib/auth";
 import { BASE_PRICE, VALID_COUPONS, formatPrice } from "@/lib/constants";
 import styles from "./page.module.css";
 
@@ -23,6 +25,7 @@ function ConfirmContent() {
   const [gender, setGender] = useState("");
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
+  const [token, setToken] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState("");
   const [finalPrice, setFinalPrice] = useState(BASE_PRICE);
@@ -33,6 +36,28 @@ function ConfirmContent() {
   const [couponLocked, setCouponLocked] = useState(false);
   const [success, setSuccess] = useState(false);
   const [refNumber, setRefNumber] = useState("");
+
+  useEffect(() => {
+    const t = getStoredToken();
+    if (t) setToken(t);
+
+    const profile = getStoredProfile();
+    if (profile) {
+      if (profile.name) setName(profile.name);
+      if (profile.phone) setPhone(profile.phone);
+      if (profile.height) setHeight(String(profile.height));
+      if (profile.weight) setWeight(String(profile.weight));
+      if (profile.gender) setGender(profile.gender);
+      if (profile.dateOfBirth) {
+        const birthYear = new Date(profile.dateOfBirth).getFullYear();
+        const currentYear = new Date().getFullYear();
+        const calculatedAge = currentYear - birthYear;
+        if (calculatedAge > 0 && calculatedAge < 150) {
+          setAge(String(calculatedAge));
+        }
+      }
+    }
+  }, []);
 
   const backParams = new URLSearchParams({ landmark, day, date, time });
 
@@ -62,12 +87,33 @@ function ConfirmContent() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const ref = "BI-" + Date.now().toString(36).toUpperCase().slice(-6);
-    setRefNumber(ref);
-    setSuccess(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setLoading(true);
+    const result = await confirmBooking({
+      landmark,
+      day,
+      date,
+      slot,
+      email,
+      name,
+      phone,
+      age,
+      gender,
+      height,
+      weight,
+      couponCode: appliedCoupon,
+      finalPrice,
+      token,
+    });
+    setLoading(false);
+    if (result.success) {
+      setRefNumber(result.refNumber);
+      setSuccess(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const heroTitle = success ? "You\u2019re all set!" : "Complete your booking";
@@ -242,8 +288,8 @@ function ConfirmContent() {
                   )}
                 </span>
               </div>
-              <button type="submit" className="pill-btn">
-                Confirm Booking
+              <button type="submit" className="pill-btn" disabled={loading}>
+                {loading ? "Confirming..." : "Confirm Booking"}
               </button>
             </form>
           </div>

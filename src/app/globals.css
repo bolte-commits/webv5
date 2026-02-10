@@ -117,6 +117,22 @@ nav {
     color: var(--accent);
 }
 
+.nav-logout-btn {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    transition: color 0.3s;
+    padding: 0;
+}
+
+.nav-logout-btn:hover {
+    color: var(--accent);
+}
+
 .nav-links .cta-button {
     color: white !important;
 }
