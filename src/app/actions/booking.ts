@@ -111,6 +111,7 @@ export interface BookingPayload {
   appointmentId: string;
   name: string;
   dateOfBirth: string;
+  phone?: string;
   coupon?: string;
   height?: number;
   weight?: number;
@@ -121,6 +122,37 @@ export interface BookingPricing {
   basePrice: number;
   discount: number;
   finalPrice: number;
+}
+
+export async function applyCouponCode(
+  token: string,
+  appointmentId: string,
+  code: string
+): Promise<{ success: boolean; pricing?: BookingPricing; unauthorized?: boolean; error?: string }> {
+  try {
+    const res = await fetch(`${AUTH_API_BASE}/applyCouponCode`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, appointmentId, code }),
+    });
+    const data = await res.json();
+    if (res.status === 401) {
+      return { success: false, unauthorized: true };
+    }
+    if (!res.ok) {
+      return { success: false, error: data.message || "Invalid coupon code" };
+    }
+    return {
+      success: true,
+      pricing: {
+        basePrice: data.basePrice,
+        discount: data.discount,
+        finalPrice: data.finalPrice,
+      },
+    };
+  } catch {
+    return { success: false, error: "Network error. Please try again." };
+  }
 }
 
 export async function confirmBooking(

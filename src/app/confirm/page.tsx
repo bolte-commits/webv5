@@ -9,6 +9,7 @@ import {
   checkPendingAppointment,
   cancelUpcomingAppointment,
   getAppointment,
+  applyCouponCode,
   type AppointmentDetails,
   type PendingDetails,
   type BookingPricing,
@@ -29,10 +30,15 @@ function ConfirmContent() {
   const [name, setName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [gender, setGender] = useState("");
+  const [phone, setPhone] = useState("");
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [token, setToken] = useState("");
   const [couponCode, setCouponCode] = useState("");
+  const [couponApplied, setCouponApplied] = useState(false);
+  const [couponPricing, setCouponPricing] = useState<BookingPricing | null>(null);
+  const [couponError, setCouponError] = useState("");
+  const [applyingCoupon, setApplyingCoupon] = useState(false);
   const [success, setSuccess] = useState(false);
   const [pricing, setPricing] = useState<BookingPricing | null>(null);
   const [bookingError, setBookingError] = useState("");
@@ -70,6 +76,10 @@ function ConfirmContent() {
     if (profile) {
       if (profile.email) setEmail(profile.email);
       if (profile.name) setName(profile.name);
+      if (profile.phone) {
+        const digits = profile.phone.replace(/\D/g, "");
+        if (digits.length === 10) setPhone(digits);
+      }
       if (profile.height) setHeight(String(profile.height));
       if (profile.weight) setWeight(String(profile.weight));
       if (profile.gender) setGender(profile.gender);
@@ -102,6 +112,7 @@ function ConfirmContent() {
       appointmentId,
       name,
       dateOfBirth,
+      phone: phone || undefined,
       coupon: couponCode.trim().toUpperCase() || undefined,
       height: height ? Number(height) : undefined,
       weight: weight ? Number(weight) : undefined,
@@ -119,6 +130,38 @@ function ConfirmContent() {
     } else {
       setBookingError(result.error || "Booking failed. Please try again.");
     }
+  };
+
+  const handleApplyCoupon = async () => {
+    const code = couponCode.trim().toUpperCase();
+    if (!code) return;
+    if (!token) {
+      redirectToLogin();
+      return;
+    }
+    setCouponError("");
+    setApplyingCoupon(true);
+    const result = await applyCouponCode(token, appointmentId, code);
+    setApplyingCoupon(false);
+    if (result.unauthorized) {
+      redirectToLogin();
+      return;
+    }
+    if (result.success && result.pricing) {
+      setCouponApplied(true);
+      setCouponPricing(result.pricing);
+    } else {
+      setCouponApplied(false);
+      setCouponPricing(null);
+      setCouponError(result.error || "Invalid coupon code");
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setCouponCode("");
+    setCouponApplied(false);
+    setCouponPricing(null);
+    setCouponError("");
   };
 
   const heroTitle = hasPending
@@ -279,6 +322,18 @@ function ConfirmContent() {
                 />
               </div>
               <div className={styles.formGroup}>
+                <label htmlFor="phone-input">Phone number</label>
+                <input
+                  type="tel"
+                  id="phone-input"
+                  placeholder="10-digit mobile number"
+                  inputMode="numeric"
+                  maxLength={10}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
+                />
+              </div>
+              <div className={styles.formGroup}>
                 <label htmlFor="dob-input">Date of birth</label>
                 <input
                   type="date"
@@ -330,18 +385,56 @@ function ConfirmContent() {
               </div>
               <div className={styles.formGroup}>
                 <label htmlFor="coupon-input">Coupon code (optional)</label>
-                <input
-                  type="text"
-                  id="coupon-input"
-                  placeholder="e.g. FIRST50"
-                  value={couponCode}
-                  onChange={(e) => setCouponCode(e.target.value)}
-                />
+                <div className={styles.couponWrap}>
+                  <input
+                    type="text"
+                    id="coupon-input"
+                    placeholder="e.g. FIRST50"
+                    value={couponCode}
+                    disabled={couponApplied}
+                    onChange={(e) => { setCouponCode(e.target.value); setCouponError(""); }}
+                  />
+                  {couponApplied ? (
+                    <button
+                      type="button"
+                      className={styles.couponRemoveBtn}
+                      onClick={handleRemoveCoupon}
+                    >
+                      Remove
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className={styles.couponApplyBtn}
+                      disabled={!couponCode.trim() || applyingCoupon}
+                      onClick={handleApplyCoupon}
+                    >
+                      {applyingCoupon ? "Applying..." : "Apply"}
+                    </button>
+                  )}
+                </div>
+                {couponError && (
+                  <p className={styles.couponMsgError}>{couponError}</p>
+                )}
+                {couponApplied && couponPricing && (
+                  <p className={styles.couponMsgSuccess}>
+                    Coupon applied! You save {formatPrice(couponPricing.discount)}
+                  </p>
+                )}
               </div>
               <div className={styles.summaryPrice}>
                 <span className={styles.priceLabel}>Price</span>
                 <span className={styles.priceValue}>
-                  {appt ? formatPrice(appt.amount) : "--"}
+                  {couponApplied && couponPricing ? (
+                    <>
+                      <span className={styles.priceOriginal}>
+                        {formatPrice(couponPricing.basePrice)}
+                      </span>
+                      {formatPrice(couponPricing.finalPrice)}
+                    </>
+                  ) : (
+                    appt ? formatPrice(appt.amount) : "--"
+                  )}
                 </span>
               </div>
               {bookingError && (
