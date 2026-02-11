@@ -9,6 +9,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [loggedIn, setLoggedIn] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     setLoggedIn(getStoredToken() !== null);
@@ -22,10 +23,17 @@ export default function Navbar() {
     return () => window.removeEventListener("storage", onStorage);
   }, [pathname]);
 
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
   const handleLogout = () => {
     logout();
     setLoggedIn(false);
+    setMenuOpen(false);
   };
+
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <nav>
@@ -33,6 +41,8 @@ export default function Navbar() {
         <Link href="/" className="logo">
           BODY INSIGHT
         </Link>
+
+        {/* Desktop nav links */}
         <div className="nav-links">
           {isHome ? (
             <>
@@ -59,7 +69,48 @@ export default function Navbar() {
             </>
           )}
         </div>
+
+        {/* Hamburger button */}
+        <button
+          className={`hamburger ${menuOpen ? "hamburger-open" : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
       </div>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="mobile-menu">
+          {isHome ? (
+            <>
+              <a href="#how-it-works" onClick={closeMenu}>How it works</a>
+              <a href="#scan" onClick={closeMenu}>The Scan</a>
+              <a href="#pricing" onClick={closeMenu}>Pricing</a>
+              <a href="#results" onClick={closeMenu}>Results</a>
+              <Link href="/schedule" className="cta-button" onClick={closeMenu}>
+                Book Your Scan
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/#how-it-works" onClick={closeMenu}>How it works</Link>
+              <Link href="/#pricing" onClick={closeMenu}>Pricing</Link>
+              <Link href="/schedule" onClick={closeMenu}>Book</Link>
+              {loggedIn ? (
+                <button className="nav-logout-btn" onClick={handleLogout}>
+                  Logout
+                </button>
+              ) : (
+                <Link href="/schedule" onClick={closeMenu}>Login</Link>
+              )}
+            </>
+          )}
+        </div>
+      )}
     </nav>
   );
 }

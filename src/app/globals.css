@@ -141,6 +141,44 @@ nav {
     color: white !important;
 }
 
+/* Hamburger button — hidden on desktop */
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 1001;
+}
+
+.hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+.hamburger-open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Mobile menu — hidden on desktop */
+.mobile-menu {
+    display: none;
+}
+
 .cta-button {
     background: var(--accent);
     color: white;
@@ -314,6 +352,39 @@ footer {
 
     .nav-links {
         display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .mobile-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.5rem 0 0.5rem;
+    }
+
+    .mobile-menu a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1.05rem;
+        transition: color 0.3s;
+    }
+
+    .mobile-menu a:hover {
+        color: var(--accent);
+    }
+
+    .mobile-menu .cta-button {
+        color: white !important;
+        text-align: center;
+    }
+
+    .mobile-menu .nav-logout-btn {
+        text-align: left;
+        font-size: 1.05rem;
     }
 
     .logo {
