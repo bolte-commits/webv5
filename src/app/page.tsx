@@ -92,6 +92,7 @@ export default function HomePage() {
               <div className={styles.clientGrid}>
                 <div className={styles.clientBadge}>BCCI</div>
                 <div className={styles.clientBadge}>RCB</div>
+                <div className={styles.clientBadge}>LSG</div>
                 <div className={styles.clientBadge}>SAI</div>
                 <div className={styles.clientBadge}>Hockey India</div>
                 <div className={styles.clientBadge}>GoSports</div>
@@ -371,8 +372,6 @@ export default function HomePage() {
                 <li>Full-body DEXA scan</li>
                 <li>Detailed PDF report</li>
                 <li>AI insights &amp; analysis</li>
-                <li>60-day action plan</li>
-                <li>30-day coach access</li>
               </ul>
               <Link
                 href="/schedule"

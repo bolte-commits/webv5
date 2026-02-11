@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Body Insight — DEXA Body Scanning</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap');
+
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Regular.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype');
+      font-weight: 800;
+      font-style: normal;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @page { size: 105mm 187mm; margin: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #e2e8f0;
+      color: #1a1a1a;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      width: 105mm;
+      height: 187mm;
+      margin: 1rem auto;
+      overflow: hidden;
+      page-break-after: always;
+      position: relative;
+      background: white;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      border-radius: 8px;
+    }
+
+    .page:last-child { page-break-after: auto; }
+
+    @media print {
+      body { background: white; }
+      .page { margin: 0; box-shadow: none; border-radius: 0; }
+    }
+
+    /* ===== SHARED ===== */
+    .p-inner {
+      padding: 7mm 6mm;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4mm;
+      flex-shrink: 0;
+    }
+
+    .topbar-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 3.2mm;
+      font-weight: 800;
+    }
+
+    .topbar-label {
+      font-size: 2.4mm;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #2563eb;
+    }
+
+    .dark .topbar-logo { color: white; }
+    .dark .topbar-label { color: #60a5fa; }
+
+    .section-label {
+      font-size: 2.8mm;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #2563eb;
+      margin-bottom: 2mm;
+    }
+
+    .dark .section-label { color: #60a5fa; }
+
+    img { display: block; }
+
+    /* ===== PAGE 1: COVER ===== */
+    .cover {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cover-img {
+      height: 45%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    .cover-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15,23,42,0.3) 0%, rgba(15,23,42,0.7) 100%);
+    }
+
+    .cover-img-top {
+      position: absolute;
+      top: 5mm; left: 6mm; right: 6mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .cover-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 4.5mm;
+      font-weight: 800;
+      color: white;
+    }
+
+    .cover-badge {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 1.5mm 3mm;
+      border-radius: 50px;
+      font-size: 2.2mm;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: white;
+    }
+
+    .cover-body {
+      flex: 1;
+      background: linear-gradient(160deg, #0f172a 0%, #1e3a5f 60%, #1e40af 100%);
+      color: white;
+      padding: 5mm 6mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+    }
+
+    .cover-body h1 {
+      font-family: 'Monument Extended', sans-serif;
+      font-size: 8mm;
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 3mm;
+    }
+
+    .cover-body h1 span { color: #60a5fa; }
+
+    .cover-sub {
+      font-size: 3.2mm;
+      line-height: 1.6;
+      opacity: 0.7;
+      margin-bottom: 4mm;
+    }
+
+    .cover-checks {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8mm;
+      margin-bottom: 4mm;
+    }
+
+    .cover-check {
+      display: flex;
+      align-items: center;
+      gap: 2mm;
+      font-size: 3mm;
+      opacity: 0.8;
+    }
+
+    .cover-check .dot {
+      width: 1.8mm; height: 1.8mm; border-radius: 50%;
+      background: #60a5fa; flex-shrink: 0;
+    }
+
+    .cover-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3mm;
+      padding: 3.5mm 0;
+      border-top: 0.3mm solid rgba(255,255,255,0.12);
+    }
+
+    .cover-stat-num {
+      font-family: 'Monument Extended', sans-serif;
+      font-size: 5mm;
+      font-weight: 800;
+    }
+
+    .cover-stat-lbl { font-size: 2.2mm; opacity: 0.4; margin-top: 0.5mm; }
+
+    .cover-trust {
+      display: flex;
+      gap: 1.5mm;
+      align-items: center;
+      flex-wrap: wrap;
+      padding-top: 2.5mm;
+    }
+
+    .trust-lbl {
+      font-size: 2.2mm; opacity: 0.35;
+      text-transform: uppercase; letter-spacing: 0.08em; margin-right: 1mm;
+    }
+
+    .trust-t {
+      background: rgba(255,255,255,0.08);
+      padding: 1mm 2.5mm; border-radius: 2mm;
+      font-size: 2.5mm; font-weight: 700;
+    }
+
+    .trust-logo {
+      height: 7mm;
+      width: auto;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: 0.7;
+    }
+
+    /* ===== PAGE 2: SCALE IMAGE + STATEMENT ===== */
+    .img-statement {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .img-statement-photo {
+      height: 42%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .img-statement-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    .img-statement-body {
+      flex: 1;
+      padding: 5mm 6mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .img-statement-body .topbar { margin-bottom: 3mm; }
+
+    .big-title {
+      font-family: 'Monument Extended', sans-serif;
+      font-size: 8mm;
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 3mm;
+    }
+
+    .big-text {
+      font-size: 3.5mm;
+      line-height: 1.65;
+      color: #64748b;
+    }
+
+    /* ===== PROBLEM / SOLUTION ===== */
+    .block {
+      border-radius: 4mm;
+      padding: 5mm;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .block-red {
+      background: #fef2f2;
+      border-left: 1.2mm solid #ef4444;
+    }
+
+    .block-red h3 {
+      font-family: 'Monument Extended', sans-serif;
+      font-size: 5mm; color: #b91c1c;
+      margin-bottom: 3mm; line-height: 1.15;
+    }
+
+    .block-red p { font-size: 3.5mm; color: #991b1b; line-height: 1.7; }
+
+    .block-green {
+      background: #f0fdf4;
+      border-left: 1.2mm solid #22c55e;
+    }
+
+    .block-green h3 {
+      font-family: 'Monument Extended', sans-serif;
+      font-size: 5mm; color: #15803d;
+      margin-bottom: 3mm; line-height: 1.15;
+    }
+
+    .block-green p { font-size: 3.5mm; color: #14532d; line-height: 1.7; }
+
+    /* ===== RISK CARDS ===== */
+    .dark { background: #0f172a; color: white; }
+
+    .risk-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5mm;
+      align-content: center;
+    }
+
+    .rcard {
+      background: rgba(255,255,255,0.06);
+      border: 0.3mm solid rgba(255,255,255,0.08);
+      border-radius: 3.5mm;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .rcard-img {
+      height: 22mm;
+      overflow: hidden;
+    }
+
+    .rcard-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    .rcard-body {
+      padding: 3mm;
+      flex: 1;
+    }
+
+    .rcard-body h4 { font-size: 3.2mm; font-weight: 700; margin-bottom: 1mm; }
+    .rcard-body p { font-size: 2.5mm; opacity: 0.55; line-height: 1.5; }
+
+    /* ===== COMPARISON TABLE ===== */
+    .cmp-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .cmp-tbl {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: 4mm;
+      overflow: hidden;
+      background: white;
+    }
+
+    .cmp-tbl th {
+      text-align: left;
+      font-size: 2.6mm;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3mm 2.5mm;
+      background: #0f172a;
+      color: white;
+      font-weight: 600;
+    }
+
+    .cmp-tbl td {
+      padding: 2.8mm 2.5mm;
+      font-size: 3mm;
+      border-bottom: 0.2mm solid #e2e8f0;
+    }
+
+    .cmp-tbl tr:last-child td { border-bottom: none; }
+    .cmp-tbl td:first-child { font-weight: 600; }
+    .cg { color: #16a34a; font-weight: 700; }
+    .cr { color: #dc2626; font-weight: 700; }
+
+    /* ===== PERSONA CARDS ===== */
+    .persona-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5mm;
+      align-content: center;
+    }
+
+    .pcard {
+      background: #f8fafc;
+      border: 0.3mm solid #e2e8f0;
+      border-radius: 3.5mm;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pcard-avatar {
+      height: 18mm;
+      overflow: hidden;
+    }
+
+    .pcard-avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    .pcard-body { padding: 2.5mm 3mm; }
+    .pcard-body h4 { font-size: 3mm; font-weight: 700; margin-bottom: 0.3mm; }
+    .pcard-tag { font-size: 2mm; color: #2563eb; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.8mm; }
+    .pcard-body p { font-size: 2.4mm; color: #64748b; line-height: 1.45; }
+
+    /* ===== ORGANIZATIONS ===== */
+    .org-hero {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .org-hero-img {
+      height: 32%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .org-hero-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    .org-hero-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15,23,42,0.1) 0%, rgba(15,23,42,0.8) 100%);
+    }
+
+    .org-hero-body {
+      flex: 1;
+      background: linear-gradient(160deg, #0f172a, #1e3a5f, #1e40af);
+      color: white;
+      padding: 4mm 6mm;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .org-stack {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5mm;
+      justify-content: center;
+    }
+
+    .ocard {
+      background: rgba(255,255,255,0.07);
+      border: 0.3mm solid rgba(255,255,255,0.1);
+      border-radius: 3.5mm;
+      padding: 3.5mm;
+    }
+
+    .ocard h4 { font-size: 3.6mm; margin-bottom: 1.5mm; }
+    .ocard p { font-size: 2.8mm; opacity: 0.55; line-height: 1.55; }
+
+    /* ===== METRICS ===== */
+    .met-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5mm;
+      margin-bottom: 3mm;
+    }
+
+    .mcard {
+      background: #f8fafc;
+      border: 0.3mm solid #e2e8f0;
+      border-radius: 3.5mm;
+      padding: 4mm;
+    }
+
+    .mcard-val {
+      font-family: 'Monument Extended', sans-serif;
+      font-size: 6mm; font-weight: 800;
+      color: #2563eb; line-height: 1;
+    }
+
+    .mcard-name { font-size: 3.2mm; font-weight: 700; margin: 1mm 0 0.5mm; }
+    .mcard-desc { font-size: 2.6mm; color: #64748b; }
+
+    .inc-bar {
+      background: #0f172a;
+      color: white;
+      border-radius: 3.5mm;
+      padding: 4mm;
+    }
+
+    .inc-bar h3 {
+      font-family: 'Monument Extended', sans-serif;
+      font-size: 3.5mm;
+      margin-bottom: 3mm;
+      text-align: center;
+    }
+
+    .inc-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2mm;
+      text-align: center;
+    }
+
+    .inc-item { font-size: 2.6mm; opacity: 0.7; line-height: 1.35; }
+    .inc-icon { font-size: 5mm; margin-bottom: 1.5mm; }
+
+    /* ===== PROCESS ===== */
+    .steps-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4mm;
+    }
+
+    .stp {
+      display: flex;
+      gap: 3mm;
+      align-items: flex-start;
+    }
+
+    .stp-num {
+      width: 9mm; height: 9mm; border-radius: 3mm;
+      background: #2563eb; color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Monument Extended', sans-serif; font-size: 4mm; font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .stp h3 { font-size: 4mm; font-weight: 700; margin-bottom: 1mm; }
+    .stp p { font-size: 3.2mm; color: #64748b; line-height: 1.6; }
+
+    .safety-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2mm;
+      margin-top: 4mm;
+    }
+
+    .sf-tag {
+      background: #dcfce7; color: #15803d;
+      padding: 1.8mm 3mm; border-radius: 50px;
+      font-size: 2.8mm; font-weight: 600;
+    }
+
+    /* ===== PRICING ===== */
+    .price-stack {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5mm;
+      justify-content: center;
+    }
+
+    .prcard {
+      border: 0.3mm solid #e2e8f0;
+      border-radius: 4mm;
+      padding: 4mm;
+      position: relative;
+      background: white;
+    }
+
+    .prcard-feat {
+      border: 0.5mm solid #2563eb;
+      background: linear-gradient(180deg, #eff6ff 0%, #fff 35%);
+    }
+
+    .prcard-badge {
+      position: absolute;
+      top: -2.2mm; left: 4mm;
+      background: #2563eb; color: white;
+      padding: 0.8mm 3mm; border-radius: 50px;
+      font-size: 2.2mm; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+
+    .prcard h3 { font-size: 3.5mm; font-weight: 700; margin-bottom: 1mm; }
+
+    .prcard-price {
+      font-family: 'Monument Extended', sans-serif;
+      font-size: 6mm; font-weight: 800;
+      color: #2563eb; margin-bottom: 2.5mm;
+    }
+
+    .prcard ul { list-style: none; }
+    .prcard li {
+      font-size: 2.8mm; padding: 0.8mm 0;
+      display: flex; align-items: center; gap: 1.5mm;
+      color: #64748b;
+    }
+
+    .prcard li::before {
+      content: "\2713"; color: #2563eb;
+      font-weight: 800; font-size: 3mm; flex-shrink: 0;
+    }
+
+    /* ===== CTA ===== */
+    .cta-page {
+      background: linear-gradient(160deg, #0f172a 0%, #1e3a5f 45%, #1e40af 100%);
+      color: white;
+      padding: 7mm 6mm;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .cta-page h2 {
+      font-family: 'Monument Extended', sans-serif;
+      font-size: 7mm; font-weight: 800;
+      line-height: 1.1; margin-bottom: 3mm;
+    }
+
+    .cta-page > p {
+      font-size: 3.5mm; opacity: 0.55;
+      line-height: 1.6; margin-bottom: 6mm;
+    }
+
+    .cta-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5mm;
+      margin-bottom: 5mm;
+    }
+
+    .cta-card {
+      background: rgba(255,255,255,0.08);
+      border: 0.3mm solid rgba(255,255,255,0.1);
+      border-radius: 3.5mm;
+      padding: 3.5mm;
+    }
+
+    .cta-card-lbl {
+      font-size: 2.2mm;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.35;
+      margin-bottom: 0.8mm;
+    }
+
+    .cta-card-val { font-size: 4mm; font-weight: 700; }
+
+    .cta-foot { font-size: 2.4mm; opacity: 0.25; margin-top: 4mm; }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: COVER WITH HERO IMAGE -->
+  <div class="page">
+    <div class="cover">
+      <div class="cover-img">
+        <img src="/images/cover.jpg" alt="Indian couple jogging together" />
+        <div class="cover-img-overlay"></div>
+        <div class="cover-img-top">
+          <div class="cover-logo">BODY INSIGHT</div>
+        </div>
+      </div>
+      <div class="cover-body">
+        <div>
+          <h1>Know your body like <span>never before</span></h1>
+          <p class="cover-sub">India's most trusted mobile DEXA scanning service. Medical-grade body composition analysis — delivered to your doorstep.</p>
+        </div>
+        <div>
+          <div class="cover-stats">
+            <div><div class="cover-stat-num">15,000+</div><div class="cover-stat-lbl">Scans done</div></div>
+            <div style="text-align: center; padding-left: 3mm;"><div class="cover-stat-num">100+</div><div class="cover-stat-lbl">Organizations</div></div>
+            <div style="text-align: right;"><div class="cover-stat-num">6 min</div><div class="cover-stat-lbl">Quick scan</div></div>
+          </div>
+          <div class="cover-trust" style="flex-direction: column; align-items: center; gap: 2mm; border-top: 0.3mm solid rgba(255,255,255,0.15); margin-top: 3mm; padding-top: 3mm;">
+            <span class="trust-lbl">Trusted by</span>
+            <div style="display: flex; align-items: center; justify-content: space-evenly; width: 100%;">
+              <img src="/images/clients/bcci.png" alt="BCCI" class="trust-logo" />
+              <img src="/images/clients/rcb.png" alt="RCB" class="trust-logo" />
+              <img src="/images/clients/lsg.svg" alt="LSG" class="trust-logo" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: BCCI MANDATE -->
+  <div class="page dark">
+    <div class="p-inner">
+      <div class="topbar">
+        <div class="topbar-logo">BODY INSIGHT</div>
+        <div class="topbar-label">Official Partner</div>
+      </div>
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+        <div class="section-label">Official BCCI Partner</div>
+        <h2 style="font-family: 'Monument Extended', sans-serif; font-size: 7.5mm; font-weight: 800; line-height: 1.1; margin-bottom: 4mm;">We scan <span style="color: #60a5fa;">Team India</span></h2>
+        <p style="font-size: 3.3mm; opacity: 0.6; line-height: 1.65; margin-bottom: 5mm;">Body Insight is the official DEXA partner of the BCCI. When the board made body composition scans mandatory for Indian team selection in 2023, they chose us to deliver them.</p>
+        <div style="display: flex; flex-direction: column; gap: 2.5mm; margin-bottom: 3mm;">
+          <div style="background: rgba(96,165,250,0.15); border-left: 1mm solid #60a5fa; border-radius: 0 4mm 4mm 0; padding: 3.5mm 4mm 3.5mm 5mm;">
+            <p style="font-size: 3mm; color: rgba(255,255,255,0.85); line-height: 1.6; font-style: italic;">"The data will be uniform and cannot be manipulated like skinfold measurements. DEXA gives us the complete picture."</p>
+            <p style="font-size: 2.4mm; color: #60a5fa; font-weight: 600; margin-top: 1.5mm;">— BCCI Strength &amp; Conditioning Team</p>
+          </div>
+          <div style="background: rgba(96,165,250,0.15); border-left: 1mm solid #60a5fa; border-radius: 0 4mm 4mm 0; padding: 3.5mm 4mm 3.5mm 5mm;">
+            <p style="font-size: 3mm; color: rgba(255,255,255,0.85); line-height: 1.6; font-style: italic;">"Body Insight has been instrumental in providing us crucial information before some big tournaments."</p>
+            <p style="font-size: 2.4mm; color: #60a5fa; font-weight: 600; margin-top: 1.5mm;">— Soham Desai, Lead S&amp;C Coach, Indian Cricket Team</p>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5mm;">
+          <div style="background: linear-gradient(135deg, rgba(96,165,250,0.2), rgba(96,165,250,0.05)); border: 0.3mm solid rgba(96,165,250,0.25); border-radius: 3.5mm; padding: 4mm; text-align: center;">
+            <div style="font-family: 'Monument Extended', sans-serif; font-size: 6mm; font-weight: 800; color: #60a5fa; line-height: 1; margin-bottom: 2mm;">&#127942;</div>
+            <div style="font-size: 3mm; font-weight: 700; margin-bottom: 1.5mm;">Same team that scans Team India</div>
+            <div style="font-size: 2.4mm; opacity: 0.45; line-height: 1.5;">Identical equipment, protocols, and reporting standards</div>
+          </div>
+          <div style="background: linear-gradient(135deg, rgba(96,165,250,0.2), rgba(96,165,250,0.05)); border: 0.3mm solid rgba(96,165,250,0.25); border-radius: 3.5mm; padding: 4mm; text-align: center;">
+            <div style="font-family: 'Monument Extended', sans-serif; font-size: 6mm; font-weight: 800; color: #60a5fa; line-height: 1; margin-bottom: 2mm;">&#127951;</div>
+            <div style="font-size: 3mm; font-weight: 700; margin-bottom: 1.5mm;">Trusted by RCB, LSG, SAI, Hockey India</div>
+            <div style="font-size: 2.4mm; opacity: 0.45; line-height: 1.5;">India's top sporting organizations rely on us</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: SCALE IMAGE + THE PROBLEM -->
+  <div class="page">
+    <div class="img-statement">
+      <div class="img-statement-photo">
+        <img src="https://images.unsplash.com/photo-1557318041-1ce374d55ebf?w=600&h=400&fit=crop&q=80" alt="Weighing scale" />
+      </div>
+      <div class="img-statement-body">
+        <div class="topbar">
+          <div class="topbar-logo">BODY INSIGHT</div>
+          <div class="topbar-label">The Problem</div>
+        </div>
+        <h2 class="big-title">Your scale is lying to you</h2>
+        <p class="big-text">Weight and BMI hide what actually matters. Smart watches and BIA scales fluctuate 5-15% based on hydration alone. You can't manage what you can't measure accurately.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: PROBLEM + SOLUTION -->
+  <div class="page">
+    <div class="p-inner">
+      <div class="topbar">
+        <div class="topbar-logo">BODY INSIGHT</div>
+        <div class="topbar-label">The Truth</div>
+      </div>
+      <div class="block block-red" style="margin-bottom: 3mm;">
+        <h3>What you're missing today</h3>
+        <p>A person weighing 70 kg could be metabolically healthy or pre-diabetic — weight can't tell you. BMI labels muscular athletes "overweight" and misses dangerous visceral fat in "normal weight" individuals.</p>
+      </div>
+      <div class="block block-green">
+        <h3>What DEXA reveals</h3>
+        <p>DEXA uses two low-dose X-ray beams to map fat, lean tissue, and bone with <strong>&plusmn;1% accuracy</strong> — region by region. Used by BCCI, Olympic centres, and research institutions worldwide.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 4: ALL 4 RISKS (2x2 grid with images) -->
+  <div class="page dark">
+    <div class="p-inner">
+      <div class="topbar">
+        <div class="topbar-logo">BODY INSIGHT</div>
+        <div class="topbar-label">Hidden Risks</div>
+      </div>
+      <div class="section-label">What's hiding inside</div>
+      <div class="risk-grid">
+        <div class="rcard">
+          <div class="rcard-img">
+            <img src="https://images.unsplash.com/photo-1559757296-5c84adc6d116?w=300&h=250&fit=crop&q=80" alt="Heart health" />
+          </div>
+          <div class="rcard-body">
+            <h4>Visceral Fat</h4>
+            <p>#1 predictor of heart disease and diabetes. Dangerous levels hide at "normal" weight.</p>
+          </div>
+        </div>
+        <div class="rcard">
+          <div class="rcard-img">
+            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300&h=250&fit=crop&q=80" alt="Bone health" />
+          </div>
+          <div class="rcard-body">
+            <h4>Bone Density Loss</h4>
+            <p>1 in 3 women over 50 suffer fractures. DEXA detects it years before symptoms.</p>
+          </div>
+        </div>
+        <div class="rcard">
+          <div class="rcard-img">
+            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=300&h=250&fit=crop&q=80" alt="Muscle training" />
+          </div>
+          <div class="rcard-body">
+            <h4>Muscle Imbalances</h4>
+            <p>Left-right asymmetry increases injury risk. DEXA maps every limb and trunk.</p>
+          </div>
+        </div>
+        <div class="rcard">
+          <div class="rcard-img">
+            <img src="https://images.unsplash.com/photo-1658314755561-389d5660ee54?w=300&h=250&fit=crop&q=80" alt="Older adult fitness" />
+          </div>
+          <div class="rcard-body">
+            <h4>Sarcopenia</h4>
+            <p>3-8% muscle lost per decade after 30. DEXA tracks lean mass for early action.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 6: COMPARISON -->
+  <div class="page">
+    <div class="p-inner">
+      <div class="topbar">
+        <div class="topbar-logo">BODY INSIGHT</div>
+        <div class="topbar-label">Comparison</div>
+      </div>
+      <div class="section-label">See the difference</div>
+      <h2 style="font-family: 'Monument Extended', sans-serif; font-size: 5.5mm; font-weight: 800; line-height: 1.15; margin-bottom: 4mm;">Not all body measurements are <span style="color: #2563eb;">created equal</span></h2>
+      <div class="cmp-wrap">
+        <table class="cmp-tbl">
+          <thead>
+            <tr><th>Capability</th><th>DEXA</th><th>Scale</th><th>Calipers</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Accuracy</td><td><span class="cg">&#10003;</span> &plusmn;1%</td><td><span class="cr">&#10007;</span> &plusmn;5-15%</td><td><span class="cr">&#10007;</span> &plusmn;4-20%</td></tr>
+            <tr><td>Regional fat</td><td><span class="cg">&#10003;</span> Full map</td><td><span class="cr">&#10007;</span> Total only</td><td><span class="cr">&#10007;</span> Select sites</td></tr>
+            <tr><td>Visceral fat</td><td><span class="cg">&#10003;</span> Direct</td><td><span class="cr">&#10007;</span> Estimated</td><td><span class="cr">&#10007;</span> None</td></tr>
+            <tr><td>Bone density</td><td><span class="cg">&#10003;</span> Clinical</td><td><span class="cr">&#10007;</span> None</td><td><span class="cr">&#10007;</span> None</td></tr>
+            <tr><td>Muscle L/R</td><td><span class="cg">&#10003;</span> Per-limb</td><td><span class="cr">&#10007;</span> None</td><td><span class="cr">&#10007;</span> None</td></tr>
+            <tr><td>Sectional analysis</td><td><span class="cg">&#10003;</span> 6 regions</td><td><span class="cr">&#10007;</span> None</td><td><span class="cr">&#10007;</span> None</td></tr>
+            <tr><td>RMR / Macros</td><td><span class="cg">&#10003;</span> Accurate</td><td><span class="cr">&#10007;</span> Estimated</td><td><span class="cr">&#10007;</span> None</td></tr>
+            <tr><td>Hydration proof</td><td><span class="cg">&#10003;</span> Yes</td><td><span class="cr">&#10007;</span> No</td><td><span class="cg">&#10003;</span> Yes</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="background: #0f172a; color: white; border-radius: 3.5mm; padding: 3.5mm 4mm; margin-top: 3mm; text-align: center;">
+        <div style="font-size: 3.2mm; font-weight: 700;">DEXA is the gold standard used by BCCI, hospitals, and research institutions worldwide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 6: WHO IT'S FOR (all 6, 2x3 grid) -->
+  <div class="page">
+    <div class="p-inner">
+      <div class="topbar">
+        <div class="topbar-logo">BODY INSIGHT</div>
+        <div class="topbar-label">Who It's For</div>
+      </div>
+      <div class="section-label">Built for everyone</div>
+      <div class="persona-grid">
+        <div class="pcard">
+          <div class="pcard-avatar">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=200&h=200&fit=crop&q=80" alt="Gym" />
+          </div>
+          <div class="pcard-body">
+            <h4>Fitness Enthusiasts</h4>
+            <div class="pcard-tag">Most popular</div>
+            <p>See real body recomposition the scale hides.</p>
+          </div>
+        </div>
+        <div class="pcard">
+          <div class="pcard-avatar">
+            <img src="https://images.unsplash.com/photo-1532444458054-01a7dd3e9fca?w=200&h=200&fit=crop&q=80" alt="Athlete" />
+          </div>
+          <div class="pcard-body">
+            <h4>Athletes &amp; Teams</h4>
+            <div class="pcard-tag">Used by BCCI, RCB, LSG, SAI</div>
+            <p>Elite-level performance tracking.</p>
+          </div>
+        </div>
+        <div class="pcard">
+          <div class="pcard-avatar">
+            <img src="https://images.unsplash.com/photo-1658314755561-389d5660ee54?w=200&h=200&fit=crop&q=80" alt="Older adult" />
+          </div>
+          <div class="pcard-body">
+            <h4>Adults Over 40</h4>
+            <div class="pcard-tag">Early prevention</div>
+            <p>Catch decline years before it's clinical.</p>
+          </div>
+        </div>
+        <div class="pcard">
+          <div class="pcard-avatar">
+            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=200&h=200&fit=crop&q=80" alt="Woman fitness" />
+          </div>
+          <div class="pcard-body">
+            <h4>Women 35+</h4>
+            <div class="pcard-tag">Especially important</div>
+            <p>Osteoporosis risk routine checkups miss.</p>
+          </div>
+        </div>
+        <div class="pcard">
+          <div class="pcard-avatar">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=200&h=200&fit=crop&q=80" alt="Office" />
+          </div>
+          <div class="pcard-body">
+            <h4>Corporate Teams</h4>
+            <div class="pcard-tag">Wellness programs</div>
+            <p>The wake-up call blood reports can't give.</p>
+          </div>
+        </div>
+        <div class="pcard">
+          <div class="pcard-avatar">
+            <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=200&h=200&fit=crop&q=80" alt="Running" />
+          </div>
+          <div class="pcard-body">
+            <h4>Weight Loss</h4>
+            <div class="pcard-tag">Track real progress</div>
+            <p>Proof your plan is actually working.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: MOBILE VAN -->
+  <div class="page dark">
+    <div class="p-inner">
+      <div class="topbar">
+        <div class="topbar-logo">BODY INSIGHT</div>
+        <div class="topbar-label">Mobile Service</div>
+      </div>
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+        <div class="section-label">No hospitals. No clinics.</div>
+        <h2 style="font-family: 'Monument Extended', sans-serif; font-size: 7.5mm; font-weight: 800; line-height: 1.1; margin-bottom: 4mm;">We bring the <span style="color: #60a5fa;">scanner to you</span></h2>
+        <p style="font-size: 3.3mm; opacity: 0.6; line-height: 1.65; margin-bottom: 5mm;">Our fully-equipped mobile DEXA van carries the same medical-grade scanner used in hospitals — directly to your doorstep. No travel, no waiting rooms, no hassle.</p>
+        <div style="display: flex; flex-direction: column; gap: 2.5mm;">
+          <div style="background: rgba(255,255,255,0.06); border: 0.3mm solid rgba(255,255,255,0.08); border-radius: 3.5mm; padding: 3.5mm; display: flex; align-items: center; gap: 3mm;">
+            <span style="font-size: 6mm;">&#127970;</span>
+            <div>
+              <div style="font-size: 3.2mm; font-weight: 700;">Offices &amp; Corporates</div>
+              <div style="font-size: 2.6mm; opacity: 0.5;">Employee wellness days, annual health checkups</div>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.06); border: 0.3mm solid rgba(255,255,255,0.08); border-radius: 3.5mm; padding: 3.5mm; display: flex; align-items: center; gap: 3mm;">
+            <span style="font-size: 6mm;">&#127968;</span>
+            <div>
+              <div style="font-size: 3.2mm; font-weight: 700;">Apartments &amp; Communities</div>
+              <div style="font-size: 2.6mm; opacity: 0.5;">Group pricing for residents, weekend scan camps</div>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.06); border: 0.3mm solid rgba(255,255,255,0.08); border-radius: 3.5mm; padding: 3.5mm; display: flex; align-items: center; gap: 3mm;">
+            <span style="font-size: 6mm;">&#127947;</span>
+            <div>
+              <div style="font-size: 3.2mm; font-weight: 700;">Gyms &amp; Sports Academies</div>
+              <div style="font-size: 2.6mm; opacity: 0.5;">Athlete monitoring, member retention tool</div>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.06); border: 0.3mm solid rgba(255,255,255,0.08); border-radius: 3.5mm; padding: 3.5mm; display: flex; align-items: center; gap: 3mm;">
+            <span style="font-size: 6mm;">&#127979;</span>
+            <div>
+              <div style="font-size: 3.2mm; font-weight: 700;">Schools &amp; Colleges</div>
+              <div style="font-size: 2.6mm; opacity: 0.5;">Student health programs, sports team assessments</div>
+            </div>
+          </div>
+        </div>
+        <div style="background: rgba(96,165,250,0.15); border-radius: 3.5mm; padding: 3.5mm; margin-top: 4mm; text-align: center;">
+          <div style="font-size: 3mm; font-weight: 700;">15,000+ scans completed across 100+ locations in India</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 9: ORGANIZATIONS with hero image -->
+  <div class="page">
+    <div class="org-hero">
+      <div class="org-hero-img">
+        <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&h=300&fit=crop&q=80" alt="Corporate office" />
+        <div class="org-hero-img-overlay"></div>
+      </div>
+      <div class="org-hero-body">
+        <div class="topbar" style="margin-bottom: 2mm;">
+          <div class="topbar-logo" style="color: white;">BODY INSIGHT</div>
+          <div class="topbar-label" style="color: #60a5fa;">Organizations</div>
+        </div>
+        <div class="section-label" style="color: #60a5fa;">We come to you</div>
+        <div class="org-stack">
+          <div class="ocard">
+            <h4>Corporate Wellness</h4>
+            <p>Health days, annual checkups, employee engagement. Insights that reduce long-term health costs.</p>
+          </div>
+          <div class="ocard">
+            <h4>Residential Communities</h4>
+            <p>Apartments and gated societies. Group pricing makes medical-grade scanning accessible.</p>
+          </div>
+          <div class="ocard">
+            <h4>Sports Academies</h4>
+            <p>Athlete monitoring, body comp benchmarks, injury prevention via imbalance detection.</p>
+          </div>
+          <div class="ocard">
+            <h4>Gyms &amp; Studios</h4>
+            <p>DEXA as a premium service. Help members see real progress. Increase retention.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 10: WHAT YOU GET -->
+  <div class="page">
+    <div class="p-inner">
+      <div class="topbar">
+        <div class="topbar-logo">BODY INSIGHT</div>
+        <div class="topbar-label">Your Report</div>
+      </div>
+      <div class="section-label">One scan. Complete picture.</div>
+      <div class="met-grid" style="margin-top: 2mm;">
+        <div class="mcard">
+          <div class="mcard-val">28.5%</div>
+          <div class="mcard-name">Body Fat</div>
+          <div class="mcard-desc">Total + regional</div>
+        </div>
+        <div class="mcard">
+          <div class="mcard-val">46.2 kg</div>
+          <div class="mcard-name">Lean Mass</div>
+          <div class="mcard-desc">Per-limb L/R balance</div>
+        </div>
+        <div class="mcard">
+          <div class="mcard-val">5/10</div>
+          <div class="mcard-name">Visceral Fat</div>
+          <div class="mcard-desc">Direct organ-fat level</div>
+        </div>
+        <div class="mcard">
+          <div class="mcard-val">1.104</div>
+          <div class="mcard-name">Bone Density</div>
+          <div class="mcard-desc">g/cm&sup2; T-score</div>
+        </div>
+        <div class="mcard">
+          <div class="mcard-val">1,680</div>
+          <div class="mcard-name">RMR (kcal)</div>
+          <div class="mcard-desc">Accurate resting rate</div>
+        </div>
+        <div class="mcard">
+          <div class="mcard-val">P/C/F</div>
+          <div class="mcard-name">Macros</div>
+          <div class="mcard-desc">Personalized targets</div>
+        </div>
+        <div class="mcard">
+          <div class="mcard-val">6</div>
+          <div class="mcard-name">Sectional Analysis</div>
+          <div class="mcard-desc">Arms, legs, trunk mapped</div>
+        </div>
+        <div class="mcard">
+          <div class="mcard-val">L / R</div>
+          <div class="mcard-name">Muscle Imbalances</div>
+          <div class="mcard-desc">Per-limb asymmetry check</div>
+        </div>
+      </div>
+      <div class="inc-bar">
+        <h3>Every scan includes</h3>
+        <div class="inc-row" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="inc-item"><div class="inc-icon">&#128196;</div>PDF report</div>
+          <div class="inc-item"><div class="inc-icon">&#129302;</div>AI insights</div>
+          <div class="inc-item"><div class="inc-icon">&#128197;</div>60-day plan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 11: RMR + MACROS -->
+  <div class="page">
+    <div class="p-inner">
+      <div class="topbar">
+        <div class="topbar-logo">BODY INSIGHT</div>
+        <div class="topbar-label">Nutrition</div>
+      </div>
+      <div class="section-label">Beyond body composition</div>
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+        <h2 style="font-family: 'Monument Extended', sans-serif; font-size: 6.5mm; font-weight: 800; line-height: 1.1; margin-bottom: 3mm;">Your exact calorie &amp; macro needs</h2>
+        <p style="font-size: 3.2mm; color: #64748b; line-height: 1.6; margin-bottom: 5mm;">Generic calorie calculators guess. We measure. Your DEXA-derived lean mass gives us the most accurate RMR possible — then we build your macros on top.</p>
+
+        <div style="background: #f8fafc; border: 0.3mm solid #e2e8f0; border-radius: 4mm; padding: 4mm; margin-bottom: 3mm;">
+          <div style="display: flex; align-items: center; gap: 3mm; margin-bottom: 3mm;">
+            <div style="font-family: 'Monument Extended', sans-serif; font-size: 8mm; font-weight: 800; color: #2563eb; line-height: 1;">RMR</div>
+            <div>
+              <div style="font-size: 3.2mm; font-weight: 700;">Resting Metabolic Rate</div>
+              <div style="font-size: 2.8mm; color: #64748b;">Exact daily calories your body burns at rest</div>
+            </div>
+          </div>
+          <div style="font-size: 2.8mm; color: #64748b; line-height: 1.6;">Calculated from your actual lean tissue mass — not estimated from height/weight formulas. More accurate than any fitness app or online calculator.</div>
+        </div>
+
+        <div style="background: #f8fafc; border: 0.3mm solid #e2e8f0; border-radius: 4mm; padding: 4mm; margin-bottom: 3mm;">
+          <div style="font-size: 3.2mm; font-weight: 700; margin-bottom: 2mm;">Personalized Macro Targets</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2mm; margin-bottom: 2mm;">
+            <div style="background: #eff6ff; border-radius: 3mm; padding: 3mm; text-align: center;">
+              <div style="font-family: 'Monument Extended', sans-serif; font-size: 5mm; font-weight: 800; color: #2563eb;">P</div>
+              <div style="font-size: 2.6mm; font-weight: 600;">Protein</div>
+              <div style="font-size: 2.2mm; color: #64748b;">Build &amp; repair</div>
+            </div>
+            <div style="background: #f0fdf4; border-radius: 3mm; padding: 3mm; text-align: center;">
+              <div style="font-family: 'Monument Extended', sans-serif; font-size: 5mm; font-weight: 800; color: #16a34a;">C</div>
+              <div style="font-size: 2.6mm; font-weight: 600;">Carbs</div>
+              <div style="font-size: 2.2mm; color: #64748b;">Energy fuel</div>
+            </div>
+            <div style="background: #fef9c3; border-radius: 3mm; padding: 3mm; text-align: center;">
+              <div style="font-family: 'Monument Extended', sans-serif; font-size: 5mm; font-weight: 800; color: #ca8a04;">F</div>
+              <div style="font-size: 2.6mm; font-weight: 600;">Fat</div>
+              <div style="font-size: 2.2mm; color: #64748b;">Hormones</div>
+            </div>
+          </div>
+          <div style="font-size: 2.8mm; color: #64748b; line-height: 1.6;">Tailored to your body composition, activity level, and goals — whether fat loss, muscle gain, or maintenance.</div>
+        </div>
+
+        <div style="background: #0f172a; color: white; border-radius: 3.5mm; padding: 3.5mm 4mm;">
+          <div style="font-size: 3mm; font-weight: 700; margin-bottom: 1.5mm;">Why this matters</div>
+          <div style="font-size: 2.8mm; opacity: 0.6; line-height: 1.6;">Two people at 70 kg can have RMRs that differ by 300+ kcal/day — one could gain weight eating what the other loses weight on. DEXA removes the guesswork.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 12: PROCESS -->
+  <div class="page">
+    <div class="p-inner">
+      <div class="topbar">
+        <div class="topbar-logo">BODY INSIGHT</div>
+        <div class="topbar-label">How It Works</div>
+      </div>
+      <div class="section-label">Simple 3-step process</div>
+      <div class="steps-wrap">
+        <div class="stp">
+          <div class="stp-num">1</div>
+          <div>
+            <h3>Book</h3>
+            <p>Choose your location and time online. We bring our mobile DEXA van to your office, apartment, or gym.</p>
+          </div>
+        </div>
+        <div class="stp">
+          <div class="stp-num">2</div>
+          <div>
+            <h3>Scan</h3>
+            <p>Lie down fully clothed for 6 minutes. Painless, silent, no fasting or injections needed.</p>
+          </div>
+        </div>
+        <div class="stp">
+          <div class="stp-num">3</div>
+          <div>
+            <h3>Understand</h3>
+            <p>Same-day report with AI insights, risk flags, and a personalized 60-day action plan.</p>
+          </div>
+        </div>
+      </div>
+      <div class="safety-wrap">
+        <div class="sf-tag">&#10003; Less radiation than a flight</div>
+        <div class="sf-tag">&#10003; No fasting required</div>
+        <div class="sf-tag">&#10003; Fully clothed</div>
+        <div class="sf-tag">&#10003; FDA-approved</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 12: PRICING -->
+  <div class="page">
+    <div class="p-inner">
+      <div class="topbar">
+        <div class="topbar-logo">BODY INSIGHT</div>
+        <div class="topbar-label">Pricing</div>
+      </div>
+      <div class="section-label">Transparent pricing</div>
+      <div class="price-stack">
+        <div class="prcard">
+          <h3>Individual Scan</h3>
+          <div class="prcard-price">&#8377;2,999</div>
+          <ul><li>Full-body DEXA scan</li><li>Detailed PDF report</li><li>AI insights &amp; analysis</li></ul>
+        </div>
+        <div class="prcard prcard-feat">
+          <div class="prcard-badge">Most Popular</div>
+          <h3>Community Event</h3>
+          <div class="prcard-price">Custom</div>
+          <ul><li>Mobile van to your location</li><li>Group pricing</li><li>Live Q&amp;A session</li><li>Dedicated coordinator</li></ul>
+        </div>
+        <div class="prcard">
+          <h3>Sports &amp; Corporate</h3>
+          <div class="prcard-price">Custom</div>
+          <ul><li>Bulk team pricing</li><li>Performance tracking</li><li>Aggregate reports</li><li>Recurring options</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 13: CTA -->
+  <div class="page">
+    <div class="cta-page">
+      <h2>Let's bring DEXA to your organization</h2>
+      <p>We handle everything — setup, scanning, and reports. Get in touch to discuss your needs.</p>
+      <div class="cta-cards">
+        <div class="cta-card">
+          <div class="cta-card-lbl">Website</div>
+          <div class="cta-card-val">bodyinsight.in</div>
+        </div>
+        <div class="cta-card">
+          <div class="cta-card-lbl">Email</div>
+          <div class="cta-card-val">team@bodyinsight.in</div>
+        </div>
+        <div class="cta-card">
+          <div class="cta-card-lbl">Phone</div>
+          <div class="cta-card-val">8971378661</div>
+        </div>
+      </div>
+      <div class="cta-foot">&copy; 2025 Body Insight. Medical-grade DEXA body composition scanning across India.</div>
+    </div>
+  </div>
+
+</body>
+</html>
