@@ -14,7 +14,7 @@ import {
   type PendingDetails,
   type BookingPricing,
 } from "@/app/actions/booking";
-import { getStoredProfile, getStoredToken, logout } from "@/lib/auth";
+import { getStoredProfile, getStoredToken, setStoredProfile, logout } from "@/lib/auth";
 import { formatPrice } from "@/lib/constants";
 import styles from "./page.module.css";
 
@@ -69,7 +69,8 @@ function ConfirmContent() {
         setCheckingPending(false);
       });
     } else {
-      setCheckingPending(false);
+      redirectToLogin();
+      return;
     }
 
     const profile = getStoredProfile();
@@ -125,6 +126,15 @@ function ConfirmContent() {
     }
     if (result.success) {
       if (result.pricing) setPricing(result.pricing);
+      setStoredProfile({
+        email,
+        name,
+        phone: phone || undefined,
+        dateOfBirth,
+        height: height ? Number(height) : undefined,
+        weight: weight ? Number(weight) : undefined,
+        gender: gender || undefined,
+      });
       setSuccess(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {

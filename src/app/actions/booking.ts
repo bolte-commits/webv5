@@ -5,6 +5,12 @@ const API_BASE = process.env.API_BASE_URL || "https://api.bodyinsight.in";
 const AUTH_API_BASE =
   "https://vzhsj8805e.execute-api.ap-south-1.amazonaws.com/prod";
 
+function isAuthError(status: number, message?: string): boolean {
+  if (status === 401 || status === 403) return true;
+  if (message && /authentication|token|unauthorized|login required/i.test(message)) return true;
+  return false;
+}
+
 export interface PendingDetails {
   pendingAppointmentId: string;
   landmark: string;
@@ -23,7 +29,7 @@ export async function checkPendingAppointment(
       body: JSON.stringify({ token }),
     });
     const data = await res.json();
-    if (res.status === 401) {
+    if (!res.ok && isAuthError(res.status, data.message)) {
       return { hasPending: false, unauthorized: true };
     }
     if (!res.ok) {
@@ -94,7 +100,7 @@ export async function cancelUpcomingAppointment(
       body: JSON.stringify({ token, appointmentId }),
     });
     const data = await res.json();
-    if (res.status === 401) {
+    if (!res.ok && isAuthError(res.status, data.message)) {
       return { success: false, unauthorized: true };
     }
     if (!res.ok) {
@@ -136,7 +142,7 @@ export async function applyCouponCode(
       body: JSON.stringify({ token, appointmentId, code }),
     });
     const data = await res.json();
-    if (res.status === 401) {
+    if (!res.ok && isAuthError(res.status, data.message)) {
       return { success: false, unauthorized: true };
     }
     if (!res.ok) {
@@ -165,7 +171,7 @@ export async function confirmBooking(
       body: JSON.stringify(data),
     });
     const result = await res.json();
-    if (res.status === 401) {
+    if (!res.ok && isAuthError(res.status, result.message)) {
       return { success: false, unauthorized: true };
     }
     if (!res.ok) {
