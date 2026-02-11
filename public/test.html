@@ -6,6 +6,20 @@
 <title>Body Insight — DEXA Report</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
+  @font-face {
+    font-family: 'Monument Extended';
+    src: url('/fonts/PPMonumentExtended-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Monument Extended';
+    src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+  }
+
   :root {
     --pri: #0F0F0F;
     --acc: #007aff;
@@ -25,8 +39,10 @@
     font-family: 'DM Sans', sans-serif;
     background: #999;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     padding: 2rem;
+    gap: 2rem;
   }
 
   .page {
@@ -142,7 +158,7 @@
   }
 
   .bf-num {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Monument Extended', sans-serif;
     font-size: 5.5rem;
     font-weight: 800;
     line-height: 0.9;
@@ -151,7 +167,7 @@
   }
 
   .bf-pct {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Monument Extended', sans-serif;
     font-size: 2rem;
     font-weight: 800;
     color: #ddd;
@@ -266,7 +282,7 @@
 
   /* -- COMPOSITION CARD (right) -- */
   .comp-total {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Monument Extended', sans-serif;
     font-size: 2.4rem;
     font-weight: 800;
     color: var(--pri);
@@ -364,7 +380,7 @@
   }
 
   .crow-num {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Monument Extended', sans-serif;
     font-size: 1.5rem;
     font-weight: 800;
     color: var(--pri);
@@ -510,6 +526,349 @@
 
   .ftr-r span { display: flex; align-items: center; gap: 5px; }
   .ftr-r svg { width: 11px; height: 11px; }
+
+  /* ===== PAGE 2: SECTIONAL ANALYSIS ===== */
+  .dash-sec {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+  }
+
+  .sec-table-crd {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sec-table {
+    display: grid;
+    grid-template-columns: 56px repeat(5, 1fr);
+    flex: 1;
+    align-content: center;
+  }
+
+  .sec-th {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 8px;
+    gap: 8px;
+  }
+
+  .sec-th-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+
+  .sec-th-name {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--txt);
+  }
+
+  .sec-rl {
+    display: flex;
+    align-items: center;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    padding: 0 4px;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .sec-td {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--txt);
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .sec-td-hero {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 2px;
+    padding: 20px 8px;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .sec-hero-num {
+    font-family: 'Monument Extended', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--pri);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .sec-hero-pct {
+    font-family: 'Monument Extended', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #ccc;
+  }
+
+  .sec-td-lean { background: rgba(0, 122, 255, 0.06); }
+  .sec-td-fat { background: rgba(248, 113, 113, 0.06); }
+
+  .sec-rl-lean { color: var(--acc); }
+  .sec-rl-fat { color: var(--red); }
+  .sec-rl-bone { color: var(--pur); }
+
+  /* -- Insights section -- */
+  .sec-insights {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+
+  .sec-ins {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sec-ins::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .sec-ins-cause::before { background: var(--ylw); }
+  .sec-ins-effect::before { background: var(--red); }
+  .sec-ins-improve::before { background: var(--grn); }
+
+  .sec-ins h4 {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--txt);
+    margin-bottom: 6px;
+  }
+
+  .sec-ins p, .sec-ins ul {
+    font-size: 0.7rem;
+    color: var(--dim);
+    line-height: 1.6;
+  }
+
+  .sec-ins ul {
+    margin: 0;
+    padding-left: 14px;
+  }
+
+  .sec-ins li { margin-bottom: 2px; }
+
+  /* -- Table column variants -- */
+  .sec-table-6 { grid-template-columns: 56px repeat(6, 1fr); }
+  .sec-table-6 .sec-hero-num { font-size: 1.35rem; }
+  .sec-table-6 .sec-hero-pct { font-size: 0.6rem; }
+
+  .sec-table-8 { grid-template-columns: 56px repeat(8, 1fr); }
+  .sec-table-8 .sec-hero-num { font-size: 1.05rem; }
+  .sec-table-8 .sec-hero-pct { font-size: 0.5rem; }
+  .sec-table-8 .sec-td { font-size: 0.75rem; padding: 10px 4px; }
+  .sec-table-8 .sec-th-name { font-size: 0.62rem; }
+  .sec-table-8 .sec-rl { font-size: 0.52rem; }
+
+  /* -- L/R Balance cards -- */
+  .lr-bal { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .lr-bal-card { background: var(--card); border-radius: 14px; padding: 16px 18px; }
+  .lr-bal-name { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--txt); margin-bottom: 8px; }
+  .lr-bar-wrap { display: flex; gap: 3px; height: 8px; margin-bottom: 10px; }
+  .lr-bar-seg { border-radius: 4px; }
+  .lr-bal-verdict { font-size: 0.68rem; font-weight: 700; margin-bottom: 4px; }
+  .lr-bal-desc { font-size: 0.62rem; color: var(--dim); line-height: 1.5; }
+
+  /* ===== PAGE 4: VISCERAL FAT ===== */
+  .vf-top { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .vf-card { background: var(--card); border-radius: 16px; padding: 28px 24px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .vf-num { font-family: 'Monument Extended', sans-serif; font-size: 3.5rem; font-weight: 800; color: var(--pri); line-height: 1; letter-spacing: -0.03em; }
+  .vf-unit { font-size: 0.9rem; color: var(--dim); font-weight: 600; margin-top: 4px; }
+  .vf-tag { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 4px 12px; border-radius: 16px; margin-top: 10px; }
+  .vf-warn { background: var(--card); border-radius: 14px; padding: 16px 20px; border-left: 4px solid var(--red); }
+  .vf-warn p { font-size: 0.72rem; color: var(--dim); line-height: 1.5; }
+  .vf-warn strong { color: var(--txt); }
+
+  /* ===== PAGE 5: BONE HEALTH ===== */
+  .bh-scores { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .bh-score { background: var(--card); border-radius: 14px; padding: 18px 20px; display: flex; align-items: center; gap: 14px; }
+  .bh-score-num { font-family: 'Monument Extended', sans-serif; font-size: 2.4rem; font-weight: 800; color: var(--pri); line-height: 1; }
+  .bh-score-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--dim); }
+  .bh-score-desc { font-size: 0.7rem; color: var(--dim); line-height: 1.4; }
+  .bh-score-tag { display: inline-block; font-size: 0.62rem; font-weight: 700; padding: 3px 10px; border-radius: 12px; margin-top: 4px; }
+  .bh-scale { background: var(--card); border-radius: 14px; padding: 16px 20px; }
+  .bh-scale-bar { height: 12px; border-radius: 6px; background: linear-gradient(90deg, #f87171 0%, #fbbf24 35%, #34d399 65%, #34d399 100%); position: relative; margin: 20px 0 8px; }
+  .bh-scale-dot { position: absolute; top: -6px; width: 24px; height: 24px; background: white; border: 3px solid var(--pri); border-radius: 50%; transform: translateX(-50%); box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+  .bh-scale-labels { display: flex; justify-content: space-between; font-size: 0.62rem; color: var(--dim); font-weight: 600; }
+
+  /* ===== PAGE 6: A/G RATIO ===== */
+  .ag-top { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; flex: 1; }
+  .ag-hero { background: var(--pri); border-radius: 16px; padding: 32px 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: white; }
+  .ag-hero-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.5); margin-bottom: 12px; }
+  .ag-hero-num { font-family: 'Monument Extended', sans-serif; font-size: 4.5rem; font-weight: 800; line-height: 1; letter-spacing: -0.04em; }
+  .ag-hero-sub { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 8px; }
+  .ag-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ag-info-card { background: var(--card); border-radius: 14px; padding: 18px 20px; }
+  .ag-info-card h4 { font-size: 0.82rem; font-weight: 700; color: var(--txt); margin-bottom: 6px; }
+  .ag-info-card p { font-size: 0.7rem; color: var(--dim); line-height: 1.6; }
+  .ag-breakdown { background: var(--card); border-radius: 14px; padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .ag-region { display: flex; align-items: center; gap: 14px; }
+  .ag-region-bar { width: 6px; border-radius: 3px; align-self: stretch; }
+  .ag-region-name { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--dim); }
+  .ag-region-val { font-family: 'Monument Extended', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--pri); line-height: 1; }
+  .ag-region-sub { font-size: 0.68rem; color: var(--dim); }
+
+  /* ===== PAGE 7: RMR REPORT ===== */
+  .rmr-top { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .rmr-hero { background: var(--pri); border-radius: 16px; padding: 28px 24px; color: white; display: flex; flex-direction: column; }
+  .rmr-hero-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
+  .rmr-hero-num { font-family: 'Monument Extended', sans-serif; font-size: 3.8rem; font-weight: 800; line-height: 1; }
+  .rmr-hero-unit { font-size: 0.85rem; color: rgba(255,255,255,0.4); margin-top: 4px; }
+  .rmr-hero-sub { font-size: 0.72rem; color: rgba(255,255,255,0.35); margin-top: auto; line-height: 1.5; }
+  .rmr-tdee { background: var(--card); border-radius: 16px; padding: 20px 24px; display: flex; flex-direction: column; }
+  .rmr-step { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+  .rmr-step:last-child { border-bottom: none; }
+  .rmr-step-txt { font-size: 0.78rem; color: var(--dim); }
+  .rmr-step-txt strong { color: var(--txt); }
+  .rmr-step-val { font-family: 'Monument Extended', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--pri); }
+  .rmr-step-total .rmr-step-val { font-size: 1.4rem; color: var(--acc); }
+  .rmr-circles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .rmr-circ { background: var(--card); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .rmr-circ-ring { width: 100px; height: 100px; border-radius: 50%; border: 4px solid; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 10px; }
+  .rmr-circ-num { font-family: 'Monument Extended', sans-serif; font-size: 1.3rem; font-weight: 800; color: var(--pri); line-height: 1; }
+  .rmr-circ-unit { font-size: 0.55rem; color: var(--dim); }
+  .rmr-circ-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--txt); margin-bottom: 4px; }
+  .rmr-circ-desc { font-size: 0.62rem; color: var(--dim); line-height: 1.4; }
+  .rmr-factors { background: var(--card); border-radius: 14px; padding: 18px 20px; }
+  .rmr-factors-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .rmr-factor h5 { font-size: 0.75rem; font-weight: 700; color: var(--txt); margin-bottom: 2px; }
+  .rmr-factor p { font-size: 0.62rem; color: var(--dim); line-height: 1.4; }
+
+  /* ===== PAGE 8: MACROS ===== */
+  .mac-info { background: var(--card); border-radius: 14px; padding: 18px 20px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .mac-info h4 { font-size: 0.82rem; font-weight: 700; color: var(--txt); margin-bottom: 6px; }
+  .mac-info p { font-size: 0.7rem; color: var(--dim); line-height: 1.6; }
+  .mac-rows { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .mac-row { background: var(--card); border-radius: 14px; padding: 20px 24px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; flex: 1; position: relative; overflow: hidden; }
+  .mac-row::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 4px; }
+  .mac-row-lose::before { background: var(--red); }
+  .mac-row-maintain::before { background: var(--acc); }
+  .mac-row-gain::before { background: var(--grn); }
+  .mac-row h4 { font-size: 0.85rem; font-weight: 700; color: var(--txt); margin-bottom: 4px; }
+  .mac-row p { font-size: 0.7rem; color: var(--dim); line-height: 1.5; }
+  .mac-macros { display: flex; gap: 14px; }
+  .mac-circ { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .mac-circ-ring { width: 68px; height: 68px; border-radius: 50%; border: 3px solid; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .mac-circ-num { font-family: 'Monument Extended', sans-serif; font-size: 1rem; font-weight: 800; color: var(--pri); line-height: 1; }
+  .mac-circ-unit { font-size: 0.45rem; color: var(--dim); }
+  .mac-circ-label { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--dim); }
+
+  /* ===== VISCERAL FAT ENHANCEMENTS ===== */
+  .vf-sections { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .vf-section { background: var(--card); border-radius: 16px; padding: 20px; position: relative; overflow: hidden; }
+  .vf-section::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 4px; }
+  .vf-section-vis::before { background: var(--red); }
+  .vf-section-sub::before { background: var(--acc); }
+  .vf-section-title { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+  .vf-metrics { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .vf-met { text-align: center; }
+  .vf-met-label { font-size: 0.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--dim); margin-bottom: 4px; }
+  .vf-met-num { font-family: 'Monument Extended', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--pri); line-height: 1; }
+  .vf-met-unit { font-size: 0.65rem; color: var(--dim); font-weight: 600; margin-top: 2px; }
+  .vf-scale-section { background: var(--card); border-radius: 14px; padding: 16px 20px; }
+  .vf-scale-bar { height: 14px; border-radius: 7px; background: linear-gradient(90deg, #34d399 0%, #6ee7b7 25%, #fbbf24 50%, #fb923c 75%, #f87171 100%); position: relative; margin: 20px 0 8px; }
+  .vf-scale-dot { position: absolute; top: -5px; width: 24px; height: 24px; background: white; border: 3px solid var(--pri); border-radius: 50%; transform: translateX(-50%); box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+  .vf-scale-you { position: absolute; top: -22px; transform: translateX(-50%); font-size: 0.6rem; font-weight: 800; text-transform: uppercase; color: var(--pri); letter-spacing: 0.06em; }
+  .vf-scale-labels { display: flex; justify-content: space-between; font-size: 0.58rem; color: var(--dim); font-weight: 600; }
+
+  /* ===== RMR LIFESTYLE FACTORS ===== */
+  .rmr-lf { background: var(--card); border-radius: 14px; padding: 16px 20px; }
+  .rmr-lf-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f5f5f5; }
+  .rmr-lf-row:last-child { border-bottom: none; }
+  .rmr-lf-info { display: flex; flex-direction: column; }
+  .rmr-lf-name { font-size: 0.75rem; font-weight: 700; color: var(--txt); }
+  .rmr-lf-desc { font-size: 0.58rem; color: var(--dim); }
+  .rmr-lf-val { font-family: 'Monument Extended', sans-serif; font-size: 0.9rem; font-weight: 800; color: var(--pri); }
+  .rmr-lf-active { background: rgba(0,122,255,0.06); border-radius: 8px; padding: 8px 12px; margin: 0 -12px; }
+
+  /* ===== RMR PAGE 2: ESTIMATED CALORIES ===== */
+  .rmr-info-grid { background: var(--card); border-radius: 14px; padding: 18px 20px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .rmr-info-grid h4 { font-size: 0.82rem; font-weight: 700; color: var(--txt); margin-bottom: 6px; }
+  .rmr-info-grid p, .rmr-info-grid ul { font-size: 0.68rem; color: var(--dim); line-height: 1.6; }
+  .rmr-info-grid ul { margin: 0; padding-left: 14px; }
+  .rmr-cal { background: var(--card); border-radius: 14px; padding: 16px 20px; flex: 1; }
+  .rmr-cal-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #f5f5f5; }
+  .rmr-cal-row:last-child { border-bottom: none; }
+  .rmr-cal-name { font-size: 0.72rem; color: var(--txt); font-weight: 500; }
+  .rmr-cal-val { font-family: 'Monument Extended', sans-serif; font-size: 0.82rem; font-weight: 800; color: var(--pri); }
+  .rmr-compare { background: var(--card); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .rmr-compare-num { font-family: 'Monument Extended', sans-serif; font-size: 2.8rem; font-weight: 800; color: var(--grn); line-height: 1; }
+  .rmr-compare-label { font-size: 0.72rem; color: var(--dim); font-weight: 600; margin-top: 6px; line-height: 1.5; }
+
+  /* ===== X-RAY / BODY FAT TRENDS PAGE ===== */
+  .xr-target { background: var(--card); border-radius: 14px; padding: 16px 20px; }
+  .xr-target-text { font-size: 0.78rem; color: var(--txt); line-height: 1.5; }
+  .xr-target-text strong { color: var(--acc); }
+  .xr-scale-desc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .xr-sd { background: var(--card); border-radius: 10px; padding: 12px 14px; }
+  .xr-sd-name { font-size: 0.72rem; font-weight: 700; display: flex; align-items: center; gap: 6px; margin-bottom: 4px; color: var(--txt); }
+  .xr-sd-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .xr-sd p { font-size: 0.62rem; color: var(--dim); line-height: 1.5; }
+  .xr-scans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; flex: 1; }
+  .xr-scan { background: var(--card); border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
+  .xr-scan-img { flex: 1; background: linear-gradient(180deg, #e0f2fe 0%, #dbeafe 30%, #fce7f3 70%, #fce4ec 100%); display: flex; align-items: center; justify-content: center; min-height: 220px; position: relative; }
+  .xr-scan-img::after { content: 'DEXA Scan'; font-size: 0.6rem; color: rgba(0,0,0,0.15); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+  .xr-scan-date { padding: 10px; font-size: 0.72rem; font-weight: 700; color: var(--txt); text-align: center; }
+
+  /* ===== TREND PAGES ===== */
+  .tr-desc { font-size: 0.65rem; color: var(--dim); line-height: 1.5; margin-bottom: 6px; }
+  .tr-block { margin-bottom: 4px; }
+  .tr-title { font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: var(--txt); margin-bottom: 4px; }
+  .tr-content { display: grid; grid-template-columns: 200px 1fr; gap: 8px; }
+  .tr-chart { background: var(--card); border-radius: 10px; padding: 10px; }
+  .tc-svg { width: 100%; height: 70px; }
+  .tr-x-labels { display: flex; justify-content: space-between; font-size: 0.42rem; color: var(--dim); margin-top: 2px; }
+  .tr-tables { display: flex; flex-direction: column; gap: 4px; }
+  .tr-tbl-label { font-size: 0.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--dim); margin-bottom: 1px; }
+  .tr-tbl { width: 100%; border-collapse: collapse; font-size: 0.56rem; }
+  .tr-tbl th { text-align: center; padding: 3px 4px; font-size: 0.46rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--dim); background: var(--bg); }
+  .tr-tbl td { text-align: center; padding: 3px 4px; font-weight: 600; color: var(--txt); border-bottom: 1px solid #f8f8f8; }
+  .tr-tbl td:first-child { color: var(--acc); font-weight: 700; }
+  .tr-tbl-fat td:first-child { color: var(--red); }
+  .tr-tbl .neg { color: var(--red); }
+  .tr-tbl .pos { color: var(--grn); }
+
+  /* ===== STANDALONE TREND TABLE (RMR, Visceral) ===== */
+  .trend-card { background: var(--card); border-radius: 14px; padding: 20px; }
+  .trend-chart-area { background: var(--bg); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+  .trend-svg { width: 100%; height: 140px; }
+  .trend-x { display: flex; justify-content: space-between; font-size: 0.58rem; color: var(--dim); margin-top: 4px; padding: 0 10px; }
+  .trend-tbl { width: 100%; border-collapse: collapse; }
+  .trend-tbl th { padding: 10px 16px; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: white; background: var(--pri); text-align: center; }
+  .trend-tbl th:first-child { border-radius: 8px 0 0 0; }
+  .trend-tbl th:last-child { border-radius: 0 8px 0 0; }
+  .trend-tbl td { padding: 10px 16px; font-size: 0.78rem; font-weight: 600; color: var(--txt); text-align: center; border-bottom: 1px solid #f0f0f0; }
+  .trend-tbl tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+
+  /* ===== DISCLAIMER ===== */
+  .disclaimer { font-size: 0.58rem; color: var(--dim); line-height: 1.5; font-style: italic; padding: 0 4px; }
 </style>
 </head>
 <body>
@@ -677,6 +1036,1307 @@
     </div>
   </div>
 
+</div>
+
+<!-- ==================== PAGE 2: BODY FAT SCALE + X-RAY TRENDS ==================== -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-l">
+      <div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      <span class="hdr-name">bodyinsight</span>
+    </div>
+    <div class="hdr-r"><strong>Body Fat Scale &amp; Trends</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+  <div class="dash-sec">
+    <div class="xr-target">
+      <div class="crd-label">Recommended 60-Day Target</div>
+      <p class="xr-target-text">Recommended <strong>60 DAY TARGET</strong> &mdash; 8.5% body fat at 73.0 kgs. Your current body fat of 9.0% is already in the ultra lean range. Focus on maintaining lean mass while staying healthy.</p>
+    </div>
+    <div style="background:var(--card); border-radius:14px; padding:16px 20px;">
+      <div class="crd-label">Body Fat Scale</div>
+      <div class="scale" style="margin-bottom:16px;">
+        <div class="scale-you" style="left:20.9%;"><span class="scale-you-t">9.0%</span><span class="scale-you-a"></span></div>
+        <div class="scale-bar"></div>
+      </div>
+      <div class="scale-ticks"><span>0%</span><span>7%</span><span>14%</span><span>21%</span><span>28%</span><span>36%</span><span>43%</span></div>
+    </div>
+    <div class="xr-scale-desc">
+      <div class="xr-sd"><div class="xr-sd-name"><span class="xr-sd-dot" style="background:#f87171;"></span>Low Body Fat Risk</div><p>Ask your physician about how to safely increase your body fat.</p></div>
+      <div class="xr-sd"><div class="xr-sd-name"><span class="xr-sd-dot" style="background:#34d399;"></span>Ultra Lean</div><p>This is the body fat often found in the fittest of the elite athletes.</p></div>
+      <div class="xr-sd"><div class="xr-sd-name"><span class="xr-sd-dot" style="background:#6ee7b7;"></span>Lean</div><p>This body fat level is lower than most people and is excellent for health.</p></div>
+      <div class="xr-sd"><div class="xr-sd-name"><span class="xr-sd-dot" style="background:#fbbf24;"></span>Moderate</div><p>This body fat level is what you would find in an average person.</p></div>
+      <div class="xr-sd"><div class="xr-sd-name"><span class="xr-sd-dot" style="background:#fb923c;"></span>Excess Fat</div><p>This body fat level indicates that you might have some excess fat stored in your body.</p></div>
+      <div class="xr-sd"><div class="xr-sd-name"><span class="xr-sd-dot" style="background:#f87171;"></span>High Body Fat Risk</div><p>Ask your healthcare provider about how to safely reduce your body fat.</p></div>
+    </div>
+    <div class="xr-scans">
+      <div class="xr-scan"><div class="xr-scan-img"></div><div class="xr-scan-date">10 Feb 2026</div></div>
+      <div class="xr-scan"><div class="xr-scan-img"></div><div class="xr-scan-date">15 Jan 2025</div></div>
+      <div class="xr-scan"><div class="xr-scan-img"></div><div class="xr-scan-date">20 Nov 2023</div></div>
+      <div class="xr-scan"><div class="xr-scan-img"></div><div class="xr-scan-date">08 Jan 2023</div></div>
+    </div>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l"><span class="ftr-logo">bodyinsight</span><span class="ftr-sep"></span><span class="ftr-tag">Know your body like never before</span></div>
+    <div class="ftr-r">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> support@bodyinsight.in</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> bodyinsight.in</span>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="hdr">
+    <div class="hdr-l">
+      <div class="hdr-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </div>
+      <span class="hdr-name">bodyinsight</span>
+    </div>
+    <div class="hdr-r"><strong>DEXA Sectional Analysis</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+
+  <div class="dash-sec">
+    <div class="sec-table-crd">
+      <div class="crd-label">Regional Analysis</div>
+      <div class="sec-table">
+        <!-- Header row -->
+        <div class="sec-th"></div>
+        <div class="sec-th">
+          <div class="sec-th-dot" style="background: var(--grn);"></div>
+          <div class="sec-th-name">Trunk</div>
+        </div>
+        <div class="sec-th">
+          <div class="sec-th-dot" style="background: var(--red);"></div>
+          <div class="sec-th-name">Android</div>
+        </div>
+        <div class="sec-th">
+          <div class="sec-th-dot" style="background: var(--acc);"></div>
+          <div class="sec-th-name">Arms</div>
+        </div>
+        <div class="sec-th">
+          <div class="sec-th-dot" style="background: var(--pur);"></div>
+          <div class="sec-th-name">Gynoid</div>
+        </div>
+        <div class="sec-th">
+          <div class="sec-th-dot" style="background: var(--ylw);"></div>
+          <div class="sec-th-name">Legs</div>
+        </div>
+
+        <!-- Fat % row -->
+        <div class="sec-rl">Fat %</div>
+        <div class="sec-td-hero"><span class="sec-hero-num">10.1</span><span class="sec-hero-pct">%</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">12.3</span><span class="sec-hero-pct">%</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">8.0</span><span class="sec-hero-pct">%</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">9.5</span><span class="sec-hero-pct">%</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">9.2</span><span class="sec-hero-pct">%</span></div>
+
+        <!-- Total row -->
+        <div class="sec-rl">Total</div>
+        <div class="sec-td">30.0 kg</div>
+        <div class="sec-td">3.7 kg</div>
+        <div class="sec-td">9.5 kg</div>
+        <div class="sec-td">8.8 kg</div>
+        <div class="sec-td">23.5 kg</div>
+
+        <!-- Lean row -->
+        <div class="sec-rl sec-rl-lean">Lean</div>
+        <div class="sec-td sec-td-lean">26.4 kg</div>
+        <div class="sec-td sec-td-lean">3.2 kg</div>
+        <div class="sec-td sec-td-lean">8.4 kg</div>
+        <div class="sec-td sec-td-lean">7.8 kg</div>
+        <div class="sec-td sec-td-lean">20.7 kg</div>
+
+        <!-- Fat row -->
+        <div class="sec-rl sec-rl-fat">Fat</div>
+        <div class="sec-td sec-td-fat">2.96 kg</div>
+        <div class="sec-td sec-td-fat">0.45 kg</div>
+        <div class="sec-td sec-td-fat">0.73 kg</div>
+        <div class="sec-td sec-td-fat">0.82 kg</div>
+        <div class="sec-td sec-td-fat">2.11 kg</div>
+
+        <!-- Bone row -->
+        <div class="sec-rl sec-rl-bone">Bone</div>
+        <div class="sec-td">0.64 kg</div>
+        <div class="sec-td">0.05 kg</div>
+        <div class="sec-td">0.37 kg</div>
+        <div class="sec-td">0.18 kg</div>
+        <div class="sec-td">0.69 kg</div>
+      </div>
+    </div>
+
+    <!-- Insights -->
+    <div class="sec-insights">
+      <div class="sec-ins sec-ins-cause">
+        <h4>Causes of imbalance</h4>
+        <p>Movement patterns, posture, and repeated motions can create regional imbalances in muscle tone and fat distribution over time.</p>
+      </div>
+      <div class="sec-ins sec-ins-effect">
+        <h4>How does it affect you?</h4>
+        <p>Regional imbalances may contribute to musculoskeletal strain, compensatory movement patterns, and increased injury risk.</p>
+      </div>
+      <div class="sec-ins sec-ins-improve">
+        <h4>How to improve?</h4>
+        <ul>
+          <li>Balanced resistance training</li>
+          <li>Stretching &amp; mobility work</li>
+          <li>Physiotherapy assessment</li>
+          <li>Corrective exercises</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="ftr">
+    <div class="ftr-l">
+      <span class="ftr-logo">bodyinsight</span>
+      <span class="ftr-sep"></span>
+      <span class="ftr-tag">Know your body like never before</span>
+    </div>
+    <div class="ftr-r">
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        support@bodyinsight.in
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        bodyinsight.in
+      </span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== PAGE 3: LEFT VS RIGHT SYMMETRY ==================== -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-l">
+      <div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      <span class="hdr-name">bodyinsight</span>
+    </div>
+    <div class="hdr-r"><strong>Left vs Right Symmetry</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+  <div class="dash-sec">
+    <div class="sec-table-crd">
+      <div class="crd-label">Left vs Right Symmetry</div>
+      <div class="sec-table sec-table-6">
+        <div class="sec-th"></div>
+        <div class="sec-th"><div class="sec-th-dot" style="background: var(--acc);"></div><div class="sec-th-name">Left Arm</div></div>
+        <div class="sec-th"><div class="sec-th-dot" style="background: var(--acc);"></div><div class="sec-th-name">Right Arm</div></div>
+        <div class="sec-th"><div class="sec-th-dot" style="background: var(--ylw);"></div><div class="sec-th-name">Left Leg</div></div>
+        <div class="sec-th"><div class="sec-th-dot" style="background: var(--ylw);"></div><div class="sec-th-name">Right Leg</div></div>
+        <div class="sec-th"><div class="sec-th-dot" style="background: var(--grn);"></div><div class="sec-th-name">Left Trunk</div></div>
+        <div class="sec-th"><div class="sec-th-dot" style="background: var(--grn);"></div><div class="sec-th-name">Right Trunk</div></div>
+        <div class="sec-rl">Fat %</div>
+        <div class="sec-td-hero"><span class="sec-hero-num">8.2</span><span class="sec-hero-pct">%</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">7.8</span><span class="sec-hero-pct">%</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">9.4</span><span class="sec-hero-pct">%</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">9.1</span><span class="sec-hero-pct">%</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">10.3</span><span class="sec-hero-pct">%</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">9.9</span><span class="sec-hero-pct">%</span></div>
+        <div class="sec-rl">Total</div>
+        <div class="sec-td">4.7 kg</div><div class="sec-td">4.8 kg</div><div class="sec-td">11.5 kg</div><div class="sec-td">11.8 kg</div><div class="sec-td">15.1 kg</div><div class="sec-td">14.9 kg</div>
+        <div class="sec-rl sec-rl-lean">Lean</div>
+        <div class="sec-td sec-td-lean">4.1 kg</div><div class="sec-td sec-td-lean">4.3 kg</div><div class="sec-td sec-td-lean">10.2 kg</div><div class="sec-td sec-td-lean">10.5 kg</div><div class="sec-td sec-td-lean">13.2 kg</div><div class="sec-td sec-td-lean">13.2 kg</div>
+        <div class="sec-rl sec-rl-fat">Fat</div>
+        <div class="sec-td sec-td-fat">0.37 kg</div><div class="sec-td sec-td-fat">0.36 kg</div><div class="sec-td sec-td-fat">1.06 kg</div><div class="sec-td sec-td-fat">1.05 kg</div><div class="sec-td sec-td-fat">1.53 kg</div><div class="sec-td sec-td-fat">1.43 kg</div>
+        <div class="sec-rl sec-rl-bone">Bone</div>
+        <div class="sec-td">0.23 kg</div><div class="sec-td">0.14 kg</div><div class="sec-td">0.24 kg</div><div class="sec-td">0.25 kg</div><div class="sec-td">0.37 kg</div><div class="sec-td">0.27 kg</div>
+      </div>
+    </div>
+    <div class="lr-bal">
+      <div class="lr-bal-card">
+        <div class="lr-bal-name">Arms</div>
+        <div class="lr-bar-wrap">
+          <div class="lr-bar-seg" style="background: var(--acc); flex: 8.2;"></div>
+          <div class="lr-bar-seg" style="background: rgba(0,122,255,0.3); flex: 7.8;"></div>
+        </div>
+        <div class="lr-bal-verdict" style="color: #059669;">Good balance</div>
+        <div class="lr-bal-desc">Similar lean mass on both sides. No corrective action needed.</div>
+      </div>
+      <div class="lr-bal-card">
+        <div class="lr-bal-name">Legs</div>
+        <div class="lr-bar-wrap">
+          <div class="lr-bar-seg" style="background: var(--ylw); flex: 9.4;"></div>
+          <div class="lr-bar-seg" style="background: rgba(251,191,36,0.3); flex: 9.1;"></div>
+        </div>
+        <div class="lr-bal-verdict" style="color: #059669;">Good balance</div>
+        <div class="lr-bal-desc">Symmetrical development indicates balanced training.</div>
+      </div>
+      <div class="lr-bal-card">
+        <div class="lr-bal-name">Trunk</div>
+        <div class="lr-bar-wrap">
+          <div class="lr-bar-seg" style="background: var(--grn); flex: 10.3;"></div>
+          <div class="lr-bar-seg" style="background: rgba(52,211,153,0.3); flex: 9.9;"></div>
+        </div>
+        <div class="lr-bal-verdict" style="color: #059669;">Good balance</div>
+        <div class="lr-bal-desc">Even distribution. Keep maintaining balanced movement.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l"><span class="ftr-logo">bodyinsight</span><span class="ftr-sep"></span><span class="ftr-tag">Know your body like never before</span></div>
+    <div class="ftr-r">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> support@bodyinsight.in</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> bodyinsight.in</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 4: VISCERAL & SUBCUTANEOUS FAT ==================== -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-l">
+      <div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      <span class="hdr-name">bodyinsight</span>
+    </div>
+    <div class="hdr-r"><strong>Visceral &amp; Subcutaneous Fat</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+  <div class="dash-sec">
+    <div class="crd-label">Visceral &amp; Subcutaneous Fat Analysis</div>
+    <div class="vf-sections">
+      <div class="vf-section vf-section-vis">
+        <div class="vf-section-title" style="color: var(--red);">Visceral Fat</div>
+        <div class="vf-metrics">
+          <div class="vf-met"><div class="vf-met-label">Mass</div><div class="vf-met-num">185</div><div class="vf-met-unit">grams</div></div>
+          <div class="vf-met"><div class="vf-met-label">Volume</div><div class="vf-met-num">202</div><div class="vf-met-unit">cm&sup3;</div></div>
+          <div class="vf-met"><div class="vf-met-label">Area</div><div class="vf-met-num">38.2</div><div class="vf-met-unit">cm&sup2;</div></div>
+        </div>
+        <div style="text-align:center; margin-top:10px;"><span class="vf-tag" style="background:#d1fae5; color:#065f46;">Safe range</span></div>
+      </div>
+      <div class="vf-section vf-section-sub">
+        <div class="vf-section-title" style="color: var(--acc);">Subcutaneous Fat</div>
+        <div class="vf-metrics">
+          <div class="vf-met"><div class="vf-met-label">Mass</div><div class="vf-met-num">5.8</div><div class="vf-met-unit">kg</div></div>
+          <div class="vf-met"><div class="vf-met-label">Volume</div><div class="vf-met-num">6340</div><div class="vf-met-unit">cm&sup3;</div></div>
+          <div class="vf-met"><div class="vf-met-label">Area</div><div class="vf-met-num">298</div><div class="vf-met-unit">cm&sup2;</div></div>
+        </div>
+        <div style="text-align:center; margin-top:10px;"><span class="vf-tag" style="background:#dbeafe; color:#1e40af;">88% of total fat</span></div>
+      </div>
+    </div>
+    <div class="vf-scale-section">
+      <div class="crd-label">Visceral Fat Health Scale</div>
+      <div class="vf-scale-bar">
+        <div class="vf-scale-you" style="left:18.5%;">You</div>
+        <div class="vf-scale-dot" style="left:18.5%;"></div>
+      </div>
+      <div class="vf-scale-labels"><span>0g &mdash; Safe</span><span>250g &mdash; Moderate</span><span>500g &mdash; High</span><span>750g+ &mdash; Very High</span></div>
+    </div>
+    <div class="vf-warn">
+      <p><strong>Your visceral fat of 185g is within the safe range (&lt;250g).</strong> This indicates healthy levels of internal abdominal fat. Continue maintaining your current lifestyle and exercise routine.</p>
+    </div>
+    <div class="sec-insights">
+      <div class="sec-ins sec-ins-cause">
+        <h4>Types of fat</h4>
+        <p><strong>Essential fat</strong> is found in your brain, bone marrow, and nerves. <strong>Subcutaneous fat</strong> is stored under the skin &mdash; it&rsquo;s the fat you can squeeze. <strong>Visceral fat</strong> surrounds abdominal organs like the liver, kidneys, and heart.</p>
+      </div>
+      <div class="sec-ins sec-ins-effect">
+        <h4>Harmful effects</h4>
+        <p>Excess visceral fat is linked to Type-2 diabetes, heart attacks, stroke, raised blood pressure, Alzheimer&rsquo;s disease, and colorectal cancer. It&rsquo;s more dangerous than subcutaneous fat.</p>
+      </div>
+      <div class="sec-ins sec-ins-improve">
+        <h4>How to reduce it</h4>
+        <ul>
+          <li>Reduce carb &amp; sugar intake</li>
+          <li>Avoid processed foods &amp; trans-fat</li>
+          <li>Reduce alcohol intake</li>
+          <li>Regular cardio &amp; resistance training</li>
+          <li>Consume more protein</li>
+          <li>Improve sleep quality</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l"><span class="ftr-logo">bodyinsight</span><span class="ftr-sep"></span><span class="ftr-tag">Know your body like never before</span></div>
+    <div class="ftr-r">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> support@bodyinsight.in</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> bodyinsight.in</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 5: BONE HEALTH ==================== -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-l">
+      <div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      <span class="hdr-name">bodyinsight</span>
+    </div>
+    <div class="hdr-r"><strong>Bone Health</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+  <div class="dash-sec">
+    <div class="sec-table-crd">
+      <div class="crd-label">Bone Mineral Density</div>
+      <div class="sec-table sec-table-8">
+        <div class="sec-th"></div>
+        <div class="sec-th"><div class="sec-th-dot" style="background: var(--pur);"></div><div class="sec-th-name">Head</div></div>
+        <div class="sec-th"><div class="sec-th-dot" style="background: var(--acc);"></div><div class="sec-th-name">Arms</div></div>
+        <div class="sec-th"><div class="sec-th-dot" style="background: var(--ylw);"></div><div class="sec-th-name">Legs</div></div>
+        <div class="sec-th"><div class="sec-th-dot" style="background: var(--grn);"></div><div class="sec-th-name">Trunk</div></div>
+        <div class="sec-th"><div class="sec-th-dot" style="background: var(--red);"></div><div class="sec-th-name">Ribs</div></div>
+        <div class="sec-th"><div class="sec-th-dot" style="background: var(--acc);"></div><div class="sec-th-name">Spine</div></div>
+        <div class="sec-th"><div class="sec-th-dot" style="background: var(--pur);"></div><div class="sec-th-name">Pelvis</div></div>
+        <div class="sec-th"><div class="sec-th-dot" style="background: var(--pri);"></div><div class="sec-th-name">Total</div></div>
+        <div class="sec-rl">BMD</div>
+        <div class="sec-td-hero"><span class="sec-hero-num">2.31</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">0.85</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">1.42</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">0.98</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">0.76</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">1.22</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">1.19</span></div>
+        <div class="sec-td-hero"><span class="sec-hero-num">1.25</span></div>
+        <div class="sec-rl">T-Score</div>
+        <div class="sec-td">-</div><div class="sec-td">-</div><div class="sec-td">-</div><div class="sec-td">-</div><div class="sec-td">-</div><div class="sec-td">-</div><div class="sec-td">-</div><div class="sec-td" style="font-weight:700;">1.2</div>
+        <div class="sec-rl">Z-Score</div>
+        <div class="sec-td">-</div><div class="sec-td">-</div><div class="sec-td">-</div><div class="sec-td">-</div><div class="sec-td">-</div><div class="sec-td">-</div><div class="sec-td">-</div><div class="sec-td" style="font-weight:700;">1.4</div>
+      </div>
+    </div>
+    <div class="bh-scores">
+      <div class="bh-score">
+        <div class="bh-score-num">1.2</div>
+        <div>
+          <div class="bh-score-label">T-Score (Young Adult)</div>
+          <div class="bh-score-desc">Compares bone mass to a healthy 30-year-old</div>
+          <span class="bh-score-tag" style="background: #d1fae5; color: #065f46;">Normal</span>
+        </div>
+      </div>
+      <div class="bh-score">
+        <div class="bh-score-num">1.4</div>
+        <div>
+          <div class="bh-score-label">Z-Score (Age Matched)</div>
+          <div class="bh-score-desc">Compares bone mass to others your age</div>
+          <span class="bh-score-tag" style="background: #d1fae5; color: #065f46;">Above average</span>
+        </div>
+      </div>
+    </div>
+    <div class="bh-scale">
+      <div class="crd-label">Bone Density Comparison</div>
+      <div class="bh-scale-bar"><div class="bh-scale-dot" style="left: 72%;"></div></div>
+      <div class="bh-scale-labels"><span>&lt; Lower</span><span>Average</span><span>Higher &gt;</span></div>
+    </div>
+    <div class="sec-insights">
+      <div class="sec-ins sec-ins-cause">
+        <h4>What is T-Score &amp; Z-Score?</h4>
+        <p><strong>T-Score</strong> compares your bone mass to a healthy young adult. <strong>Z-Score</strong> compares to others your age. A T-Score below -2.5 indicates osteoporosis.</p>
+      </div>
+      <div class="sec-ins sec-ins-effect">
+        <h4>When to be concerned?</h4>
+        <p>T-Score below -1 indicates osteopenia (weaker bones). Below -2.5 is osteoporosis. Consult a doctor if your scores are low.</p>
+      </div>
+      <div class="sec-ins sec-ins-improve">
+        <h4>How to improve?</h4>
+        <ul>
+          <li>Calcium &amp; Vitamin D</li>
+          <li>Weight-bearing exercise</li>
+          <li>Avoid smoking &amp; excess alcohol</li>
+          <li>Resistance training</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l"><span class="ftr-logo">bodyinsight</span><span class="ftr-sep"></span><span class="ftr-tag">Know your body like never before</span></div>
+    <div class="ftr-r">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> support@bodyinsight.in</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> bodyinsight.in</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 6: ANDROID-GYNOID RATIO ==================== -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-l">
+      <div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      <span class="hdr-name">bodyinsight</span>
+    </div>
+    <div class="hdr-r"><strong>Android-Gynoid Ratio</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+  <div class="dash-sec">
+    <div class="ag-top">
+      <div class="ag-hero">
+        <div class="ag-hero-label">Your A/G Ratio</div>
+        <div class="ag-hero-num">1.29</div>
+        <div class="ag-hero-sub">Also known as Waist to Hip Ratio</div>
+      </div>
+      <div class="ag-info">
+        <div class="ag-info-card">
+          <h4>What is A/G Ratio?</h4>
+          <p>The ratio of fat percentage in your Android (belly) region to your Gynoid (hip) region. It uses fat % instead of inches for accuracy, since someone with more muscle may still have a wider waist.</p>
+        </div>
+        <div class="ag-info-card">
+          <h4>What is its significance?</h4>
+          <p>A ratio below 1.0 is ideal &mdash; it means you carry less fat around your belly than your hips. Values above 1.0 correlate with higher visceral fat and metabolic risk. Your goal is to bring this below 1.0.</p>
+        </div>
+        <div class="ag-info-card">
+          <h4>Less than 1.0</h4>
+          <p>Associated with pear, hourglass body shapes. Lower risk of metabolic syndrome and cardiovascular disease. This is the desirable range.</p>
+        </div>
+        <div class="ag-info-card">
+          <h4>Greater than 1.0</h4>
+          <p>Associated with apple, rectangular body shapes. Higher prevalence of visceral fat. Focus on reducing abdominal fat through diet and core-focused training.</p>
+        </div>
+      </div>
+    </div>
+    <div class="ag-breakdown">
+      <div class="ag-region">
+        <div class="ag-region-bar" style="background: var(--red);"></div>
+        <div>
+          <div class="ag-region-name">Android (Belly)</div>
+          <div class="ag-region-val">12.3<span style="font-size:0.7rem; color:var(--dim); font-family:'DM Sans',sans-serif; font-weight:600;">%</span></div>
+          <div class="ag-region-sub">Fat: 0.45 kg &middot; Lean: 3.2 kg</div>
+        </div>
+      </div>
+      <div class="ag-region">
+        <div class="ag-region-bar" style="background: var(--pur);"></div>
+        <div>
+          <div class="ag-region-name">Gynoid (Hip)</div>
+          <div class="ag-region-val">9.5<span style="font-size:0.7rem; color:var(--dim); font-family:'DM Sans',sans-serif; font-weight:600;">%</span></div>
+          <div class="ag-region-sub">Fat: 0.82 kg &middot; Lean: 7.8 kg</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l"><span class="ftr-logo">bodyinsight</span><span class="ftr-sep"></span><span class="ftr-tag">Know your body like never before</span></div>
+    <div class="ftr-r">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> support@bodyinsight.in</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> bodyinsight.in</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 7: RMR REPORT ==================== -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-l">
+      <div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      <span class="hdr-name">bodyinsight</span>
+    </div>
+    <div class="hdr-r"><strong>RMR Report</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+  <div class="dash-sec">
+    <div class="rmr-top">
+      <div class="rmr-hero">
+        <div class="rmr-hero-label">Your Resting Metabolic Rate</div>
+        <div class="rmr-hero-num">1742</div>
+        <div class="rmr-hero-unit">kcal / day</div>
+        <div class="rmr-hero-sub">The number of calories your body burns at complete rest. This is the foundation of your nutrition planning.</div>
+      </div>
+      <div class="rmr-tdee">
+        <div class="crd-label">How to use your RMR</div>
+        <div class="rmr-step">
+          <span class="rmr-step-txt">1. Start with your <strong>RMR</strong></span>
+          <span class="rmr-step-val">1742</span>
+        </div>
+        <div class="rmr-step">
+          <span class="rmr-step-txt">2. Add <strong>Lifestyle factor</strong></span>
+          <span class="rmr-step-val">+348</span>
+        </div>
+        <div class="rmr-step">
+          <span class="rmr-step-txt">3. Add <strong>Workout calories</strong></span>
+          <span class="rmr-step-val">+305</span>
+        </div>
+        <div class="rmr-step rmr-step-total">
+          <span class="rmr-step-txt"><strong>Total Daily Energy Expenditure</strong></span>
+          <span class="rmr-step-val">2395</span>
+        </div>
+      </div>
+    </div>
+    <div class="rmr-circles">
+      <div class="rmr-circ">
+        <div class="rmr-circ-ring" style="border-color: var(--grn);">
+          <span class="rmr-circ-num">2895</span>
+          <span class="rmr-circ-unit">kcal</span>
+        </div>
+        <div class="rmr-circ-label">Gain</div>
+        <div class="rmr-circ-desc">+500 caloric surplus for ~0.5 kg/week gain</div>
+      </div>
+      <div class="rmr-circ">
+        <div class="rmr-circ-ring" style="border-color: var(--acc);">
+          <span class="rmr-circ-num">2395</span>
+          <span class="rmr-circ-unit">kcal</span>
+        </div>
+        <div class="rmr-circ-label">Maintain</div>
+        <div class="rmr-circ-desc">Your TDEE &mdash; eat this to maintain weight</div>
+      </div>
+      <div class="rmr-circ">
+        <div class="rmr-circ-ring" style="border-color: var(--red);">
+          <span class="rmr-circ-num">1895</span>
+          <span class="rmr-circ-unit">kcal</span>
+        </div>
+        <div class="rmr-circ-label">Lose</div>
+        <div class="rmr-circ-desc">-500 caloric deficit for ~0.5 kg/week loss</div>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div class="rmr-lf">
+        <div class="crd-label">Lifestyle Factor Breakdown</div>
+        <div class="rmr-lf-row"><div class="rmr-lf-info"><div class="rmr-lf-name">Sedentary</div><div class="rmr-lf-desc">Desk job, minimal movement</div></div><div class="rmr-lf-val">+174</div></div>
+        <div class="rmr-lf-row rmr-lf-active"><div class="rmr-lf-info"><div class="rmr-lf-name">Light Activity</div><div class="rmr-lf-desc">Brief walking periods</div></div><div class="rmr-lf-val" style="color:var(--acc);">+348</div></div>
+        <div class="rmr-lf-row"><div class="rmr-lf-info"><div class="rmr-lf-name">Moderate Activity</div><div class="rmr-lf-desc">Long, frequent walks</div></div><div class="rmr-lf-val">+523</div></div>
+        <div class="rmr-lf-row"><div class="rmr-lf-info"><div class="rmr-lf-name">Very Active</div><div class="rmr-lf-desc">Labour intensive work</div></div><div class="rmr-lf-val">+697</div></div>
+        <div class="rmr-lf-row"><div class="rmr-lf-info"><div class="rmr-lf-name">Extra Intensive</div><div class="rmr-lf-desc">Prolonged, intense labour</div></div><div class="rmr-lf-val">+871</div></div>
+      </div>
+      <div class="rmr-factors">
+        <div class="crd-label">Factors that contribute to RMR</div>
+        <div class="rmr-factors-grid" style="grid-template-columns:1fr 1fr;">
+          <div class="rmr-factor"><h5>Body Size</h5><p>Higher total body mass requires more calories to maintain.</p></div>
+          <div class="rmr-factor"><h5>Body Composition</h5><p>More muscle mass burns more calories at rest than fat tissue.</p></div>
+          <div class="rmr-factor"><h5>Gender &amp; Age</h5><p>Men have higher RMR. Metabolism slows naturally with age.</p></div>
+          <div class="rmr-factor"><h5>Environment</h5><p>Extreme temperatures force the body to work harder to maintain homeostasis.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l"><span class="ftr-logo">bodyinsight</span><span class="ftr-sep"></span><span class="ftr-tag">Know your body like never before</span></div>
+    <div class="ftr-r">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> support@bodyinsight.in</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> bodyinsight.in</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 8: MACROS ==================== -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-l">
+      <div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      <span class="hdr-name">bodyinsight</span>
+    </div>
+    <div class="hdr-r"><strong>Macros Report</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+  <div class="dash-sec">
+    <div class="mac-info">
+      <div>
+        <h4>What are Macros?</h4>
+        <p>Short for macronutrients &mdash; the three categories of nutrients you eat the most: carbohydrates, fats, and protein. They provide most of your energy.</p>
+      </div>
+      <div>
+        <h4>Why is it important?</h4>
+        <p>Counting macros helps you understand where your calories come from and how they affect your body. Not all calories are created equal.</p>
+      </div>
+      <div>
+        <h4>Is it worth counting?</h4>
+        <p>Yes &mdash; it helps you stay full, increase fat loss, and increase gains in lean mass. But also focus on vitamins, minerals, and whole foods.</p>
+      </div>
+    </div>
+    <div class="mac-rows">
+      <div class="mac-row mac-row-lose">
+        <div>
+          <h4>Macros for weight loss</h4>
+          <p>Based on 1895 kcal/day. A 500-calorie deficit to lose ~0.5 kg/week while retaining muscle mass.</p>
+        </div>
+        <div class="mac-macros">
+          <div class="mac-circ">
+            <div class="mac-circ-ring" style="border-color: var(--acc);"><span class="mac-circ-num">147</span><span class="mac-circ-unit">g</span></div>
+            <span class="mac-circ-label">Protein</span>
+          </div>
+          <div class="mac-circ">
+            <div class="mac-circ-ring" style="border-color: var(--grn);"><span class="mac-circ-num">201</span><span class="mac-circ-unit">g</span></div>
+            <span class="mac-circ-label">Carbs</span>
+          </div>
+          <div class="mac-circ">
+            <div class="mac-circ-ring" style="border-color: var(--ylw);"><span class="mac-circ-num">56</span><span class="mac-circ-unit">g</span></div>
+            <span class="mac-circ-label">Fat</span>
+          </div>
+        </div>
+      </div>
+      <div class="mac-row mac-row-maintain">
+        <div>
+          <h4>Macros to maintain weight</h4>
+          <p>Based on 2395 kcal/day. Maintain current body weight while supporting training and recovery.</p>
+        </div>
+        <div class="mac-macros">
+          <div class="mac-circ">
+            <div class="mac-circ-ring" style="border-color: var(--acc);"><span class="mac-circ-num">147</span><span class="mac-circ-unit">g</span></div>
+            <span class="mac-circ-label">Protein</span>
+          </div>
+          <div class="mac-circ">
+            <div class="mac-circ-ring" style="border-color: var(--grn);"><span class="mac-circ-num">301</span><span class="mac-circ-unit">g</span></div>
+            <span class="mac-circ-label">Carbs</span>
+          </div>
+          <div class="mac-circ">
+            <div class="mac-circ-ring" style="border-color: var(--ylw);"><span class="mac-circ-num">67</span><span class="mac-circ-unit">g</span></div>
+            <span class="mac-circ-label">Fat</span>
+          </div>
+        </div>
+      </div>
+      <div class="mac-row mac-row-gain">
+        <div>
+          <h4>Macros for weight gain</h4>
+          <p>Based on 2895 kcal/day. A 500-calorie surplus to gain ~0.5 kg/week while minimizing fat gain.</p>
+        </div>
+        <div class="mac-macros">
+          <div class="mac-circ">
+            <div class="mac-circ-ring" style="border-color: var(--acc);"><span class="mac-circ-num">147</span><span class="mac-circ-unit">g</span></div>
+            <span class="mac-circ-label">Protein</span>
+          </div>
+          <div class="mac-circ">
+            <div class="mac-circ-ring" style="border-color: var(--grn);"><span class="mac-circ-num">397</span><span class="mac-circ-unit">g</span></div>
+            <span class="mac-circ-label">Carbs</span>
+          </div>
+          <div class="mac-circ">
+            <div class="mac-circ-ring" style="border-color: var(--ylw);"><span class="mac-circ-num">80</span><span class="mac-circ-unit">g</span></div>
+            <span class="mac-circ-label">Fat</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l"><span class="ftr-logo">bodyinsight</span><span class="ftr-sep"></span><span class="ftr-tag">Know your body like never before</span></div>
+    <div class="ftr-r">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> support@bodyinsight.in</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> bodyinsight.in</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE: LEAN TISSUE TRENDS 1 (Arms, Legs, Trunk) ==================== -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-name">bodyinsight</span></div>
+    <div class="hdr-r"><strong>Lean Tissue Trends</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+  <div class="dash-sec">
+    <div class="crd-label">Regional Lean Tissue Trends</div>
+    <p class="tr-desc">The following show how lean tissue amounts in different regions of your body have changed over time. Each individual will gain and lose lean tissue differently.</p>
+
+    <!-- ARMS -->
+    <div class="tr-block">
+      <div class="tr-title">Arms</div>
+      <div class="tr-content">
+        <div class="tr-chart">
+          <svg class="tc-svg" viewBox="0 0 240 70"><line x1="0" y1="65" x2="240" y2="65" stroke="#e5e7eb" stroke-width="0.5"/><line x1="0" y1="35" x2="240" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="2"/><polyline points="10,62 85,42 160,22 230,5" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="62" r="3" fill="var(--acc)"/><circle cx="85" cy="42" r="3" fill="var(--acc)"/><circle cx="160" cy="22" r="3" fill="var(--acc)"/><circle cx="230" cy="5" r="3" fill="var(--acc)"/></svg>
+          <div class="tr-x-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
+        </div>
+        <div class="tr-tables">
+          <div class="tr-tbl-label">Lean Mass (kgs)</div>
+          <table class="tr-tbl"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>8.4</td><td class="pos">+0.6</td><td class="pos">+0.2</td></tr>
+          <tr><td>15 Jan '25</td><td>8.2</td><td class="pos">+0.4</td><td class="pos">+0.2</td></tr>
+          <tr><td>20 Nov '23</td><td>8.0</td><td class="pos">+0.2</td><td class="pos">+0.2</td></tr>
+          <tr><td>08 Jan '23</td><td>7.8</td><td>baseline</td><td>-</td></tr></table>
+          <div class="tr-tbl-label" style="margin-top:4px;">Lean Percent (%)</div>
+          <table class="tr-tbl"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>88.4</td><td class="pos">+2.2</td><td class="pos">+0.6</td></tr>
+          <tr><td>15 Jan '25</td><td>87.8</td><td class="pos">+1.6</td><td class="pos">+0.8</td></tr>
+          <tr><td>20 Nov '23</td><td>87.0</td><td class="pos">+0.8</td><td class="pos">+0.8</td></tr>
+          <tr><td>08 Jan '23</td><td>86.2</td><td>baseline</td><td>-</td></tr></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEGS -->
+    <div class="tr-block">
+      <div class="tr-title">Legs</div>
+      <div class="tr-content">
+        <div class="tr-chart">
+          <svg class="tc-svg" viewBox="0 0 240 70"><line x1="0" y1="65" x2="240" y2="65" stroke="#e5e7eb" stroke-width="0.5"/><line x1="0" y1="35" x2="240" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="2"/><polyline points="10,62 85,48 160,28 230,5" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="62" r="3" fill="var(--acc)"/><circle cx="85" cy="48" r="3" fill="var(--acc)"/><circle cx="160" cy="28" r="3" fill="var(--acc)"/><circle cx="230" cy="5" r="3" fill="var(--acc)"/></svg>
+          <div class="tr-x-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
+        </div>
+        <div class="tr-tables">
+          <div class="tr-tbl-label">Lean Mass (kgs)</div>
+          <table class="tr-tbl"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>20.7</td><td class="pos">+1.2</td><td class="pos">+0.5</td></tr>
+          <tr><td>15 Jan '25</td><td>20.2</td><td class="pos">+0.7</td><td class="pos">+0.4</td></tr>
+          <tr><td>20 Nov '23</td><td>19.8</td><td class="pos">+0.3</td><td class="pos">+0.3</td></tr>
+          <tr><td>08 Jan '23</td><td>19.5</td><td>baseline</td><td>-</td></tr></table>
+          <div class="tr-tbl-label" style="margin-top:4px;">Lean Percent (%)</div>
+          <table class="tr-tbl"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>88.1</td><td class="pos">+1.3</td><td class="pos">+0.3</td></tr>
+          <tr><td>15 Jan '25</td><td>87.8</td><td class="pos">+1.0</td><td class="pos">+0.6</td></tr>
+          <tr><td>20 Nov '23</td><td>87.2</td><td class="pos">+0.4</td><td class="pos">+0.4</td></tr>
+          <tr><td>08 Jan '23</td><td>86.8</td><td>baseline</td><td>-</td></tr></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRUNK -->
+    <div class="tr-block">
+      <div class="tr-title">Trunk</div>
+      <div class="tr-content">
+        <div class="tr-chart">
+          <svg class="tc-svg" viewBox="0 0 240 70"><line x1="0" y1="65" x2="240" y2="65" stroke="#e5e7eb" stroke-width="0.5"/><line x1="0" y1="35" x2="240" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="2"/><polyline points="10,62 85,48 160,28 230,5" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="62" r="3" fill="var(--acc)"/><circle cx="85" cy="48" r="3" fill="var(--acc)"/><circle cx="160" cy="28" r="3" fill="var(--acc)"/><circle cx="230" cy="5" r="3" fill="var(--acc)"/></svg>
+          <div class="tr-x-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
+        </div>
+        <div class="tr-tables">
+          <div class="tr-tbl-label">Lean Mass (kgs)</div>
+          <table class="tr-tbl"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>26.4</td><td class="pos">+1.6</td><td class="pos">+0.6</td></tr>
+          <tr><td>15 Jan '25</td><td>25.8</td><td class="pos">+1.0</td><td class="pos">+0.6</td></tr>
+          <tr><td>20 Nov '23</td><td>25.2</td><td class="pos">+0.4</td><td class="pos">+0.4</td></tr>
+          <tr><td>08 Jan '23</td><td>24.8</td><td>baseline</td><td>-</td></tr></table>
+          <div class="tr-tbl-label" style="margin-top:4px;">Lean Percent (%)</div>
+          <table class="tr-tbl"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>87.0</td><td class="pos">+2.0</td><td class="pos">+0.8</td></tr>
+          <tr><td>15 Jan '25</td><td>86.2</td><td class="pos">+1.2</td><td class="pos">+0.7</td></tr>
+          <tr><td>20 Nov '23</td><td>85.5</td><td class="pos">+0.5</td><td class="pos">+0.5</td></tr>
+          <tr><td>08 Jan '23</td><td>85.0</td><td>baseline</td><td>-</td></tr></table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l"><span class="ftr-logo">bodyinsight</span><span class="ftr-sep"></span><span class="ftr-tag">Know your body like never before</span></div>
+    <div class="ftr-r">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> support@bodyinsight.in</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> bodyinsight.in</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE: LEAN TISSUE TRENDS 2 (Android, Gynoid, Total) ==================== -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-name">bodyinsight</span></div>
+    <div class="hdr-r"><strong>Lean Tissue Trends</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+  <div class="dash-sec">
+    <!-- ANDROID -->
+    <div class="tr-block">
+      <div class="tr-title">Android</div>
+      <div class="tr-content">
+        <div class="tr-chart">
+          <svg class="tc-svg" viewBox="0 0 240 70"><line x1="0" y1="65" x2="240" y2="65" stroke="#e5e7eb" stroke-width="0.5"/><polyline points="10,62 85,42 160,22 230,5" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="62" r="3" fill="var(--acc)"/><circle cx="85" cy="42" r="3" fill="var(--acc)"/><circle cx="160" cy="22" r="3" fill="var(--acc)"/><circle cx="230" cy="5" r="3" fill="var(--acc)"/></svg>
+          <div class="tr-x-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
+        </div>
+        <div class="tr-tables">
+          <div class="tr-tbl-label">Lean Mass (kgs)</div>
+          <table class="tr-tbl"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>3.2</td><td class="pos">+0.3</td><td class="pos">+0.1</td></tr>
+          <tr><td>15 Jan '25</td><td>3.1</td><td class="pos">+0.2</td><td class="pos">+0.1</td></tr>
+          <tr><td>20 Nov '23</td><td>3.0</td><td class="pos">+0.1</td><td class="pos">+0.1</td></tr>
+          <tr><td>08 Jan '23</td><td>2.9</td><td>baseline</td><td>-</td></tr></table>
+          <div class="tr-tbl-label" style="margin-top:4px;">Lean Percent (%)</div>
+          <table class="tr-tbl"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>85.0</td><td class="pos">+2.0</td><td class="pos">+0.8</td></tr>
+          <tr><td>15 Jan '25</td><td>84.2</td><td class="pos">+1.2</td><td class="pos">+0.7</td></tr>
+          <tr><td>20 Nov '23</td><td>83.5</td><td class="pos">+0.5</td><td class="pos">+0.5</td></tr>
+          <tr><td>08 Jan '23</td><td>83.0</td><td>baseline</td><td>-</td></tr></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- GYNOID -->
+    <div class="tr-block">
+      <div class="tr-title">Gynoid</div>
+      <div class="tr-content">
+        <div class="tr-chart">
+          <svg class="tc-svg" viewBox="0 0 240 70"><line x1="0" y1="65" x2="240" y2="65" stroke="#e5e7eb" stroke-width="0.5"/><polyline points="10,62 85,42 160,22 230,5" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="62" r="3" fill="var(--acc)"/><circle cx="85" cy="42" r="3" fill="var(--acc)"/><circle cx="160" cy="22" r="3" fill="var(--acc)"/><circle cx="230" cy="5" r="3" fill="var(--acc)"/></svg>
+          <div class="tr-x-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
+        </div>
+        <div class="tr-tables">
+          <div class="tr-tbl-label">Lean Mass (kgs)</div>
+          <table class="tr-tbl"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>7.8</td><td class="pos">+0.6</td><td class="pos">+0.2</td></tr>
+          <tr><td>15 Jan '25</td><td>7.6</td><td class="pos">+0.4</td><td class="pos">+0.2</td></tr>
+          <tr><td>20 Nov '23</td><td>7.4</td><td class="pos">+0.2</td><td class="pos">+0.2</td></tr>
+          <tr><td>08 Jan '23</td><td>7.2</td><td>baseline</td><td>-</td></tr></table>
+          <div class="tr-tbl-label" style="margin-top:4px;">Lean Percent (%)</div>
+          <table class="tr-tbl"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>87.8</td><td class="pos">+1.8</td><td class="pos">+0.8</td></tr>
+          <tr><td>15 Jan '25</td><td>87.0</td><td class="pos">+1.0</td><td class="pos">+0.5</td></tr>
+          <tr><td>20 Nov '23</td><td>86.5</td><td class="pos">+0.5</td><td class="pos">+0.5</td></tr>
+          <tr><td>08 Jan '23</td><td>86.0</td><td>baseline</td><td>-</td></tr></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOTAL -->
+    <div class="tr-block">
+      <div class="tr-title">Total</div>
+      <div class="tr-content">
+        <div class="tr-chart">
+          <svg class="tc-svg" viewBox="0 0 240 70"><line x1="0" y1="65" x2="240" y2="65" stroke="#e5e7eb" stroke-width="0.5"/><polyline points="10,62 85,48 160,25 230,5" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="62" r="3" fill="var(--acc)"/><circle cx="85" cy="48" r="3" fill="var(--acc)"/><circle cx="160" cy="25" r="3" fill="var(--acc)"/><circle cx="230" cy="5" r="3" fill="var(--acc)"/></svg>
+          <div class="tr-x-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
+        </div>
+        <div class="tr-tables">
+          <div class="tr-tbl-label">Lean Mass (kgs)</div>
+          <table class="tr-tbl"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>63.9</td><td class="pos">+3.7</td><td class="pos">+1.4</td></tr>
+          <tr><td>15 Jan '25</td><td>62.5</td><td class="pos">+2.3</td><td class="pos">+1.5</td></tr>
+          <tr><td>20 Nov '23</td><td>61.0</td><td class="pos">+0.8</td><td class="pos">+0.8</td></tr>
+          <tr><td>08 Jan '23</td><td>60.2</td><td>baseline</td><td>-</td></tr></table>
+          <div class="tr-tbl-label" style="margin-top:4px;">Lean Percent (%)</div>
+          <table class="tr-tbl"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>87.1</td><td class="pos">+1.6</td><td class="pos">+0.3</td></tr>
+          <tr><td>15 Jan '25</td><td>86.8</td><td class="pos">+1.3</td><td class="pos">+0.8</td></tr>
+          <tr><td>20 Nov '23</td><td>86.0</td><td class="pos">+0.5</td><td class="pos">+0.5</td></tr>
+          <tr><td>08 Jan '23</td><td>85.5</td><td>baseline</td><td>-</td></tr></table>
+        </div>
+      </div>
+    </div>
+
+    <p class="disclaimer">*Note: BodyInsight is not a medical facility. The data provided in this report is for informational purposes only and is not meant to be used for any type of medical diagnosis.</p>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l"><span class="ftr-logo">bodyinsight</span><span class="ftr-sep"></span><span class="ftr-tag">Know your body like never before</span></div>
+    <div class="ftr-r">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> support@bodyinsight.in</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> bodyinsight.in</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE: FAT TISSUE TRENDS 1 (Arms, Legs, Trunk) ==================== -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-name">bodyinsight</span></div>
+    <div class="hdr-r"><strong>Fat Tissue Trends</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+  <div class="dash-sec">
+    <div class="crd-label">Regional Fat Tissue Trends</div>
+    <p class="tr-desc">The following show how fat tissue amounts in different regions of your body have changed over time. These graphs show how your body&rsquo;s fat has responded to your training and/or nutrition program.</p>
+
+    <!-- ARMS FAT -->
+    <div class="tr-block">
+      <div class="tr-title">Arms</div>
+      <div class="tr-content">
+        <div class="tr-chart">
+          <svg class="tc-svg" viewBox="0 0 240 70"><line x1="0" y1="65" x2="240" y2="65" stroke="#e5e7eb" stroke-width="0.5"/><polyline points="10,5 85,28 160,52 230,62" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="5" r="3" fill="var(--red)"/><circle cx="85" cy="28" r="3" fill="var(--red)"/><circle cx="160" cy="52" r="3" fill="var(--red)"/><circle cx="230" cy="62" r="3" fill="var(--red)"/></svg>
+          <div class="tr-x-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
+        </div>
+        <div class="tr-tables">
+          <div class="tr-tbl-label">Fat Mass (kgs)</div>
+          <table class="tr-tbl tr-tbl-fat"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>0.73</td><td class="neg">-0.17</td><td class="neg">-0.05</td></tr>
+          <tr><td>15 Jan '25</td><td>0.78</td><td class="neg">-0.12</td><td class="neg">-0.07</td></tr>
+          <tr><td>20 Nov '23</td><td>0.85</td><td class="neg">-0.05</td><td class="neg">-0.05</td></tr>
+          <tr><td>08 Jan '23</td><td>0.90</td><td>baseline</td><td>-</td></tr></table>
+          <div class="tr-tbl-label" style="margin-top:4px;">Fat Percent (%)</div>
+          <table class="tr-tbl tr-tbl-fat"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>8.0</td><td class="neg">-1.9</td><td class="neg">-0.4</td></tr>
+          <tr><td>15 Jan '25</td><td>8.4</td><td class="neg">-1.5</td><td class="neg">-0.8</td></tr>
+          <tr><td>20 Nov '23</td><td>9.2</td><td class="neg">-0.7</td><td class="neg">-0.7</td></tr>
+          <tr><td>08 Jan '23</td><td>9.9</td><td>baseline</td><td>-</td></tr></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEGS FAT -->
+    <div class="tr-block">
+      <div class="tr-title">Legs</div>
+      <div class="tr-content">
+        <div class="tr-chart">
+          <svg class="tc-svg" viewBox="0 0 240 70"><line x1="0" y1="65" x2="240" y2="65" stroke="#e5e7eb" stroke-width="0.5"/><polyline points="10,5 85,30 160,50 230,62" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="5" r="3" fill="var(--red)"/><circle cx="85" cy="30" r="3" fill="var(--red)"/><circle cx="160" cy="50" r="3" fill="var(--red)"/><circle cx="230" cy="62" r="3" fill="var(--red)"/></svg>
+          <div class="tr-x-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
+        </div>
+        <div class="tr-tables">
+          <div class="tr-tbl-label">Fat Mass (kgs)</div>
+          <table class="tr-tbl tr-tbl-fat"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>2.11</td><td class="neg">-0.29</td><td class="neg">-0.09</td></tr>
+          <tr><td>15 Jan '25</td><td>2.20</td><td class="neg">-0.20</td><td class="neg">-0.10</td></tr>
+          <tr><td>20 Nov '23</td><td>2.30</td><td class="neg">-0.10</td><td class="neg">-0.10</td></tr>
+          <tr><td>08 Jan '23</td><td>2.40</td><td>baseline</td><td>-</td></tr></table>
+          <div class="tr-tbl-label" style="margin-top:4px;">Fat Percent (%)</div>
+          <table class="tr-tbl tr-tbl-fat"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>9.2</td><td class="neg">-1.5</td><td class="neg">-0.4</td></tr>
+          <tr><td>15 Jan '25</td><td>9.6</td><td class="neg">-1.1</td><td class="neg">-0.5</td></tr>
+          <tr><td>20 Nov '23</td><td>10.1</td><td class="neg">-0.6</td><td class="neg">-0.6</td></tr>
+          <tr><td>08 Jan '23</td><td>10.7</td><td>baseline</td><td>-</td></tr></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRUNK FAT -->
+    <div class="tr-block">
+      <div class="tr-title">Trunk</div>
+      <div class="tr-content">
+        <div class="tr-chart">
+          <svg class="tc-svg" viewBox="0 0 240 70"><line x1="0" y1="65" x2="240" y2="65" stroke="#e5e7eb" stroke-width="0.5"/><polyline points="10,5 85,32 160,52 230,62" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="5" r="3" fill="var(--red)"/><circle cx="85" cy="32" r="3" fill="var(--red)"/><circle cx="160" cy="52" r="3" fill="var(--red)"/><circle cx="230" cy="62" r="3" fill="var(--red)"/></svg>
+          <div class="tr-x-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
+        </div>
+        <div class="tr-tables">
+          <div class="tr-tbl-label">Fat Mass (kgs)</div>
+          <table class="tr-tbl tr-tbl-fat"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>2.96</td><td class="neg">-0.54</td><td class="neg">-0.14</td></tr>
+          <tr><td>15 Jan '25</td><td>3.10</td><td class="neg">-0.40</td><td class="neg">-0.20</td></tr>
+          <tr><td>20 Nov '23</td><td>3.30</td><td class="neg">-0.20</td><td class="neg">-0.20</td></tr>
+          <tr><td>08 Jan '23</td><td>3.50</td><td>baseline</td><td>-</td></tr></table>
+          <div class="tr-tbl-label" style="margin-top:4px;">Fat Percent (%)</div>
+          <table class="tr-tbl tr-tbl-fat"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>10.1</td><td class="neg">-1.9</td><td class="neg">-0.4</td></tr>
+          <tr><td>15 Jan '25</td><td>10.5</td><td class="neg">-1.5</td><td class="neg">-0.7</td></tr>
+          <tr><td>20 Nov '23</td><td>11.2</td><td class="neg">-0.8</td><td class="neg">-0.8</td></tr>
+          <tr><td>08 Jan '23</td><td>12.0</td><td>baseline</td><td>-</td></tr></table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l"><span class="ftr-logo">bodyinsight</span><span class="ftr-sep"></span><span class="ftr-tag">Know your body like never before</span></div>
+    <div class="ftr-r">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> support@bodyinsight.in</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> bodyinsight.in</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE: FAT TISSUE TRENDS 2 (Android, Gynoid, Total) ==================== -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-name">bodyinsight</span></div>
+    <div class="hdr-r"><strong>Fat Tissue Trends</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+  <div class="dash-sec">
+    <!-- ANDROID FAT -->
+    <div class="tr-block">
+      <div class="tr-title">Android</div>
+      <div class="tr-content">
+        <div class="tr-chart">
+          <svg class="tc-svg" viewBox="0 0 240 70"><line x1="0" y1="65" x2="240" y2="65" stroke="#e5e7eb" stroke-width="0.5"/><polyline points="10,5 85,28 160,48 230,62" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="5" r="3" fill="var(--red)"/><circle cx="85" cy="28" r="3" fill="var(--red)"/><circle cx="160" cy="48" r="3" fill="var(--red)"/><circle cx="230" cy="62" r="3" fill="var(--red)"/></svg>
+          <div class="tr-x-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
+        </div>
+        <div class="tr-tables">
+          <div class="tr-tbl-label">Fat Mass (kgs)</div>
+          <table class="tr-tbl tr-tbl-fat"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>0.45</td><td class="neg">-0.15</td><td class="neg">-0.05</td></tr>
+          <tr><td>15 Jan '25</td><td>0.50</td><td class="neg">-0.10</td><td class="neg">-0.05</td></tr>
+          <tr><td>20 Nov '23</td><td>0.55</td><td class="neg">-0.05</td><td class="neg">-0.05</td></tr>
+          <tr><td>08 Jan '23</td><td>0.60</td><td>baseline</td><td>-</td></tr></table>
+          <div class="tr-tbl-label" style="margin-top:4px;">Fat Percent (%)</div>
+          <table class="tr-tbl tr-tbl-fat"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>12.3</td><td class="neg">-4.8</td><td class="neg">-1.3</td></tr>
+          <tr><td>15 Jan '25</td><td>13.6</td><td class="neg">-3.5</td><td class="neg">-1.7</td></tr>
+          <tr><td>20 Nov '23</td><td>15.3</td><td class="neg">-1.8</td><td class="neg">-1.8</td></tr>
+          <tr><td>08 Jan '23</td><td>17.1</td><td>baseline</td><td>-</td></tr></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- GYNOID FAT -->
+    <div class="tr-block">
+      <div class="tr-title">Gynoid</div>
+      <div class="tr-content">
+        <div class="tr-chart">
+          <svg class="tc-svg" viewBox="0 0 240 70"><line x1="0" y1="65" x2="240" y2="65" stroke="#e5e7eb" stroke-width="0.5"/><polyline points="10,5 85,30 160,50 230,62" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="5" r="3" fill="var(--red)"/><circle cx="85" cy="30" r="3" fill="var(--red)"/><circle cx="160" cy="50" r="3" fill="var(--red)"/><circle cx="230" cy="62" r="3" fill="var(--red)"/></svg>
+          <div class="tr-x-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
+        </div>
+        <div class="tr-tables">
+          <div class="tr-tbl-label">Fat Mass (kgs)</div>
+          <table class="tr-tbl tr-tbl-fat"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>0.82</td><td class="neg">-0.16</td><td class="neg">-0.05</td></tr>
+          <tr><td>15 Jan '25</td><td>0.87</td><td class="neg">-0.11</td><td class="neg">-0.05</td></tr>
+          <tr><td>20 Nov '23</td><td>0.92</td><td class="neg">-0.06</td><td class="neg">-0.06</td></tr>
+          <tr><td>08 Jan '23</td><td>0.98</td><td>baseline</td><td>-</td></tr></table>
+          <div class="tr-tbl-label" style="margin-top:4px;">Fat Percent (%)</div>
+          <table class="tr-tbl tr-tbl-fat"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>9.5</td><td class="neg">-2.2</td><td class="neg">-0.5</td></tr>
+          <tr><td>15 Jan '25</td><td>10.0</td><td class="neg">-1.7</td><td class="neg">-0.7</td></tr>
+          <tr><td>20 Nov '23</td><td>10.7</td><td class="neg">-1.0</td><td class="neg">-1.0</td></tr>
+          <tr><td>08 Jan '23</td><td>11.7</td><td>baseline</td><td>-</td></tr></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOTAL FAT -->
+    <div class="tr-block">
+      <div class="tr-title">Total</div>
+      <div class="tr-content">
+        <div class="tr-chart">
+          <svg class="tc-svg" viewBox="0 0 240 70"><line x1="0" y1="65" x2="240" y2="65" stroke="#e5e7eb" stroke-width="0.5"/><polyline points="10,5 85,38 160,52 230,62" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="5" r="3" fill="var(--red)"/><circle cx="85" cy="38" r="3" fill="var(--red)"/><circle cx="160" cy="52" r="3" fill="var(--red)"/><circle cx="230" cy="62" r="3" fill="var(--red)"/></svg>
+          <div class="tr-x-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
+        </div>
+        <div class="tr-tables">
+          <div class="tr-tbl-label">Fat Mass (kgs)</div>
+          <table class="tr-tbl tr-tbl-fat"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>6.6</td><td class="neg">-0.8</td><td class="neg">-0.2</td></tr>
+          <tr><td>15 Jan '25</td><td>6.8</td><td class="neg">-0.6</td><td class="neg">-0.2</td></tr>
+          <tr><td>20 Nov '23</td><td>7.0</td><td class="neg">-0.4</td><td class="neg">-0.4</td></tr>
+          <tr><td>08 Jan '23</td><td>7.4</td><td>baseline</td><td>-</td></tr></table>
+          <div class="tr-tbl-label" style="margin-top:4px;">Fat Percent (%)</div>
+          <table class="tr-tbl tr-tbl-fat"><tr><th>Date</th><th>Total</th><th>vs Base</th><th>vs Prev</th></tr>
+          <tr><td>10 Feb '26</td><td>9.0</td><td class="neg">-1.5</td><td class="neg">-0.4</td></tr>
+          <tr><td>15 Jan '25</td><td>9.4</td><td class="neg">-1.1</td><td class="neg">-0.4</td></tr>
+          <tr><td>20 Nov '23</td><td>9.8</td><td class="neg">-0.7</td><td class="neg">-0.7</td></tr>
+          <tr><td>08 Jan '23</td><td>10.5</td><td>baseline</td><td>-</td></tr></table>
+        </div>
+      </div>
+    </div>
+
+    <p class="disclaimer">*Note: BodyInsight is not a medical facility. The data provided in this report is for informational purposes only and is not meant to be used for any type of medical diagnosis. Should you have any concerns about the metrics in the report, please consult your physician.</p>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l"><span class="ftr-logo">bodyinsight</span><span class="ftr-sep"></span><span class="ftr-tag">Know your body like never before</span></div>
+    <div class="ftr-r">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> support@bodyinsight.in</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> bodyinsight.in</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE: VISCERAL FAT TREND ==================== -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-name">bodyinsight</span></div>
+    <div class="hdr-r"><strong>Visceral Fat Trend</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+  <div class="dash-sec">
+    <div class="trend-card">
+      <div class="crd-label">Visceral Fat Trend (in grams)</div>
+      <div class="trend-chart-area">
+        <svg class="trend-svg" viewBox="0 0 500 140">
+          <line x1="40" y1="10" x2="40" y2="120" stroke="#e5e7eb" stroke-width="0.5"/>
+          <line x1="40" y1="120" x2="480" y2="120" stroke="#e5e7eb" stroke-width="0.5"/>
+          <line x1="40" y1="80" x2="480" y2="80" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>
+          <line x1="40" y1="40" x2="480" y2="40" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>
+          <text x="10" y="124" font-size="9" fill="#999">0</text>
+          <text x="10" y="84" font-size="9" fill="#999">120</text>
+          <text x="10" y="44" font-size="9" fill="#999">240</text>
+          <!-- Safe line at 250g -->
+          <line x1="40" y1="38" x2="480" y2="38" stroke="var(--red)" stroke-width="1" stroke-dasharray="5,3" opacity="0.5"/>
+          <text x="400" y="33" font-size="8" fill="var(--red)" opacity="0.7">Safe limit (250g)</text>
+          <polyline points="70,30 200,44 350,55 460,62" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="70" cy="30" r="4" fill="var(--red)"/>
+          <circle cx="200" cy="44" r="4" fill="var(--red)"/>
+          <circle cx="350" cy="55" r="4" fill="var(--red)"/>
+          <circle cx="460" cy="62" r="4" fill="var(--red)"/>
+        </svg>
+        <div class="trend-x"><span>08 Jan 2023</span><span>20 Nov 2023</span><span>15 Jan 2025</span><span>10 Feb 2026</span></div>
+      </div>
+      <table class="trend-tbl">
+        <tr><th>Date</th><th>Visceral Fat (g)</th><th>Volume (cm&sup3;)</th><th>Area (cm&sup2;)</th></tr>
+        <tr><td>10 Feb 2026</td><td>185</td><td>202</td><td>38.2</td></tr>
+        <tr><td>15 Jan 2025</td><td>195</td><td>214</td><td>40.1</td></tr>
+        <tr><td>20 Nov 2023</td><td>205</td><td>225</td><td>42.0</td></tr>
+        <tr><td>08 Jan 2023</td><td>220</td><td>241</td><td>45.3</td></tr>
+      </table>
+    </div>
+    <div class="sec-insights">
+      <div class="sec-ins sec-ins-cause">
+        <h4>Trending down</h4>
+        <p>Your visceral fat has decreased by 35g since your first scan. This is a positive trend indicating improved abdominal fat management.</p>
+      </div>
+      <div class="sec-ins sec-ins-effect">
+        <h4>What this means</h4>
+        <p>Consistently low visceral fat reduces your risk of metabolic diseases. All your readings have remained in the safe zone (&lt;250g).</p>
+      </div>
+      <div class="sec-ins sec-ins-improve">
+        <h4>Keep it up</h4>
+        <ul>
+          <li>Maintain regular exercise</li>
+          <li>Continue balanced diet</li>
+          <li>Monitor with regular scans</li>
+          <li>Manage stress levels</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l"><span class="ftr-logo">bodyinsight</span><span class="ftr-sep"></span><span class="ftr-tag">Know your body like never before</span></div>
+    <div class="ftr-r">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> support@bodyinsight.in</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> bodyinsight.in</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE: RMR REPORT PAGE 2 (Estimated Calories + Info) ==================== -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-name">bodyinsight</span></div>
+    <div class="hdr-r"><strong>RMR Report</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+  <div class="dash-sec">
+    <div class="rmr-info-grid">
+      <div><h4>What&rsquo;s a good RMR?</h4><p>There is no &ldquo;good&rdquo; RMR &mdash; it&rsquo;s unique to your body. However, some people may be interested in increasing their RMR to burn more calories per day.</p></div>
+      <div><h4>Can I increase RMR?</h4><p>Building muscle is most effective long term. Other methods:</p><ul><li>Move often</li><li>More whole foods</li><li>Eat enough &amp; frequently</li><li>Interval training</li><li>Cryotherapy or ice bath</li><li>Caffeine</li></ul></div>
+      <div><h4>What is RMR vs BMR?</h4><p>Both tests rely on indirect calorimetry. The protocol for BMR testing is much more restrictive. Measurements are taken in a dark room after 12 hours of fasting and 8 hours of sleep.</p></div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; flex:1;">
+      <div class="rmr-cal">
+        <div class="crd-label">Estimated Calories Burned (per hour)</div>
+        <div class="rmr-cal-row"><span class="rmr-cal-name">Standing</span><span class="rmr-cal-val">34</span></div>
+        <div class="rmr-cal-row"><span class="rmr-cal-name">Walking (4 km/h)</span><span class="rmr-cal-val">179</span></div>
+        <div class="rmr-cal-row"><span class="rmr-cal-name">Running (8 km/h)</span><span class="rmr-cal-val">517</span></div>
+        <div class="rmr-cal-row"><span class="rmr-cal-name">Running (14 km/h)</span><span class="rmr-cal-val">800</span></div>
+        <div class="rmr-cal-row"><span class="rmr-cal-name">Cycling (20 km/h)</span><span class="rmr-cal-val">503</span></div>
+        <div class="rmr-cal-row"><span class="rmr-cal-name">Rowing</span><span class="rmr-cal-val">276</span></div>
+        <div class="rmr-cal-row"><span class="rmr-cal-name">Yoga</span><span class="rmr-cal-val">110</span></div>
+        <div class="rmr-cal-row"><span class="rmr-cal-name">Boxing</span><span class="rmr-cal-val">676</span></div>
+        <div class="rmr-cal-row"><span class="rmr-cal-name">Swimming</span><span class="rmr-cal-val">351</span></div>
+        <div class="rmr-cal-row"><span class="rmr-cal-name">Weight Lifting</span><span class="rmr-cal-val">172</span></div>
+        <div class="rmr-cal-row"><span class="rmr-cal-name">Badminton</span><span class="rmr-cal-val">345</span></div>
+        <div class="rmr-cal-row"><span class="rmr-cal-name">Dancing</span><span class="rmr-cal-val">469</span></div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div class="rmr-compare">
+          <div class="crd-label">How does your RMR compare?</div>
+          <div class="rmr-compare-num">5.2%</div>
+          <div class="rmr-compare-label">above average for your<br>age, sex, height &amp; weight</div>
+        </div>
+        <div class="sec-insights" style="grid-template-columns:1fr; flex:1;">
+          <div class="sec-ins sec-ins-cause"><h4>When to test again?</h4><p>Re-test if you experience significant change (&plusmn;5% or more) in weight or body composition. Your body&rsquo;s caloric needs may have changed considerably.</p></div>
+          <div class="sec-ins sec-ins-effect"><h4>Want to build muscle?</h4><p>Get a baseline body composition test with a DEXA scan. Measure your fat tissue, lean tissue, and bone density in only 10 minutes.</p></div>
+          <div class="sec-ins sec-ins-improve"><h4>Want nutrition help?</h4><p>Work with one of BodyInsight&rsquo;s nutritionists for a personalized consultation or longer-term programming.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l"><span class="ftr-logo">bodyinsight</span><span class="ftr-sep"></span><span class="ftr-tag">Know your body like never before</span></div>
+    <div class="ftr-r">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> support@bodyinsight.in</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> bodyinsight.in</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE: RMR TREND ==================== -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-name">bodyinsight</span></div>
+    <div class="hdr-r"><strong>RMR Trend</strong><br>10 Feb 2026 &middot; BI-7X3K9M</div>
+  </div>
+  <div class="pat">
+    <div class="pat-c"><div class="pat-l">Name</div><div class="pat-v">Arjun Mehta</div></div>
+    <div class="pat-c"><div class="pat-l">Age / Sex</div><div class="pat-v">28 / Male</div></div>
+    <div class="pat-c"><div class="pat-l">Height</div><div class="pat-v">175 cm</div></div>
+    <div class="pat-c"><div class="pat-l">Weight</div><div class="pat-v">73.4 kg</div></div>
+    <div class="pat-c"><div class="pat-l">Location</div><div class="pat-v">HSR Layout, BLR</div></div>
+  </div>
+  <div class="dash-sec">
+    <div class="trend-card" style="flex:1; display:flex; flex-direction:column;">
+      <div class="crd-label">RMR Trend (in kcals)</div>
+      <div class="trend-chart-area">
+        <svg class="trend-svg" viewBox="0 0 500 140">
+          <line x1="40" y1="10" x2="40" y2="120" stroke="#e5e7eb" stroke-width="0.5"/>
+          <line x1="40" y1="120" x2="480" y2="120" stroke="#e5e7eb" stroke-width="0.5"/>
+          <line x1="40" y1="80" x2="480" y2="80" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>
+          <line x1="40" y1="40" x2="480" y2="40" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>
+          <text x="5" y="124" font-size="9" fill="#999">1600</text>
+          <text x="5" y="84" font-size="9" fill="#999">1700</text>
+          <text x="5" y="44" font-size="9" fill="#999">1800</text>
+          <polyline points="70,108 200,88 350,52 460,10" fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="70" cy="108" r="4" fill="var(--acc)"/>
+          <circle cx="200" cy="88" r="4" fill="var(--acc)"/>
+          <circle cx="350" cy="52" r="4" fill="var(--acc)"/>
+          <circle cx="460" cy="10" r="4" fill="var(--acc)"/>
+        </svg>
+        <div class="trend-x"><span>08 Jan 2023</span><span>20 Nov 2023</span><span>15 Jan 2025</span><span>10 Feb 2026</span></div>
+      </div>
+      <table class="trend-tbl" style="flex:1;">
+        <tr><th>Date</th><th>RMR (kcal)</th><th>Weight (kg)</th></tr>
+        <tr><td>10 Feb 2026</td><td>1742</td><td>73.4</td></tr>
+        <tr><td>15 Jan 2025</td><td>1720</td><td>72.8</td></tr>
+        <tr><td>20 Nov 2023</td><td>1700</td><td>71.5</td></tr>
+        <tr><td>08 Jan 2023</td><td>1680</td><td>70.2</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l"><span class="ftr-logo">bodyinsight</span><span class="ftr-sep"></span><span class="ftr-tag">Know your body like never before</span></div>
+    <div class="ftr-r">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> support@bodyinsight.in</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> bodyinsight.in</span>
+    </div>
+  </div>
 </div>
 
 </body>
