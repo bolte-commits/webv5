@@ -4,7 +4,7 @@ import { useState, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import PageHero from "@/components/PageHero";
 import { sendOtp, verifyOtp } from "@/app/actions/auth";
-import { setStoredToken, setStoredProfile } from "@/lib/auth";
+import { setStoredToken } from "@/lib/auth";
 import styles from "./page.module.css";
 
 const OTP_LENGTH = 6;
@@ -87,7 +87,6 @@ function LoginContent() {
     setLoading(false);
     if (result.success) {
       if (result.token) setStoredToken(result.token);
-      if (result.profile) setStoredProfile(result.profile);
       router.push("/confirm?appointmentId=" + appointmentId);
     } else {
       setError(result.error || "Invalid OTP");

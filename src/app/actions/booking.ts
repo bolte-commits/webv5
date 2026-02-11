@@ -19,9 +19,18 @@ export interface PendingDetails {
   time: string;
 }
 
+export interface UserProfile {
+  name: string;
+  dateOfBirth: string;
+  gender: string;
+  height: number;
+  weight: number;
+  phone: string;
+}
+
 export async function checkPendingAppointment(
   token: string
-): Promise<{ hasPending: boolean; details?: PendingDetails; unauthorized?: boolean; error?: string }> {
+): Promise<{ hasPending: boolean; details?: PendingDetails; user?: UserProfile; unauthorized?: boolean; error?: string }> {
   try {
     const res = await fetch(`${AUTH_API_BASE}/checkPendingAppointment`, {
       method: "POST",
@@ -35,9 +44,18 @@ export async function checkPendingAppointment(
     if (!res.ok) {
       return { hasPending: false, error: data.message };
     }
+    const user: UserProfile | undefined = data.user ? {
+      name: data.user.name || "",
+      dateOfBirth: data.user.dateOfBirth || "",
+      gender: data.user.gender || "",
+      height: data.user.height || 0,
+      weight: data.user.weight || 0,
+      phone: data.user.phone || "",
+    } : undefined;
     if (data.hasPendingAppointment) {
       return {
         hasPending: true,
+        user,
         details: {
           pendingAppointmentId: data.pendingAppointmentId,
           landmark: data.landmark,
@@ -47,7 +65,7 @@ export async function checkPendingAppointment(
         },
       };
     }
-    return { hasPending: false };
+    return { hasPending: false, user };
   } catch {
     return { hasPending: false, error: "Network error" };
   }

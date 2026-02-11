@@ -14,7 +14,7 @@ import {
   type PendingDetails,
   type BookingPricing,
 } from "@/app/actions/booking";
-import { getStoredProfile, getStoredToken, setStoredProfile, logout } from "@/lib/auth";
+import { getStoredToken, logout } from "@/lib/auth";
 import { formatPrice } from "@/lib/constants";
 import styles from "./page.module.css";
 
@@ -25,7 +25,6 @@ function ConfirmContent() {
   const appointmentId = searchParams.get("appointmentId") || "";
 
   const [appt, setAppt] = useState<AppointmentDetails | null>(null);
-  const [email, setEmail] = useState("");
 
   const [name, setName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
@@ -55,42 +54,39 @@ function ConfirmContent() {
 
   useEffect(() => {
     const t = getStoredToken();
-    if (t) {
-      setToken(t);
-      checkPendingAppointment(t).then((result) => {
-        if (result.unauthorized) {
-          redirectToLogin();
-          return;
-        }
-        if (result.hasPending && result.details) {
-          setHasPending(true);
-          setPendingDetails(result.details);
-        }
-        setCheckingPending(false);
-      });
-    } else {
+    if (!t) {
       redirectToLogin();
       return;
     }
+    setToken(t);
 
-    const profile = getStoredProfile();
-    if (profile) {
-      if (profile.email) setEmail(profile.email);
-      if (profile.name) setName(profile.name);
-      if (profile.phone) {
-        const digits = profile.phone.replace(/\D/g, "");
-        if (digits.length === 10) setPhone(digits);
+    checkPendingAppointment(t).then((result) => {
+      if (result.unauthorized) {
+        redirectToLogin();
+        return;
       }
-      if (profile.height) setHeight(String(profile.height));
-      if (profile.weight) setWeight(String(profile.weight));
-      if (profile.gender) setGender(profile.gender);
-      if (profile.dateOfBirth) {
-        const d = new Date(profile.dateOfBirth);
-        if (!isNaN(d.getTime())) {
-          setDateOfBirth(d.toISOString().split("T")[0]);
+      if (result.hasPending && result.details) {
+        setHasPending(true);
+        setPendingDetails(result.details);
+      }
+      if (result.user) {
+        if (result.user.name) setName(result.user.name);
+        if (result.user.gender) setGender(result.user.gender);
+        if (result.user.height) setHeight(String(result.user.height));
+        if (result.user.weight) setWeight(String(result.user.weight));
+        if (result.user.phone) {
+          const digits = result.user.phone.replace(/\D/g, "");
+          if (digits.length === 10) setPhone(digits);
+        }
+        if (result.user.dateOfBirth) {
+          const d = new Date(result.user.dateOfBirth);
+          if (!isNaN(d.getTime())) {
+            setDateOfBirth(d.toISOString().split("T")[0]);
+          }
         }
       }
-    }
+      setCheckingPending(false);
+    });
 
     if (appointmentId) {
       getAppointment(appointmentId).then((result) => {
@@ -126,15 +122,6 @@ function ConfirmContent() {
     }
     if (result.success) {
       if (result.pricing) setPricing(result.pricing);
-      setStoredProfile({
-        email,
-        name,
-        phone: phone || undefined,
-        dateOfBirth,
-        height: height ? Number(height) : undefined,
-        weight: weight ? Number(weight) : undefined,
-        gender: gender || undefined,
-      });
       setSuccess(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
@@ -499,10 +486,6 @@ function ConfirmContent() {
                 <div className={styles.summaryRow}>
                   <span className={styles.summaryRowLabel}>Name</span>
                   <span className={styles.summaryRowValue}>{name}</span>
-                </div>
-                <div className={styles.summaryRow}>
-                  <span className={styles.summaryRowLabel}>Email</span>
-                  <span className={styles.summaryRowValue}>{email}</span>
                 </div>
                 {pricing && (
                   <>

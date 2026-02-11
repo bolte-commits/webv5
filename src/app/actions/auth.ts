@@ -22,24 +22,12 @@ export async function sendOtp(
   }
 }
 
-export interface UserProfile {
-  email: string;
-  phone: string;
-  name: string;
-  dateOfBirth: string;
-  height: number;
-  weight: number;
-  gender: string;
-}
-
 export async function verifyOtp(
   email: string,
   otp: string
 ): Promise<{
   success: boolean;
   token?: string;
-  profile?: UserProfile;
-  isComplete?: boolean;
   error?: string;
 }> {
   try {
@@ -55,15 +43,6 @@ export async function verifyOtp(
     return {
       success: true,
       token: data.token,
-      profile: {
-        email: data.email,
-        phone: data.phone,
-        name: data.name,
-        dateOfBirth: data.dateOfBirth,
-        height: data.height,
-        weight: data.weight,
-        gender: data.gender,
-      },
     };
   } catch {
     return { success: false, error: "Network error. Please try again." };
