@@ -669,8 +669,28 @@
 .boneCard {
   background: rgba(255, 255, 255, 0.03);
   border-radius: 10px;
-  padding: 8px 4px;
+  padding: 10px 4px 8px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.boneImgWrap {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
+}
+
+.boneImg {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  opacity: 0.85;
 }
 
 .boneName {
@@ -683,10 +703,10 @@
 
 .boneVal {
   font-family: 'Monument Extended', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 800;
   color: var(--r-text);
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 /* Symmetry */

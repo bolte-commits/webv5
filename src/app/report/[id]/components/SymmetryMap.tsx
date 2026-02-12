@@ -2,23 +2,28 @@
 
 import { useState } from "react";
 import { useScrollReveal } from "../hooks/useScrollReveal";
-import { AnimatedChart } from "./Timeline";
+import StatusTag from "./shared/StatusTag";
 import s from "../report.module.css";
 
-type Region = {
-  name: string;
+type SymSide = {
   fatPercent: number;
+  total: number;
   lean: number;
   fat: number;
-  total: number;
-  prevFat: number;
-  prevDate: string;
-  fatTrend: number[];
-  leanTrend: number[];
+  bone: number;
 };
 
-/* ── Realistic body silhouette ── */
-function BodySilhouette({
+type SymRegion = {
+  name: string;
+  left: SymSide;
+  right: SymSide;
+  verdict: string;
+  status: "green" | "yellow" | "red" | "neutral";
+  balancePercent: number;
+};
+
+/* ── Symmetry silhouette (Arms / Legs / Trunk only) ── */
+function SymSilhouette({
   active,
   onTap,
 }: {
@@ -34,14 +39,25 @@ function BodySilhouette({
   const glow = (name: string) =>
     isActive(name) ? "drop-shadow(0 0 6px rgba(0,122,255,0.4))" : "none";
 
+  /* Show L / R labels when Arms or Legs selected */
+  const showLR = active === "Arms" || active === "Legs";
+
   return (
     <svg viewBox="0 0 200 440" className={s.bodySvg}>
-      {/* Head */}
+      {/* L / R labels */}
+      {showLR && (
+        <>
+          <text x="22" y="24" textAnchor="middle" fontSize="13" fontWeight="700" fill="rgba(0,122,255,0.6)">L</text>
+          <text x="178" y="24" textAnchor="middle" fontSize="13" fontWeight="700" fill="rgba(0,122,255,0.6)">R</text>
+        </>
+      )}
+
+      {/* Head (not clickable) */}
       <ellipse cx="100" cy="38" rx="22" ry="26" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.12)" strokeWidth="0.8" />
       {/* Neck */}
       <path d="M90,62 L90,78 Q90,82 94,82 L106,82 Q110,82 110,78 L110,62" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
 
-      {/* Trunk — torso */}
+      {/* Trunk */}
       <path
         d="M72,82 Q64,86 60,100 L56,142 Q54,158 56,170 L60,185 Q64,192 72,196 L82,198 L100,200 L118,198 L128,196 Q136,192 140,185 L144,170 Q146,158 144,142 L140,100 Q136,86 128,82 Z"
         fill={fill("Trunk")}
@@ -49,28 +65,6 @@ function BodySilhouette({
         strokeWidth={sw("Trunk")}
         style={{ filter: glow("Trunk"), cursor: "pointer", transition: "all 0.3s" }}
         onClick={() => onTap("Trunk")}
-      />
-
-      {/* Android (belly) overlay */}
-      <path
-        d="M74,132 Q72,130 76,128 L124,128 Q128,130 126,132 L126,168 Q126,172 122,172 L78,172 Q74,172 74,168 Z"
-        fill={fill("Android (Belly)")}
-        stroke={stroke("Android (Belly)")}
-        strokeWidth={sw("Android (Belly)")}
-        strokeDasharray={isActive("Android (Belly)") ? "none" : "3 2"}
-        style={{ filter: glow("Android (Belly)"), cursor: "pointer", transition: "all 0.3s" }}
-        onClick={() => onTap("Android (Belly)")}
-      />
-
-      {/* Gynoid (hip) overlay */}
-      <path
-        d="M66,186 Q64,182 68,180 L132,180 Q136,182 134,186 L130,206 Q126,212 118,214 L82,214 Q74,212 70,206 Z"
-        fill={fill("Gynoid (Hip)")}
-        stroke={stroke("Gynoid (Hip)")}
-        strokeWidth={sw("Gynoid (Hip)")}
-        strokeDasharray={isActive("Gynoid (Hip)") ? "none" : "3 2"}
-        style={{ filter: glow("Gynoid (Hip)"), cursor: "pointer", transition: "all 0.3s" }}
-        onClick={() => onTap("Gynoid (Hip)")}
       />
 
       {/* Left Arm */}
@@ -82,7 +76,6 @@ function BodySilhouette({
         style={{ filter: glow("Arms"), cursor: "pointer", transition: "all 0.3s" }}
         onClick={() => onTap("Arms")}
       />
-      {/* Left Forearm + Hand */}
       <path d="M32,172 Q28,180 26,194 L24,208 Q22,216 26,220 L32,220 Q36,218 36,210 L38,196 L38,172" fill={fill("Arms")} stroke={stroke("Arms")} strokeWidth={sw("Arms")} style={{ filter: glow("Arms"), cursor: "pointer", transition: "all 0.3s" }} onClick={() => onTap("Arms")} />
 
       {/* Right Arm */}
@@ -94,7 +87,6 @@ function BodySilhouette({
         style={{ filter: glow("Arms"), cursor: "pointer", transition: "all 0.3s" }}
         onClick={() => onTap("Arms")}
       />
-      {/* Right Forearm + Hand */}
       <path d="M168,172 Q172,180 174,194 L176,208 Q178,216 174,220 L168,220 Q164,218 164,210 L162,196 L162,172" fill={fill("Arms")} stroke={stroke("Arms")} strokeWidth={sw("Arms")} style={{ filter: glow("Arms"), cursor: "pointer", transition: "all 0.3s" }} onClick={() => onTap("Arms")} />
 
       {/* Left Leg */}
@@ -106,7 +98,6 @@ function BodySilhouette({
         style={{ filter: glow("Legs"), cursor: "pointer", transition: "all 0.3s" }}
         onClick={() => onTap("Legs")}
       />
-      {/* Left Foot */}
       <path d="M64,360 L60,370 Q56,378 58,382 L62,386 Q68,390 78,388 L82,384 Q84,378 82,372 L82,360" fill={fill("Legs")} stroke={stroke("Legs")} strokeWidth={sw("Legs")} style={{ filter: glow("Legs"), cursor: "pointer", transition: "all 0.3s" }} onClick={() => onTap("Legs")} />
 
       {/* Right Leg */}
@@ -118,39 +109,35 @@ function BodySilhouette({
         style={{ filter: glow("Legs"), cursor: "pointer", transition: "all 0.3s" }}
         onClick={() => onTap("Legs")}
       />
-      {/* Right Foot */}
       <path d="M136,360 L140,370 Q144,378 142,382 L138,386 Q132,390 122,388 L118,384 Q116,378 118,372 L118,360" fill={fill("Legs")} stroke={stroke("Legs")} strokeWidth={sw("Legs")} style={{ filter: glow("Legs"), cursor: "pointer", transition: "all 0.3s" }} onClick={() => onTap("Legs")} />
     </svg>
   );
 }
 
-export default function BodyMap({
-  regions,
-  trendLabels,
+export default function SymmetryMap({
+  symmetry,
 }: {
-  regions: Region[];
-  trendLabels: string[];
+  symmetry: SymRegion[];
 }) {
-  const [active, setActive] = useState<string | null>("Trunk");
+  const [active, setActive] = useState<string | null>("Arms");
   const ref = useScrollReveal<HTMLElement>();
 
-  const activeRegion = regions.find((r) => r.name === active);
-
+  const activeSym = symmetry.find((r) => r.name === active);
   const toggle = (name: string) => setActive(active === name ? null : name);
 
   return (
     <section ref={ref} className={`${s.section} ${s.bodyMapSection}`}>
-      <div className={s.sectionLabel}>Regions</div>
-      <div className={s.sectionTitle}>Where Your Fat Lives</div>
+      <div className={s.sectionLabel}>Symmetry</div>
+      <div className={s.sectionTitle}>Left vs Right</div>
 
       <div className={s.bodyMapContainer}>
         <div className={s.bodySvgWrap}>
-          <BodySilhouette active={active} onTap={toggle} />
+          <SymSilhouette active={active} onTap={toggle} />
         </div>
 
-        {/* Region Buttons */}
+        {/* Region Pills */}
         <div className={s.regionLabels}>
-          {regions.map((r) => (
+          {symmetry.map((r) => (
             <button
               key={r.name}
               className={`${s.regionBtn} ${active === r.name ? s.regionBtnActive : ""}`}
@@ -162,82 +149,84 @@ export default function BodyMap({
         </div>
 
         {/* Detail Sheet */}
-        {activeRegion && (
-          <div className={s.detailSheet} key={activeRegion.name}>
-            <div className={s.detailName}>{activeRegion.name}</div>
-            <div className={s.detailGrid}>
-              <div className={s.detailMetric}>
-                <span className={s.detailMetricLabel}>Fat %</span>
-                <span className={s.detailMetricValue}>
-                  {activeRegion.fatPercent}<span className={s.detailMetricUnit}>%</span>
-                </span>
-              </div>
-              <div className={s.detailMetric}>
-                <span className={s.detailMetricLabel}>Lean</span>
-                <span className={s.detailMetricValue}>
-                  {activeRegion.lean}<span className={s.detailMetricUnit}> kg</span>
-                </span>
-              </div>
-              <div className={s.detailMetric}>
-                <span className={s.detailMetricLabel}>Fat Mass</span>
-                <span className={s.detailMetricValue}>
-                  {activeRegion.fat}<span className={s.detailMetricUnit}> kg</span>
-                </span>
-              </div>
-              <div className={s.detailMetric}>
-                <span className={s.detailMetricLabel}>Total</span>
-                <span className={s.detailMetricValue}>
-                  {activeRegion.total}<span className={s.detailMetricUnit}> kg</span>
-                </span>
-              </div>
-              <div className={s.detailDelta}>
-                Was {activeRegion.prevFat}% in {activeRegion.prevDate} &middot; &darr;
-                {(activeRegion.prevFat - activeRegion.fatPercent).toFixed(1)}%
-              </div>
-            </div>
+        {activeSym && (() => {
+          const leftTotal = activeSym.left.total;
+          const rightTotal = activeSym.right.total;
+          const leftPct = (leftTotal / (leftTotal + rightTotal)) * 100;
+          const rightPct = (rightTotal / (leftTotal + rightTotal)) * 100;
 
-            {/* Region Scale */}
-            {(() => {
-              const pos = Math.min(activeRegion.fatPercent / 30, 1) * 100;
-              return (
-                <div className={s.scaleWrap}>
-                  <span className={s.scaleYou} style={{ left: `${pos}%` }}>You</span>
-                  <div
-                    className={s.scaleTrack}
-                    style={{
-                      background:
-                        "linear-gradient(90deg, #34d399 0%, #6ee7b7 33%, #fbbf24 55%, #fb923c 75%, #f87171 100%)",
-                    }}
-                  >
-                    <div className={s.scaleMarker} style={{ left: `${pos}%` }} />
+          return (
+            <div className={s.detailSheet} key={activeSym.name}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+                <div className={s.detailName} style={{ marginBottom: 0 }}>{activeSym.name}</div>
+                <StatusTag status={activeSym.status} label="Balanced" />
+              </div>
+
+              {/* Balance bar */}
+              <div className={s.balanceBarWrap}>
+                <div className={s.balanceLabel}>
+                  <span>L</span>
+                  <span>R</span>
+                </div>
+                <div className={s.balanceTrack}>
+                  <div className={s.balanceLeft} style={{ width: `${leftPct}%` }} />
+                  <div className={s.balanceRight} style={{ width: `${rightPct}%` }} />
+                  <div className={s.balanceCenter} />
+                </div>
+                <div className={s.balancePcts}>
+                  <span>{leftTotal} kg</span>
+                  <span>{rightTotal} kg</span>
+                </div>
+              </div>
+
+              {/* Side-by-side metrics */}
+              <div className={s.symSides}>
+                <div className={s.symSide}>
+                  <div className={s.symSideLabel}>Left</div>
+                  <div className={s.symMetricRow}>
+                    <span className={s.symMetricName}>Fat %</span>
+                    <span className={s.symMetricVal}>{activeSym.left.fatPercent}%</span>
                   </div>
-                  <div className={s.scaleTicks}>
-                    <span>0%</span><span>10%</span><span>20%</span><span>30%+</span>
+                  <div className={s.symMetricRow}>
+                    <span className={s.symMetricName}>Lean</span>
+                    <span className={s.symMetricVal}>{activeSym.left.lean} kg</span>
+                  </div>
+                  <div className={s.symMetricRow}>
+                    <span className={s.symMetricName}>Fat</span>
+                    <span className={s.symMetricVal}>{activeSym.left.fat} kg</span>
+                  </div>
+                  <div className={s.symMetricRow}>
+                    <span className={s.symMetricName}>Bone</span>
+                    <span className={s.symMetricVal}>{activeSym.left.bone} kg</span>
                   </div>
                 </div>
-              );
-            })()}
+                <div className={s.symDivider} />
+                <div className={s.symSide}>
+                  <div className={s.symSideLabel}>Right</div>
+                  <div className={s.symMetricRow}>
+                    <span className={s.symMetricName}>Fat %</span>
+                    <span className={s.symMetricVal}>{activeSym.right.fatPercent}%</span>
+                  </div>
+                  <div className={s.symMetricRow}>
+                    <span className={s.symMetricName}>Lean</span>
+                    <span className={s.symMetricVal}>{activeSym.right.lean} kg</span>
+                  </div>
+                  <div className={s.symMetricRow}>
+                    <span className={s.symMetricName}>Fat</span>
+                    <span className={s.symMetricVal}>{activeSym.right.fat} kg</span>
+                  </div>
+                  <div className={s.symMetricRow}>
+                    <span className={s.symMetricName}>Bone</span>
+                    <span className={s.symMetricVal}>{activeSym.right.bone} kg</span>
+                  </div>
+                </div>
+              </div>
 
-            {/* Region Trends */}
-            <div style={{ marginTop: 16 }}>
-              <AnimatedChart
-                title={`${activeRegion.name} Fat %`}
-                data={activeRegion.fatTrend}
-                labels={trendLabels}
-                unit="%"
-                color="#fbbf24"
-                decreaseIsGood
-              />
-              <AnimatedChart
-                title={`${activeRegion.name} Lean (kg)`}
-                data={activeRegion.leanTrend}
-                labels={trendLabels}
-                unit=""
-                color="#60a5fa"
-              />
+              {/* Verdict */}
+              <div className={s.symVerdict2}>{activeSym.verdict}</div>
             </div>
-          </div>
-        )}
+          );
+        })()}
       </div>
     </section>
   );

@@ -8,9 +8,11 @@ import BodyMap from "./components/BodyMap";
 import { AnimatedChart } from "./components/Timeline";
 import FuelStation from "./components/FuelStation";
 import GamePlan from "./components/GamePlan";
+import SymmetryMap from "./components/SymmetryMap";
 import SectionNav from "./components/SectionNav";
 import FlipCard from "./components/shared/FlipCard";
 import StatusTag from "./components/shared/StatusTag";
+import Image from "next/image";
 import s from "./report.module.css";
 
 function clr(status: string) {
@@ -108,99 +110,7 @@ export default function ReportView({ id }: { id: string }) {
 
           {/* ═══ Tab 3: Symmetry ═══ */}
           {tab === "symmetry" && (
-            <section
-              className={`${s.section} ${s.bodyMapSection}`}
-              style={{ opacity: 1, transform: "none" }}
-            >
-              <div className={s.sectionLabel}>Symmetry</div>
-              <div className={s.sectionTitle}>Left vs Right</div>
-
-              {d.symmetry.map((sym) => {
-                const leftTotal = sym.left.total;
-                const rightTotal = sym.right.total;
-                const leftPct = (leftTotal / (leftTotal + rightTotal)) * 100;
-                const rightPct = (rightTotal / (leftTotal + rightTotal)) * 100;
-
-                return (
-                  <div className={s.symCard2} key={sym.name}>
-                    {/* Header */}
-                    <div className={s.symCard2Header}>
-                      <div className={s.symCard2Name}>{sym.name}</div>
-                      <StatusTag status={sym.status} label="Balanced" />
-                    </div>
-
-                    {/* Balance bar */}
-                    <div className={s.balanceBarWrap}>
-                      <div className={s.balanceLabel}>
-                        <span>L</span>
-                        <span>R</span>
-                      </div>
-                      <div className={s.balanceTrack}>
-                        <div
-                          className={s.balanceLeft}
-                          style={{ width: `${leftPct}%` }}
-                        />
-                        <div
-                          className={s.balanceRight}
-                          style={{ width: `${rightPct}%` }}
-                        />
-                        <div className={s.balanceCenter} />
-                      </div>
-                      <div className={s.balancePcts}>
-                        <span>{leftTotal} kg</span>
-                        <span>{rightTotal} kg</span>
-                      </div>
-                    </div>
-
-                    {/* Side-by-side metric cards */}
-                    <div className={s.symSides}>
-                      <div className={s.symSide}>
-                        <div className={s.symSideLabel}>Left</div>
-                        <div className={s.symMetricRow}>
-                          <span className={s.symMetricName}>Fat %</span>
-                          <span className={s.symMetricVal}>{sym.left.fatPercent}%</span>
-                        </div>
-                        <div className={s.symMetricRow}>
-                          <span className={s.symMetricName}>Lean</span>
-                          <span className={s.symMetricVal}>{sym.left.lean} kg</span>
-                        </div>
-                        <div className={s.symMetricRow}>
-                          <span className={s.symMetricName}>Fat</span>
-                          <span className={s.symMetricVal}>{sym.left.fat} kg</span>
-                        </div>
-                        <div className={s.symMetricRow}>
-                          <span className={s.symMetricName}>Bone</span>
-                          <span className={s.symMetricVal}>{sym.left.bone} kg</span>
-                        </div>
-                      </div>
-                      <div className={s.symDivider} />
-                      <div className={s.symSide}>
-                        <div className={s.symSideLabel}>Right</div>
-                        <div className={s.symMetricRow}>
-                          <span className={s.symMetricName}>Fat %</span>
-                          <span className={s.symMetricVal}>{sym.right.fatPercent}%</span>
-                        </div>
-                        <div className={s.symMetricRow}>
-                          <span className={s.symMetricName}>Lean</span>
-                          <span className={s.symMetricVal}>{sym.right.lean} kg</span>
-                        </div>
-                        <div className={s.symMetricRow}>
-                          <span className={s.symMetricName}>Fat</span>
-                          <span className={s.symMetricVal}>{sym.right.fat} kg</span>
-                        </div>
-                        <div className={s.symMetricRow}>
-                          <span className={s.symMetricName}>Bone</span>
-                          <span className={s.symMetricVal}>{sym.right.bone} kg</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Verdict */}
-                    <div className={s.symVerdict2}>{sym.verdict}</div>
-                  </div>
-                );
-              })}
-            </section>
+            <SymmetryMap symmetry={d.symmetry} />
           )}
 
           {/* ═══ Tab 4: Visceral Fat ═══ */}
@@ -346,7 +256,7 @@ export default function ReportView({ id }: { id: string }) {
                   <FlipCard
                     front={
                       <>
-                        <div className={s.hcFrontLabel}>Bone Health</div>
+                        <div className={s.hcFrontLabel}>Young Adult T-Score</div>
                         <div style={{ marginTop: "auto" }}>
                           <div className={s.hcFrontValue}>
                             {d.boneHealth.tScore}<span className={s.hcFrontUnit}> T</span>
@@ -359,7 +269,7 @@ export default function ReportView({ id }: { id: string }) {
                     }
                     back={
                       <>
-                        <div className={s.hcBackTitle}>T-Score</div>
+                        <div className={s.hcBackTitle}>Young Adult T-Score</div>
                         <p className={s.hcBackText}>
                           Compares your bone density to a healthy 30-year-old. Above 0 is normal, above 1 is strong.
                         </p>
@@ -371,7 +281,7 @@ export default function ReportView({ id }: { id: string }) {
                   <FlipCard
                     front={
                       <>
-                        <div className={s.hcFrontLabel}>Z-Score</div>
+                        <div className={s.hcFrontLabel}>Age Matched Z-Score</div>
                         <div style={{ marginTop: "auto" }}>
                           <div className={s.hcFrontValue}>
                             {d.boneHealth.zScore}<span className={s.hcFrontUnit}> Z</span>
@@ -384,7 +294,7 @@ export default function ReportView({ id }: { id: string }) {
                     }
                     back={
                       <>
-                        <div className={s.hcBackTitle}>Z-Score</div>
+                        <div className={s.hcBackTitle}>Age Matched Z-Score</div>
                         <p className={s.hcBackText}>
                           Compares your bone density to others your age and sex. Above 0 is better than average.
                         </p>
@@ -394,65 +304,37 @@ export default function ReportView({ id }: { id: string }) {
                 </div>
               </div>
 
-              {/* Bone Health Detail */}
+              {/* Bone Region BMD Grid */}
               <div className={s.healthDetail}>
-                <div className={s.healthDetailTitle}>Bone Health</div>
-                <div className={s.healthDetailMetrics}>
-                  <div>
-                    <div className={s.hdLabel}>T-Score</div>
-                    <div className={s.hdVal}>{d.boneHealth.tScore}</div>
-                    <div className={s.hdSub}>vs 30-yr-old</div>
-                  </div>
-                  <div>
-                    <div className={s.hdLabel}>Z-Score</div>
-                    <div className={s.hdVal}>{d.boneHealth.zScore}</div>
-                    <div className={s.hdSub}>vs age group</div>
-                  </div>
-                  <div>
-                    <div className={s.hdLabel}>Total BMD</div>
-                    <div className={s.hdVal}>{d.boneHealth.totalBMD}</div>
-                    <div className={s.hdSub}>g/cm&sup2;</div>
-                  </div>
-                </div>
-
-                {/* Skeleton diagram with BMD values */}
-                <div style={{ display: "flex", gap: 16, alignItems: "flex-start", margin: "16px 0" }}>
-                  <svg viewBox="0 0 100 220" style={{ width: 90, flexShrink: 0 }}>
-                    {/* Skull */}
-                    <ellipse cx="50" cy="22" rx="16" ry="18" fill="none" stroke="rgba(0,122,255,0.5)" strokeWidth="1.2" />
-                    <line x1="50" y1="40" x2="50" y2="50" stroke="rgba(0,122,255,0.3)" strokeWidth="1" />
-                    {/* Spine */}
-                    <line x1="50" y1="50" x2="50" y2="140" stroke="rgba(0,122,255,0.4)" strokeWidth="2" strokeDasharray="4 2" />
-                    {/* Ribs */}
-                    <path d="M50,58 Q32,62 28,70" fill="none" stroke="rgba(0,122,255,0.3)" strokeWidth="1" />
-                    <path d="M50,58 Q68,62 72,70" fill="none" stroke="rgba(0,122,255,0.3)" strokeWidth="1" />
-                    <path d="M50,66 Q30,72 26,80" fill="none" stroke="rgba(0,122,255,0.3)" strokeWidth="1" />
-                    <path d="M50,66 Q70,72 74,80" fill="none" stroke="rgba(0,122,255,0.3)" strokeWidth="1" />
-                    <path d="M50,74 Q32,80 28,88" fill="none" stroke="rgba(0,122,255,0.3)" strokeWidth="1" />
-                    <path d="M50,74 Q68,80 72,88" fill="none" stroke="rgba(0,122,255,0.3)" strokeWidth="1" />
-                    {/* Pelvis */}
-                    <path d="M36,130 Q30,140 32,148 L42,152 L50,146 L58,152 L68,148 Q70,140 64,130" fill="none" stroke="rgba(0,122,255,0.4)" strokeWidth="1.2" />
-                    {/* Arms */}
-                    <line x1="50" y1="54" x2="26" y2="60" stroke="rgba(0,122,255,0.3)" strokeWidth="1.5" />
-                    <line x1="26" y1="60" x2="16" y2="110" stroke="rgba(0,122,255,0.3)" strokeWidth="1.2" />
-                    <line x1="50" y1="54" x2="74" y2="60" stroke="rgba(0,122,255,0.3)" strokeWidth="1.5" />
-                    <line x1="74" y1="60" x2="84" y2="110" stroke="rgba(0,122,255,0.3)" strokeWidth="1.2" />
-                    {/* Legs */}
-                    <line x1="42" y1="152" x2="36" y2="210" stroke="rgba(0,122,255,0.4)" strokeWidth="1.5" />
-                    <line x1="58" y1="152" x2="64" y2="210" stroke="rgba(0,122,255,0.4)" strokeWidth="1.5" />
-                  </svg>
-
-                  <div className={s.boneGrid} style={{ flex: 1 }}>
-                    {d.boneHealth.regions.map((b) => (
-                      <div className={s.boneCard} key={b.name}>
-                        <div className={s.boneName}>{b.name}</div>
-                        <div className={s.boneVal}>{b.bmd}</div>
+                <div className={s.healthDetailTitle}>Regional BMD</div>
+                <div className={s.boneGrid}>
+                  {d.boneHealth.regions.map((b) => (
+                    <div className={s.boneCard} key={b.name}>
+                      <div className={s.boneImgWrap}>
+                        <Image
+                          src={`/images/bone/${b.name.toLowerCase()}.png`}
+                          alt={b.name}
+                          width={60}
+                          height={60}
+                          className={s.boneImg}
+                        />
                       </div>
-                    ))}
-                    <div className={s.boneCard} style={{ background: "rgba(0, 122, 255, 0.08)" }}>
-                      <div className={s.boneName} style={{ color: "var(--r-accent)" }}>Total</div>
-                      <div className={s.boneVal}>{d.boneHealth.totalBMD}</div>
+                      <div className={s.boneName}>{b.name}</div>
+                      <div className={s.boneVal}>{b.bmd}</div>
                     </div>
+                  ))}
+                  <div className={s.boneCard} style={{ background: "rgba(0, 122, 255, 0.08)" }}>
+                    <div className={s.boneImgWrap}>
+                      <Image
+                        src="/images/bone/total.png"
+                        alt="Total"
+                        width={60}
+                        height={60}
+                        className={s.boneImg}
+                      />
+                    </div>
+                    <div className={s.boneName} style={{ color: "var(--r-accent)" }}>Total</div>
+                    <div className={s.boneVal}>{d.boneHealth.totalBMD}</div>
                   </div>
                 </div>
 
