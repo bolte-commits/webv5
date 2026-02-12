@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import MetricRing from "./shared/MetricRing";
+import FlipCard from "./shared/FlipCard";
 import s from "../report.module.css";
 
 type Plan = {
@@ -119,13 +120,27 @@ export default function FuelStation({
       <div className={s.sectionTitle}>How You Burn Energy</div>
 
       {/* RMR Card */}
-      <div className={s.fuelCard}>
-        <div className={s.fuelLabel}>Resting Metabolic Rate</div>
-        <div className={s.fuelBigNum}>
-          {rmr}<span className={s.fuelUnit}> kcal/day</span>
-        </div>
-        <div className={s.fuelAbove}>{aboveAvg}% above average</div>
-      </div>
+      <FlipCard
+        front={
+          <>
+            <div className={s.fuelLabel}>Resting Metabolic Rate</div>
+            <div style={{ marginTop: "auto" }}>
+              <div className={s.fuelBigNum}>
+                {rmr}<span className={s.fuelUnit}> kcal/day</span>
+              </div>
+              <div className={s.fuelAbove}>{aboveAvg}% above average</div>
+            </div>
+          </>
+        }
+        back={
+          <>
+            <div className={s.hcBackTitle}>RMR</div>
+            <p className={s.hcBackText}>
+              Your Resting Metabolic Rate is the number of calories your body burns at complete rest just to keep you alive — breathing, circulation, cell repair. Higher lean mass drives a higher RMR.
+            </p>
+          </>
+        }
+      />
 
       {/* TDEE Breakdown */}
       <div className={s.fuelCard}>
@@ -175,48 +190,61 @@ export default function FuelStation({
           ))}
         </div>
 
-        <div className={s.planCard} key={plan.goal}>
-          <div className={s.planCalories}>
-            {plan.calories}<span className={s.planCalUnit}> kcal</span>
-          </div>
-          <div className={s.planNote}>{plan.note}</div>
+        <FlipCard
+          key={plan.goal}
+          front={
+            <>
+              <div className={s.planCalories}>
+                {plan.calories}<span className={s.planCalUnit}> kcal</span>
+              </div>
+              <div className={s.planNote}>{plan.note}</div>
 
-          <div className={s.macroRow}>
-            <div className={s.macroItem}>
-              <MetricRing
-                value={plan.protein}
-                max={plan.protein + plan.carbs + plan.fat}
-                size={72}
-                strokeWidth={5}
-                color="#007aff"
-                unit="g"
-              />
-              <span className={s.macroName}>Protein</span>
-            </div>
-            <div className={s.macroItem}>
-              <MetricRing
-                value={plan.carbs}
-                max={plan.protein + plan.carbs + plan.fat}
-                size={72}
-                strokeWidth={5}
-                color="#fbbf24"
-                unit="g"
-              />
-              <span className={s.macroName}>Carbs</span>
-            </div>
-            <div className={s.macroItem}>
-              <MetricRing
-                value={plan.fat}
-                max={plan.protein + plan.carbs + plan.fat}
-                size={72}
-                strokeWidth={5}
-                color="#8e8e93"
-                unit="g"
-              />
-              <span className={s.macroName}>Fat</span>
-            </div>
-          </div>
-        </div>
+              <div className={s.macroRow}>
+                <div className={s.macroItem}>
+                  <MetricRing
+                    value={plan.protein}
+                    max={plan.protein + plan.carbs + plan.fat}
+                    size={72}
+                    strokeWidth={5}
+                    color="#007aff"
+                    unit="g"
+                  />
+                  <span className={s.macroName}>Protein</span>
+                </div>
+                <div className={s.macroItem}>
+                  <MetricRing
+                    value={plan.carbs}
+                    max={plan.protein + plan.carbs + plan.fat}
+                    size={72}
+                    strokeWidth={5}
+                    color="#fbbf24"
+                    unit="g"
+                  />
+                  <span className={s.macroName}>Carbs</span>
+                </div>
+                <div className={s.macroItem}>
+                  <MetricRing
+                    value={plan.fat}
+                    max={plan.protein + plan.carbs + plan.fat}
+                    size={72}
+                    strokeWidth={5}
+                    color="#8e8e93"
+                    unit="g"
+                  />
+                  <span className={s.macroName}>Fat</span>
+                </div>
+              </div>
+            </>
+          }
+          back={
+            <>
+              <div className={s.hcBackTitle}>Macros</div>
+              <p className={s.hcBackText}>
+                <strong>Protein</strong> builds and repairs muscle. <strong>Carbs</strong> fuel workouts and brain function. <strong>Fat</strong> supports hormones and nutrient absorption. The right ratio depends on your goal.
+              </p>
+            </>
+          }
+        />
       </div>
 
       <div className={s.nutritionRec}>
