@@ -502,29 +502,29 @@
     <div class="card">
       <div class="card-title">All Regions &mdash; Fat % Trend</div>
       <div class="trend-chart">
-        <svg viewBox="0 0 400 120" style="width:100%; height:120px;">
+        <svg viewBox="0 0 400 180" style="width:100%; height:180px;">
           <!-- grid -->
-          <line x1="0" y1="110" x2="400" y2="110" stroke="#e5e7eb" stroke-width="0.5"/>
-          <line x1="0" y1="75" x2="400" y2="75" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>
-          <line x1="0" y1="40" x2="400" y2="40" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>
+          <line x1="0" y1="170" x2="400" y2="170" stroke="#e5e7eb" stroke-width="0.5"/>
+          <line x1="0" y1="115" x2="400" y2="115" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>
+          <line x1="0" y1="60" x2="400" y2="60" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>
           <line x1="0" y1="5" x2="400" y2="5" stroke="#e5e7eb" stroke-width="0.5"/>
-          <!-- scale: 8% = y110, 15.2% = y5. Range 7.2%. y = 110 - ((val-8)/7.2)*105 -->
-          <!-- Android: 15.2→5, 14.2→19.6, 13.1→35.6, 12.3→47.3 -->
-          <polyline points="30,5 150,20 270,36 370,47" fill="none" stroke="var(--pri)" stroke-width="2" stroke-linecap="round"/>
-          <!-- Trunk: 12.8→40, 11.9→53, 10.9→67.2, 10.1→77.9 -->
-          <polyline points="30,40 150,53 270,67 370,78" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"/>
-          <!-- Gynoid: 11.8→54.5, 11.1→65.3, 10.2→77.1, 9.5→86.3 -->
-          <polyline points="30,55 150,65 270,77 370,86" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round"/>
-          <!-- Legs: 11.5→58.9, 10.8→67.2, 10.0→80.8, 9.2→92.5 -->
-          <polyline points="30,59 150,67 270,81 370,93" fill="none" stroke="#aaa" stroke-width="2" stroke-linecap="round"/>
-          <!-- Arms: 10.5→63.5, 9.8→73.7, 8.8→88.3, 8.0→110 -->
-          <polyline points="30,64 150,74 270,88 370,110" fill="none" stroke="#ccc" stroke-width="2" stroke-linecap="round"/>
+          <!-- scale: 8% = y170, 15.2% = y5. Range 7.2%. y = 170 - ((val-8)/7.2)*165 -->
+          <!-- Android: 15.2→5, 14.2→27, 13.1→52, 12.3→69 -->
+          <polyline points="30,5 150,27 270,52 370,69" fill="none" stroke="var(--pri)" stroke-width="2" stroke-linecap="round"/>
+          <!-- Trunk: 12.8→60, 11.9→81, 10.9→104, 10.1→122 -->
+          <polyline points="30,60 150,81 270,104 370,122" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+          <!-- Gynoid: 11.8→83, 11.1→100, 10.2→120, 9.5→135 -->
+          <polyline points="30,83 150,100 270,120 370,135" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round"/>
+          <!-- Legs: 11.5→90, 10.8→104, 10.0→124, 9.2→143 -->
+          <polyline points="30,90 150,104 270,124 370,143" fill="none" stroke="#aaa" stroke-width="2" stroke-linecap="round"/>
+          <!-- Arms: 10.5→98, 9.8→114, 8.8→138, 8.0→170 -->
+          <polyline points="30,98 150,114 270,138 370,170" fill="none" stroke="#ccc" stroke-width="2" stroke-linecap="round"/>
           <!-- end labels -->
-          <text x="380" y="50" font-size="7" fill="var(--pri)" font-weight="700">Android</text>
-          <text x="380" y="81" font-size="7" fill="#555" font-weight="600">Trunk</text>
-          <text x="380" y="89" font-size="7" fill="#888" font-weight="600">Gynoid</text>
-          <text x="380" y="96" font-size="7" fill="#aaa" font-weight="600">Legs</text>
-          <text x="380" y="108" font-size="7" fill="#bbb" font-weight="600">Arms</text>
+          <text x="380" y="72" font-size="7" fill="var(--pri)" font-weight="700">Android</text>
+          <text x="380" y="125" font-size="7" fill="#555" font-weight="600">Trunk</text>
+          <text x="380" y="138" font-size="7" fill="#888" font-weight="600">Gynoid</text>
+          <text x="380" y="146" font-size="7" fill="#aaa" font-weight="600">Legs</text>
+          <text x="380" y="168" font-size="7" fill="#bbb" font-weight="600">Arms</text>
         </svg>
         <div class="trend-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
       </div>
@@ -554,7 +554,6 @@
       </table>
     </div>
 
-    <div class="action action-g"><strong>All regions improving.</strong> Android region is dropping fat the fastest (-2.9%). Lean mass is growing across trunk, legs, and arms &mdash; balanced development.</div>
   </div>
   <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">6 of 15</div></div>
 </div>
@@ -650,7 +649,7 @@
       <div style="font-size:0.55rem; color:var(--dim); margin-top:8px; line-height:1.5;">Even distribution of lean mass and fat across both sides of the trunk. No corrective exercises needed.</div>
     </div>
 
-    <div class="action action-g"><strong>How to fix imbalances:</strong> You can't spot-reduce fat &mdash; fat loss is systemic and genetics decide where it goes first. But you can spot-build muscle. Use unilateral exercises (single-arm rows, single-leg presses) starting with the weaker side. Retest in 6&ndash;12 months; if asymmetry exceeds 10%, consult a physiotherapist.</div>
+    <div class="action action-g"><strong>How to fix imbalances:</strong> You can't spot-reduce fat &mdash; fat loss is systemic and genetics decide where it goes first. But you can spot-build muscle. Use unilateral exercises (single-arm rows, single-leg presses) starting with the weaker side. Retest in 2&ndash;3 months; if asymmetry exceeds 10%, consult a physiotherapist.</div>
 
   </div>
   <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">8 of 15</div></div>
@@ -911,7 +910,7 @@
       <div class="ap-item"><div class="ap-num">3</div><div class="ap-text"><h4>Address your A/G ratio</h4><p>At 1.29, you carry slightly more belly fat. Add core work and reduce refined carbs to bring this below 1.0.</p></div></div>
       <div class="ap-item"><div class="ap-num">4</div><div class="ap-text"><h4>Hit your protein target daily</h4><p>147g protein (2g/kg) daily. Focus on post-workout protein + carbs within 2 hours of training.</p></div></div>
       <div class="ap-item"><div class="ap-num">5</div><div class="ap-text"><h4>Keep bone health strong</h4><p>T-Score of 1.2 is great. Ensure 1000mg calcium and 2000 IU Vitamin D daily alongside weight-bearing exercise.</p></div></div>
-      <div class="ap-item"><div class="ap-num">6</div><div class="ap-text"><h4>Schedule your next scan</h4><p>Book a follow-up DEXA in 6&ndash;12 months. Consistent tracking helps you make data-driven decisions.</p></div></div>
+      <div class="ap-item"><div class="ap-num">6</div><div class="ap-text"><h4>Schedule your next scan</h4><p>Book a follow-up DEXA in 2&ndash;3 months. Consistent tracking helps you make data-driven decisions.</p></div></div>
     </div>
 
     <div style="background:var(--brand-light); border-radius:14px; padding:18px; text-align:center; border:1px solid rgba(0,122,255,0.12);">
