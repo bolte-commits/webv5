@@ -60,19 +60,19 @@
   .cover { flex: 1; background: var(--pri); display: flex; flex-direction: column; padding: 40px 32px 32px; color: white; }
   .cover-top { text-align: center; margin-bottom: auto; }
   .cover-logo { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
-  .cover-sub { font-size: 0.6rem; color: rgba(255,255,255,0.3); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; }
+  .cover-sub { font-size: 0.6rem; color: rgba(255,255,255,0.6); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; }
   .cover-middle { display: flex; flex-direction: column; align-items: center; margin-bottom: auto; text-align: center; }
-  .cover-prepared { font-size: 0.5rem; color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600; margin-bottom: 6px; }
+  .cover-prepared { font-size: 0.5rem; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600; margin-bottom: 6px; }
   .cover-name { font-family: 'Monument Extended', sans-serif; font-size: 2.8rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; }
   .cover-stat { }
-  .cover-label { font-size: 0.45rem; color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; margin-bottom: 1px; }
+  .cover-label { font-size: 0.45rem; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; margin-bottom: 1px; }
   .cover-val { font-size: 0.85rem; font-weight: 700; color: rgba(255,255,255,0.85); }
   .cover-scan-num { display: inline-block; font-size: 0.5rem; font-weight: 700; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.08); padding: 3px 10px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 6px; }
   .cover-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06); }
   .cover-date { font-size: 0.62rem; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
   .cover-id { font-size: 0.5rem; color: rgba(255,255,255,0.15); font-weight: 600; letter-spacing: 0.06em; }
-  .cover-ftr { background: rgba(255,255,255,0.03); padding: 12px 24px; text-align: center; font-size: 0.6rem; color: rgba(255,255,255,0.25); }
-  .cover-ftr a { color: rgba(255,255,255,0.5); text-decoration: none; }
+  .cover-ftr { background: rgba(255,255,255,0.03); padding: 12px 24px; text-align: center; font-size: 0.6rem; color: rgba(255,255,255,0.55); }
+  .cover-ftr a { color: rgba(255,255,255,0.7); text-decoration: none; }
 
   /* ===== TYPOGRAPHY ===== */
   .section-title { font-size: 1rem; font-weight: 800; color: var(--txt); margin-bottom: 2px; }
@@ -130,8 +130,7 @@
   /* ===== REGION CARD (for sectional + symmetry + bone) ===== */
   .region { background: var(--card); border-radius: 12px; padding: 14px; display: flex; gap: 14px; align-items: stretch; flex: 1; }
   .region + .region { margin-top: 6px; }
-  .region-img { width: 70px; border-radius: 8px; background: #f3f4f6; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .region-img::after { font-size: 0.35rem; color: var(--mute); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; text-align: center; }
+  .region-img { width: 70px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
   .region-data { flex: 1; min-width: 0; display: flex; flex-direction: column; }
   .region-name { font-size: 0.72rem; font-weight: 800; color: var(--txt); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
   .region-fat { font-family: 'Monument Extended', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--pri); line-height: 1; }
@@ -144,8 +143,7 @@
   /* ===== SYMMETRY REGION ===== */
   .sym-region { background: var(--card); border-radius: 12px; padding: 14px; display: flex; gap: 12px; }
   .sym-region + .sym-region { margin-top: 8px; }
-  .sym-img { width: 65px; min-height: 100px; border-radius: 8px; background: #f3f4f6; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .sym-img::after { font-size: 0.35rem; color: var(--mute); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; text-align: center; }
+  .sym-img { width: 90px; min-height: 100px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
   .sym-data { flex: 1; }
   .sym-name { font-size: 0.72rem; font-weight: 800; color: var(--txt); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
   .sym-table { width: 100%; border-collapse: collapse; }
@@ -158,8 +156,7 @@
   /* ===== BONE REGION GRID ===== */
   .bone-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
   .bone-card { background: var(--card); border-radius: 10px; padding: 8px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .bone-img { width: 100%; flex: 1; min-height: 0; border-radius: 6px; background: #f3f4f6; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
-  .bone-img::after { font-size: 0.32rem; color: var(--mute); font-weight: 700; text-transform: uppercase; }
+  .bone-img { width: 60%; margin: 0 auto; flex: 1; min-height: 0; border-radius: 6px; overflow: hidden; margin-bottom: 4px; }
   .bone-name { font-size: 0.52rem; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 0.06em; }
   .bone-val { font-family: 'Monument Extended', sans-serif; font-size: 0.85rem; font-weight: 800; color: var(--pri); margin: 2px 0; }
   .bone-unit { font-size: 0.42rem; color: var(--mute); }
@@ -224,7 +221,7 @@
 <body>
 
 <!-- ==================== PAGE 1: COVER ==================== -->
-<div class="page" style="display:flex; flex-direction:column; padding:0; overflow:hidden;">
+<div class="page" style="display:flex; flex-direction:column; padding:0; overflow:hidden; background:var(--pri);">
   <div class="cover">
     <div class="cover-top">
       <div class="cover-logo">BODY INSIGHT</div>
@@ -299,7 +296,13 @@
       <div style="display:flex; justify-content:space-between; margin-top:5px;"><span style="font-size:0.5rem; color:var(--dim); font-weight:600;">Lean 87.1%</span><span style="font-size:0.5rem; color:var(--dim); font-weight:600;">Fat 9.0%</span><span style="font-size:0.5rem; color:var(--dim); font-weight:600;">Bone 3.9%</span></div>
     </div>
     <div style="display:flex; gap:12px; flex:1;">
-      <img src="/images/xray.jpg" alt="DEXA Scan" style="width:170px; flex-shrink:0; border-radius:12px; object-fit:cover;">
+      <div style="width:170px; flex-shrink:0; position:relative;">
+        <img src="/images/xray.jpg" alt="DEXA Scan" style="width:100%; height:100%; border-radius:12px; object-fit:cover;">
+        <div style="position:absolute; bottom:6px; left:50%; transform:translateX(-50%); display:flex; gap:6px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); padding:3px 8px; border-radius:20px;">
+          <div style="display:flex; align-items:center; gap:3px;"><span style="width:6px; height:6px; border-radius:2px; background:#00e5ff;"></span><span style="font-size:0.38rem; font-weight:600; color:white;">Lean</span></div>
+          <div style="display:flex; align-items:center; gap:3px;"><span style="width:6px; height:6px; border-radius:2px; background:#ff4444;"></span><span style="font-size:0.38rem; font-weight:600; color:white;">Fat</span></div>
+        </div>
+      </div>
       <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
         <div class="card" style="padding:12px 14px; flex:1;">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:2px;"><span style="font-size:0.68rem; font-weight:700;">Lean Mass</span><span class="num-md">63.9 <small style="font-size:0.5rem; color:var(--mute); font-family:'DM Sans'; font-weight:600;">kg</small></span></div>
@@ -423,7 +426,7 @@
     <div><div class="section-title">Where Your Fat Lives</div><div class="section-desc">DEXA measures composition in 5 distinct regions, revealing how lean tissue and fat are distributed across your body.</div></div>
 
     <div class="region">
-      <div class="region-img"><div style="font-size:0.32rem; color:var(--mute); font-weight:700; text-transform:uppercase;">Trunk</div></div>
+      <div class="region-img"><img src="/images/regions/trunk.png" alt="Trunk" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
       <div class="region-data">
         <div class="region-name">Trunk</div>
         <div class="region-fat">10.1<small>% fat</small></div>
@@ -436,7 +439,7 @@
       </div>
     </div>
     <div class="region">
-      <div class="region-img"><div style="font-size:0.32rem; color:var(--mute); font-weight:700; text-transform:uppercase;">Arms</div></div>
+      <div class="region-img"><img src="/images/regions/arms.png" alt="Arms" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
       <div class="region-data">
         <div class="region-name">Arms</div>
         <div class="region-fat">8.0<small>% fat</small></div>
@@ -449,7 +452,7 @@
       </div>
     </div>
     <div class="region">
-      <div class="region-img"><div style="font-size:0.32rem; color:var(--mute); font-weight:700; text-transform:uppercase;">Legs</div></div>
+      <div class="region-img"><img src="/images/regions/legs.png" alt="Legs" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
       <div class="region-data">
         <div class="region-name">Legs</div>
         <div class="region-fat">9.2<small>% fat</small></div>
@@ -462,7 +465,7 @@
       </div>
     </div>
     <div class="region">
-      <div class="region-img"><div style="font-size:0.32rem; color:var(--mute); font-weight:700; text-transform:uppercase;">Android</div></div>
+      <div class="region-img"><img src="/images/regions/android.png" alt="Android" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
       <div class="region-data">
         <div class="region-name">Android (Belly)</div>
         <div class="region-fat">12.3<small>% fat</small></div>
@@ -475,7 +478,7 @@
       </div>
     </div>
     <div class="region">
-      <div class="region-img"><div style="font-size:0.32rem; color:var(--mute); font-weight:700; text-transform:uppercase;">Gynoid</div></div>
+      <div class="region-img"><img src="/images/regions/gynoid.png" alt="Gynoid" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
       <div class="region-data">
         <div class="region-name">Gynoid (Hip)</div>
         <div class="region-fat">9.5<small>% fat</small></div>
@@ -563,7 +566,7 @@
     <div><div class="section-title">Symmetry Check</div><div class="section-desc">Comparing the left and right sides of your body to detect muscle imbalances or asymmetric fat storage.</div></div>
 
     <div class="sym-region">
-      <div class="sym-img"><div style="font-size:0.32rem; color:var(--mute); font-weight:700; text-transform:uppercase; text-align:center;">Arms<br>L / R</div></div>
+      <div class="sym-img"><img src="/images/regions/arms.png" alt="Arms" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
       <div class="sym-data">
         <div class="sym-name">Arms</div>
         <table class="sym-table">
@@ -579,7 +582,7 @@
     </div>
 
     <div class="sym-region">
-      <div class="sym-img"><div style="font-size:0.32rem; color:var(--mute); font-weight:700; text-transform:uppercase; text-align:center;">Legs<br>L / R</div></div>
+      <div class="sym-img"><img src="/images/regions/legs.png" alt="Legs" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
       <div class="sym-data">
         <div class="sym-name">Legs</div>
         <table class="sym-table">
@@ -595,7 +598,7 @@
     </div>
 
     <div class="sym-region">
-      <div class="sym-img"><div style="font-size:0.32rem; color:var(--mute); font-weight:700; text-transform:uppercase; text-align:center;">Trunk<br>L / R</div></div>
+      <div class="sym-img"><img src="/images/regions/trunk.png" alt="Trunk" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
       <div class="sym-data">
         <div class="sym-name">Trunk</div>
         <table class="sym-table">
@@ -621,9 +624,9 @@
     <div><div class="section-title">Balance Assessment</div><div class="section-desc">How balanced your left and right sides are across each body region. Large imbalances increase injury risk.</div></div>
 
     <div style="display:flex; gap:12px; justify-content:center; margin-bottom:12px;">
-      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:var(--red);"></span><span style="font-size:0.45rem; color:var(--dim);">High imbalance</span></div>
-      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:var(--mute);"></span><span style="font-size:0.45rem; color:var(--dim);">Minor imbalance</span></div>
-      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:var(--grn);"></span><span style="font-size:0.45rem; color:var(--dim);">Good balance</span></div>
+      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#fca5a5;"></span><span style="font-size:0.45rem; color:var(--dim);">High imbalance</span></div>
+      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#fde047;"></span><span style="font-size:0.45rem; color:var(--dim);">Minor imbalance</span></div>
+      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#34d399;"></span><span style="font-size:0.45rem; color:var(--dim);">Good balance</span></div>
     </div>
 
     <div class="card" style="margin-bottom:8px;">
@@ -712,14 +715,14 @@
     <div class="card" style="flex:1; display:flex; flex-direction:column;">
       <div class="card-title">Bone Mineral Density by Region (g/cm&sup2;)</div>
       <div class="bone-grid" style="flex:1;">
-        <div class="bone-card"><div class="bone-img"><span style="font-size:0.3rem; color:var(--mute); font-weight:700;">HEAD</span></div><div class="bone-name">Head</div><div class="bone-val">2.31</div></div>
-        <div class="bone-card"><div class="bone-img"><span style="font-size:0.3rem; color:var(--mute); font-weight:700;">ARMS</span></div><div class="bone-name">Arms</div><div class="bone-val">0.85</div></div>
-        <div class="bone-card"><div class="bone-img"><span style="font-size:0.3rem; color:var(--mute); font-weight:700;">LEGS</span></div><div class="bone-name">Legs</div><div class="bone-val">1.42</div></div>
-        <div class="bone-card"><div class="bone-img"><span style="font-size:0.3rem; color:var(--mute); font-weight:700;">TRUNK</span></div><div class="bone-name">Trunk</div><div class="bone-val">0.98</div></div>
-        <div class="bone-card"><div class="bone-img"><span style="font-size:0.3rem; color:var(--mute); font-weight:700;">RIBS</span></div><div class="bone-name">Ribs</div><div class="bone-val">0.76</div></div>
-        <div class="bone-card"><div class="bone-img"><span style="font-size:0.3rem; color:var(--mute); font-weight:700;">SPINE</span></div><div class="bone-name">Spine</div><div class="bone-val">1.22</div></div>
-        <div class="bone-card"><div class="bone-img"><span style="font-size:0.3rem; color:var(--mute); font-weight:700;">PELVIS</span></div><div class="bone-name">Pelvis</div><div class="bone-val">1.19</div></div>
-        <div class="bone-card" style="background:#f3f4f6;"><div class="bone-img" style="background:rgba(0,0,0,0.04);"><span style="font-size:0.3rem; color:var(--dim); font-weight:700;">TOTAL</span></div><div class="bone-name" style="color:var(--txt);">Total</div><div class="bone-val">1.25</div></div>
+        <div class="bone-card"><div class="bone-img"><img src="/images/bone/head.png" alt="Head" style="width:100%; height:100%; object-fit:cover; border-radius:6px;" /></div><div class="bone-name">Head</div><div class="bone-val">2.31</div></div>
+        <div class="bone-card"><div class="bone-img"><img src="/images/bone/arms.png" alt="Arms" style="width:100%; height:100%; object-fit:cover; border-radius:6px;" /></div><div class="bone-name">Arms</div><div class="bone-val">0.85</div></div>
+        <div class="bone-card"><div class="bone-img"><img src="/images/bone/legs.png" alt="Legs" style="width:100%; height:100%; object-fit:cover; border-radius:6px;" /></div><div class="bone-name">Legs</div><div class="bone-val">1.42</div></div>
+        <div class="bone-card"><div class="bone-img"><img src="/images/bone/trunk.png" alt="Trunk" style="width:100%; height:100%; object-fit:cover; border-radius:6px;" /></div><div class="bone-name">Trunk</div><div class="bone-val">0.98</div></div>
+        <div class="bone-card"><div class="bone-img"><img src="/images/bone/ribs.png" alt="Ribs" style="width:100%; height:100%; object-fit:cover; border-radius:6px;" /></div><div class="bone-name">Ribs</div><div class="bone-val">0.76</div></div>
+        <div class="bone-card"><div class="bone-img"><img src="/images/bone/spine.png" alt="Spine" style="width:100%; height:100%; object-fit:cover; border-radius:6px;" /></div><div class="bone-name">Spine</div><div class="bone-val">1.22</div></div>
+        <div class="bone-card"><div class="bone-img"><img src="/images/bone/pelvis.png" alt="Pelvis" style="width:100%; height:100%; object-fit:cover; border-radius:6px;" /></div><div class="bone-name">Pelvis</div><div class="bone-val">1.19</div></div>
+        <div class="bone-card" style="background:#f3f4f6;"><div class="bone-img"><img src="/images/bone/total.png" alt="Total" style="width:100%; height:100%; object-fit:cover; border-radius:6px;" /></div><div class="bone-name" style="color:var(--txt);">Total</div><div class="bone-val">1.25</div></div>
       </div>
     </div>
 
