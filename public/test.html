@@ -37,6 +37,7 @@
 
   /* ===== PAGE ===== */
   .page { width: 500px; min-height: 880px; background: var(--bg); box-shadow: 0 20px 80px rgba(0,0,0,0.25); display: flex; flex-direction: column; overflow: hidden; }
+  @media print { .page { box-shadow: none; } }
 
   /* ===== HEADER ===== */
   .hdr { background: var(--pri); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
@@ -109,7 +110,7 @@
 
   /* ===== RANGE BAR ===== */
   .range-bar { height: 5px; border-radius: 3px; position: relative; margin: 6px 0 4px; }
-  .range-dot { position: absolute; top: -4px; width: 13px; height: 13px; background: white; border: 3px solid var(--pri); border-radius: 50%; transform: translateX(-50%); box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+  .range-dot { position: absolute; top: -4px; width: 13px; height: 13px; background: white; border: 3px solid var(--pri); border-radius: 50%; transform: translateX(-50%); }
 
   /* ===== VERDICT ===== */
   .verdict { display: inline-flex; align-items: center; gap: 4px; font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
@@ -128,14 +129,14 @@
   .img-ph-body::after { content: 'Body\ARegions'; }
 
   /* ===== REGION CARD (for sectional + symmetry + bone) ===== */
-  .region { background: var(--card); border-radius: 12px; padding: 14px; display: flex; gap: 14px; align-items: stretch; flex: 1; }
-  .region + .region { margin-top: 6px; }
-  .region-img { width: 70px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .region { background: var(--card); border-radius: 12px; padding: 10px; display: flex; gap: 10px; align-items: stretch; flex: 1; }
+  .region + .region { margin-top: 4px; }
+  .region-img { width: 55px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
   .region-data { flex: 1; min-width: 0; display: flex; flex-direction: column; }
   .region-name { font-size: 0.72rem; font-weight: 800; color: var(--txt); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
-  .region-fat { font-family: 'Monument Extended', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--pri); line-height: 1; }
-  .region-fat small { font-size: 0.55rem; color: var(--mute); font-family: 'DM Sans'; font-weight: 600; }
-  .region-metrics { display: flex; gap: 12px; margin-top: 6px; }
+  .region-fat { font-family: 'Monument Extended', sans-serif; font-size: 1rem; font-weight: 800; color: var(--pri); line-height: 1; }
+  .region-fat small { font-size: 0.5rem; color: var(--mute); font-family: 'DM Sans'; font-weight: 600; }
+  .region-metrics { display: flex; gap: 12px; margin-top: 4px; }
   .region-met { }
   .region-met-label { font-size: 0.42rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mute); }
   .region-met-val { font-size: 0.7rem; font-weight: 700; color: var(--txt); }
@@ -156,14 +157,14 @@
   /* ===== BONE REGION GRID ===== */
   .bone-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
   .bone-card { background: var(--card); border-radius: 10px; padding: 8px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .bone-img { width: 60%; margin: 0 auto; flex: 1; min-height: 0; border-radius: 6px; overflow: hidden; margin-bottom: 4px; }
+  .bone-img { width: 60%; margin: 0 auto; border-radius: 6px; overflow: hidden; margin-bottom: 4px; }
   .bone-name { font-size: 0.52rem; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 0.06em; }
   .bone-val { font-family: 'Monument Extended', sans-serif; font-size: 0.85rem; font-weight: 800; color: var(--pri); margin: 2px 0; }
   .bone-unit { font-size: 0.42rem; color: var(--mute); }
 
   /* ===== VF / BONE HEALTH SCALES ===== */
   .vf-scale { height: 10px; border-radius: 5px; background: linear-gradient(90deg, #34d399 0%, #6ee7b7 25%, #fbbf24 50%, #fb923c 75%, #f87171 100%); position: relative; margin: 22px 0 6px; }
-  .vf-dot { position: absolute; top: -5px; width: 20px; height: 20px; background: white; border: 3px solid var(--brand); border-radius: 50%; transform: translateX(-50%); box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+  .vf-dot { position: absolute; top: -5px; width: 20px; height: 20px; background: white; border: 3px solid var(--brand); border-radius: 50%; transform: translateX(-50%); }
   .vf-you { position: absolute; top: -20px; transform: translateX(-50%); font-size: 0.5rem; font-weight: 800; text-transform: uppercase; color: var(--brand); letter-spacing: 0.06em; }
   .bh-scale-bar { height: 10px; border-radius: 5px; background: linear-gradient(90deg, #f87171 0%, #fbbf24 35%, #34d399 65%, #34d399 100%); position: relative; margin: 22px 0 6px; }
 
@@ -282,7 +283,7 @@
 
     <div class="action action-g"><strong>Overall:</strong> Excellent body composition. Your lean mass is well above average and body fat is very low. Maintain your current training while ensuring adequate caloric intake &mdash; 9% is close to the essential fat floor.</div>
   </div>
-  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">2 of 15</div></div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">2 of 17</div></div>
 </div>
 
 <!-- ==================== PAGE 3: BODY COMPOSITION ==================== -->
@@ -295,28 +296,28 @@
       <div class="stack-bar"><div class="stack-seg" style="background:var(--brand); flex:87.1;">Lean 87.1%</div><div class="stack-seg" style="background:#8bb8e8; flex:9.0;"></div><div class="stack-seg" style="background:#c4d9f0; flex:3.9;"></div></div>
       <div style="display:flex; justify-content:space-between; margin-top:5px;"><span style="font-size:0.5rem; color:var(--dim); font-weight:600;">Lean 87.1%</span><span style="font-size:0.5rem; color:var(--dim); font-weight:600;">Fat 9.0%</span><span style="font-size:0.5rem; color:var(--dim); font-weight:600;">Bone 3.9%</span></div>
     </div>
-    <div style="display:flex; gap:12px; flex:1;">
-      <div style="width:170px; flex-shrink:0; position:relative;">
+    <div style="display:flex; gap:10px; flex:1; max-height:520px;">
+      <div style="width:155px; flex-shrink:0; position:relative;">
         <img src="/images/xray.jpg" alt="DEXA Scan" style="width:100%; height:100%; border-radius:12px; object-fit:cover;">
         <div style="position:absolute; bottom:6px; left:50%; transform:translateX(-50%); display:flex; gap:6px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); padding:3px 8px; border-radius:20px;">
           <div style="display:flex; align-items:center; gap:3px;"><span style="width:6px; height:6px; border-radius:2px; background:#00e5ff;"></span><span style="font-size:0.38rem; font-weight:600; color:white;">Lean</span></div>
           <div style="display:flex; align-items:center; gap:3px;"><span style="width:6px; height:6px; border-radius:2px; background:#ff4444;"></span><span style="font-size:0.38rem; font-weight:600; color:white;">Fat</span></div>
         </div>
       </div>
-      <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
-        <div class="card" style="padding:12px 14px; flex:1;">
+      <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+        <div class="card" style="padding:10px 12px; flex:1;">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:2px;"><span style="font-size:0.68rem; font-weight:700;">Lean Mass</span><span class="num-md">63.9 <small style="font-size:0.5rem; color:var(--mute); font-family:'DM Sans'; font-weight:600;">kg</small></span></div>
           <div style="font-size:0.52rem; color:var(--dim); margin-bottom:4px;">Muscles, organs, water &amp; connective tissue. More lean mass means a higher metabolism.</div>
           <div class="range-bar" style="background:linear-gradient(90deg, #fca5a5 0%, #fde047 25%, #86efac 55%, #34d399 100%);"><div class="range-dot" style="left:75%;"></div></div>
           <div class="verdict" style="color:var(--grn);"><span class="verdict-dot" style="background:#34d399;"></span> Above average</div>
         </div>
-        <div class="card" style="padding:12px 14px; flex:1;">
+        <div class="card" style="padding:10px 12px; flex:1;">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:2px;"><span style="font-size:0.68rem; font-weight:700;">Fat Mass</span><span class="num-md">6.6 <small style="font-size:0.5rem; color:var(--mute); font-family:'DM Sans'; font-weight:600;">kg</small></span></div>
           <div style="font-size:0.52rem; color:var(--dim); margin-bottom:4px;">Essential fat for hormones &amp; insulation plus stored energy. Too low affects recovery.</div>
           <div class="range-bar" style="background:linear-gradient(90deg, #86efac 0%, #34d399 30%, #fde047 55%, #fca5a5 80%, #f87171 100%);"><div class="range-dot" style="left:12%;"></div></div>
           <div class="verdict" style="color:var(--ylw);"><span class="verdict-dot" style="background:#f59e0b;"></span> Near essential minimum</div>
         </div>
-        <div class="card" style="padding:12px 14px; flex:1;">
+        <div class="card" style="padding:10px 12px; flex:1;">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:2px;"><span style="font-size:0.68rem; font-weight:700;">Bone Mineral</span><span class="num-md">2.9 <small style="font-size:0.5rem; color:var(--mute); font-family:'DM Sans'; font-weight:600;">kg</small></span></div>
           <div style="font-size:0.52rem; color:var(--dim); margin-bottom:4px;">Calcium &amp; mineral content of your skeleton. Indicates bone strength and fracture risk.</div>
           <div class="range-bar" style="background:linear-gradient(90deg, #fca5a5 0%, #fde047 25%, #86efac 45%, #34d399 65%, #fde047 85%, #fca5a5 100%);"><div class="range-dot" style="left:50%;"></div></div>
@@ -326,7 +327,7 @@
     </div>
     <div class="action action-y"><strong>Watch your fat levels.</strong> At 9%, you're near the essential fat minimum. Ensure adequate healthy fats and calories for hormone function and recovery.</div>
   </div>
-  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">3 of 15</div></div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">3 of 17</div></div>
 </div>
 
 <!-- ==================== PAGE 4: COMPOSITION TRENDS ==================== -->
@@ -416,7 +417,7 @@
       </div>
     </div>
   </div>
-  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">4 of 15</div></div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">4 of 17</div></div>
 </div>
 
 <!-- ==================== PAGE 5: REGIONAL ANALYSIS ==================== -->
@@ -491,7 +492,7 @@
       </div>
     </div>
   </div>
-  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">5 of 15</div></div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">5 of 17</div></div>
 </div>
 
 <!-- ==================== PAGE 6: REGIONAL TRENDS ==================== -->
@@ -503,7 +504,7 @@
     <div class="card">
       <div class="card-title">All Regions &mdash; Fat % Trend</div>
       <div class="trend-chart">
-        <svg viewBox="0 0 400 180" style="width:100%; height:180px;">
+        <svg viewBox="0 0 400 180" style="width:100%; height:140px;">
           <!-- grid -->
           <line x1="0" y1="170" x2="400" y2="170" stroke="#e5e7eb" stroke-width="0.5"/>
           <line x1="0" y1="115" x2="400" y2="115" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>
@@ -556,7 +557,7 @@
     </div>
 
   </div>
-  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">6 of 15</div></div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">6 of 17</div></div>
 </div>
 
 <!-- ==================== PAGE 7: LEFT VS RIGHT ==================== -->
@@ -614,7 +615,7 @@
     </div>
 
   </div>
-  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">7 of 15</div></div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">7 of 17</div></div>
 </div>
 
 <!-- ==================== PAGE 8: SECTIONAL BALANCE ==================== -->
@@ -653,7 +654,7 @@
     <div class="action action-g"><strong>How to fix imbalances:</strong> You can't spot-reduce fat &mdash; fat loss is systemic and genetics decide where it goes first. But you can spot-build muscle. Use unilateral exercises (single-arm rows, single-leg presses) starting with the weaker side. Retest in 2&ndash;3 months; if asymmetry exceeds 10%, consult a physiotherapist.</div>
 
   </div>
-  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">8 of 15</div></div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">8 of 17</div></div>
 </div>
 
 <!-- ==================== PAGE 9: VISCERAL & SUBCUTANEOUS FAT ==================== -->
@@ -698,10 +699,10 @@
 
     <div class="action action-g"><strong>Your visceral fat is safe and trending down.</strong> At 185g (below 250g threshold), your organ fat levels are healthy. Maintain your current diet and exercise routine.</div>
   </div>
-  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">9 of 15</div></div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">9 of 17</div></div>
 </div>
 
-<!-- ==================== PAGE 9: BONE HEALTH ==================== -->
+<!-- ==================== PAGE 10: BONE HEALTH ==================== -->
 <div class="page">
   <div class="hdr"><div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-logo">BODY INSIGHT</span></div><div class="hdr-section"><strong>Bone Health</strong></div></div>
   <div class="content">
@@ -731,6 +732,69 @@
       <div class="bh-scale-bar"><div class="vf-you" style="left:72%;">You</div><div class="vf-dot" style="left:72%;"></div></div>
       <div style="display:flex; justify-content:space-between; font-size:0.48rem; color:var(--mute); font-weight:600;"><span>Osteoporosis</span><span>Osteopenia</span><span>Normal</span><span>Strong</span></div>
     </div>
+  </div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">10 of 17</div></div>
+</div>
+
+<!-- ==================== PAGE 11: BONE TRENDS ==================== -->
+<div class="page">
+  <div class="hdr"><div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-logo">BODY INSIGHT</span></div><div class="hdr-section"><strong>Bone Trends</strong></div></div>
+  <div class="content" style="display:flex; flex-direction:column;">
+    <div><div class="section-title">Bone Health Over Time</div><div class="section-desc">Tracking your T-Score, Z-Score, and total bone mineral density across 4 DEXA scans.</div></div>
+
+    <div class="card" style="padding:12px 14px; flex:1; display:flex; flex-direction:column;">
+      <div class="card-title">T-Score Trend</div>
+      <div style="display:flex; gap:12px; align-items:stretch; flex:1;">
+        <div class="trend-chart" style="flex:1; min-width:0; display:flex; flex-direction:column;">
+          <svg viewBox="0 0 240 70" style="width:100%; flex:1;">
+            <line x1="0" y1="64" x2="240" y2="64" stroke="#e5e7eb" stroke-width="0.5"/>
+            <line x1="0" y1="35" x2="240" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>
+            <line x1="0" y1="6" x2="240" y2="6" stroke="#e5e7eb" stroke-width="0.5"/>
+            <polyline points="20,58 80,42 160,28 220,14" fill="none" stroke="var(--pri)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="20" cy="58" r="3" fill="var(--pri)"/><circle cx="80" cy="42" r="3" fill="var(--pri)"/><circle cx="160" cy="28" r="3" fill="var(--pri)"/><circle cx="220" cy="14" r="3" fill="var(--pri)"/>
+            <text x="20" y="52" font-size="7" fill="var(--dim)" text-anchor="middle" font-weight="600">0.4</text>
+            <text x="80" y="36" font-size="7" fill="var(--dim)" text-anchor="middle" font-weight="600">0.7</text>
+            <text x="160" y="22" font-size="7" fill="var(--dim)" text-anchor="middle" font-weight="600">1.0</text>
+            <text x="220" y="28" font-size="7" fill="var(--grn)" text-anchor="middle" font-weight="700">1.2</text>
+          </svg>
+          <div class="trend-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
+        </div>
+        <table class="dtable" style="width:auto; flex-shrink:0; margin:0; font-size:0.5rem;">
+          <tr><th>Date</th><th>T-Score</th></tr>
+          <tr><td>Feb '26</td><td><strong>1.2</strong></td></tr>
+          <tr><td>Jan '25</td><td>1.0</td></tr>
+          <tr><td>Nov '23</td><td>0.7</td></tr>
+          <tr><td>Jan '23</td><td>0.4</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="padding:12px 14px; flex:1; display:flex; flex-direction:column;">
+      <div class="card-title">Total BMD Trend (g/cm&sup2;)</div>
+      <div style="display:flex; gap:12px; align-items:stretch; flex:1;">
+        <div class="trend-chart" style="flex:1; min-width:0; display:flex; flex-direction:column;">
+          <svg viewBox="0 0 240 70" style="width:100%; flex:1;">
+            <line x1="0" y1="64" x2="240" y2="64" stroke="#e5e7eb" stroke-width="0.5"/>
+            <line x1="0" y1="35" x2="240" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>
+            <line x1="0" y1="6" x2="240" y2="6" stroke="#e5e7eb" stroke-width="0.5"/>
+            <polyline points="20,56 80,40 160,24 220,10" fill="none" stroke="var(--pri)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="20" cy="56" r="3" fill="var(--pri)"/><circle cx="80" cy="40" r="3" fill="var(--pri)"/><circle cx="160" cy="24" r="3" fill="var(--pri)"/><circle cx="220" cy="10" r="3" fill="var(--pri)"/>
+            <text x="20" y="50" font-size="7" fill="var(--dim)" text-anchor="middle" font-weight="600">1.12</text>
+            <text x="80" y="34" font-size="7" fill="var(--dim)" text-anchor="middle" font-weight="600">1.16</text>
+            <text x="160" y="18" font-size="7" fill="var(--dim)" text-anchor="middle" font-weight="600">1.21</text>
+            <text x="220" y="24" font-size="7" fill="var(--grn)" text-anchor="middle" font-weight="700">1.25</text>
+          </svg>
+          <div class="trend-labels"><span>Jan '23</span><span>Nov '23</span><span>Jan '25</span><span>Feb '26</span></div>
+        </div>
+        <table class="dtable" style="width:auto; flex-shrink:0; margin:0; font-size:0.5rem;">
+          <tr><th>Date</th><th>BMD</th></tr>
+          <tr><td>Feb '26</td><td><strong>1.25</strong></td></tr>
+          <tr><td>Jan '25</td><td>1.21</td></tr>
+          <tr><td>Nov '23</td><td>1.16</td></tr>
+          <tr><td>Jan '23</td><td>1.12</td></tr>
+        </table>
+      </div>
+    </div>
 
     <div class="g2">
       <div class="insight"><h4>What the scores mean</h4><p><strong>T-Score</strong> compares to peak bone mass of a healthy young adult. <strong>Z-Score</strong> compares to your age group. Below -2.5 = osteoporosis.</p></div>
@@ -739,10 +803,10 @@
 
     <div class="action action-g"><strong>Excellent bone health.</strong> T-Score 1.2 and Z-Score 1.4 indicate strong, healthy bones. Continue weight-bearing exercise and adequate calcium intake.</div>
   </div>
-  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">10 of 15</div></div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">11 of 17</div></div>
 </div>
 
-<!-- ==================== PAGE 10: A/G RATIO ==================== -->
+<!-- ==================== PAGE 12: A/G RATIO ==================== -->
 <div class="page">
   <div class="hdr"><div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-logo">BODY INSIGHT</span></div><div class="hdr-section"><strong>Fat Distribution</strong></div></div>
   <div class="content">
@@ -766,8 +830,15 @@
     </div>
 
     <div class="action action-y"><strong>Bring your A/G ratio below 1.0.</strong> Focus on core training and reduce refined carbohydrates to shift fat distribution from belly toward hips over time.</div>
+  </div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">12 of 17</div></div>
+</div>
 
-    <div style="margin-top:12px;"><div class="section-title">Sarcopenia Screening</div><div class="section-desc">ALMI (Appendicular Lean Mass Index) measures the lean mass in your arms and legs relative to your height &mdash; the clinical standard for detecting muscle loss.</div></div>
+<!-- ==================== PAGE 13: SARCOPENIA SCREENING ==================== -->
+<div class="page">
+  <div class="hdr"><div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-logo">BODY INSIGHT</span></div><div class="hdr-section"><strong>Muscle Health</strong></div></div>
+  <div class="content">
+    <div><div class="section-title">Sarcopenia Screening</div><div class="section-desc">ALMI (Appendicular Lean Mass Index) measures the lean mass in your arms and legs relative to your height &mdash; the clinical standard for detecting muscle loss.</div></div>
 
     <div class="card" style="text-align:center; padding:20px;">
       <div class="label">Your ALMI</div>
@@ -787,11 +858,12 @@
       <div class="insight"><h4>Why it matters</h4><p>Low ALMI signals age-related muscle loss (sarcopenia), increasing fall risk, frailty, and metabolic dysfunction. Resistance training is the best prevention.</p></div>
     </div>
 
+    <div class="action action-g"><strong>No sarcopenia risk.</strong> Your ALMI of 9.50 kg/m&sup2; is well above the 7.0 threshold. Continue resistance training to maintain lean mass as you age.</div>
   </div>
-  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">11 of 15</div></div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">13 of 17</div></div>
 </div>
 
-<!-- ==================== PAGE 11: METABOLISM ==================== -->
+<!-- ==================== PAGE 13: METABOLISM ==================== -->
 <div class="page">
   <div class="hdr"><div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-logo">BODY INSIGHT</span></div><div class="hdr-section"><strong>Metabolism</strong></div></div>
   <div class="content">
@@ -831,19 +903,18 @@
     </div>
 
   </div>
-  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">12 of 15</div></div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">14 of 17</div></div>
 </div>
 
-<!-- ==================== PAGE 13: RMR DEEP DIVE ==================== -->
+<!-- ==================== PAGE 15: RMR DEEP DIVE ==================== -->
 <div class="page">
   <div class="hdr"><div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-logo">BODY INSIGHT</span></div><div class="hdr-section"><strong>Metabolism</strong></div></div>
   <div class="content">
     <div><div class="section-title">Understanding Your RMR</div><div class="section-desc">Everything you need to know about your resting metabolic rate and how to use it.</div></div>
 
-    <div class="g3" style="margin-bottom:10px;">
+    <div class="g2" style="margin-bottom:10px;">
       <div class="insight"><h4>What's a good RMR?</h4><p>There is no "good" RMR &mdash; it's unique to your body. However, higher RMR relative to your size means you burn more calories at rest.</p></div>
       <div class="insight"><h4>Can I increase RMR?</h4><p>Building muscle is the most effective way. Also: move often, eat whole foods frequently, try interval training, and get adequate sleep.</p></div>
-      <div class="insight"><h4>RMR vs BMR?</h4><p>Both measure resting calories. BMR is tested under strict lab conditions (fasting, dark room). RMR is a practical, near-identical estimate.</p></div>
     </div>
 
     <div class="card" style="margin-bottom:10px;">
@@ -874,10 +945,10 @@
     </div>
 
   </div>
-  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">13 of 15</div></div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">15 of 17</div></div>
 </div>
 
-<!-- ==================== PAGE 14: NUTRITION ==================== -->
+<!-- ==================== PAGE 16: NUTRITION ==================== -->
 <div class="page">
   <div class="hdr"><div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-logo">BODY INSIGHT</span></div><div class="hdr-section"><strong>Nutrition Plan</strong></div></div>
   <div class="content">
@@ -896,10 +967,11 @@
 
     <div class="action action-y"><strong>Recommended: Maintain or slight surplus.</strong> At 9% body fat, a deficit would push you below healthy levels. Eat 2395&ndash;2895 kcal to support training and recovery.</div>
   </div>
-  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">14 of 15</div></div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">16 of 17</div></div>
+
 </div>
 
-<!-- ==================== PAGE 13: ACTION PLAN ==================== -->
+<!-- ==================== PAGE 17: ACTION PLAN ==================== -->
 <div class="page">
   <div class="hdr"><div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-logo">BODY INSIGHT</span></div><div class="hdr-section"><strong>Action Plan</strong></div></div>
   <div class="content">
@@ -921,7 +993,7 @@
 
     <div style="font-size:0.48rem; color:var(--mute); line-height:1.6; font-style:italic;">This report is generated from DEXA (Dual-Energy X-ray Absorptiometry) scan data and is intended for informational purposes. It does not constitute medical advice. Consult a healthcare professional before making changes to your diet or exercise program.</div>
   </div>
-  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">15 of 15</div></div>
+  <div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">17 of 17</div></div>
 </div>
 
 </body>

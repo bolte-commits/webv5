@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "next": "^15.1.0",
+    "puppeteer": "^24.37.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
