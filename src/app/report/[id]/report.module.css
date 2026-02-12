@@ -1,0 +1,1387 @@
+/* ═══════════════════════════════════════════
+   DEXA REPORT — Dark Theme Design System
+   ═══════════════════════════════════════════ */
+
+/* ===== Design Tokens ===== */
+.app {
+  --r-bg: #050505;
+  --r-surface: #111111;
+  --r-surface-elevated: #1a1a1a;
+  --r-text: #f5f5f7;
+  --r-text-secondary: #8e8e93;
+  --r-accent: #007aff;
+  --r-accent-glow: rgba(0, 122, 255, 0.15);
+  --r-green: #34d399;
+  --r-yellow: #fbbf24;
+  --r-red: #f87171;
+
+  min-height: 100dvh;
+  background: var(--r-bg);
+  color: var(--r-text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Scroll Container ===== */
+.scrollContainer {
+  position: relative;
+}
+
+/* ===== Tab Content Wrapper ===== */
+.tabContent {
+  animation: tabFadeIn 0.35s ease forwards;
+  padding-bottom: 100px;
+}
+
+@keyframes tabFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Sections ===== */
+.section {
+  padding: 0 20px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.section:global(.visible) {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== Section Header ===== */
+.sectionLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--r-accent);
+  margin-bottom: 4px;
+}
+
+.sectionTitle {
+  font-family: 'Monument Extended', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--r-text);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.sectionDesc {
+  font-size: 0.82rem;
+  color: var(--r-text-secondary);
+  line-height: 1.45;
+}
+
+/* ═══════════════════════════════════════════
+   HERO — Score Reveal
+   ═══════════════════════════════════════════ */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 24px 32px;
+  position: relative;
+  overflow: hidden;
+  /* always visible, no scroll reveal */
+  opacity: 1;
+  transform: none;
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 40%,
+    var(--r-accent-glow) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.heroScore {
+  font-family: 'Monument Extended', sans-serif;
+  font-size: 6rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--r-text);
+  position: relative;
+  z-index: 1;
+}
+
+.heroUnit {
+  font-size: 2rem;
+  color: var(--r-text-secondary);
+}
+
+.heroLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--r-text-secondary);
+  margin-top: 6px;
+}
+
+.heroRating {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  /* color set inline via status */
+  margin-top: 6px;
+  min-height: 1.4em;
+}
+
+.heroChips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.heroChip {
+  background: var(--r-surface);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--r-text-secondary);
+  opacity: 0;
+  transform: translateY(12px);
+  animation: chipIn 0.5s ease forwards;
+}
+
+.heroChip strong {
+  color: var(--r-text);
+  font-weight: 700;
+}
+
+@keyframes chipIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.heroNote {
+  max-width: 340px;
+  font-size: 0.82rem;
+  color: var(--r-text-secondary);
+  line-height: 1.6;
+  margin-top: 24px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 1.8s forwards;
+}
+
+.scrollHint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--r-text-secondary);
+  opacity: 0.5;
+  animation: hintBounce 2s ease infinite;
+}
+
+.scrollHintText {
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+@keyframes hintBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ═══════════════════════════════════════════
+   SNAPSHOT — Composition Flip Cards
+   ═══════════════════════════════════════════ */
+.snapshotSection {
+  padding: 32px 20px;
+}
+
+.snapshotGrid {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+  margin-top: 16px;
+}
+
+.snapshotGrid::-webkit-scrollbar { display: none; }
+
+.snapshotCard {
+  scroll-snap-align: start;
+  flex: 0 0 75%;
+  min-width: 0;
+}
+
+.snapFrontTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.snapLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--r-text-secondary);
+}
+
+.snapValue {
+  font-family: 'Monument Extended', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--r-text);
+  line-height: 1;
+  margin-top: 4px;
+}
+
+.snapValueUnit {
+  font-size: 0.7rem;
+  color: var(--r-text-secondary);
+  font-family: inherit;
+}
+
+.snapBackTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--r-text);
+  margin-bottom: 8px;
+}
+
+.snapBackText {
+  font-size: 0.78rem;
+  color: var(--r-text-secondary);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════
+   BODY MAP
+   ═══════════════════════════════════════════ */
+.bodyMapSection {
+  padding: 32px 20px;
+}
+
+.bodyMapContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.bodySvgWrap {
+  width: 180px;
+  height: 360px;
+  position: relative;
+}
+
+.bodySvg {
+  width: 100%;
+  height: 100%;
+}
+
+.bodyRegion {
+  cursor: pointer;
+  fill: rgba(255, 255, 255, 0.04);
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 1;
+  transition: all 0.3s ease;
+}
+
+.bodyRegion:hover,
+.bodyRegionActive {
+  fill: var(--r-accent-glow);
+  stroke: var(--r-accent);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 8px var(--r-accent-glow));
+}
+
+.regionLabels {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.regionBtn {
+  background: var(--r-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--r-text-secondary);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.regionBtnActive {
+  background: var(--r-accent);
+  color: #fff;
+  border-color: var(--r-accent);
+}
+
+/* Region Detail Sheet */
+.detailSheet {
+  width: 100%;
+  background: var(--r-surface);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: sheetUp 0.35s ease forwards;
+}
+
+@keyframes sheetUp {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.detailName {
+  font-family: 'Monument Extended', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--r-text);
+  margin-bottom: 12px;
+}
+
+.detailGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.detailMetric {
+  display: flex;
+  flex-direction: column;
+}
+
+.detailMetricLabel {
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--r-text-secondary);
+}
+
+.detailMetricValue {
+  font-family: 'Monument Extended', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--r-text);
+}
+
+.detailMetricUnit {
+  font-size: 0.6rem;
+  color: var(--r-text-secondary);
+  font-family: inherit;
+}
+
+.detailDelta {
+  grid-column: 1 / -1;
+  font-size: 0.78rem;
+  color: var(--r-green);
+  font-weight: 600;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ═══════════════════════════════════════════
+   TIMELINE — Animated Trend Charts
+   ═══════════════════════════════════════════ */
+.timelineSection {
+  padding: 32px 20px;
+}
+
+.chartWrap {
+  background: var(--r-surface);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.chartTitle {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--r-accent);
+  margin-bottom: 8px;
+}
+
+.chartSvg {
+  width: 100%;
+  display: block;
+}
+
+.chartLine {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chartArea {
+  opacity: 0.06;
+}
+
+.chartDot {
+  transition: opacity 0.3s ease;
+}
+
+.chartDotPulse {
+  animation: dotPulse 2s ease infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { r: 5; }
+  50% { r: 7; }
+}
+
+.chartLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  color: var(--r-text-secondary);
+  font-weight: 600;
+  padding: 6px 12px 0;
+}
+
+/* ═══════════════════════════════════════════
+   HEALTH SIGNALS — 2x2 Flip Grid
+   ═══════════════════════════════════════════ */
+.healthSection {
+  padding: 32px 20px;
+}
+
+.healthGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.healthCard {
+  min-height: 160px;
+}
+
+.hcFrontLabel {
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--r-text-secondary);
+  margin-bottom: auto;
+}
+
+.hcFrontValue {
+  font-family: 'Monument Extended', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--r-text);
+  line-height: 1;
+  margin-top: 12px;
+}
+
+.hcFrontUnit {
+  font-size: 0.6rem;
+  color: var(--r-text-secondary);
+  font-family: inherit;
+}
+
+.hcBackTitle {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--r-text);
+  margin-bottom: 8px;
+}
+
+.hcBackText {
+  font-size: 0.72rem;
+  color: var(--r-text-secondary);
+  line-height: 1.55;
+}
+
+/* ===== Health Detail Cards ===== */
+.healthDetail {
+  background: var(--r-surface);
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.healthDetailTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--r-text);
+  margin-bottom: 10px;
+}
+
+.healthDetailMetrics {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.healthDetailMetrics > div > .hdLabel {
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--r-text-secondary);
+}
+
+.hdLabel {
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--r-text-secondary);
+}
+
+.hdVal {
+  font-family: 'Monument Extended', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--r-text);
+}
+
+.hdSub {
+  font-size: 0.6rem;
+  color: var(--r-text-secondary);
+}
+
+.healthDetailNote {
+  font-size: 0.75rem;
+  color: var(--r-text-secondary);
+  line-height: 1.55;
+  margin-top: 10px;
+}
+
+/* Scale bar */
+.scaleWrap {
+  position: relative;
+  margin: 20px 0 8px;
+}
+
+.scaleYou {
+  position: absolute;
+  top: -18px;
+  transform: translateX(-50%);
+  font-size: 0.55rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--r-accent);
+  letter-spacing: 0.06em;
+}
+
+.scaleTrack {
+  height: 8px;
+  border-radius: 4px;
+  position: relative;
+}
+
+.scaleMarker {
+  position: absolute;
+  top: -6px;
+  width: 20px;
+  height: 20px;
+  background: var(--r-bg);
+  border: 3px solid var(--r-accent);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 8px var(--r-accent-glow);
+}
+
+.scaleTicks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.55rem;
+  color: var(--r-text-secondary);
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+/* Verdict */
+.verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-top: 6px;
+}
+
+.verdictDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Bone grid */
+.boneGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.boneCard {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  padding: 8px 4px;
+  text-align: center;
+}
+
+.boneName {
+  font-size: 0.5rem;
+  font-weight: 700;
+  color: var(--r-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.boneVal {
+  font-family: 'Monument Extended', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--r-text);
+  margin-top: 2px;
+}
+
+/* Symmetry */
+.symmetrySection {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.symCard {
+  background: var(--r-surface);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 10px;
+}
+
+.symCardTitle {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--r-text);
+  margin-bottom: 10px;
+}
+
+.symTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.symTable th {
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--r-text-secondary);
+  text-align: center;
+  padding: 5px;
+}
+
+.symTable th:first-child { text-align: left; }
+
+.symTable td {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--r-text);
+  text-align: center;
+  padding: 5px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.symTable td:first-child {
+  text-align: left;
+  color: var(--r-text-secondary);
+  font-size: 0.72rem;
+}
+
+.symVerdict {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--r-green);
+  margin-top: 6px;
+}
+
+/* ═══ Symmetry v2 — Visual cards ═══ */
+.symCard2 {
+  background: var(--r-surface);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 12px;
+  animation: sheetUp 0.35s ease forwards;
+}
+
+.symCard2Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.symCard2Name {
+  font-family: 'Monument Extended', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--r-text);
+}
+
+/* Balance bar */
+.balanceBarWrap {
+  margin-bottom: 16px;
+}
+
+.balanceLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--r-text-secondary);
+  margin-bottom: 6px;
+}
+
+.balanceTrack {
+  position: relative;
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.balanceLeft {
+  height: 100%;
+  background: linear-gradient(90deg, #60a5fa, #93c5fd);
+  border-radius: 4px 0 0 4px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.balanceRight {
+  height: 100%;
+  background: linear-gradient(90deg, #a78bfa, #c4b5fd);
+  border-radius: 0 4px 4px 0;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.balanceCenter {
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  width: 2px;
+  height: 12px;
+  background: var(--r-text);
+  border-radius: 1px;
+  transform: translateX(-50%);
+  opacity: 0.3;
+}
+
+.balancePcts {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--r-text-secondary);
+  margin-top: 4px;
+}
+
+/* Side-by-side metric cards */
+.symSides {
+  display: flex;
+  gap: 0;
+  align-items: stretch;
+}
+
+.symSide {
+  flex: 1;
+  padding: 0 8px;
+}
+
+.symSideLabel {
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--r-text-secondary);
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.symDivider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  align-self: stretch;
+  margin: 0 4px;
+}
+
+.symMetricRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.symMetricRow:last-child {
+  border-bottom: none;
+}
+
+.symMetricName {
+  font-size: 0.68rem;
+  color: var(--r-text-secondary);
+  font-weight: 500;
+}
+
+.symMetricVal {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--r-text);
+}
+
+.symVerdict2 {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--r-green);
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+}
+
+/* Activity rows */
+.activityCard {
+  background: var(--r-surface);
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.activityCardTitle {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--r-accent);
+  margin-bottom: 8px;
+}
+
+.actRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.actRow:last-child { border-bottom: none; }
+
+.actName {
+  font-size: 0.8rem;
+  color: var(--r-text-secondary);
+}
+
+.actVal {
+  font-family: 'Monument Extended', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--r-text);
+}
+
+/* ═══════════════════════════════════════════
+   FUEL STATION — Metabolism + Nutrition
+   ═══════════════════════════════════════════ */
+.fuelSection {
+  padding: 32px 20px;
+}
+
+.fuelCard {
+  background: var(--r-surface);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 12px;
+}
+
+.fuelBigNum {
+  font-family: 'Monument Extended', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--r-text);
+  line-height: 1;
+  text-align: center;
+}
+
+.fuelUnit {
+  font-size: 0.7rem;
+  color: var(--r-text-secondary);
+  font-family: inherit;
+}
+
+.fuelAbove {
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--r-green);
+  margin-top: 4px;
+}
+
+.fuelLabel {
+  text-align: center;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--r-text-secondary);
+  margin-top: 4px;
+}
+
+.breakdownRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.breakdownRow:last-child { border-bottom: none; }
+
+.breakdownLabel {
+  font-size: 0.82rem;
+  color: var(--r-text-secondary);
+}
+
+.breakdownLabel strong {
+  color: var(--r-text);
+}
+
+.breakdownVal {
+  font-family: 'Monument Extended', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--r-text);
+}
+
+.breakdownTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  margin-top: 4px;
+  border-top: 2px solid rgba(255, 255, 255, 0.08);
+}
+
+.breakdownTotalLabel {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--r-text);
+}
+
+.breakdownTotalVal {
+  font-family: 'Monument Extended', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--r-accent);
+}
+
+/* Nutrition Plans */
+.planTabs {
+  display: flex;
+  background: var(--r-surface);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 16px;
+}
+
+.planTab {
+  flex: 1;
+  padding: 8px 0;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--r-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.planTabActive {
+  background: var(--r-accent);
+  color: #fff;
+}
+
+.planCard {
+  background: var(--r-surface);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+}
+
+.planCalories {
+  font-family: 'Monument Extended', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--r-text);
+  line-height: 1;
+}
+
+.planCalUnit {
+  font-size: 0.65rem;
+  color: var(--r-text-secondary);
+  font-family: inherit;
+}
+
+.planNote {
+  font-size: 0.75rem;
+  color: var(--r-text-secondary);
+  margin: 6px 0 20px;
+}
+
+.macroRow {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.macroItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.macroName {
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--r-text-secondary);
+}
+
+.nutritionRec {
+  background: var(--r-surface);
+  border-left: 3px solid var(--r-yellow);
+  border-radius: 0 12px 12px 0;
+  padding: 14px 16px;
+  font-size: 0.78rem;
+  color: var(--r-text-secondary);
+  line-height: 1.6;
+  margin-top: 12px;
+}
+
+.nutritionRec strong {
+  color: var(--r-text);
+}
+
+/* ═══════════════════════════════════════════
+   GAME PLAN — Action Cards
+   ═══════════════════════════════════════════ */
+.gamePlanSection {
+  padding: 32px 20px 20px;
+}
+
+.actionStack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.actionCard {
+  background: var(--r-surface);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(20px) perspective(600px) rotateX(4deg);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.actionCard:global(.visible) {
+  opacity: 1;
+  transform: translateY(0) perspective(600px) rotateX(0);
+}
+
+.actionNum {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--r-accent);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.actionTitle {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--r-text);
+  margin-bottom: 4px;
+}
+
+.actionDesc {
+  font-size: 0.78rem;
+  color: var(--r-text-secondary);
+  line-height: 1.55;
+}
+
+/* ═══════════════════════════════════════════
+   CHAT CTA
+   ═══════════════════════════════════════════ */
+.ctaSection {
+  padding: 20px 20px 120px;
+  text-align: center;
+}
+
+.ctaCard {
+  background: var(--r-surface);
+  border: 1px solid rgba(0, 122, 255, 0.15);
+  border-radius: 16px;
+  padding: 28px 20px;
+}
+
+.ctaTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--r-accent);
+  margin-bottom: 6px;
+}
+
+.ctaDesc {
+  font-size: 0.78rem;
+  color: var(--r-text-secondary);
+  line-height: 1.6;
+}
+
+.ctaDesc strong {
+  color: var(--r-accent);
+}
+
+.disclaimer {
+  font-size: 0.65rem;
+  color: rgba(142, 142, 147, 0.5);
+  line-height: 1.6;
+  font-style: italic;
+  margin-top: 20px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════
+   SECTION NAV — Floating Pill
+   ═══════════════════════════════════════════ */
+.navPill {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(26, 26, 26, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 20px;
+  z-index: 1100;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 140px;
+  justify-content: center;
+}
+
+.navPillLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--r-text);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.navPillDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--r-accent);
+  flex-shrink: 0;
+}
+
+.navDrawer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(17, 17, 17, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px 20px 0 0;
+  padding: 20px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+  z-index: 1200;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navDrawerOpen {
+  transform: translateY(0);
+}
+
+.navDrawerBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1150;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.navDrawerBackdropOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.navDrawerHandle {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 auto 16px;
+}
+
+.navDrawerItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border: none;
+  background: none;
+  width: 100%;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.navDrawerDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.navDrawerDotActive {
+  background: var(--r-accent);
+}
+
+.navDrawerLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--r-text-secondary);
+}
+
+.navDrawerLabelActive {
+  color: var(--r-text);
+}
+
+/* ═══════════════════════════════════════════
+   SHARED KEYFRAMES
+   ═══════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media (min-width: 768px) {
+  .app {
+    max-width: 430px;
+    margin: 0 auto;
+    border-left: 1px solid rgba(255, 255, 255, 0.04);
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+    min-height: 100vh;
+    position: relative;
+  }
+
+  .navPill {
+    max-width: 430px;
+  }
+
+  .navDrawer {
+    max-width: 430px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+  }
+
+  .navDrawerOpen {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@media (max-width: 370px) {
+  .heroScore {
+    font-size: 4.5rem;
+  }
+
+  .healthGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .macroRow {
+    gap: 16px;
+  }
+}
