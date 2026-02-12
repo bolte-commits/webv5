@@ -219,7 +219,10 @@ export default function BodyMap({
             })()}
 
             {/* Region Trends */}
-            <div style={{ marginTop: 16 }}>
+            <div style={{ marginTop: 32, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+              <div className={s.sectionLabel}>Trends</div>
+              <div className={s.sectionTitle}>{activeRegion.name} Over Time</div>
+              <div style={{ marginTop: 12 }}>
               <AnimatedChart
                 title={`${activeRegion.name} Fat %`}
                 data={activeRegion.fatTrend}
@@ -235,6 +238,7 @@ export default function BodyMap({
                 unit=""
                 color="#60a5fa"
               />
+              </div>
             </div>
           </div>
         )}

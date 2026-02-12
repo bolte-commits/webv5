@@ -259,7 +259,7 @@ export default function ReportView({ id }: { id: string }) {
                         <div className={s.hcFrontLabel}>Young Adult T-Score</div>
                         <div style={{ marginTop: "auto" }}>
                           <div className={s.hcFrontValue}>
-                            {d.boneHealth.tScore}<span className={s.hcFrontUnit}> T</span>
+                            {d.boneHealth.tScore}
                           </div>
                           <div style={{ marginTop: 8 }}>
                             <StatusTag status="green" label={d.boneHealth.tScoreRating} />
@@ -284,7 +284,7 @@ export default function ReportView({ id }: { id: string }) {
                         <div className={s.hcFrontLabel}>Age Matched Z-Score</div>
                         <div style={{ marginTop: "auto" }}>
                           <div className={s.hcFrontValue}>
-                            {d.boneHealth.zScore}<span className={s.hcFrontUnit}> Z</span>
+                            {d.boneHealth.zScore}
                           </div>
                           <div style={{ marginTop: 8 }}>
                             <StatusTag status="green" label={d.boneHealth.zScoreRating} />

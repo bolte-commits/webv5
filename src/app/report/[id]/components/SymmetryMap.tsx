@@ -150,11 +150,6 @@ export default function SymmetryMap({
 
         {/* Detail Sheet */}
         {activeSym && (() => {
-          const leftTotal = activeSym.left.total;
-          const rightTotal = activeSym.right.total;
-          const leftPct = (leftTotal / (leftTotal + rightTotal)) * 100;
-          const rightPct = (rightTotal / (leftTotal + rightTotal)) * 100;
-
           return (
             <div className={s.detailSheet} key={activeSym.name}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
@@ -162,20 +157,20 @@ export default function SymmetryMap({
                 <StatusTag status={activeSym.status} label="Balanced" />
               </div>
 
-              {/* Balance bar */}
-              <div className={s.balanceBarWrap}>
-                <div className={s.balanceLabel}>
-                  <span>L</span>
-                  <span>R</span>
+              {/* Balance scale */}
+              <div className={s.scaleWrap}>
+                <span className={s.scaleYou} style={{ left: `${activeSym.balancePercent}%` }}>You</span>
+                <div
+                  className={s.scaleTrack}
+                  style={{
+                    background:
+                      "linear-gradient(90deg, #f87171 0%, #fbbf24 30%, #34d399 55%, #34d399 100%)",
+                  }}
+                >
+                  <div className={s.scaleMarker} style={{ left: `${activeSym.balancePercent}%` }} />
                 </div>
-                <div className={s.balanceTrack}>
-                  <div className={s.balanceLeft} style={{ width: `${leftPct}%` }} />
-                  <div className={s.balanceRight} style={{ width: `${rightPct}%` }} />
-                  <div className={s.balanceCenter} />
-                </div>
-                <div className={s.balancePcts}>
-                  <span>{leftTotal} kg</span>
-                  <span>{rightTotal} kg</span>
+                <div className={s.scaleTicks}>
+                  <span>Imbalanced</span><span>Moderate</span><span>Balanced</span><span>Symmetric</span>
                 </div>
               </div>
 
