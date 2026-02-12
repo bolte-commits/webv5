@@ -68,6 +68,7 @@ export const mockReport = {
       prevDate: "Jan '23",
       fatTrend: [12.8, 11.9, 11.0, 10.1],
       leanTrend: [24.8, 25.3, 25.9, 26.4],
+      fatMassTrend: [3.84, 3.52, 3.22, 2.96],
     },
     {
       name: "Arms",
@@ -79,6 +80,7 @@ export const mockReport = {
       prevDate: "Jan '23",
       fatTrend: [10.5, 9.6, 8.8, 8.0],
       leanTrend: [7.6, 7.9, 8.1, 8.4],
+      fatMassTrend: [1.0, 0.91, 0.82, 0.73],
     },
     {
       name: "Legs",
@@ -90,6 +92,7 @@ export const mockReport = {
       prevDate: "Jan '23",
       fatTrend: [11.5, 10.7, 9.9, 9.2],
       leanTrend: [19.2, 19.7, 20.2, 20.7],
+      fatMassTrend: [2.71, 2.52, 2.31, 2.11],
     },
     {
       name: "Android (Belly)",
@@ -101,6 +104,7 @@ export const mockReport = {
       prevDate: "Jan '23",
       fatTrend: [15.2, 14.1, 13.2, 12.3],
       leanTrend: [2.8, 2.9, 3.1, 3.2],
+      fatMassTrend: [0.62, 0.56, 0.50, 0.45],
     },
     {
       name: "Gynoid (Hip)",
@@ -112,6 +116,7 @@ export const mockReport = {
       prevDate: "Jan '23",
       fatTrend: [11.8, 10.9, 10.2, 9.5],
       leanTrend: [7.0, 7.3, 7.5, 7.8],
+      fatMassTrend: [1.04, 0.96, 0.89, 0.82],
     },
   ],
 
@@ -123,6 +128,8 @@ export const mockReport = {
       verdict: "Good balance — right arm slightly stronger (dominant hand)",
       status: "green" as const,
       balancePercent: 72,
+      leftLeanTrend: [3.6, 3.8, 3.9, 4.1],
+      rightLeanTrend: [3.8, 4.0, 4.1, 4.3],
     },
     {
       name: "Legs",
@@ -131,6 +138,8 @@ export const mockReport = {
       verdict: "Good balance — symmetric development",
       status: "green" as const,
       balancePercent: 80,
+      leftLeanTrend: [9.4, 9.7, 9.9, 10.2],
+      rightLeanTrend: [9.6, 9.9, 10.2, 10.5],
     },
     {
       name: "Trunk",
@@ -139,6 +148,8 @@ export const mockReport = {
       verdict: "Good balance — even distribution",
       status: "green" as const,
       balancePercent: 68,
+      leftLeanTrend: [12.0, 12.4, 12.8, 13.2],
+      rightLeanTrend: [12.0, 12.5, 12.9, 13.2],
     },
   ],
 

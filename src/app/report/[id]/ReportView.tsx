@@ -110,7 +110,7 @@ export default function ReportView({ id }: { id: string }) {
 
           {/* ═══ Tab 3: Symmetry ═══ */}
           {tab === "symmetry" && (
-            <SymmetryMap symmetry={d.symmetry} />
+            <SymmetryMap symmetry={d.symmetry} trendLabels={d.trends.dates} />
           )}
 
           {/* ═══ Tab 4: Visceral Fat ═══ */}

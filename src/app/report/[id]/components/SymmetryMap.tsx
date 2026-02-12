@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import { AnimatedChart } from "./Timeline";
 import StatusTag from "./shared/StatusTag";
 import s from "../report.module.css";
 
@@ -20,6 +21,8 @@ type SymRegion = {
   verdict: string;
   status: "green" | "yellow" | "red" | "neutral";
   balancePercent: number;
+  leftLeanTrend: number[];
+  rightLeanTrend: number[];
 };
 
 /* ── Symmetry silhouette (Arms / Legs / Trunk only) ── */
@@ -116,8 +119,10 @@ function SymSilhouette({
 
 export default function SymmetryMap({
   symmetry,
+  trendLabels,
 }: {
   symmetry: SymRegion[];
+  trendLabels: string[];
 }) {
   const [active, setActive] = useState<string | null>("Arms");
   const ref = useScrollReveal<HTMLElement>();
@@ -219,6 +224,27 @@ export default function SymmetryMap({
 
               {/* Verdict */}
               <div className={s.symVerdict2}>{activeSym.verdict}</div>
+
+              {/* Trends */}
+              <div style={{ marginTop: 32, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                <div className={s.sectionTitle}>Trends</div>
+                <div style={{ marginTop: 12 }}>
+                  <AnimatedChart
+                    title={`Left ${activeSym.name} Lean (kg)`}
+                    data={activeSym.leftLeanTrend}
+                    labels={trendLabels}
+                    unit=""
+                    color="#60a5fa"
+                  />
+                  <AnimatedChart
+                    title={`Right ${activeSym.name} Lean (kg)`}
+                    data={activeSym.rightLeanTrend}
+                    labels={trendLabels}
+                    unit=""
+                    color="#a78bfa"
+                  />
+                </div>
+              </div>
             </div>
           );
         })()}
