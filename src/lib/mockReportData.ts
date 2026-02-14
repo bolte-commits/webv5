@@ -61,6 +61,7 @@ export const mockReport = {
     {
       name: "Trunk",
       fatPercent: 10.1,
+      avgFatPercent: 18.5,
       lean: 26.4,
       fat: 2.96,
       total: 30.0,
@@ -73,6 +74,7 @@ export const mockReport = {
     {
       name: "Arms",
       fatPercent: 8.0,
+      avgFatPercent: 14.2,
       lean: 8.4,
       fat: 0.73,
       total: 9.5,
@@ -85,6 +87,7 @@ export const mockReport = {
     {
       name: "Legs",
       fatPercent: 9.2,
+      avgFatPercent: 16.8,
       lean: 20.7,
       fat: 2.11,
       total: 23.5,
@@ -97,6 +100,7 @@ export const mockReport = {
     {
       name: "Android (Belly)",
       fatPercent: 12.3,
+      avgFatPercent: 22.1,
       lean: 3.2,
       fat: 0.45,
       total: 3.7,
@@ -109,6 +113,7 @@ export const mockReport = {
     {
       name: "Gynoid (Hip)",
       fatPercent: 9.5,
+      avgFatPercent: 15.4,
       lean: 7.8,
       fat: 0.82,
       total: 8.8,

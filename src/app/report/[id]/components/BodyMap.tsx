@@ -8,6 +8,7 @@ import s from "../report.module.css";
 type Region = {
   name: string;
   fatPercent: number;
+  avgFatPercent: number;
   lean: number;
   fat: number;
   total: number;
@@ -197,25 +198,42 @@ export default function BodyMap({
               </div>
             </div>
 
-            {/* Region Scale */}
+            {/* Region scale with You + Avg markers */}
             {(() => {
-              const pos = Math.min(activeRegion.fatPercent / 30, 1) * 100;
+              const max = 35;
+              const youPos = Math.min(activeRegion.fatPercent / max, 1) * 100;
+              const avgPos = Math.min(activeRegion.avgFatPercent / max, 1) * 100;
+              const diff = activeRegion.avgFatPercent - activeRegion.fatPercent;
+              const absDiff = Math.abs(diff).toFixed(1);
               return (
-                <div className={s.scaleWrap}>
-                  <span className={s.scaleYou} style={{ left: `${pos}%` }}>You</span>
-                  <div
-                    className={s.scaleTrack}
-                    style={{
-                      background:
-                        "linear-gradient(90deg, #34d399 0%, #6ee7b7 33%, #fbbf24 55%, #fb923c 75%, #f87171 100%)",
-                    }}
-                  >
-                    <div className={s.scaleMarker} style={{ left: `${pos}%` }} />
+                <>
+                  <div className={s.regionScaleWrap}>
+                    {/* You marker */}
+                    <span className={s.regionScaleYou} style={{ left: `${youPos}%` }}>
+                      You
+                    </span>
+                    {/* Avg marker */}
+                    <span className={s.regionScaleAvg} style={{ left: `${avgPos}%` }}>
+                      Avg
+                    </span>
+                    <div
+                      className={s.scaleTrack}
+                      style={{
+                        background:
+                          "linear-gradient(90deg, #34d399 0%, #6ee7b7 33%, #fbbf24 55%, #fb923c 75%, #f87171 100%)",
+                      }}
+                    >
+                      <div className={s.scaleMarker} style={{ left: `${youPos}%` }} />
+                      <div className={s.regionAvgMarker} style={{ left: `${avgPos}%` }} />
+                    </div>
+                    <div className={s.scaleTicks}>
+                      <span>0%</span><span>10%</span><span>20%</span><span>30%+</span>
+                    </div>
                   </div>
-                  <div className={s.scaleTicks}>
-                    <span>0%</span><span>10%</span><span>20%</span><span>30%+</span>
+                  <div className={s.regionAvgCaption}>
+                    Avg = typical for your body-fat range
                   </div>
-                </div>
+                </>
               );
             })()}
 

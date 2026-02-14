@@ -524,6 +524,51 @@
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+.regionScaleWrap {
+  position: relative;
+  margin: 24px 0 8px;
+  padding-top: 22px;
+}
+
+.regionScaleYou {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 0.55rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--r-accent);
+  letter-spacing: 0.06em;
+}
+
+.regionScaleAvg {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.06em;
+}
+
+.regionAvgMarker {
+  position: absolute;
+  top: -4px;
+  width: 2px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 1px;
+  transform: translateX(-50%);
+}
+
+.regionAvgCaption {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 4px;
+  font-style: italic;
+}
+
 /* ═══════════════════════════════════════════
    TIMELINE — Animated Trend Charts
    ═══════════════════════════════════════════ */
