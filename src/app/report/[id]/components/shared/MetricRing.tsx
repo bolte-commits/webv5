@@ -8,7 +8,7 @@ export default function MetricRing({
   max,
   size = 100,
   strokeWidth = 6,
-  color = "var(--r-accent, #007aff)",
+  color = "var(--r-accent, #0a84ff)",
   label,
   unit,
   animate = true,

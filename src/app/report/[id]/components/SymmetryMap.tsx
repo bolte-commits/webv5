@@ -35,12 +35,12 @@ function SymSilhouette({
 }) {
   const isActive = (name: string) => active === name;
   const fill = (name: string) =>
-    isActive(name) ? "rgba(0,122,255,0.2)" : "rgba(255,255,255,0.03)";
+    isActive(name) ? "rgba(10,132,255,0.2)" : "rgba(255,255,255,0.03)";
   const stroke = (name: string) =>
-    isActive(name) ? "#007aff" : "rgba(255,255,255,0.12)";
+    isActive(name) ? "#0a84ff" : "rgba(255,255,255,0.12)";
   const sw = (name: string) => (isActive(name) ? 1.8 : 0.8);
   const glow = (name: string) =>
-    isActive(name) ? "drop-shadow(0 0 6px rgba(0,122,255,0.4))" : "none";
+    isActive(name) ? "drop-shadow(0 0 6px rgba(10,132,255,0.4))" : "none";
 
   /* Show L / R labels when Arms or Legs selected */
   const showLR = active === "Arms" || active === "Legs";
@@ -50,8 +50,8 @@ function SymSilhouette({
       {/* L / R labels */}
       {showLR && (
         <>
-          <text x="22" y="24" textAnchor="middle" fontSize="13" fontWeight="700" fill="rgba(0,122,255,0.6)">L</text>
-          <text x="178" y="24" textAnchor="middle" fontSize="13" fontWeight="700" fill="rgba(0,122,255,0.6)">R</text>
+          <text x="22" y="24" textAnchor="middle" fontSize="13" fontWeight="700" fill="rgba(10,132,255,0.6)">L</text>
+          <text x="178" y="24" textAnchor="middle" fontSize="13" fontWeight="700" fill="rgba(10,132,255,0.6)">R</text>
         </>
       )}
 

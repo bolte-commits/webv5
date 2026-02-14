@@ -8,9 +8,9 @@
   --r-surface: #111111;
   --r-surface-elevated: #1a1a1a;
   --r-text: #f5f5f7;
-  --r-text-secondary: #8e8e93;
-  --r-accent: #007aff;
-  --r-accent-glow: rgba(0, 122, 255, 0.15);
+  --r-text-secondary: #e0e0e3;
+  --r-accent: #0a84ff;
+  --r-accent-glow: rgba(10, 132, 255, 0.15);
   --r-green: #34d399;
   --r-yellow: #fbbf24;
   --r-red: #f87171;
@@ -22,9 +22,37 @@
   -webkit-font-smoothing: antialiased;
 }
 
+/* ===== Report Header ===== */
+.reportHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  background: var(--r-bg);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reportHeaderHidden {
+  transform: translateY(-100%);
+}
+
+.reportHeaderLogo {
+  font-family: var(--font-syne), 'Syne', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--r-text);
+  text-decoration: none;
+}
+
 /* ===== Scroll Container ===== */
 .scrollContainer {
   position: relative;
+  padding-top: 56px;
 }
 
 /* ===== Tab Content Wrapper ===== */
@@ -1233,7 +1261,7 @@
 
 .ctaCard {
   background: var(--r-surface);
-  border: 1px solid rgba(0, 122, 255, 0.15);
+  border: 1px solid rgba(10, 132, 255, 0.15);
   border-radius: 16px;
   padding: 28px 20px;
 }
@@ -1273,11 +1301,11 @@
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(26, 26, 26, 0.92);
+  background: rgba(10, 132, 255, 0.12);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(10, 132, 255, 0.3);
   padding: 10px 20px;
   z-index: 1100;
   cursor: pointer;
@@ -1287,6 +1315,7 @@
   gap: 10px;
   min-width: 140px;
   justify-content: center;
+  box-shadow: 0 0 16px rgba(10, 132, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .navPillLabel {
@@ -1401,6 +1430,16 @@
     border-right: 1px solid rgba(255, 255, 255, 0.04);
     min-height: 100vh;
     position: relative;
+  }
+
+  .reportHeader {
+    max-width: 430px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .reportHeaderHidden {
+    transform: translateX(-50%) translateY(-100%);
   }
 
   .navPill {

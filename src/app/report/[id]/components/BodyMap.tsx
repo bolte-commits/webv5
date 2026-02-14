@@ -28,12 +28,12 @@ function BodySilhouette({
 }) {
   const isActive = (name: string) => active === name;
   const fill = (name: string) =>
-    isActive(name) ? "rgba(0,122,255,0.2)" : "rgba(255,255,255,0.03)";
+    isActive(name) ? "rgba(10,132,255,0.2)" : "rgba(255,255,255,0.03)";
   const stroke = (name: string) =>
-    isActive(name) ? "#007aff" : "rgba(255,255,255,0.12)";
+    isActive(name) ? "#0a84ff" : "rgba(255,255,255,0.12)";
   const sw = (name: string) => (isActive(name) ? 1.8 : 0.8);
   const glow = (name: string) =>
-    isActive(name) ? "drop-shadow(0 0 6px rgba(0,122,255,0.4))" : "none";
+    isActive(name) ? "drop-shadow(0 0 6px rgba(10,132,255,0.4))" : "none";
 
   return (
     <svg viewBox="0 0 200 440" className={s.bodySvg}>

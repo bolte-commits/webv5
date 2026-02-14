@@ -8,7 +8,7 @@ export function useCountUp(
   decimals = 1,
   trigger = true,
 ) {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState("0." + "0".repeat(decimals));
 
   useEffect(() => {
     if (!trigger) return;
@@ -21,7 +21,7 @@ export function useCountUp(
       const progress = Math.min((ts - start) / duration, 1);
       // ease-out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(parseFloat((eased * target).toFixed(decimals)));
+      setValue((eased * target).toFixed(decimals));
       if (progress < 1) raf = requestAnimationFrame(step);
     };
 

@@ -28,7 +28,7 @@ export default function MetricSnapshot({
   const ref = useScrollReveal<HTMLElement>();
 
   const items = [
-    { key: "lean", label: "Lean Mass", item: lean, color: "#007aff", pct: lean.mass / totalMass * 100 },
+    { key: "lean", label: "Lean Mass", item: lean, color: "#0a84ff", pct: lean.mass / totalMass * 100 },
     { key: "fat", label: "Fat Mass", item: fat, color: "#fbbf24", pct: fat.mass / totalMass * 100 },
     { key: "bone", label: "Bone", item: bone, color: "#8e8e93", pct: bone.mass / totalMass * 100 },
   ];

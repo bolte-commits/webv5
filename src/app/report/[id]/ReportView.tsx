@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { mockReport } from "@/lib/mockReportData";
 import ScoreReveal from "./components/ScoreReveal";
 import MetricSnapshot from "./components/MetricSnapshot";
@@ -25,6 +25,8 @@ function clr(status: string) {
 export default function ReportView({ id }: { id: string }) {
   const d = mockReport;
   const [tab, setTab] = useState("composition");
+  const [headerHidden, setHeaderHidden] = useState(false);
+  const lastScrollY = useRef(0);
 
   // Hide site navbar & footer
   useEffect(() => {
@@ -38,6 +40,22 @@ export default function ReportView({ id }: { id: string }) {
     };
   }, []);
 
+  // Hide header on scroll down, show on scroll up
+  const handleScroll = useCallback(() => {
+    const currentY = window.scrollY;
+    if (currentY > lastScrollY.current && currentY > 60) {
+      setHeaderHidden(true);
+    } else {
+      setHeaderHidden(false);
+    }
+    lastScrollY.current = currentY;
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+
   // Scroll to top on tab change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -45,6 +63,11 @@ export default function ReportView({ id }: { id: string }) {
 
   return (
     <div className={s.app}>
+      {/* Report Header */}
+      <header className={`${s.reportHeader} ${headerHidden ? s.reportHeaderHidden : ""}`}>
+        <span className={s.reportHeaderLogo}>BODY INSIGHT</span>
+      </header>
+
       <div className={s.scrollContainer}>
         <div key={tab} className={s.tabContent}>
 
@@ -80,7 +103,7 @@ export default function ReportView({ id }: { id: string }) {
                     data={d.trends.bodyFat}
                     labels={d.trends.dates}
                     unit="%"
-                    color="#007aff"
+                    color="#0a84ff"
                     decreaseIsGood
                   />
                   <AnimatedChart
@@ -323,7 +346,7 @@ export default function ReportView({ id }: { id: string }) {
                       <div className={s.boneVal}>{b.bmd}</div>
                     </div>
                   ))}
-                  <div className={s.boneCard} style={{ background: "rgba(0, 122, 255, 0.08)" }}>
+                  <div className={s.boneCard} style={{ background: "rgba(10, 132, 255, 0.08)" }}>
                     <div className={s.boneImgWrap}>
                       <Image
                         src="/images/bone/total.png"

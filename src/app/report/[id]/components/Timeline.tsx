@@ -12,7 +12,7 @@ type ChartProps = {
   decreaseIsGood?: boolean;
 };
 
-function AnimatedChart({ title, data, labels, unit = "", color = "#007aff", decreaseIsGood = false }: ChartProps) {
+function AnimatedChart({ title, data, labels, unit = "", color = "#0a84ff", decreaseIsGood = false }: ChartProps) {
   const w = 360, h = 120, pad = 28;
   const min = Math.min(...data) - (Math.max(...data) - Math.min(...data)) * 0.15;
   const max = Math.max(...data) + (Math.max(...data) - Math.min(...data)) * 0.15;
@@ -170,7 +170,7 @@ export default function Timeline({
       <div className={s.sectionDesc}>Across {scanNumber} DEXA scans since {dates[0]}.</div>
 
       <div style={{ marginTop: 16 }}>
-        <AnimatedChart title="Body Fat %" data={bodyFat} labels={dates} unit="%" color="#007aff" decreaseIsGood />
+        <AnimatedChart title="Body Fat %" data={bodyFat} labels={dates} unit="%" color="#0a84ff" decreaseIsGood />
         <AnimatedChart title="Lean Mass (kg)" data={leanMass} labels={dates} unit="" color="#60a5fa" />
         <AnimatedChart title="Fat Mass (kg)" data={fatMass} labels={dates} unit="" color="#fbbf24" decreaseIsGood />
         <AnimatedChart title="Visceral Fat (g)" data={visceralFatTrend} labels={dates} unit="g" color="#f87171" decreaseIsGood />

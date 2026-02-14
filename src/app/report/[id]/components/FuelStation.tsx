@@ -19,7 +19,7 @@ type Plan = {
 function MiniTrend({
   data,
   labels,
-  color = "#007aff",
+  color = "#0a84ff",
 }: {
   data: number[];
   labels: string[];
@@ -207,7 +207,7 @@ export default function FuelStation({
                       max={plan.protein + plan.carbs + plan.fat}
                       size={72}
                       strokeWidth={5}
-                      color="#007aff"
+                      color="#0a84ff"
                       unit="g"
                     />
                     <span className={s.macroName}>Protein</span>
