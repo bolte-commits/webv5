@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from "react";
 import { mockReport } from "@/lib/mockReportData";
+import Link from "next/link";
 import ScoreReveal from "./components/ScoreReveal";
 import MetricSnapshot from "./components/MetricSnapshot";
 import BodyMap from "./components/BodyMap";
@@ -26,6 +27,7 @@ export default function ReportView({ id }: { id: string }) {
   const d = mockReport;
   const [tab, setTab] = useState("composition");
   const [headerHidden, setHeaderHidden] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
 
   // Hide site navbar & footer
@@ -65,8 +67,30 @@ export default function ReportView({ id }: { id: string }) {
     <div className={s.app}>
       {/* Report Header */}
       <header className={`${s.reportHeader} ${headerHidden ? s.reportHeaderHidden : ""}`}>
-        <span className={s.reportHeaderLogo}>BODY INSIGHT</span>
+        <Link href="/" className={s.reportHeaderLogo}>BODY INSIGHT</Link>
+
+        {/* Hamburger button */}
+        <button
+          className={`${s.reportHamburger} ${menuOpen ? s.reportHamburgerOpen : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
       </header>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className={s.reportMobileMenu}>
+          <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link href="/#how-it-works" onClick={() => setMenuOpen(false)}>How it works</Link>
+          <Link href="/#pricing" onClick={() => setMenuOpen(false)}>Pricing</Link>
+          <Link href="/schedule" onClick={() => setMenuOpen(false)}>Book a Scan</Link>
+          <Link href="/dashboard" onClick={() => setMenuOpen(false)}>Dashboard</Link>
+        </div>
+      )}
 
       <div className={s.scrollContainer}>
         <div key={tab} className={s.tabContent}>
