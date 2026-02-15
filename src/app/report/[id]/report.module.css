@@ -44,7 +44,7 @@
 .reportHeaderLogo {
   font-family: var(--font-syne), 'Syne', sans-serif;
   font-size: 1.3rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--r-text);
   text-decoration: none;
 }

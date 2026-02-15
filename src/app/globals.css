@@ -94,7 +94,7 @@ nav {
 .logo {
     font-family: var(--font-syne), 'Syne', sans-serif;
     font-size: 1.8rem;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--primary);
     text-decoration: none;
     letter-spacing: -0.03em;
@@ -286,7 +286,7 @@ footer {
 .footer-logo {
     font-family: var(--font-syne), 'Syne', sans-serif;
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 800;
     margin-bottom: 1rem;
 }
 
