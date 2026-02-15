@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Body Insight — DEXA Report</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  @font-face { font-family: 'Monument Extended'; src: url('/fonts/PPMonumentExtended-Regular.otf') format('opentype'); font-weight: 400; }
+  @font-face { font-family: 'Monument Extended'; src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype'); font-weight: 800; }
+
+  :root {
+    --pri: #0F0F0F;
+    --brand: #007aff;
+    --brand-light: rgba(0,122,255,0.08);
+    --txt: #1A1A1A;
+    --dim: #6B7280;
+    --mute: #9CA3AF;
+    --bg: #F6F6F8;
+    --card: #FFFFFF;
+    --border: #E5E7EB;
+    --grn: #059669; --grn-bg: #d1fae5;
+    --ylw: #b45309; --ylw-bg: #fef3c7;
+    --red: #dc2626; --red-bg: #fee2e2;
+    --macro-p: #007aff; --macro-c: #f59e0b; --macro-f: #9CA3AF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: none;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 0; gap: 0;
+    font-size: 13px; color: var(--txt); line-height: 1.6;
+  }
+
+  /* ===== PAGE ===== */
+  .page { width: 500px; min-height: 880px; background: var(--bg); box-shadow: 0 20px 80px rgba(0,0,0,0.25); display: flex; flex-direction: column; overflow: hidden; }
+  @media print {
+    body { background: none; padding: 0; gap: 0; }
+    .page { box-shadow: none; page-break-after: always; }
+  }
+
+  /* ===== HEADER ===== */
+  .hdr { background: var(--pri); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  .hdr-l { display: flex; align-items: center; gap: 8px; }
+  .hdr-icon { width: 24px; height: 24px; background: var(--brand); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+  .hdr-icon svg { width: 13px; height: 13px; }
+  .hdr-logo { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; color: white; letter-spacing: -0.03em; }
+  .hdr-section { font-size: 0.6rem; color: rgba(255,255,255,0.35); text-align: right; }
+  .hdr-section strong { color: rgba(255,255,255,0.65); }
+
+  /* ===== FOOTER ===== */
+  .ftr { background: var(--pri); padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  .ftr-left { font-size: 0.6rem; color: rgba(255,255,255,0.3); }
+  .ftr-left a { color: var(--brand); text-decoration: none; }
+  .ftr-pg { font-size: 0.55rem; color: rgba(255,255,255,0.25); font-weight: 600; }
+
+  /* ===== CONTENT ===== */
+  .content { flex: 1; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+
+  /* ===== COVER ===== */
+  .cover { flex: 1; background: var(--pri); display: flex; flex-direction: column; padding: 40px 32px 32px; color: white; }
+  .cover-top { text-align: center; margin-bottom: auto; }
+  .cover-logo { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
+  .cover-sub { font-size: 0.6rem; color: rgba(255,255,255,0.6); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; }
+  .cover-middle { display: flex; flex-direction: column; align-items: center; margin-bottom: auto; text-align: center; }
+  .cover-prepared { font-size: 0.5rem; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600; margin-bottom: 6px; }
+  .cover-name { font-family: 'Monument Extended', sans-serif; font-size: 2.8rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; }
+  .cover-stat { }
+  .cover-label { font-size: 0.45rem; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; margin-bottom: 1px; }
+  .cover-val { font-size: 0.85rem; font-weight: 700; color: rgba(255,255,255,0.85); }
+  .cover-scan-num { display: inline-block; font-size: 0.5rem; font-weight: 700; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.08); padding: 3px 10px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 6px; }
+  .cover-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .cover-date { font-size: 0.62rem; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
+  .cover-id { font-size: 0.5rem; color: rgba(255,255,255,0.15); font-weight: 600; letter-spacing: 0.06em; }
+  .cover-ftr { background: rgba(255,255,255,0.03); padding: 12px 24px; text-align: center; font-size: 0.6rem; color: rgba(255,255,255,0.55); }
+  .cover-ftr a { color: rgba(255,255,255,0.7); text-decoration: none; }
+
+  /* ===== TYPOGRAPHY ===== */
+  .section-title { font-size: 1rem; font-weight: 800; color: var(--txt); margin-bottom: 2px; }
+  .section-desc { font-size: 0.7rem; color: var(--dim); line-height: 1.55; }
+  .label { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand); }
+
+  .num-hero { font-family: 'Monument Extended', sans-serif; font-size: 3rem; font-weight: 800; line-height: 1; color: var(--pri); letter-spacing: -0.03em; }
+  .num-hero span { font-size: 1.2rem; color: var(--mute); }
+  .num-lg { font-family: 'Monument Extended', sans-serif; font-size: 1.8rem; font-weight: 800; line-height: 1; color: var(--pri); }
+  .num-md { font-family: 'Monument Extended', sans-serif; font-size: 1.2rem; font-weight: 800; line-height: 1; color: var(--pri); }
+  .num-sm { font-family: 'Monument Extended', sans-serif; font-size: 0.9rem; font-weight: 800; line-height: 1; color: var(--pri); }
+
+  /* ===== CARDS ===== */
+  .card { background: var(--card); border-radius: 14px; padding: 16px 18px; }
+  .card-title { font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand); margin-bottom: 8px; }
+
+  /* ===== TAGS ===== */
+  .tag { display: inline-block; font-size: 0.58rem; font-weight: 700; padding: 3px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .tag-g { background: var(--grn-bg); color: var(--grn); }
+  .tag-y { background: var(--ylw-bg); color: var(--ylw); }
+  .tag-r { background: var(--red-bg); color: var(--red); }
+  .tag-n { background: #f3f4f6; color: var(--dim); }
+
+  /* ===== SCALE ===== */
+  .scale { position: relative; padding-top: 22px; margin-bottom: 6px; }
+  .scale-bar { height: 10px; border-radius: 5px; background: linear-gradient(90deg, #f87171 0%, #f87171 16.3%, #34d399 16.3%, #34d399 32.6%, #6ee7b7 32.6%, #6ee7b7 48.8%, #fbbf24 48.8%, #fbbf24 65.1%, #fb923c 65.1%, #fb923c 83.7%, #f87171 83.7%, #f87171 100%); }
+  .scale-marker { position: absolute; top: 0; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+  .scale-marker-label { font-size: 0.55rem; font-weight: 800; color: white; background: var(--brand); padding: 2px 7px; border-radius: 4px; margin-bottom: 2px; }
+  .scale-marker-arrow { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid var(--brand); }
+  .scale-ticks { display: flex; justify-content: space-between; font-size: 0.5rem; color: var(--mute); font-weight: 600; }
+  .scale-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 12px; margin-top: 6px; }
+  .scale-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.6rem; color: var(--txt); font-weight: 500; }
+  .scale-legend-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ===== RANGE BAR ===== */
+  .range-bar { height: 5px; border-radius: 3px; position: relative; margin: 6px 0 4px; }
+  .range-dot { position: absolute; top: -4px; width: 13px; height: 13px; background: white; border: 3px solid var(--pri); border-radius: 50%; transform: translateX(-50%); }
+
+  /* ===== VERDICT ===== */
+  .verdict { display: inline-flex; align-items: center; gap: 4px; font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .verdict-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  /* ===== ACTION BOX ===== */
+  .action { background: var(--card); border-radius: 12px; padding: 14px 18px; border-left: 3px solid var(--border); font-size: 0.7rem; color: var(--dim); line-height: 1.6; }
+  .action strong { color: var(--txt); }
+  .action-g { border-left-color: var(--grn); }
+  .action-y { border-left-color: #f59e0b; }
+
+  /* ===== IMAGE PLACEHOLDER ===== */
+  .img-ph { border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #f3f4f6; border: 1px dashed var(--border); flex-shrink: 0; }
+  .img-ph::after { font-size: 0.45rem; color: var(--mute); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; text-align: center; white-space: pre-line; }
+  .img-ph-dexa::after { content: 'DEXA\AScan'; }
+  .img-ph-body::after { content: 'Body\ARegions'; }
+
+  /* ===== REGION CARD (for sectional + symmetry + bone) ===== */
+  .region { background: var(--card); border-radius: 12px; padding: 10px; display: flex; gap: 10px; align-items: stretch; flex: 1; }
+  .region + .region { margin-top: 4px; }
+  .region-img { width: 55px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .region-data { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .region-name { font-size: 0.72rem; font-weight: 800; color: var(--txt); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+  .region-fat { font-family: 'Monument Extended', sans-serif; font-size: 1rem; font-weight: 800; color: var(--pri); line-height: 1; }
+  .region-fat small { font-size: 0.5rem; color: var(--mute); font-family: 'DM Sans'; font-weight: 600; }
+  .region-metrics { display: flex; gap: 12px; margin-top: 4px; }
+  .region-met { }
+  .region-met-label { font-size: 0.42rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mute); }
+  .region-met-val { font-size: 0.7rem; font-weight: 700; color: var(--txt); }
+
+  /* ===== SYMMETRY REGION ===== */
+  .sym-region { background: var(--card); border-radius: 12px; padding: 14px; display: flex; gap: 12px; }
+  .sym-region + .sym-region { margin-top: 8px; }
+  .sym-img { width: 90px; min-height: 100px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .sym-data { flex: 1; }
+  .sym-name { font-size: 0.72rem; font-weight: 800; color: var(--txt); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .sym-table { width: 100%; border-collapse: collapse; }
+  .sym-table th { font-size: 0.48rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mute); text-align: center; padding: 3px 6px; }
+  .sym-table th:first-child { text-align: left; }
+  .sym-table td { font-size: 0.68rem; font-weight: 600; color: var(--txt); text-align: center; padding: 3px 6px; border-top: 1px solid #f5f5f5; }
+  .sym-table td:first-child { text-align: left; color: var(--dim); font-size: 0.58rem; }
+  .sym-verdict { font-size: 0.55rem; font-weight: 700; margin-top: 4px; }
+
+  /* ===== BONE REGION GRID ===== */
+  .bone-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .bone-card { background: var(--card); border-radius: 10px; padding: 8px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .bone-img { width: 60%; margin: 0 auto; border-radius: 6px; overflow: hidden; margin-bottom: 4px; }
+  .bone-name { font-size: 0.52rem; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 0.06em; }
+  .bone-val { font-family: 'Monument Extended', sans-serif; font-size: 0.85rem; font-weight: 800; color: var(--pri); margin: 2px 0; }
+  .bone-unit { font-size: 0.42rem; color: var(--mute); }
+
+  /* ===== VF / BONE HEALTH SCALES ===== */
+  .vf-scale { height: 10px; border-radius: 5px; background: linear-gradient(90deg, #34d399 0%, #6ee7b7 25%, #fbbf24 50%, #fb923c 75%, #f87171 100%); position: relative; margin: 22px 0 6px; }
+  .vf-dot { position: absolute; top: -5px; width: 20px; height: 20px; background: white; border: 3px solid var(--brand); border-radius: 50%; transform: translateX(-50%); }
+  .vf-you { position: absolute; top: -20px; transform: translateX(-50%); font-size: 0.5rem; font-weight: 800; text-transform: uppercase; color: var(--brand); letter-spacing: 0.06em; }
+  .bh-scale-bar { height: 10px; border-radius: 5px; background: linear-gradient(90deg, #f87171 0%, #fbbf24 35%, #34d399 65%, #34d399 100%); position: relative; margin: 22px 0 6px; }
+
+  /* ===== DATA TABLE ===== */
+  .dtable { width: 100%; border-collapse: collapse; }
+  .dtable th { padding: 6px 8px; font-size: 0.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mute); text-align: center; border-bottom: 2px solid var(--border); }
+  .dtable th:first-child { text-align: left; }
+  .dtable td { padding: 6px 8px; font-size: 0.7rem; font-weight: 600; color: var(--txt); text-align: center; border-bottom: 1px solid #f3f4f6; }
+  .dtable td:first-child { text-align: left; font-weight: 700; }
+
+  /* ===== STACK BAR ===== */
+  .stack-bar { display: flex; height: 16px; border-radius: 5px; overflow: hidden; gap: 2px; }
+  .stack-seg { display: flex; align-items: center; justify-content: center; font-size: 0.5rem; font-weight: 700; color: white; border-radius: 3px; }
+
+  /* ===== TREND ===== */
+  .trend-chart { background: var(--card); border-radius: 10px; padding: 10px; }
+  .trend-labels { display: flex; justify-content: space-between; font-size: 0.48rem; color: var(--mute); margin-top: 3px; padding: 0 4px; }
+
+  /* ===== DELTAS ===== */
+  .pos { color: var(--grn); } .neg { color: var(--red); }
+
+  /* ===== MACRO ===== */
+  .macro-row { background: var(--card); border-radius: 12px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; }
+  .macro-row + .macro-row { margin-top: 8px; }
+  .macro-circles { display: flex; gap: 8px; }
+  .macro-circ { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .macro-ring { width: 48px; height: 48px; border-radius: 50%; border: 3px solid var(--pri); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .macro-ring-num { font-family: 'Monument Extended', sans-serif; font-size: 0.75rem; font-weight: 800; color: var(--pri); line-height: 1; }
+  .macro-ring-unit { font-size: 0.38rem; color: var(--mute); }
+  .macro-label { font-size: 0.45rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--dim); }
+
+  /* ===== TREND INLINE ===== */
+  .trend-row { display: flex; gap: 16px; font-size: 0.55rem; color: var(--dim); padding: 8px 0 0; }
+  .trend-row span { font-weight: 700; }
+  .region-delta { font-size: 0.5rem; color: var(--grn); font-weight: 700; margin-top: 1px; }
+
+  /* ===== GRIDS ===== */
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+  /* ===== INSIGHTS ===== */
+  .insight { background: var(--card); border-radius: 12px; padding: 12px 14px; }
+  .insight h4 { font-size: 0.68rem; font-weight: 700; color: var(--txt); margin-bottom: 3px; }
+  .insight p, .insight ul { font-size: 0.58rem; color: var(--dim); line-height: 1.5; }
+  .insight ul { margin: 0; padding-left: 14px; }
+
+  /* ===== ACTION PLAN ===== */
+  .ap-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f3f4f6; }
+  .ap-item:last-child { border-bottom: none; }
+  .ap-num { width: 22px; height: 22px; border-radius: 50%; background: var(--brand); color: white; font-size: 0.55rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .ap-text h4 { font-size: 0.75rem; font-weight: 700; color: var(--txt); margin-bottom: 2px; }
+  .ap-text p { font-size: 0.6rem; color: var(--dim); line-height: 1.5; }
+</style>
+</head>
+<body>
+<script>
+// ── Mock API call (replace with real fetch later) ────────────────────────────
+async function fetchReportData() {
+  // TODO: Replace with real API call, e.g.:
+  // const res = await fetch('/api/report/' + reportId);
+  // return res.json();
+  return MOCK_DATA;
+}
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function formatDate(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  const m = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return d.getDate() + ' ' + m[d.getMonth()] + ' ' + d.getFullYear();
+}
+function shortDate(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return d.getDate() + ' ' + m[d.getMonth()] + ' ' + d.getFullYear();
+}
+const vc = c => ({green:'var(--grn)',yellow:'var(--ylw)',red:'var(--red)',grey:'var(--dim)'}[c]||'var(--dim)');
+const vd = c => ({green:'#34d399',yellow:'#f59e0b',red:'#dc2626',grey:'#9CA3AF'}[c]||'#9CA3AF');
+const tc = c => ({green:'tag-g',yellow:'tag-y',red:'tag-r',grey:'tag-n'}[c]||'tag-n');
+const ac = c => ({green:'action-g',yellow:'action-y',red:'action-r'}[c]||'action-g');
+const HDR = s => `<div class="hdr"><div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-logo">BODY INSIGHT</span></div><div class="hdr-section"><strong>${s}</strong></div></div>`;
+const FTR = (p,t) => `<div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">${p} of ${t}</div></div>`;
+
+function trendSvg(points, W=240, H=70, suffix='', invert=false) {
+  const vals = points.map(p=>p.value), mn = Math.min(...vals), mx = Math.max(...vals), rng = mx-mn||1;
+  const pX=20, pY=6, cW=W-pX*2, cH=H-pY*2;
+  const x = i => pX + (i/(points.length-1))*cW;
+  const y = v => { const n=(v-mn)/rng; return invert ? pY+n*cH : pY+(1-n)*cH; };
+  const pts = points.map((p,i) => x(i).toFixed(0)+','+y(p.value).toFixed(0)).join(' ');
+  const circles = points.map((p,i) => `<circle cx="${x(i).toFixed(0)}" cy="${y(p.value).toFixed(0)}" r="3" fill="var(--pri)"/>`).join('');
+  const labels = points.map((p,i) => {
+    const last = i===points.length-1, cy=y(p.value), ly = cy>cH/2+pY ? cy-6 : cy+14;
+    return `<text x="${x(i).toFixed(0)}" y="${ly}" font-size="7" fill="${last?'var(--grn)':'var(--dim)'}" text-anchor="middle" font-weight="${last?700:600}">${p.value}${suffix}</text>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;flex:1;">
+    <line x1="0" y1="${H-pY}" x2="${W}" y2="${H-pY}" stroke="#e5e7eb" stroke-width="0.5"/>
+    <line x1="0" y1="${Math.round(H/2)}" x2="${W}" y2="${Math.round(H/2)}" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>
+    <line x1="0" y1="${pY}" x2="${W}" y2="${pY}" stroke="#e5e7eb" stroke-width="0.5"/>
+    <polyline points="${pts}" fill="none" stroke="var(--pri)" stroke-width="2" stroke-linecap="round"/>
+    ${circles}${labels}</svg>`;
+}
+function trendLabels(pts) { return `<div class="trend-labels">${pts.map(p=>`<span>${p.date||p.label}</span>`).join('')}</div>`; }
+function trendTable(pts, hdr, suffix='') {
+  const r = [...pts].reverse();
+  return `<table class="dtable" style="width:auto;flex-shrink:0;margin:0;font-size:0.5rem;">
+    <tr><th>Date</th><th>${hdr}</th></tr>
+    ${r.map((p,i)=>`<tr><td>${p.date||p.label}</td><td>${i===0?'<strong>':''}${p.value}${suffix}${i===0?'</strong>':''}</td></tr>`).join('')}</table>`;
+}
+function trendCard(title, pts, hdr, suffix='', inv=false) {
+  return `<div class="card" style="padding:12px 14px;flex:1;display:flex;flex-direction:column;">
+    <div class="card-title">${title}</div>
+    <div style="display:flex;gap:12px;align-items:stretch;flex:1;">
+      <div class="trend-chart" style="flex:1;min-width:0;display:flex;flex-direction:column;">
+        ${trendSvg(pts,240,70,suffix,inv)}${trendLabels(pts)}
+      </div>${trendTable(pts,hdr,suffix)}</div></div>`;
+}
+
+// ── Render ───────────────────────────────────────────────────────────────────
+function render(d) {
+  const c = d.cover, g = d.atAGlance, bc = d.bodyComposition, ct = d.compositionTrends;
+  const ra = d.regionalAnalysis, rt = d.regionalTrends, sym = d.symmetry, sb = d.sectionalBalance;
+  const vf = d.visceralFat, bh = d.boneHealth, bt = d.boneTrends, ag = d.agRatio;
+  const sa = d.sarcopenia, met = d.metabolism, nut = d.nutrition, ap = d.actionPlan;
+  const tp = c.totalPages;
+
+  document.body.innerHTML = `
+
+<!-- PAGE 1: COVER -->
+<div class="page" style="display:flex;flex-direction:column;padding:0;overflow:hidden;background:var(--pri);">
+  <div class="cover">
+    <div class="cover-top"><div class="cover-logo">BODY INSIGHT</div><div class="cover-sub">DEXA Body Composition Report</div></div>
+    <div class="cover-middle">
+      <div class="cover-prepared">Prepared for</div>
+      <div class="cover-name">${c.firstName}<br>${c.lastName}</div>
+      <div style="display:flex;gap:20px;margin-top:16px;">
+        <div class="cover-stat"><div class="cover-label">Age / Sex</div><div class="cover-val">${c.age} / ${c.sex}</div></div>
+        <div class="cover-stat"><div class="cover-label">Height</div><div class="cover-val">${c.heightCm} cm</div></div>
+        <div class="cover-stat"><div class="cover-label">Weight</div><div class="cover-val">${c.weightKg} kg</div></div>
+      </div>
+    </div>
+    <div class="cover-bottom"><div class="cover-date">${formatDate(c.scanDate)}</div></div>
+  </div>
+  <div class="cover-ftr"><a>bodyinsight.in</a> &middot; support@bodyinsight.in</div>
+</div>
+
+<!-- PAGE 2: AT A GLANCE -->
+<div class="page">
+  ${HDR('At a Glance')}
+  <div class="content">
+    <div><div class="section-title">Your Results at a Glance</div><div class="section-desc">Summary of your DEXA body composition scan from ${shortDate(c.scanDate)}.</div></div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;">
+        <div class="num-hero">${g.bodyFatPercent.toFixed(1)}<span>%</span></div>
+        <div><div class="tag ${tc(g.bodyFatPercent<=14?'green':g.bodyFatPercent<=25?'yellow':'red')}">${g.bodyFatCategory}</div></div>
+      </div>
+      <div class="card-title">Body Fat Scale &middot; ${c.sex} ${g.ageGroup}</div>
+      <div class="scale"><div class="scale-marker" style="left:${g.bodyFatScalePosition}%;"><span class="scale-marker-label">You</span><span class="scale-marker-arrow"></span></div><div class="scale-bar"></div></div>
+      <div class="scale-ticks"><span>0%</span><span>7%</span><span>14%</span><span>21%</span><span>28%</span><span>36%</span><span>43%</span></div>
+      <div class="scale-legend">
+        <div class="scale-legend-item"><span class="scale-legend-dot" style="background:#f87171;"></span>Low fat risk</div>
+        <div class="scale-legend-item"><span class="scale-legend-dot" style="background:#34d399;"></span>Ultra lean</div>
+        <div class="scale-legend-item"><span class="scale-legend-dot" style="background:#6ee7b7;"></span>Lean</div>
+        <div class="scale-legend-item"><span class="scale-legend-dot" style="background:#fbbf24;"></span>Moderate</div>
+        <div class="scale-legend-item"><span class="scale-legend-dot" style="background:#fb923c;"></span>Excess fat</div>
+        <div class="scale-legend-item"><span class="scale-legend-dot" style="background:#f87171;"></span>High fat risk</div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="card" style="text-align:center;"><div class="label">Total Mass</div><div class="num-lg" style="margin:6px 0 2px;">${g.totalMassKg}</div><div style="font-size:0.55rem;color:var(--mute);">kg</div></div>
+      <div class="card" style="text-align:center;"><div class="label">Lean Mass</div><div class="num-lg" style="margin:6px 0 2px;">${g.leanMassKg}</div><div style="font-size:0.55rem;color:var(--mute);">kg &middot; ${g.leanMassPercent}%</div></div>
+      <div class="card" style="text-align:center;"><div class="label">Fat Mass</div><div class="num-lg" style="margin:6px 0 2px;">${g.fatMassKg}</div><div style="font-size:0.55rem;color:var(--mute);">kg &middot; ${g.fatMassPercent}%</div></div>
+      <div class="card" style="text-align:center;"><div class="label">Bone Mineral</div><div class="num-lg" style="margin:6px 0 2px;">${g.boneMineralKg}</div><div style="font-size:0.55rem;color:var(--mute);">kg &middot; ${g.boneMineralPercent}%</div></div>
+    </div>
+    <div class="action action-g"><strong>Overall:</strong> ${g.overallInsight}</div>
+  </div>
+  ${FTR(2,tp)}
+</div>
+
+<!-- PAGE 3: BODY COMPOSITION -->
+<div class="page">
+  ${HDR('Body Composition')}
+  <div class="content">
+    <div><div class="section-title">What You're Made Of</div><div class="section-desc">DEXA breaks your total body mass into lean tissue, fat, and bone mineral.</div></div>
+    <div class="card">
+      <div class="card-title">Composition Breakdown</div>
+      <div class="stack-bar"><div class="stack-seg" style="background:var(--brand);flex:${g.leanMassPercent};">Lean ${g.leanMassPercent}%</div><div class="stack-seg" style="background:#8bb8e8;flex:${g.fatMassPercent};"></div><div class="stack-seg" style="background:#c4d9f0;flex:${g.boneMineralPercent};"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:5px;"><span style="font-size:0.5rem;color:var(--dim);font-weight:600;">Lean ${g.leanMassPercent}%</span><span style="font-size:0.5rem;color:var(--dim);font-weight:600;">Fat ${g.fatMassPercent}%</span><span style="font-size:0.5rem;color:var(--dim);font-weight:600;">Bone ${g.boneMineralPercent}%</span></div>
+    </div>
+    <div style="display:flex;gap:10px;flex:1;max-height:520px;">
+      <div style="width:155px;flex-shrink:0;position:relative;">
+        <img src="/images/xray.jpg" alt="DEXA Scan" style="width:100%;height:100%;border-radius:12px;object-fit:cover;">
+        <div style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);padding:3px 8px;border-radius:20px;">
+          <div style="display:flex;align-items:center;gap:3px;"><span style="width:6px;height:6px;border-radius:2px;background:#00e5ff;"></span><span style="font-size:0.38rem;font-weight:600;color:white;">Lean</span></div>
+          <div style="display:flex;align-items:center;gap:3px;"><span style="width:6px;height:6px;border-radius:2px;background:#ff4444;"></span><span style="font-size:0.38rem;font-weight:600;color:white;">Fat</span></div>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+        ${[['Lean Mass',bc.leanMass,'linear-gradient(90deg,#fca5a5 0%,#fde047 25%,#86efac 55%,#34d399 100%)'],
+           ['Fat Mass',bc.fatMass,'linear-gradient(90deg,#86efac 0%,#34d399 30%,#fde047 55%,#fca5a5 80%,#f87171 100%)'],
+           ['Bone Mineral',bc.boneMineral,'linear-gradient(90deg,#fca5a5 0%,#fde047 25%,#86efac 45%,#34d399 65%,#fde047 85%,#fca5a5 100%)']
+        ].map(([label,item,grad])=>`<div class="card" style="padding:10px 12px;flex:1;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;"><span style="font-size:0.68rem;font-weight:700;">${label}</span><span class="num-md">${item.kg} <small style="font-size:0.5rem;color:var(--mute);font-family:'DM Sans';font-weight:600;">kg</small></span></div>
+          <div style="font-size:0.52rem;color:var(--dim);margin-bottom:4px;">${item.description}</div>
+          <div class="range-bar" style="background:${grad};"><div class="range-dot" style="left:${item.scalePosition}%;"></div></div>
+          <div class="verdict" style="color:${vc(item.verdictColor)};"><span class="verdict-dot" style="background:${vd(item.verdictColor)};"></span> ${item.verdict}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="action ${ac(bc.insightColor)}"><strong>${bc.insight.split('.')[0]}.</strong> ${bc.insight.split('.').slice(1).join('.').trim()}</div>
+  </div>
+  ${FTR(3,tp)}
+</div>
+
+<!-- PAGE 4: COMPOSITION TRENDS -->
+<div class="page">
+  ${HDR('Composition Trends')}
+  <div class="content" style="display:flex; flex-direction:column;">
+    <div><div class="section-title">How Your Body Has Changed</div><div class="section-desc">Tracking lean mass, fat mass, and weight across ${ct.scans.length} DEXA scans since ${ct.scans[0].date}.</div></div>
+    ${trendCard('Body Fat % Trend', ct.scans.map(s=>({date:s.date,value:s.bodyFatPercent})), 'Fat %', '%')}
+    ${trendCard('Lean Mass Trend', ct.scans.map(s=>({date:s.date,value:s.leanMassKg})), 'Lean (kg)', '')}
+    ${trendCard('Fat Mass Trend', ct.scans.map(s=>({date:s.date,value:s.fatMassKg})), 'Fat (kg)', '')}
+  </div>
+  ${FTR(4,tp)}
+</div>
+
+<!-- PAGE 5: REGIONAL ANALYSIS -->
+<div class="page">
+  ${HDR('Regional Analysis')}
+  <div class="content">
+    <div><div class="section-title">Where Your Fat Lives</div><div class="section-desc">DEXA measures composition in ${ra.regions.length} distinct regions, revealing how lean tissue and fat are distributed across your body.</div></div>
+    ${ra.regions.map(r=>`<div class="region">
+      <div class="region-img"><img src="/images/regions/${r.image}.png" alt="${r.name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
+      <div class="region-data">
+        <div class="region-name">${r.name}</div>
+        <div class="region-fat">${r.fatPercent}<small>% fat</small></div>
+        <div class="region-metrics">
+          <div class="region-met"><div class="region-met-label">Lean</div><div class="region-met-val">${r.leanKg} kg</div></div>
+          <div class="region-met"><div class="region-met-label">Fat</div><div class="region-met-val">${r.fatKg} kg</div></div>
+          <div class="region-met"><div class="region-met-label">Total</div><div class="region-met-val">${r.totalKg} kg</div></div>
+        </div>
+        <div class="region-delta" style="margin-top:auto;">was ${r.previousFatPercent}% in ${r.previousDate} &middot; &darr; ${Math.abs(r.change)}%</div>
+      </div>
+    </div>`).join('')}
+  </div>
+  ${FTR(5,tp)}
+</div>
+
+<!-- PAGE 6: REGIONAL TRENDS -->
+<div class="page">
+  ${HDR('Regional Trends')}
+  <div class="content">
+    <div><div class="section-title">Regional Fat % Over Time</div><div class="section-desc">How fat percentage in each body region has changed across your ${rt.scanDates.length} scans.</div></div>
+    <div class="card">
+      <div class="card-title">All Regions &mdash; Fat % Trend</div>
+      <div class="trend-chart">
+        ${(()=>{
+          const colors = ['var(--pri)','#555','#888','#aaa','#ccc'];
+          const regions = Object.keys(rt.fatPercentByRegion);
+          const allVals = regions.flatMap(r=>rt.fatPercentByRegion[r]);
+          const mn=Math.min(...allVals), mx=Math.max(...allVals), rng=mx-mn||1;
+          const W=400, H=180, pX=30, pY=5, cH=165, cW=340;
+          const x=i=>pX+(i/(rt.scanDates.length-1))*cW;
+          const y=v=>pY+(1-(v-mn)/rng)*cH;
+          let svg='<svg viewBox="0 0 400 180" style="width:100%;height:140px;">';
+          svg+='<line x1="0" y1="'+(H-10)+'" x2="400" y2="'+(H-10)+'" stroke="#e5e7eb" stroke-width="0.5"/>';
+          svg+='<line x1="0" y1="'+Math.round(H/2)+'" x2="400" y2="'+Math.round(H/2)+'" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>';
+          svg+='<line x1="0" y1="5" x2="400" y2="5" stroke="#e5e7eb" stroke-width="0.5"/>';
+          regions.forEach((r,ri)=>{
+            const pts=rt.fatPercentByRegion[r].map((v,i)=>x(i).toFixed(0)+','+y(v).toFixed(0)).join(' ');
+            const lastY=y(rt.fatPercentByRegion[r].slice(-1)[0]).toFixed(0);
+            svg+='<polyline points="'+pts+'" fill="none" stroke="'+colors[ri]+'" stroke-width="2" stroke-linecap="round"/>';
+            svg+='<text x="380" y="'+(Number(lastY)+3)+'" font-size="7" fill="'+colors[ri]+'" font-weight="'+(ri===0?700:600)+'">'+r+'</text>';
+          });
+          svg+='</svg>';
+          return svg;
+        })()}
+        <div class="trend-labels">${rt.scanDates.map(d=>'<span>'+d+'</span>').join('')}</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Fat % by Region</div>
+      <table class="dtable">
+        <tr><th>Region</th>${rt.scanDates.map(d=>'<th>'+d+'</th>').join('')}</tr>
+        ${Object.keys(rt.fatPercentByRegion).map(r=>'<tr><td>'+r+'</td>'+rt.fatPercentByRegion[r].map((v,i,a)=>'<td>'+(i===a.length-1?'<strong>':'')+v+'%'+(i===a.length-1?'</strong>':'')+'</td>').join('')+'</tr>').join('')}
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">Lean Mass by Region (kg)</div>
+      <table class="dtable">
+        <tr><th>Region</th>${rt.scanDates.map(d=>'<th>'+d+'</th>').join('')}</tr>
+        ${Object.keys(rt.leanMassByRegion).map(r=>'<tr><td>'+r+'</td>'+rt.leanMassByRegion[r].map((v,i,a)=>'<td>'+(i===a.length-1?'<strong>':'')+v+(i===a.length-1?'</strong>':'')+'</td>').join('')+'</tr>').join('')}
+      </table>
+    </div>
+  </div>
+  ${FTR(6,tp)}
+</div>
+
+<!-- PAGE 7: LEFT VS RIGHT -->
+<div class="page">
+  ${HDR('Left vs Right')}
+  <div class="content">
+    <div><div class="section-title">Symmetry Check</div><div class="section-desc">Comparing the left and right sides of your body to detect muscle imbalances or asymmetric fat storage.</div></div>
+    ${sym.regions.map(r=>`<div class="sym-region">
+      <div class="sym-img"><img src="/images/regions/${r.image}.png" alt="${r.name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
+      <div class="sym-data">
+        <div class="sym-name">${r.name}</div>
+        <table class="sym-table">
+          <tr><th></th><th>Left</th><th>Right</th></tr>
+          <tr><td>Fat %</td><td><strong>${r.left.fatPercent}%</strong></td><td><strong>${r.right.fatPercent}%</strong></td></tr>
+          <tr><td>Total</td><td>${r.left.totalKg} kg</td><td>${r.right.totalKg} kg</td></tr>
+          <tr><td>Lean</td><td>${r.left.leanKg} kg</td><td>${r.right.leanKg} kg</td></tr>
+          <tr><td>Fat</td><td>${r.left.fatKg} kg</td><td>${r.right.fatKg} kg</td></tr>
+          <tr><td>Bone</td><td>${r.left.boneKg} kg</td><td>${r.right.boneKg} kg</td></tr>
+        </table>
+        <div class="sym-verdict" style="color:${vc(r.verdictColor)};">${r.verdict}</div>
+      </div>
+    </div>`).join('')}
+  </div>
+  ${FTR(7,tp)}
+</div>
+
+<!-- PAGE 8: SECTIONAL BALANCE -->
+<div class="page">
+  ${HDR('Sectional Balance')}
+  <div class="content">
+    <div><div class="section-title">Balance Assessment</div><div class="section-desc">How balanced your left and right sides are across each body region. Large imbalances increase injury risk.</div></div>
+    <div style="display:flex; gap:12px; justify-content:center; margin-bottom:12px;">
+      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#fca5a5;"></span><span style="font-size:0.45rem; color:var(--dim);">High imbalance</span></div>
+      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#fde047;"></span><span style="font-size:0.45rem; color:var(--dim);">Minor imbalance</span></div>
+      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#34d399;"></span><span style="font-size:0.45rem; color:var(--dim);">Good balance</span></div>
+    </div>
+    ${sb.regions.map(r=>`<div class="card" style="margin-bottom:8px;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><span style="font-size:0.75rem; font-weight:700;">${r.name}</span><span style="font-size:0.55rem; font-weight:700; color:${vc(r.statusColor)};">${r.status}</span></div>
+      <div class="range-bar" style="background:linear-gradient(90deg, #fca5a5 0%, #fde047 25%, #86efac 55%, #34d399 100%);"><div class="range-dot" style="left:${r.scalePosition}%;"></div></div>
+      <div style="display:flex; justify-content:space-between; font-size:0.4rem; color:var(--mute); margin-top:2px;"><span>Imbalanced</span><span>Balanced</span></div>
+      <div style="font-size:0.55rem; color:var(--dim); margin-top:8px; line-height:1.5;">${r.description}</div>
+    </div>`).join('')}
+    <div class="action ${ac(sb.insightColor)}"><strong>${sb.insight.split(':')[0]}:</strong>${sb.insight.split(':').slice(1).join(':')}</div>
+  </div>
+  ${FTR(8,tp)}
+</div>
+
+<!-- PAGE 9: VISCERAL & SUBCUTANEOUS FAT -->
+<div class="page">
+  ${HDR('Fat Analysis')}
+  <div class="content">
+    <div><div class="section-title">Visceral &amp; Subcutaneous Fat</div><div class="section-desc">Visceral fat surrounds your organs and is linked to serious health risks. Subcutaneous fat sits under your skin.</div></div>
+    <div class="g2">
+      <div class="card" style="text-align:center;"><div class="label">Visceral Fat</div><div class="num-lg" style="margin:6px 0 3px;">${vf.massGrams}</div><div style="font-size:0.5rem; color:var(--mute);">grams</div><div class="tag ${tc(vf.massGrams<250?'green':vf.massGrams<500?'yellow':'red')}" style="margin-top:6px;">${vf.status}</div></div>
+      <div class="card" style="text-align:center;"><div class="label">Subcutaneous Fat</div><div class="num-lg" style="margin:6px 0 3px;">${vf.subcutaneousKg}</div><div style="font-size:0.5rem; color:var(--mute);">kg</div><div class="tag tag-n" style="margin-top:6px;">${vf.subcutaneousPercent}% of total</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Visceral Fat Detail</div>
+      <div class="g3" style="margin-bottom:10px;">
+        <div style="text-align:center;"><div class="label" style="color:var(--mute);">Mass</div><div class="num-sm" style="margin-top:3px;">${vf.massGrams}<small style="font-size:0.5rem; color:var(--mute); font-family:'DM Sans';"> g</small></div></div>
+        <div style="text-align:center;"><div class="label" style="color:var(--mute);">Volume</div><div class="num-sm" style="margin-top:3px;">${vf.volumeCm3}<small style="font-size:0.5rem; color:var(--mute); font-family:'DM Sans';"> cm&sup3;</small></div></div>
+        <div style="text-align:center;"><div class="label" style="color:var(--mute);">Area</div><div class="num-sm" style="margin-top:3px;">${vf.areaCm2}<small style="font-size:0.5rem; color:var(--mute); font-family:'DM Sans';"> cm&sup2;</small></div></div>
+      </div>
+      <div class="vf-scale" style="margin-top:25px;"><div class="vf-you" style="left:${vf.scalePosition}%;">You</div><div class="vf-dot" style="left:${vf.scalePosition}%;"></div></div>
+      <div style="display:flex; justify-content:space-between; font-size:0.48rem; color:var(--mute); font-weight:600;"><span>0g &mdash; Safe</span><span>250g &mdash; Moderate</span><span>500g &mdash; High</span><span>750g+</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Visceral Fat Trend</div>
+      <div class="trend-chart">
+        ${trendSvg(vf.trend.map(t=>({date:t.date,value:t.grams})),400,70,'g')}
+        ${trendLabels(vf.trend)}
+      </div>
+    </div>
+    <div class="action ${ac(vf.insightColor)}"><strong>${vf.insight.split('.')[0]}.</strong>${vf.insight.split('.').slice(1).join('.').trim()}</div>
+  </div>
+  ${FTR(9,tp)}
+</div>
+
+<!-- PAGE 10: BONE HEALTH -->
+<div class="page">
+  ${HDR('Bone Health')}
+  <div class="content">
+    <div><div class="section-title">Your Skeleton</div><div class="section-desc">DEXA measures bone mineral density (BMD) &mdash; a key indicator of skeletal strength and fracture risk.</div></div>
+    <div class="g2">
+      <div class="card" style="text-align:center;"><div class="label">T-Score (Young Adult)</div><div class="num-lg" style="margin:6px 0 3px;">${bh.tScore}</div><div style="font-size:0.5rem; color:var(--dim);">vs healthy 30-yr-old</div><div class="tag tag-g" style="margin-top:5px;">${bh.tScoreStatus}</div></div>
+      <div class="card" style="text-align:center;"><div class="label">Z-Score (Age Matched)</div><div class="num-lg" style="margin:6px 0 3px;">${bh.zScore}</div><div style="font-size:0.5rem; color:var(--dim);">vs your age group</div><div class="tag tag-g" style="margin-top:5px;">${bh.zScoreStatus}</div></div>
+    </div>
+    <div class="card" style="flex:1; display:flex; flex-direction:column;">
+      <div class="card-title">Bone Mineral Density by Region (g/cm&sup2;)</div>
+      <div class="bone-grid" style="flex:1;">
+        ${Object.entries(bh.bmdByRegion).map(([name,val],i,a)=>'<div class="bone-card"'+(i===a.length-1?' style="background:#f3f4f6;"':'')+'><div class="bone-img"><img src="/images/bone/'+name.toLowerCase()+'.png" alt="'+name+'" style="width:100%; height:100%; object-fit:cover; border-radius:6px;" /></div><div class="bone-name"'+(i===a.length-1?' style="color:var(--txt);"':'')+'>'+name+'</div><div class="bone-val">'+val+'</div></div>').join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Bone Density Scale</div>
+      <div class="bh-scale-bar"><div class="vf-you" style="left:${bh.densityScalePosition}%;">You</div><div class="vf-dot" style="left:${bh.densityScalePosition}%;"></div></div>
+      <div style="display:flex; justify-content:space-between; font-size:0.48rem; color:var(--mute); font-weight:600;"><span>Osteoporosis</span><span>Osteopenia</span><span>Normal</span><span>Strong</span></div>
+    </div>
+  </div>
+  ${FTR(10,tp)}
+</div>
+
+<!-- PAGE 11: BONE TRENDS -->
+<div class="page">
+  ${HDR('Bone Trends')}
+  <div class="content" style="display:flex; flex-direction:column;">
+    <div><div class="section-title">Bone Health Over Time</div><div class="section-desc">Tracking your T-Score and total bone mineral density across ${bt.tScore.length} DEXA scans.</div></div>
+    ${trendCard('T-Score Trend', bt.tScore, 'T-Score', '')}
+    ${trendCard('Total BMD Trend (g/cm&sup2;)', bt.totalBmd, 'BMD', '')}
+    <div class="g2">
+      <div class="insight"><h4>What the scores mean</h4><p><strong>T-Score</strong> compares to peak bone mass of a healthy young adult. <strong>Z-Score</strong> compares to your age group. Below -2.5 = osteoporosis.</p></div>
+      <div class="insight"><h4>Strengthen your bones</h4><ul><li>Calcium &amp; Vitamin D</li><li>Weight-bearing exercise</li><li>Resistance training</li><li>Avoid smoking &amp; excess alcohol</li></ul></div>
+    </div>
+    <div class="action ${ac(bt.insightColor)}"><strong>${bt.insight.split('.')[0]}.</strong>${bt.insight.split('.').slice(1).join('.').trim()}</div>
+  </div>
+  ${FTR(11,tp)}
+</div>
+
+<!-- PAGE 12: A/G RATIO -->
+<div class="page">
+  ${HDR('Fat Distribution')}
+  <div class="content">
+    <div><div class="section-title">Android-to-Gynoid Ratio</div><div class="section-desc">This ratio compares fat in your belly (android) to your hips (gynoid). It reveals whether you carry weight in a pattern associated with higher or lower metabolic risk.</div></div>
+    <div class="card" style="text-align:center; padding:24px;">
+      <div class="label">Your A/G Ratio</div>
+      <div class="num-hero" style="margin:8px 0 10px;">${ag.value}</div>
+      <div style="position:relative; margin:0 auto; max-width:340px;">
+        <div class="range-bar" style="background:linear-gradient(90deg, #34d399 0%, #86efac 33%, #fde047 50%, #fca5a5 75%, #f87171 100%); height:6px;"><div class="range-dot" style="left:${ag.scalePosition}%;"></div></div>
+        <div style="display:flex; justify-content:space-between; font-size:0.42rem; color:var(--mute); font-weight:600; margin-top:4px;"><span>0.5</span><span>0.8</span><span>1.0</span><span>1.5</span><span>2.0</span></div>
+      </div>
+      <div class="verdict" style="color:${vc(ag.verdictColor)}; margin-top:8px;"><span class="verdict-dot" style="background:${vd(ag.verdictColor)};"></span> ${ag.verdict}</div>
+    </div>
+    <div class="g2">
+      <div class="insight"><h4>What is A/G Ratio?</h4><p>Compares fat percentage in your belly vs hip region using DEXA fat %, not waist inches &mdash; far more accurate than a tape measure.</p></div>
+      <div class="insight"><h4>Why it matters</h4><p>Ratios above 1.0 correlate with higher visceral fat and metabolic risk. Below 1.0 is associated with lower cardiovascular risk.</p></div>
+    </div>
+    <div class="action ${ac(ag.insightColor)}"><strong>${ag.insight.split('.')[0]}.</strong>${ag.insight.split('.').slice(1).join('.').trim()}</div>
+  </div>
+  ${FTR(12,tp)}
+</div>
+
+<!-- PAGE 13: SARCOPENIA SCREENING -->
+<div class="page">
+  ${HDR('Muscle Health')}
+  <div class="content">
+    <div><div class="section-title">Sarcopenia Screening</div><div class="section-desc">ALMI (Appendicular Lean Mass Index) measures the lean mass in your arms and legs relative to your height &mdash; the clinical standard for detecting muscle loss.</div></div>
+    <div class="card" style="text-align:center; padding:20px;">
+      <div class="label">Your ALMI</div>
+      <div class="num-hero" style="margin:6px 0 3px;">${sa.almi.toFixed(2)}</div>
+      <div style="font-size:0.6rem; color:var(--dim);">${sa.unit}</div>
+      <div style="position:relative; margin:12px auto 0; max-width:340px;">
+        <div class="range-bar" style="background:linear-gradient(90deg, #fca5a5 0%, #fde047 25%, #86efac 55%, #34d399 100%);"><div class="range-dot" style="left:${sa.scalePosition}%;"></div></div>
+        <div style="display:flex; justify-content:space-between; font-size:0.42rem; color:var(--mute); font-weight:600; margin-top:4px;"><span>5.0</span><span>7.0</span><span>9.0</span><span>11.0</span></div>
+      </div>
+      <div class="verdict" style="color:${vc(sa.verdictColor)}; margin-top:8px;"><span class="verdict-dot" style="background:${vd(sa.verdictColor)};"></span> ${sa.verdict}</div>
+    </div>
+    <div class="g2">
+      <div class="insight"><h4>What is ALMI?</h4><p>Lean mass of arms + legs divided by height&sup2;. For you: ${sa.formula}. The sarcopenia cutoff for ${c.sex.toLowerCase()==='male'?'men':'women'} is &lt; ${sa.threshold} ${sa.unit}.</p></div>
+      <div class="insight"><h4>Why it matters</h4><p>Low ALMI signals age-related muscle loss (sarcopenia), increasing fall risk, frailty, and metabolic dysfunction. Resistance training is the best prevention.</p></div>
+    </div>
+    <div class="action ${ac(sa.insightColor)}"><strong>${sa.insight.split('.')[0]}.</strong>${sa.insight.split('.').slice(1).join('.').trim()}</div>
+  </div>
+  ${FTR(13,tp)}
+</div>
+
+<!-- PAGE 14: METABOLISM -->
+<div class="page">
+  ${HDR('Metabolism')}
+  <div class="content">
+    <div><div class="section-title">How You Burn Energy</div><div class="section-desc">Your Resting Metabolic Rate (RMR) is how many calories your body burns at complete rest.</div></div>
+    <div class="card" style="text-align:center; padding:22px;">
+      <div class="label">Resting Metabolic Rate</div>
+      <div class="num-hero" style="margin:6px 0 3px;">${met.rmr}</div>
+      <div style="font-size:0.65rem; color:var(--dim);">kcal per day at rest</div>
+      <div style="font-size:0.58rem; color:var(--grn); font-weight:700; margin-top:6px;">${met.rmrAboveAvgPercent}% above average for your age &amp; sex</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Your Daily Calorie Needs</div>
+      <div style="display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f3f4f6;"><span style="font-size:0.68rem; color:var(--dim);">1. Your <strong style="color:var(--txt);">RMR</strong></span><span class="num-sm">${met.rmr}</span></div>
+      <div style="display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f3f4f6;"><span style="font-size:0.68rem; color:var(--dim);">2. <strong style="color:var(--txt);">Lifestyle factor</strong> (${met.lifestyleFactor})</span><span class="num-sm">+${met.lifestyleCalories}</span></div>
+      <div style="display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f3f4f6;"><span style="font-size:0.68rem; color:var(--dim);">3. <strong style="color:var(--txt);">Workout calories</strong></span><span class="num-sm">+${met.workoutCalories}</span></div>
+      <div style="display:flex; justify-content:space-between; padding:8px 0 0;"><span style="font-size:0.78rem; font-weight:700; color:var(--txt);">Total Daily Expenditure</span><span class="num-md">${met.tdee}</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">RMR Trend</div>
+      <div class="trend-chart">
+        ${trendSvg(met.rmrTrend,400,70,'')}
+        ${trendLabels(met.rmrTrend)}
+      </div>
+    </div>
+  </div>
+  ${FTR(14,tp)}
+</div>
+
+<!-- PAGE 15: RMR DEEP DIVE -->
+<div class="page">
+  ${HDR('Metabolism')}
+  <div class="content">
+    <div><div class="section-title">Understanding Your RMR</div><div class="section-desc">Everything you need to know about your resting metabolic rate and how to use it.</div></div>
+    <div class="g2" style="margin-bottom:10px;">
+      <div class="insight"><h4>What's a good RMR?</h4><p>There is no "good" RMR &mdash; it's unique to your body. However, higher RMR relative to your size means you burn more calories at rest.</p></div>
+      <div class="insight"><h4>Can I increase RMR?</h4><p>Building muscle is the most effective way. Also: move often, eat whole foods frequently, try interval training, and get adequate sleep.</p></div>
+    </div>
+    <div class="card" style="margin-bottom:10px;">
+      <div class="card-title">Factors That Contribute to RMR</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{1F3CB}\u{FE0F}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Body Composition</div><div style="font-size:0.5rem; color:var(--dim);">Muscle burns more calories than fat. More lean mass = higher RMR.</div></div></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{1F4CF}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Body Size</div><div style="font-size:0.5rem; color:var(--dim);">Larger bodies require more energy to maintain basic functions.</div></div></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{231B}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Age</div><div style="font-size:0.5rem; color:var(--dim);">Metabolic slowdown and muscle loss occur naturally with age.</div></div></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{1F464}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Gender</div><div style="font-size:0.5rem; color:var(--dim);">Men tend to have higher RMR due to greater muscle mass.</div></div></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{1F321}\u{FE0F}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Environment</div><div style="font-size:0.5rem; color:var(--dim);">Extreme heat or cold forces the body to work harder to regulate temperature.</div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Estimated Calories Burned per Hour</div>
+      <div style="display:flex; flex-direction:column;">
+        ${met.caloriesBurnedPerHour.map((a,i,arr)=>'<div style="display:flex; justify-content:space-between; padding:5px 0;'+(i<arr.length-1?' border-bottom:1px solid #f3f4f6;':'')+'"><span style="font-size:0.6rem; color:var(--dim);">'+a.emoji+' '+a.activity+'</span><span class="num-sm">'+a.calories+'</span></div>').join('')}
+      </div>
+    </div>
+  </div>
+  ${FTR(15,tp)}
+</div>
+
+<!-- PAGE 16: NUTRITION -->
+<div class="page">
+  ${HDR('Nutrition Plan')}
+  <div class="content">
+    <div><div class="section-title">What to Eat</div><div class="section-desc">Based on your TDEE of ${nut.tdee} kcal. Protein is kept high (${nut.proteinPerKg}g/kg) to maintain lean mass across all goals.</div></div>
+    ${nut.plans.map(p=>'<div class="macro-row"><div><div style="font-size:0.75rem; font-weight:700; color:var(--txt);">'+p.goal+'</div><div style="font-size:0.55rem; color:var(--dim);">'+p.calories+' kcal &middot; '+p.description+'</div></div><div class="macro-circles"><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-p);"><span class="macro-ring-num">'+p.proteinG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Protein</span></div><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-c);"><span class="macro-ring-num">'+p.carbsG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Carbs</span></div><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-f);"><span class="macro-ring-num">'+p.fatG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Fat</span></div></div></div>').join('')}
+    <div class="g2">
+      <div class="insight"><h4>About Macros</h4><p>The three nutrient categories that provide energy: protein (builds muscle), carbohydrates (fuel), and fat (hormones &amp; cell health).</p></div>
+      <div class="insight"><h4>Why Count Macros?</h4><p>Not all calories are equal. Hitting protein targets protects lean mass. Adjusting carbs/fat based on your goal optimizes results.</p></div>
+    </div>
+    <div class="action ${ac(nut.insightColor)}"><strong>${nut.insight.split('.')[0]}.</strong>${nut.insight.split('.').slice(1).join('.').trim()}</div>
+  </div>
+  ${FTR(16,tp)}
+</div>
+
+<!-- PAGE 17: ACTION PLAN -->
+<div class="page">
+  ${HDR('Action Plan')}
+  <div class="content">
+    <div><div class="section-title">What to Do Next</div><div class="section-desc">Based on your full DEXA analysis, here are your priority actions ranked by importance.</div></div>
+    <div class="card">
+      ${ap.actions.map(a=>'<div class="ap-item"><div class="ap-num">'+a.priority+'</div><div class="ap-text"><h4>'+a.title+'</h4><p>'+a.description+'</p></div></div>').join('')}
+    </div>
+    <div style="background:var(--brand-light); border-radius:14px; padding:18px; text-align:center; border:1px solid rgba(0,122,255,0.12);">
+      <div style="font-size:0.82rem; font-weight:700; color:var(--brand); margin-bottom:4px;">Questions about your report?</div>
+      <div style="font-size:0.62rem; color:var(--dim); line-height:1.6;">Reach out at <strong>support@bodyinsight.in</strong> or visit <strong style="color:var(--brand);">bodyinsight.in</strong> to schedule your next scan.</div>
+    </div>
+    <div style="font-size:0.48rem; color:var(--mute); line-height:1.6; font-style:italic;">This report is generated from DEXA (Dual-Energy X-ray Absorptiometry) scan data and is intended for informational purposes. It does not constitute medical advice. Consult a healthcare professional before making changes to your diet or exercise program.</div>
+  </div>
+  ${FTR(17,tp)}
+</div>
+
+  `; // end of template literal
+} // end of render()
+
+// ── Mock Data ──────────────────────────────────────────────────────────────────
+const MOCK_DATA = {"cover":{"firstName":"Arjun","lastName":"Mehta","age":28,"sex":"Male","heightCm":175,"weightKg":73.4,"scanDate":"2026-02-10","totalPages":17},"atAGlance":{"bodyFatPercent":9.0,"bodyFatCategory":"Ultra Lean","bodyFatScalePosition":20.9,"ageGroup":"25-30","totalMassKg":73.4,"leanMassKg":63.9,"leanMassPercent":87.1,"fatMassKg":6.6,"fatMassPercent":9.0,"boneMineralKg":2.9,"boneMineralPercent":3.9,"overallInsight":"Excellent body composition. Your lean mass is well above average and body fat is very low. Maintain your current training while ensuring adequate caloric intake \u2014 9% is close to the essential fat floor."},"bodyComposition":{"leanMass":{"kg":63.9,"description":"Muscles, organs, water & connective tissue. More lean mass means a higher metabolism.","scalePosition":75,"verdict":"Above average","verdictColor":"green"},"fatMass":{"kg":6.6,"description":"Essential fat for hormones & insulation plus stored energy. Too low affects recovery.","scalePosition":12,"verdict":"Near essential minimum","verdictColor":"yellow"},"boneMineral":{"kg":2.9,"description":"Calcium & mineral content of your skeleton. Indicates bone strength and fracture risk.","scalePosition":50,"verdict":"Normal range","verdictColor":"grey"},"insight":"Watch your fat levels. At 9%, you're near the essential fat minimum. Ensure adequate healthy fats and calories for hormone function and recovery.","insightColor":"yellow"},"compositionTrends":{"scans":[{"date":"Jan '23","bodyFatPercent":11.6,"leanMassKg":61.6,"fatMassKg":8.4},{"date":"Nov '23","bodyFatPercent":10.8,"leanMassKg":62.3,"fatMassKg":7.8},{"date":"Jan '25","bodyFatPercent":10.0,"leanMassKg":63.1,"fatMassKg":7.2},{"date":"Feb '26","bodyFatPercent":9.0,"leanMassKg":63.9,"fatMassKg":6.6}]},"regionalAnalysis":{"regions":[{"name":"Trunk","image":"trunk","fatPercent":10.1,"leanKg":26.4,"fatKg":2.96,"totalKg":30.0,"previousFatPercent":12.8,"previousDate":"Jan '23","change":-2.7},{"name":"Arms","image":"arms","fatPercent":8.0,"leanKg":8.4,"fatKg":0.73,"totalKg":9.5,"previousFatPercent":10.5,"previousDate":"Jan '23","change":-2.5},{"name":"Legs","image":"legs","fatPercent":9.2,"leanKg":20.7,"fatKg":2.11,"totalKg":23.5,"previousFatPercent":11.5,"previousDate":"Jan '23","change":-2.3},{"name":"Android (Belly)","image":"android","fatPercent":12.3,"leanKg":3.2,"fatKg":0.45,"totalKg":3.7,"previousFatPercent":15.2,"previousDate":"Jan '23","change":-2.9},{"name":"Gynoid (Hip)","image":"gynoid","fatPercent":9.5,"leanKg":7.8,"fatKg":0.82,"totalKg":8.8,"previousFatPercent":11.8,"previousDate":"Jan '23","change":-2.3}]},"regionalTrends":{"fatPercentByRegion":{"Android":[15.2,14.2,13.1,12.3],"Trunk":[12.8,11.9,10.9,10.1],"Gynoid":[11.8,11.1,10.2,9.5],"Legs":[11.5,10.8,10.0,9.2],"Arms":[10.5,9.8,8.8,8.0]},"leanMassByRegion":{"Trunk":[24.8,25.2,25.8,26.4],"Legs":[19.3,19.8,20.2,20.7],"Arms":[7.6,7.9,8.1,8.4],"Gynoid":[7.1,7.3,7.5,7.8],"Android":[2.8,2.9,3.0,3.2]},"scanDates":["Jan '23","Nov '23","Jan '25","Feb '26"]},"symmetry":{"regions":[{"name":"Arms","image":"arms","left":{"fatPercent":8.2,"totalKg":4.7,"leanKg":4.1,"fatKg":0.37,"boneKg":0.23},"right":{"fatPercent":7.8,"totalKg":4.8,"leanKg":4.3,"fatKg":0.36,"boneKg":0.14},"verdict":"Good balance \u2014 right arm slightly stronger (dominant hand)","verdictColor":"green"},{"name":"Legs","image":"legs","left":{"fatPercent":9.4,"totalKg":11.5,"leanKg":10.2,"fatKg":1.06,"boneKg":0.24},"right":{"fatPercent":9.1,"totalKg":11.8,"leanKg":10.5,"fatKg":1.05,"boneKg":0.25},"verdict":"Good balance \u2014 symmetric development","verdictColor":"green"},{"name":"Trunk","image":"trunk","left":{"fatPercent":10.3,"totalKg":15.1,"leanKg":13.2,"fatKg":1.53,"boneKg":0.37},"right":{"fatPercent":9.9,"totalKg":14.9,"leanKg":13.2,"fatKg":1.43,"boneKg":0.27},"verdict":"Good balance \u2014 even distribution","verdictColor":"green"}]},"sectionalBalance":{"regions":[{"name":"Arms","status":"GOOD BALANCE","statusColor":"green","scalePosition":72,"description":"Right arm is slightly stronger, consistent with dominant-hand use. No significant asymmetry \u2014 function and performance are optimal."},{"name":"Legs","status":"GOOD BALANCE","statusColor":"green","scalePosition":80,"description":"Left and right sides show balanced strength and muscle distribution. No significant asymmetry between legs."},{"name":"Trunk","status":"GOOD BALANCE","statusColor":"green","scalePosition":68,"description":"Even distribution of lean mass and fat across both sides of the trunk. No corrective exercises needed."}],"insight":"How to fix imbalances: You can\u2019t spot-reduce fat \u2014 fat loss is systemic and genetics decide where it goes first. But you can spot-build muscle. Use unilateral exercises (single-arm rows, single-leg presses) starting with the weaker side. Retest in 2\u20133 months; if asymmetry exceeds 10%, consult a physiotherapist.","insightColor":"green"},"visceralFat":{"massGrams":185,"status":"Safe","subcutaneousKg":5.8,"subcutaneousPercent":88,"volumeCm3":202,"areaCm2":38.2,"scalePosition":18.5,"trend":[{"date":"Jan '23","grams":220},{"date":"Nov '23","grams":205},{"date":"Jan '25","grams":195},{"date":"Feb '26","grams":185}],"insight":"Your visceral fat is safe and trending down. At 185g (below 250g threshold), your organ fat levels are healthy. Maintain your current diet and exercise routine.","insightColor":"green"},"boneHealth":{"tScore":1.2,"tScoreStatus":"Normal","zScore":1.4,"zScoreStatus":"Above avg","densityScalePosition":72,"bmdByRegion":{"Head":2.31,"Arms":0.85,"Legs":1.42,"Trunk":0.98,"Ribs":0.76,"Spine":1.22,"Pelvis":1.19,"Total":1.25}},"boneTrends":{"tScore":[{"date":"Jan '23","value":0.4},{"date":"Nov '23","value":0.7},{"date":"Jan '25","value":1.0},{"date":"Feb '26","value":1.2}],"totalBmd":[{"date":"Jan '23","value":1.12},{"date":"Nov '23","value":1.16},{"date":"Jan '25","value":1.21},{"date":"Feb '26","value":1.25}],"insight":"Excellent bone health. T-Score 1.2 and Z-Score 1.4 indicate strong, healthy bones. Continue weight-bearing exercise and adequate calcium intake.","insightColor":"green"},"agRatio":{"value":1.29,"scalePosition":53,"verdict":"Above ideal \u2014 more belly fat than hip fat","verdictColor":"yellow","insight":"Bring your A/G ratio below 1.0. Focus on core training and reduce refined carbohydrates to shift fat distribution from belly toward hips over time.","insightColor":"yellow"},"sarcopenia":{"almi":9.50,"unit":"kg/m\u00B2","scalePosition":82,"threshold":7.0,"formula":"(8.4 + 20.7) / 1.75\u00B2 = 9.50 kg/m\u00B2","verdict":"Well above sarcopenia threshold (7.0)","verdictColor":"green","insight":"No sarcopenia risk. Your ALMI of 9.50 kg/m\u00B2 is well above the 7.0 threshold. Continue resistance training to maintain lean mass as you age.","insightColor":"green"},"metabolism":{"rmr":1742,"rmrAboveAvgPercent":5.2,"lifestyleFactor":"light","lifestyleCalories":348,"workoutCalories":305,"tdee":2395,"rmrTrend":[{"date":"Jan '23","value":1680},{"date":"Nov '23","value":1700},{"date":"Jan '25","value":1720},{"date":"Feb '26","value":1742}],"caloriesBurnedPerHour":[{"activity":"Walking (4 km/h)","emoji":"\uD83D\uDEB6","calories":197},{"activity":"Running (8 km/h)","emoji":"\uD83C\uDFC3","calories":570},{"activity":"Running (14 km/h)","emoji":"\uD83C\uDFC3\u200D\u2642\uFE0F","calories":881},{"activity":"Cycling (20 km/h)","emoji":"\uD83D\uDEB4","calories":554},{"activity":"Swimming","emoji":"\uD83C\uDFCA","calories":387},{"activity":"Weight Lifting","emoji":"\uD83C\uDFCB\uFE0F","calories":190},{"activity":"Boxing","emoji":"\uD83E\uDD4A","calories":744},{"activity":"Soccer","emoji":"\u26BD","calories":684},{"activity":"Badminton","emoji":"\uD83C\uDFF8","calories":380},{"activity":"Yoga","emoji":"\uD83E\uDDD8","calories":121}]},"nutrition":{"tdee":2395,"proteinPerKg":2,"plans":[{"goal":"To Lose Fat","calories":1895,"description":"-500 deficit \u00B7 ~0.5 kg/wk loss","proteinG":147,"carbsG":201,"fatG":56},{"goal":"To Maintain","calories":2395,"description":"your TDEE \u00B7 maintain weight","proteinG":147,"carbsG":301,"fatG":67},{"goal":"To Gain Muscle","calories":2895,"description":"+500 surplus \u00B7 ~0.5 kg/wk gain","proteinG":147,"carbsG":397,"fatG":80}],"insight":"Recommended: Maintain or slight surplus. At 9% body fat, a deficit would push you below healthy levels. Eat 2395\u20132895 kcal to support training and recovery.","insightColor":"yellow"},"actionPlan":{"actions":[{"priority":1,"title":"Don\u2019t cut calories further","description":"At 9% body fat, you\u2019re near essential fat minimum. Eat at maintenance (2395 kcal) or above to support hormone function and recovery."},{"priority":2,"title":"Maintain your training routine","description":"87% lean mass is outstanding. Continue your current resistance training \u2014 consistency matters more than intensity at this stage."},{"priority":3,"title":"Address your A/G ratio","description":"At 1.29, you carry slightly more belly fat. Add core work and reduce refined carbs to bring this below 1.0."},{"priority":4,"title":"Hit your protein target daily","description":"147g protein (2g/kg) daily. Focus on post-workout protein + carbs within 2 hours of training."},{"priority":5,"title":"Keep bone health strong","description":"T-Score of 1.2 is great. Ensure 1000mg calcium and 2000 IU Vitamin D daily alongside weight-bearing exercise."},{"priority":6,"title":"Schedule your next scan","description":"Book a follow-up DEXA in 2\u20133 months. Consistent tracking helps you make data-driven decisions."}]}};
+
+// ── Init ────────────────────────────────────────────────────────────────────────
+fetchReportData().then(render);
+</script>
+</body>
+</html>
