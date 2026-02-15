@@ -87,15 +87,15 @@ export default function HomePage() {
 
             <div className={styles.trustSection}>
               <div className={styles.trustText}>
-                Trusted by elite athletes &amp; teams
+                Trusted by the best
               </div>
               <div className={styles.clientGrid}>
-                <div className={styles.clientBadge}>BCCI</div>
-                <div className={styles.clientBadge}>RCB</div>
-                <div className={styles.clientBadge}>LSG</div>
-                <div className={styles.clientBadge}>SAI</div>
-                <div className={styles.clientBadge}>Hockey India</div>
-                <div className={styles.clientBadge}>GoSports</div>
+                <img className={styles.clientLogo} src="/images/clients/bcci-icon.png" alt="BCCI" style={{ height: '52px' }} />
+                <img className={styles.clientLogo} src="/images/clients/rcb-icon.png" alt="RCB" style={{ height: '62px' }} />
+                <img className={styles.clientLogo} src="/images/clients/lsg.svg" alt="LSG" />
+                <img className={styles.clientLogo} src="/images/clients/sai.png" alt="SAI" />
+                <img className={styles.clientLogo} src="/images/clients/hockey.png" alt="Hockey India" style={{ height: '50px' }} />
+                <img className={styles.clientLogo} src="/images/clients/gosports.png" alt="GoSports" />
               </div>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function HomePage() {
             <p>Scans completed across India</p>
           </div>
           <div className={styles.statItem}>
-            <h3>Mobile Van</h3>
+            <h3>Mobile</h3>
             <p>We bring DEXA to your location</p>
           </div>
           <div className={styles.statItem}>
@@ -263,10 +263,8 @@ export default function HomePage() {
             <div className={styles.featureText}>
               <h2>We come to you</h2>
               <p>
-                Our fully-equipped mobile DEXA van brings medical-grade scanning
-                directly to your office, apartment complex, gym, or sports
-                academy. No need to visit a hospital or clinic. Book a slot, and
-                we&apos;ll handle everything—from setup to scan to results.
+                Our mobile DEXA van brings medical-grade scanning to your
+                doorstep. Book a slot and we handle the rest.
               </p>
               <div className={styles.perfectForList} style={{ marginTop: "2rem" }}>
                 <h3>Perfect for:</h3>
@@ -278,7 +276,7 @@ export default function HomePage() {
             </div>
             <div className={styles.featureImage}>
               <img
-                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop"
+                src="/images/truck.jpg"
                 alt="Body Insight Mobile DEXA Van"
               />
             </div>
@@ -372,6 +370,7 @@ export default function HomePage() {
                 <li>Full-body DEXA scan</li>
                 <li>Detailed PDF report</li>
                 <li>AI insights &amp; analysis</li>
+                <li>At a location close to you</li>
               </ul>
               <Link
                 href="/schedule"
@@ -383,14 +382,12 @@ export default function HomePage() {
             </div>
 
             <div className={styles.pricingCardFeatured}>
-              <div className={styles.pricingBadge}>Most Popular</div>
-              <h3>Community Event</h3>
+              <h3>Communities</h3>
               <div className={styles.price}>Custom</div>
               <ul className={styles.pricingFeatures}>
                 <li>Mobile DEXA van to your location</li>
                 <li>Group pricing for residents</li>
                 <li>Live Q&amp;A session</li>
-                <li>Marketing support</li>
                 <li>Perfect for apartments &amp; companies</li>
               </ul>
               <a
@@ -409,7 +406,6 @@ export default function HomePage() {
                 <li>Bulk team pricing</li>
                 <li>Performance tracking</li>
                 <li>Aggregate reports</li>
-                <li>Onsite trainers available</li>
                 <li>Integrated with training programs</li>
               </ul>
               <a

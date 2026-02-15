@@ -528,6 +528,7 @@
   position: relative;
   margin: 24px 0 8px;
   padding-top: 22px;
+  padding-bottom: 18px;
 }
 
 .regionScaleYou {
@@ -543,7 +544,7 @@
 
 .regionScaleAvg {
   position: absolute;
-  top: 0;
+  bottom: 0;
   transform: translateX(-50%);
   font-size: 0.55rem;
   font-weight: 700;
@@ -556,7 +557,7 @@
   position: absolute;
   top: -4px;
   width: 2px;
-  height: 16px;
+  height: 18px;
   background: rgba(255, 255, 255, 0.35);
   border-radius: 1px;
   transform: translateX(-50%);

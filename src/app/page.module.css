@@ -28,6 +28,7 @@
 }
 
 .heroTitle {
+    font-family: 'Monument Extended', sans-serif;
     font-size: 5rem;
     margin-bottom: 1.5rem;
     color: var(--primary);
@@ -104,25 +105,25 @@
 }
 
 .clientGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
     align-items: center;
 }
 
-.clientBadge {
-    font-family: 'Monument Extended', sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    color: var(--text);
-    opacity: 0.4;
+.clientLogo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.9;
     transition: opacity 0.3s;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    filter: grayscale(100%);
+    mix-blend-mode: multiply;
 }
 
-.clientBadge:hover {
+.clientLogo:hover {
     opacity: 1;
+    filter: grayscale(0%);
 }
 
 /* ===== Stats Bar ===== */
@@ -635,8 +636,8 @@
     }
 
     .clientGrid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
+        gap: 1.5rem;
+        justify-content: center;
     }
 
     .infoCard h3 {
@@ -779,11 +780,11 @@
     }
 
     .clientGrid {
-        grid-template-columns: 1fr;
-        gap: 0.8rem;
+        gap: 1rem;
+        justify-content: center;
     }
 
-    .clientBadge {
-        text-align: center;
+    .clientLogo {
+        height: 30px;
     }
 }

@@ -73,7 +73,7 @@ export const mockReport = {
     },
     {
       name: "Arms",
-      fatPercent: 8.0,
+      fatPercent: 13.5,
       avgFatPercent: 14.2,
       lean: 8.4,
       fat: 0.73,
