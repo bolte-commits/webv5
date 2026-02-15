@@ -223,12 +223,15 @@
 </head>
 <body>
 <script>
-// ── Mock API call (replace with real fetch later) ────────────────────────────
+// ── Fetch report data from API ───────────────────────────────────────────────
 async function fetchReportData() {
-  // TODO: Replace with real API call, e.g.:
-  // return fetch('/api/report/' + reportId).then(r => r.json());
-  const res = await fetch('report-data.json');
-  return res.json();
+  const res = await fetch('https://vzhsj8805e.execute-api.ap-south-1.amazonaws.com/prod/getDexaDataForAppointment', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ appointmentId: 'APT001', botCode: 'BOLTE01' })
+  });
+  const json = await res.json();
+  return json;
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
