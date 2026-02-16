@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Body Insight — 45-Day Instagram Plan</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Syne:wght@800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @page { size: A4; margin: 16mm 18mm; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      color: #1a1a1a;
+      background: #f0f0f0;
+      line-height: 1.6;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .doc {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: white;
+      padding: 48px 56px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      border-radius: 8px;
+    }
+
+    @media print {
+      body { background: white; }
+      .doc { max-width: none; margin: 0; padding: 0; box-shadow: none; border-radius: 0; }
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 32px;
+      border-bottom: 2px solid #007aff;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: #1a1a1a;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #007aff;
+      margin-bottom: 4px;
+    }
+
+    .header .subtitle {
+      font-size: 0.95rem;
+      color: #888;
+    }
+
+    /* Section headings */
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #007aff;
+      margin-top: 36px;
+      margin-bottom: 16px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-top: 12px;
+      margin-bottom: 4px;
+    }
+
+    p, li {
+      font-size: 0.9rem;
+      color: #333;
+      line-height: 1.65;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-bottom: 8px;
+    }
+
+    li { margin-bottom: 3px; }
+
+    /* Day cards */
+    .day {
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+      page-break-inside: avoid;
+    }
+
+    .day-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .day-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 0.75rem;
+      color: white;
+      background: #007aff;
+      border-radius: 6px;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+
+    .day-num.client { background: #34c759; }
+    .day-num.data { background: #ff9500; }
+    .day-num.reel { background: #af52de; }
+    .day-num.story { background: #ff3b30; }
+
+    .day-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .day-type {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .day p { margin-bottom: 6px; }
+    .day ul { margin-top: 4px; }
+
+    .caption-label {
+      font-weight: 700;
+      color: #007aff;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-top: 8px;
+      margin-bottom: 2px;
+    }
+
+    .caption {
+      font-style: italic;
+      color: #555;
+      font-size: 0.85rem;
+    }
+
+    /* Pillars */
+    .pillars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .pillar {
+      background: #f5f5f7;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+    }
+
+    .pillar strong { color: #007aff; }
+
+    @media print {
+      .pillars { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.85rem;
+    }
+
+    th, td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      font-weight: 700;
+      color: #007aff;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Tips section */
+    .tips {
+      background: #f0f7ff;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-top: 20px;
+      page-break-inside: avoid;
+    }
+
+    .tips h3 {
+      color: #007aff;
+      margin-bottom: 8px;
+    }
+
+    .tips li { color: #444; }
+
+    /* Phase divider */
+    .phase {
+      text-align: center;
+      margin: 40px 0 24px;
+      page-break-before: auto;
+    }
+
+    .phase-label {
+      display: inline-block;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: white;
+      background: #1a1a1a;
+      border-radius: 8px;
+      padding: 8px 24px;
+      letter-spacing: 0.05em;
+    }
+
+    .legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="doc">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="logo">BODY INSIGHT</div>
+      <h1>45-Day Instagram Content Plan</h1>
+      <div class="subtitle">Feb 15 &ndash; Mar 31, 2026</div>
+    </div>
+
+    <!-- CONTENT PILLARS -->
+    <h2>Content Pillars</h2>
+    <div class="pillars">
+      <div class="pillar"><strong>1. Education</strong> &mdash; What DEXA is, how it works, what it measures</div>
+      <div class="pillar"><strong>2. Myth Busting</strong> &mdash; Challenge common fitness misconceptions</div>
+      <div class="pillar"><strong>3. Report Showcase</strong> &mdash; Show off the depth of your report</div>
+      <div class="pillar"><strong>4. Social Proof</strong> &mdash; Why real people get scanned</div>
+      <div class="pillar"><strong>5. CTA / Booking</strong> &mdash; Drive action to bodyinsight.com</div>
+      <div class="pillar"><strong>6. Client Spotlight</strong> &mdash; Real people, real photos, real results</div>
+      <div class="pillar"><strong>7. Data Drops</strong> &mdash; Interesting stats from your database</div>
+    </div>
+
+    <!-- LEGEND -->
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#007aff"></div> Education / Carousel</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#af52de"></div> Reel</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#34c759"></div> Client Spotlight</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ff9500"></div> Data Drop</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ff3b30"></div> Story</div>
+    </div>
+
+    <!-- ==================== PHASE 1 ==================== -->
+    <div class="phase"><span class="phase-label">PHASE 1 &mdash; DAYS 1&ndash;15 &mdash; LAUNCH &amp; EDUCATE</span></div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num">DAY 1 &bull; FEB 15</span>
+        <span class="day-type">Carousel</span>
+      </div>
+      <div class="day-title">&ldquo;What is a DEXA Scan?&rdquo;</div>
+      <ul>
+        <li>Slide 1: Bold text &mdash; &ldquo;The most accurate body scan on the planet.&rdquo;</li>
+        <li>Slide 2: What DEXA measures (fat %, lean mass, bone density, visceral fat)</li>
+        <li>Slide 3: How it works (lie down, 7 min, zero effort)</li>
+        <li>Slide 4: CTA &mdash; &ldquo;Book yours at bodyinsight.com&rdquo;</li>
+      </ul>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">Introduce the brand. Keep it clean and confident. End with &ldquo;Link in bio.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num reel">DAY 2 &bull; FEB 16</span>
+        <span class="day-type">Reel</span>
+      </div>
+      <div class="day-title">&ldquo;Your scale is lying to you&rdquo;</div>
+      <ul>
+        <li>Quick hook: someone stepping on a scale, frustrated</li>
+        <li>Text overlays showing two people &mdash; same weight, completely different body compositions</li>
+        <li>Punch line: &ldquo;Weight doesn&rsquo;t tell you what&rsquo;s muscle and what&rsquo;s fat. DEXA does.&rdquo;</li>
+      </ul>
+      <div class="caption-label">Audio</div>
+      <div class="caption">Trending sound or clean voiceover.</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num">DAY 3 &bull; FEB 17</span>
+        <span class="day-type">Static &mdash; Report Showcase</span>
+      </div>
+      <div class="day-title">Report Page &mdash; Body Composition Breakdown</div>
+      <p>Screenshot/mockup of the report&rsquo;s body composition page (fat %, lean mass, bone mineral). Clean dark aesthetic matching your brand.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;Your report doesn&rsquo;t just give you a number. It gives you the full picture &mdash; fat percentage, lean mass, bone density, region by region.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num story">DAY 4 &bull; FEB 18</span>
+        <span class="day-type">Story Series</span>
+      </div>
+      <div class="day-title">&ldquo;5 Things a DEXA Scan Tells You That a Scale Can&rsquo;t&rdquo;</div>
+      <ul>
+        <li>5 story slides: Visceral fat, Muscle imbalances (L vs R), Bone mineral density, Regional fat distribution, Lean mass trends</li>
+        <li>Poll sticker on last slide: &ldquo;Would you want to know this?&rdquo;</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num reel">DAY 5 &bull; FEB 19</span>
+        <span class="day-type">Reel</span>
+      </div>
+      <div class="day-title">&ldquo;The scan takes 7 minutes. The report will change how you train.&rdquo;</div>
+      <p>B-roll style: someone walking in, lying on the DEXA table, the scan running, then cut to the report on screen. Text overlay walkthrough of what they&rsquo;ll receive.</p>
+      <div class="caption-label">CTA</div>
+      <div class="caption">&ldquo;Book your first scan &mdash; link in bio.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num">DAY 6 &bull; FEB 20</span>
+        <span class="day-type">Carousel</span>
+      </div>
+      <div class="day-title">&ldquo;BMI is Broken &mdash; Here&rsquo;s Why&rdquo;</div>
+      <ul>
+        <li>Slide 1: &ldquo;Your doctor uses BMI. Here&rsquo;s why it&rsquo;s wrong.&rdquo;</li>
+        <li>Slide 2: BMI formula &mdash; only uses height + weight</li>
+        <li>Slide 3: A muscular person classified as &ldquo;overweight&rdquo; by BMI</li>
+        <li>Slide 4: DEXA shows what&rsquo;s actually going on inside</li>
+        <li>Slide 5: &ldquo;Get real data. Not outdated math.&rdquo;</li>
+      </ul>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">Educational, slightly provocative. Invite debate in comments.</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num">DAY 7 &bull; FEB 21</span>
+        <span class="day-type">Static &mdash; Report Showcase</span>
+      </div>
+      <div class="day-title">Report Page &mdash; Visceral Fat Score</div>
+      <p>Mockup of the visceral fat section from the report.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;Visceral fat wraps around your organs. You can&rsquo;t see it. You can&rsquo;t pinch it. But DEXA can measure it. This one number could be the most important thing you learn about your health.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num reel">DAY 8 &bull; FEB 22</span>
+        <span class="day-type">Reel</span>
+      </div>
+      <div class="day-title">&ldquo;POV: You just got your DEXA results&rdquo;</div>
+      <ul>
+        <li>Person opening report on phone</li>
+        <li>Quick cuts of report sections &mdash; composition, regional breakdown, game plan</li>
+        <li>Reaction: &ldquo;I had no idea my left side was this much weaker&rdquo;</li>
+      </ul>
+      <div class="caption-label">Audio</div>
+      <div class="caption">Trending &ldquo;reveal&rdquo; sound.</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num">DAY 9 &bull; FEB 23</span>
+        <span class="day-type">Carousel</span>
+      </div>
+      <div class="day-title">&ldquo;What to Expect at Your First Scan&rdquo;</div>
+      <ul>
+        <li>Slide 1: &ldquo;Your first DEXA scan in 4 steps&rdquo;</li>
+        <li>Slide 2: Book online (show the clean booking flow)</li>
+        <li>Slide 3: Show up, lie down, 7 minutes</li>
+        <li>Slide 4: Get your full report</li>
+        <li>Slide 5: &ldquo;No needles. No sweat. Just data.&rdquo;</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num story">DAY 10 &bull; FEB 24</span>
+        <span class="day-type">Story &mdash; Poll + Q&amp;A</span>
+      </div>
+      <div class="day-title">Quick Poll + Q&amp;A</div>
+      <ul>
+        <li>Story 1: &ldquo;What do you think your body fat % is?&rdquo; &mdash; Quiz sticker</li>
+        <li>Story 2: &ldquo;Most people are off by 8&ndash;12%. Wild, right?&rdquo;</li>
+        <li>Story 3: Question box &mdash; &ldquo;What would you want to know about your body?&rdquo;</li>
+      </ul>
+      <div class="caption-label">Note</div>
+      <div class="caption">Use responses as content fuel for upcoming posts.</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num">DAY 11 &bull; FEB 25</span>
+        <span class="day-type">Static &mdash; Report Showcase</span>
+      </div>
+      <div class="day-title">Report Page &mdash; Muscle Imbalance / Regional Breakdown</div>
+      <p>Mockup showing left vs right lean mass comparison.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;Your right arm has 1.2 lbs more muscle than your left. These imbalances matter &mdash; for injury prevention, training balance, and performance.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num reel">DAY 12 &bull; FEB 26</span>
+        <span class="day-type">Reel</span>
+      </div>
+      <div class="day-title">&ldquo;Things that don&rsquo;t tell you your body composition&rdquo;</div>
+      <ul>
+        <li>Mirror &mdash; no. Scale &mdash; no. BMI calculator &mdash; no. Calipers &mdash; not really.</li>
+        <li>DEXA scan &mdash; &ldquo;this one does.&rdquo;</li>
+      </ul>
+      <div class="caption-label">Format</div>
+      <div class="caption">Quick, punchy, under 15 seconds. Trending elimination sound.</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num">DAY 13 &bull; FEB 27</span>
+        <span class="day-type">Carousel</span>
+      </div>
+      <div class="day-title">&ldquo;Who Should Get a DEXA Scan?&rdquo;</div>
+      <ul>
+        <li>Slide 1: &ldquo;DEXA isn&rsquo;t just for bodybuilders&rdquo;</li>
+        <li>Slide 2: Anyone starting a fitness journey (baseline)</li>
+        <li>Slide 3: Anyone over 40 (bone density matters)</li>
+        <li>Slide 4: Athletes tracking performance</li>
+        <li>Slide 5: Anyone curious about what&rsquo;s going on under the surface</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num">DAY 14 &bull; FEB 28</span>
+        <span class="day-type">Static &mdash; Report Showcase</span>
+      </div>
+      <div class="day-title">Report Page &mdash; The Game Plan</div>
+      <p>Mockup of the personalized game plan section.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;Data is useless without direction. That&rsquo;s why every report comes with a game plan &mdash; personalized recommendations based on your results.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num reel">DAY 15 &bull; MAR 1</span>
+        <span class="day-type">Reel &mdash; Brand Piece</span>
+      </div>
+      <div class="day-title">&ldquo;Your body is more than a number on a scale&rdquo;</div>
+      <p>Cinematic montage: different people, different ages and body types, all getting scanned. Text building: &ldquo;Know your fat. Know your muscle. Know your bones. Know yourself.&rdquo;</p>
+      <div class="caption-label">Audio</div>
+      <div class="caption">Clean, motivational instrumental.</div>
+    </div>
+
+    <!-- ==================== PHASE 2 ==================== -->
+    <div class="phase"><span class="phase-label">PHASE 2 &mdash; DAYS 16&ndash;30 &mdash; CLIENT STORIES &amp; DATA</span></div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num client">DAY 16 &bull; MAR 2</span>
+        <span class="day-type">Client Spotlight</span>
+      </div>
+      <div class="day-title">First Client Spotlight</div>
+      <p>Photo of a client at the facility, post-scan.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;Meet [Name]. Came in thinking they were 25% body fat. Actual result: 31%. No shame &mdash; just clarity. That&rsquo;s what Body Insight is about.&rdquo; Tag the client.</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num data">DAY 17 &bull; MAR 3</span>
+        <span class="day-type">Reel &mdash; Data Drop</span>
+      </div>
+      <div class="day-title">&ldquo;We scanned 1,000+ bodies. Here&rsquo;s what surprised us.&rdquo;</div>
+      <ul>
+        <li>&ldquo;The average person underestimates their body fat by 8%&rdquo;</li>
+        <li>&ldquo;62% of people have a measurable muscle imbalance&rdquo;</li>
+        <li>&ldquo;1 in 4 under 35 had concerning visceral fat levels&rdquo;</li>
+      </ul>
+      <div class="caption-label">Note</div>
+      <div class="caption">Adjust numbers to your actual data.</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num">DAY 18 &bull; MAR 4</span>
+        <span class="day-type">Carousel</span>
+      </div>
+      <div class="day-title">&ldquo;Fat Loss vs Weight Loss &mdash; They&rsquo;re Not the Same&rdquo;</div>
+      <ul>
+        <li>Slide 1: &ldquo;You lost 5 lbs. But what did you actually lose?&rdquo;</li>
+        <li>Slide 2: Scenario A &mdash; lost 3 lbs muscle, 2 lbs fat (bad)</li>
+        <li>Slide 3: Scenario B &mdash; lost 5 lbs fat, gained 1 lb muscle (great, but scale says less)</li>
+        <li>Slide 4: &ldquo;Only DEXA tells you the difference&rdquo;</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num client">DAY 19 &bull; MAR 5</span>
+        <span class="day-type">Client Spotlight</span>
+      </div>
+      <div class="day-title">The Couple / Friends Scan</div>
+      <p>Photo of two friends or a couple who came in together.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;These two made it a thing &mdash; scan day together. A little accountability and a little competition goes a long way. Bring your gym partner.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num data">DAY 20 &bull; MAR 6</span>
+        <span class="day-type">Story &mdash; Data Drop</span>
+      </div>
+      <div class="day-title">&ldquo;Left vs Right&rdquo; &mdash; Muscle Balance Stats</div>
+      <ul>
+        <li>&ldquo;Over 60% carry more muscle on their dominant side&rdquo;</li>
+        <li>&ldquo;Average imbalance: 0.5&ndash;1.5 lbs between arms&rdquo;</li>
+        <li>Poll: &ldquo;Do you train both sides equally?&rdquo;</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num reel">DAY 21 &bull; MAR 7</span>
+        <span class="day-type">Reel</span>
+      </div>
+      <div class="day-title">&ldquo;Same weight. Different bodies.&rdquo;</div>
+      <p>Side by side concept &mdash; two people at the same scale weight. One has higher muscle, lower fat. The other is reversed. &ldquo;160 lbs can look like anything. What matters is the composition.&rdquo;</p>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num client">DAY 22 &bull; MAR 8</span>
+        <span class="day-type">Client Spotlight</span>
+      </div>
+      <div class="day-title">The Athlete</div>
+      <p>Photo of a competitive athlete or serious gym-goer at the facility.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;[Name] trains 6 days a week. But they&rsquo;d never measured their actual lean mass or checked for imbalances. &lsquo;I&rsquo;ve been neglecting my left side for years.&rsquo;&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num data">DAY 23 &bull; MAR 9</span>
+        <span class="day-type">Static &mdash; Data Drop</span>
+      </div>
+      <div class="day-title">Visceral Fat by Age</div>
+      <p>Clean branded graphic with average visceral fat area by age group from your database (Under 30, 30&ndash;40, 40&ndash;50, 50+).</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;Visceral fat tends to climb with age &mdash; but it doesn&rsquo;t have to. The first step is knowing your number.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num">DAY 24 &bull; MAR 10</span>
+        <span class="day-type">Carousel</span>
+      </div>
+      <div class="day-title">&ldquo;Your DEXA Report Explained &mdash; Page by Page&rdquo;</div>
+      <ul>
+        <li>One slide per section: Cover, Body composition, Regional breakdown, Visceral fat, Bone density, Muscle imbalances, Trend tracking, Game plan</li>
+      </ul>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;8 pages. Zero fluff. Every section tells you something different about your body.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num client">DAY 25 &bull; MAR 11</span>
+        <span class="day-type">Client Spotlight</span>
+      </div>
+      <div class="day-title">The &ldquo;Before the Journey&rdquo; Client</div>
+      <p>Someone who came in as a baseline before starting a fitness program.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;Day 1. [Name] hasn&rsquo;t started their program yet &mdash; but they wanted a starting line. In 3 months, they&rsquo;ll scan again and see exactly what changed.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num data">DAY 26 &bull; MAR 12</span>
+        <span class="day-type">Reel &mdash; Data Drop</span>
+      </div>
+      <div class="day-title">&ldquo;The most common body fat % we see&rdquo;</div>
+      <ul>
+        <li>Most common male: 22&ndash;28%</li>
+        <li>Most common female: 30&ndash;36%</li>
+        <li>What Instagram says is normal: 12%</li>
+        <li>What&rsquo;s actually healthy: depends on YOU</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num story">DAY 27 &bull; MAR 13</span>
+        <span class="day-type">Story &mdash; Client Reshare</span>
+      </div>
+      <div class="day-title">Client Q&amp;A Reshare</div>
+      <p>Reshare a client&rsquo;s story/post about their experience. Add commentary: &ldquo;This is why we do what we do.&rdquo; Include a &ldquo;Book your scan&rdquo; link sticker.</p>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num">DAY 28 &bull; MAR 14</span>
+        <span class="day-type">Static</span>
+      </div>
+      <div class="day-title">&ldquo;One Number That Could Save Your Life&rdquo;</div>
+      <p>Focused on visceral fat. Bold text graphic with a visceral fat score and context.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;You can look lean and still have dangerous levels of visceral fat. It&rsquo;s linked to heart disease, diabetes, and metabolic syndrome.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num client">DAY 29 &bull; MAR 15</span>
+        <span class="day-type">Client Spotlight</span>
+      </div>
+      <div class="day-title">The Repeat Scanner</div>
+      <p>Photo of someone coming back for their 2nd or 3rd scan.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;Scan #3 for [Name]. First was baseline. Second showed &minus;4 lbs fat, +2 lbs muscle. This one? Even better. This is progress tracked right.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num reel">DAY 30 &bull; MAR 16</span>
+        <span class="day-type">Reel</span>
+      </div>
+      <div class="day-title">&ldquo;Things your fitness tracker can&rsquo;t measure&rdquo;</div>
+      <ul>
+        <li>Visceral fat &mdash; X. Bone density &mdash; X. Regional lean mass &mdash; X. L vs R imbalances &mdash; X.</li>
+        <li>Cut to DEXA: all checkmarks.</li>
+      </ul>
+      <div class="caption-label">Format</div>
+      <div class="caption">Under 15 seconds, punchy.</div>
+    </div>
+
+    <!-- ==================== PHASE 3 ==================== -->
+    <div class="phase"><span class="phase-label">PHASE 3 &mdash; DAYS 31&ndash;45 &mdash; AUTHORITY &amp; SCALE</span></div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num data">DAY 31 &bull; MAR 17</span>
+        <span class="day-type">Carousel &mdash; Data Drop</span>
+      </div>
+      <div class="day-title">&ldquo;Men vs Women &mdash; What Our Database Shows&rdquo;</div>
+      <ul>
+        <li>Average body fat % differences</li>
+        <li>Where men vs women tend to store fat</li>
+        <li>Bone density differences</li>
+        <li>&ldquo;Different bodies, different baselines. Generic advice doesn&rsquo;t work.&rdquo;</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num client">DAY 32 &bull; MAR 18</span>
+        <span class="day-type">Client Spotlight</span>
+      </div>
+      <div class="day-title">The Parent</div>
+      <p>Photo of a mom or dad who came in.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;Between work, kids, and life &mdash; [Name] hadn&rsquo;t thought about their health in years. 7 minutes changed that. &lsquo;I didn&rsquo;t realize how much visceral fat I was carrying.&rsquo;&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num reel">DAY 33 &bull; MAR 19</span>
+        <span class="day-type">Reel</span>
+      </div>
+      <div class="day-title">&ldquo;What happens in 7 minutes&rdquo;</div>
+      <p>Real-time style (sped up): walk in, lie down, scan runs, get up, review report. Text overlay countdown 0:00 &rarr; 7:00. End: &ldquo;7 minutes. A lifetime of data.&rdquo;</p>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num data">DAY 34 &bull; MAR 20</span>
+        <span class="day-type">Static &mdash; Data Drop</span>
+      </div>
+      <div class="day-title">Bone Density Stat</div>
+      <p>Branded graphic: &ldquo;X% of people under 40 in our database had lower-than-expected bone mineral density.&rdquo;</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;Bone density isn&rsquo;t just an &lsquo;older person&rsquo; problem. Resistance training, nutrition, and awareness. It starts with knowing.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num client">DAY 35 &bull; MAR 21</span>
+        <span class="day-type">Client Spotlight</span>
+      </div>
+      <div class="day-title">Group / Team Scan</div>
+      <p>Photo of a sports team, CrossFit group, or friend group that came in together.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;6 scans. 6 completely different body compositions. Same gym, same workouts &mdash; totally different results. One-size-fits-all programs don&rsquo;t work.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num">DAY 36 &bull; MAR 22</span>
+        <span class="day-type">Carousel</span>
+      </div>
+      <div class="day-title">&ldquo;5 Myths About Body Fat&rdquo;</div>
+      <ul>
+        <li>&ldquo;You can spot-reduce fat&rdquo; &mdash; False</li>
+        <li>&ldquo;Low body fat = healthy&rdquo; &mdash; Not always</li>
+        <li>&ldquo;You can estimate body fat in the mirror&rdquo; &mdash; Off by a lot</li>
+        <li>&ldquo;BMI tells you if you&rsquo;re overweight&rdquo; &mdash; It literally can&rsquo;t</li>
+        <li>&ldquo;Gym body fat scales are accurate&rdquo; &mdash; Not even close</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num data">DAY 37 &bull; MAR 23</span>
+        <span class="day-type">Reel &mdash; Data Drop</span>
+      </div>
+      <div class="day-title">&ldquo;The biggest body fat misconception&rdquo;</div>
+      <p>Hook: &ldquo;Everyone thinks fit people are around 10&ndash;15% body fat.&rdquo; Reveal your database averages for active people. Punchline: &ldquo;Fit doesn&rsquo;t mean single digit.&rdquo;</p>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num client">DAY 38 &bull; MAR 24</span>
+        <span class="day-type">Client Spotlight</span>
+      </div>
+      <div class="day-title">The Transformation Check-In</div>
+      <p>Client who scanned months apart &mdash; share photos from both visits.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;4 months between scans. &minus;6 lbs fat. +3 lbs lean mass. The scale only moved 3 lbs. If [Name] only looked at the scale, they&rsquo;d have thought nothing changed.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num story">DAY 39 &bull; MAR 25</span>
+        <span class="day-type">Story &mdash; AMA</span>
+      </div>
+      <div class="day-title">&ldquo;Ask Us Anything About DEXA&rdquo;</div>
+      <p>Question box sticker. Answer 4&ndash;5 questions across stories. Seed if needed: &ldquo;Is it safe?&rdquo; &ldquo;How often should I scan?&rdquo; &ldquo;Do I need to fast?&rdquo;</p>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num data">DAY 40 &bull; MAR 26</span>
+        <span class="day-type">Static &mdash; Data Drop</span>
+      </div>
+      <div class="day-title">&ldquo;Where People Carry Fat&rdquo;</div>
+      <p>Graphic showing most common fat distribution patterns: &ldquo;67% of males &mdash; trunk. 54% of females &mdash; hips/thighs.&rdquo;</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;Where you store fat is largely genetic. Knowing your pattern helps you set realistic expectations.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num client">DAY 41 &bull; MAR 27</span>
+        <span class="day-type">Client Spotlight</span>
+      </div>
+      <div class="day-title">The Skeptic</div>
+      <p>Photo of someone who was hesitant but came in.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;&lsquo;I almost didn&rsquo;t book it.&rsquo; Now [Name] checks in every 6 months. &lsquo;I can&rsquo;t believe I was guessing for so long.&rsquo;&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num reel">DAY 42 &bull; MAR 28</span>
+        <span class="day-type">Reel</span>
+      </div>
+      <div class="day-title">&ldquo;DEXA vs every other body fat test&rdquo;</div>
+      <ul>
+        <li>Calipers: &plusmn;5&ndash;8% error</li>
+        <li>Bioelectrical (scales): &plusmn;8&ndash;10%, affected by hydration</li>
+        <li>Bod Pod: decent but limited info</li>
+        <li>DEXA: &plusmn;1&ndash;2%, gold standard, regional data, bone density</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num data">DAY 43 &bull; MAR 29</span>
+        <span class="day-type">Carousel &mdash; Data Drop</span>
+      </div>
+      <div class="day-title">&ldquo;Lessons From 1,000+ Scans&rdquo;</div>
+      <ul>
+        <li>Most people overestimate muscle, underestimate fat</li>
+        <li>Muscle imbalances are nearly universal</li>
+        <li>Visceral fat doesn&rsquo;t discriminate by body size</li>
+        <li>People who scan regularly make faster progress</li>
+        <li>&ldquo;Data changes behavior. Book your scan.&rdquo;</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num client">DAY 44 &bull; MAR 30</span>
+        <span class="day-type">Client Spotlight</span>
+      </div>
+      <div class="day-title">The Milestone</div>
+      <p>Client who hit a meaningful goal between scans.</p>
+      <div class="caption-label">Caption Direction</div>
+      <div class="caption">&ldquo;Goal: under 20% body fat. Scan #3: 19.4%. 8 months of consistent work, tracked by real science.&rdquo;</div>
+    </div>
+
+    <div class="day">
+      <div class="day-header">
+        <span class="day-num reel">DAY 45 &bull; MAR 31</span>
+        <span class="day-type">Reel &mdash; Brand Manifesto</span>
+      </div>
+      <div class="day-title">&ldquo;Know Your Body&rdquo;</div>
+      <p>Cinematic, 30-second brand piece. Mix of client photos, scan footage, report close-ups. Voiceover: &ldquo;You track your steps. You track your calories. But do you actually know what&rsquo;s happening inside? Body Insight. Know your body.&rdquo;</p>
+    </div>
+
+    <!-- ==================== SUMMARY ==================== -->
+    <h2>Content Mix Summary (45 Days)</h2>
+    <table>
+      <tr><th>Type</th><th>Count</th></tr>
+      <tr><td>Client Photo Posts</td><td>10</td></tr>
+      <tr><td>Data Drop Posts</td><td>8</td></tr>
+      <tr><td>Educational Carousels</td><td>8</td></tr>
+      <tr><td>Reels</td><td>10</td></tr>
+      <tr><td>Report Showcases</td><td>4</td></tr>
+      <tr><td>Story-Only Days</td><td>5</td></tr>
+    </table>
+
+    <!-- TIPS -->
+    <div class="tips">
+      <h3>Posting Guidelines</h3>
+      <ul>
+        <li><strong>Posting time:</strong> 8&ndash;9 AM or 6&ndash;7 PM (test both)</li>
+        <li><strong>Every post</strong> should end with a CTA pointing to the link in bio (booking page)</li>
+        <li><strong>Stories:</strong> Post on non-story days too &mdash; reshare the feed post with a &ldquo;New post&rdquo; sticker</li>
+        <li><strong>Hashtags:</strong> #DEXAscan #BodyComposition #BodyInsight #KnowYourBody #FitnessData #BeyondTheScale #BodyFat #LeanMass #VisceralFat #HealthData</li>
+      </ul>
+    </div>
+
+    <div class="tips" style="margin-top: 14px;">
+      <h3>Client Photo Tips</h3>
+      <ul>
+        <li>Always get written permission before posting</li>
+        <li>Tag clients &mdash; it boosts reach and makes them feel valued</li>
+        <li>Keep captions about their experience, not their body</li>
+        <li>Avoid before/after body shots unless the client specifically wants it &mdash; focus on the data story</li>
+        <li>Ask every client at checkout: &ldquo;Mind if we grab a quick photo?&rdquo;</li>
+      </ul>
+    </div>
+
+    <div class="tips" style="margin-top: 14px;">
+      <h3>Data Drop Guidelines</h3>
+      <ul>
+        <li>Always anonymize &mdash; never tie a stat to an identifiable person</li>
+        <li>Round numbers for readability (&ldquo;over 60%&rdquo; not &ldquo;62.7%&rdquo;)</li>
+        <li>Use phrases like &ldquo;from our database of 1,000+ scans&rdquo; &mdash; it builds authority</li>
+        <li>If you&rsquo;re the largest database in your market, say it: &ldquo;The largest DEXA dataset in [city/region]&rdquo;</li>
+      </ul>
+    </div>
+
+    <div class="tips" style="margin-top: 14px;">
+      <h3>Brand Voice</h3>
+      <ul>
+        <li>Clean, confident, data-driven &mdash; not bro-science</li>
+        <li>Approachable but premium</li>
+        <li>Let the report speak for itself &mdash; it&rsquo;s your biggest differentiator</li>
+      </ul>
+    </div>
+
+  </div>
+</body>
+</html>
