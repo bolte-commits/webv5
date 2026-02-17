@@ -133,7 +133,7 @@
   /* ===== REGION CARD (for sectional + symmetry + bone) ===== */
   .region { background: var(--card); border-radius: 12px; padding: 10px; display: flex; gap: 10px; align-items: stretch; flex: 1; }
   .region + .region { margin-top: 4px; }
-  .region-img { width: 55px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .region-img { width: 75px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
   .region-data { flex: 1; min-width: 0; display: flex; flex-direction: column; }
   .region-name { font-size: 0.72rem; font-weight: 800; color: var(--txt); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
   .region-fat { font-family: 'Monument Extended', sans-serif; font-size: 1rem; font-weight: 800; color: var(--pri); line-height: 1; }
@@ -146,7 +146,7 @@
   /* ===== SYMMETRY REGION ===== */
   .sym-region { background: var(--card); border-radius: 12px; padding: 14px; display: flex; gap: 12px; }
   .sym-region + .sym-region { margin-top: 8px; }
-  .sym-img { width: 90px; min-height: 100px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .sym-img { width: 110px; min-height: 100px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
   .sym-data { flex: 1; }
   .sym-name { font-size: 0.72rem; font-weight: 800; color: var(--txt); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
   .sym-table { width: 100%; border-collapse: collapse; }
@@ -263,32 +263,39 @@ function bfCategory(fatPercent, zones) {
   return BF_CATEGORIES[BF_CATEGORIES.length - 1];
 }
 function compScale(item) {
-  // thresholds: [min, boundary1, boundary2, max] — 4 entries, 3 zones
-  const t = item.thresholds, min = t[0], b1 = t[1], b2 = t[2], max = t[3];
+  // If val or thresholds missing, return null — caller renders "N/A" state
+  if (item.val == null || !item.thresholds) return null;
+  const t = item.thresholds;
+  const min = t[0], b1 = t[1], b2 = t[2], max = t[3];
   const rng = max - min;
-  const pos = Math.min(Math.max((item.kg - min) / rng * 100, 0), 100).toFixed(1);
+  const pos = Math.min(Math.max((item.val - min) / rng * 100, 0), 100).toFixed(1);
   const p1 = ((b1 - min) / rng * 100).toFixed(1);
   const p2 = ((b2 - min) / rng * 100).toFixed(1);
   const pf = parseFloat(pos);
   let grad, verdictColor, verdict;
   if (item.scaleType === 'higher_better') {
-    // red → yellow → green
-    grad = `linear-gradient(90deg,#fca5a5 0%,#fca5a5 ${p1}%,#fde047 ${p1}%,#fde047 ${p2}%,#34d399 ${p2}%,#34d399 100%)`;
+    grad = `linear-gradient(90deg, #f87171 0%, #fbbf24 ${p1}%, #34d399 ${p2}%, #34d399 100%)`;
     verdictColor = pf < parseFloat(p1) ? 'red' : pf < parseFloat(p2) ? 'yellow' : 'green';
     verdict = pf < parseFloat(p1) ? 'Low' : pf < parseFloat(p2) ? 'Average' : 'Good';
   } else if (item.scaleType === 'lower_better') {
-    // green → yellow → red
-    grad = `linear-gradient(90deg,#34d399 0%,#34d399 ${p1}%,#fde047 ${p1}%,#fde047 ${p2}%,#fca5a5 ${p2}%,#fca5a5 100%)`;
+    grad = `linear-gradient(90deg, #34d399 0%, #34d399 ${p1}%, #fbbf24 ${p2}%, #f87171 100%)`;
     verdictColor = pf < parseFloat(p1) ? 'green' : pf < parseFloat(p2) ? 'yellow' : 'red';
     verdict = pf < parseFloat(p1) ? 'Healthy' : pf < parseFloat(p2) ? 'Average' : 'High';
   } else {
-    // red → green → red (middle is best)
-    grad = `linear-gradient(90deg,#fca5a5 0%,#fca5a5 ${p1}%,#34d399 ${p1}%,#34d399 ${p2}%,#fca5a5 ${p2}%,#fca5a5 100%)`;
+    grad = `linear-gradient(90deg, #f87171 0%, #fbbf24 ${p1}%, #34d399 ${p1}%, #34d399 ${p2}%, #fbbf24 ${p2}%, #f87171 100%)`;
     verdictColor = pf < parseFloat(p1) || pf > parseFloat(p2) ? 'red' : 'green';
     verdict = pf < parseFloat(p1) ? 'Low' : pf > parseFloat(p2) ? 'High' : 'Normal';
   }
   return { grad, pos, verdictColor, verdict };
 }
+const REGIONS = {
+  arms:    { name: 'Arms',    image: 'arms' },
+  legs:    { name: 'Legs',    image: 'legs' },
+  trunk:   { name: 'Trunk',   image: 'trunk' },
+  android: { name: 'Android', image: 'android' },
+  gynoid:  { name: 'Gynoid',  image: 'gynoid' }
+};
+const REGION_ORDER = ['arms','legs','trunk','android','gynoid'];
 const HDR = s => `<div class="hdr"><div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-logo">BODY INSIGHT</span></div><div class="hdr-section"><strong>${s}</strong></div></div>`;
 const FTR = (p,t) => `<div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">${p} of ${t}</div></div>`;
 
@@ -414,15 +421,17 @@ function render(d) {
         </div>
       </div>
       <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
-        ${[['Lean Mass',bc.leanMass],
-           ['Fat Mass',bc.fatMass],
-           ['Bone Mineral',bc.boneMineral]
-        ].map(([label,item])=>{ const s = compScale(item); return `<div class="card" style="padding:10px 12px;flex:1;">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;"><span style="font-size:0.68rem;font-weight:700;">${label}</span><span class="num-md">${item.kg} <small style="font-size:0.5rem;color:var(--mute);font-family:'DM Sans';font-weight:600;">kg</small></span></div>
+        ${[['Lean Mass',g.leanMassKg,bc.leanMass],
+           ['Fat Mass',g.fatMassKg,bc.fatMass],
+           ['Bone Mineral',g.boneMineralKg,bc.boneMineral]
+        ].map(([label,kg,item])=>{ const s = compScale(item); return `<div class="card" style="padding:10px 12px;flex:1;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;"><span style="font-size:0.68rem;font-weight:700;">${label}</span><span class="num-md">${kg} <small style="font-size:0.5rem;color:var(--mute);font-family:'DM Sans';font-weight:600;">kg</small></span></div>
           <div style="font-size:0.52rem;color:var(--dim);margin-bottom:4px;">${item.description}</div>
-          <div class="range-bar" style="background:${s.grad};"><div class="range-dot" style="left:${s.pos}%;"></div></div>
-          <div class="verdict" style="color:${vc(s.verdictColor)};"><span class="verdict-dot" style="background:${vd(s.verdictColor)};"></span> ${s.verdict}</div>`; }
-        </div>`).join('')}
+          ${s ? `<div class="range-bar" style="background:${s.grad};"><div class="range-dot" style="left:${s.pos}%;"></div></div>
+          <div class="verdict" style="color:${vc(s.verdictColor)};"><span class="verdict-dot" style="background:${vd(s.verdictColor)};"></span> ${s.verdict}</div>`
+          : `<div class="range-bar" style="background:#e5e7eb;"></div>
+          <div class="verdict" style="color:var(--mute);"><span class="verdict-dot" style="background:var(--mute);"></span> Scale not available</div>`}
+        </div>`; }).join('')}
       </div>
     </div>
     <div class="action ${ac(bc.insightColor)}"><strong>${bc.insight.split('.')[0]}.</strong> ${bc.insight.split('.').slice(1).join('.').trim()}</div>
@@ -446,20 +455,22 @@ function render(d) {
 <div class="page">
   ${HDR('Regional Analysis')}
   <div class="content">
-    <div><div class="section-title">Where Your Fat Lives</div><div class="section-desc">DEXA measures composition in ${ra.regions.length} distinct regions, revealing how lean tissue and fat are distributed across your body.</div></div>
-    ${ra.regions.map(r=>`<div class="region">
-      <div class="region-img"><img src="/images/regions/${r.image}.png" alt="${r.name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
+    <div><div class="section-title">Where Your Fat Lives</div><div class="section-desc">DEXA measures composition in 5 distinct regions, revealing how lean tissue and fat are distributed across your body.</div></div>
+    ${REGION_ORDER.map(key=>{ const r = ra[key], info = REGIONS[key]; if(!r) return ''; return `<div class="region">
+      <div class="region-img"><img src="/images/regions/${info.image}.png" alt="${info.name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
       <div class="region-data">
-        <div class="region-name">${r.name}</div>
-        <div class="region-fat">${r.fatPercent}<small>% fat</small></div>
-        <div class="region-metrics">
+        <div class="region-name">${info.name}</div>
+        <div style="display:flex;align-items:baseline;gap:8px;">
+          <div class="region-fat">${r.fatPercent}<small>% fat</small></div>
+          <div class="region-delta" style="color:${r.change <= 0 ? 'var(--grn)' : 'var(--red)'};">${r.change <= 0 ? '&darr;' : '&uarr;'} ${Math.abs(r.change)}% from ${r.previousDate}</div>
+        </div>
+        <div class="region-metrics" style="margin-top:auto;">
           <div class="region-met"><div class="region-met-label">Lean</div><div class="region-met-val">${r.leanKg} kg</div></div>
           <div class="region-met"><div class="region-met-label">Fat</div><div class="region-met-val">${r.fatKg} kg</div></div>
           <div class="region-met"><div class="region-met-label">Total</div><div class="region-met-val">${r.totalKg} kg</div></div>
         </div>
-        <div class="region-delta" style="margin-top:auto;">was ${r.previousFatPercent}% in ${r.previousDate} &middot; &darr; ${Math.abs(r.change)}%</div>
       </div>
-    </div>`).join('')}
+    </div>`; }).join('')}
   </div>
   ${FTR(5,tp)}
 </div>
@@ -544,13 +555,13 @@ function render(d) {
   <div class="content">
     <div><div class="section-title">Balance Assessment</div><div class="section-desc">How balanced your left and right sides are across each body region. Large imbalances increase injury risk.</div></div>
     <div style="display:flex; gap:12px; justify-content:center; margin-bottom:12px;">
-      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#fca5a5;"></span><span style="font-size:0.45rem; color:var(--dim);">High imbalance</span></div>
-      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#fde047;"></span><span style="font-size:0.45rem; color:var(--dim);">Minor imbalance</span></div>
+      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#f87171;"></span><span style="font-size:0.45rem; color:var(--dim);">High imbalance</span></div>
+      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#fbbf24;"></span><span style="font-size:0.45rem; color:var(--dim);">Minor imbalance</span></div>
       <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#34d399;"></span><span style="font-size:0.45rem; color:var(--dim);">Good balance</span></div>
     </div>
     ${sb.regions.map(r=>`<div class="card" style="margin-bottom:8px;">
       <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><span style="font-size:0.75rem; font-weight:700;">${r.name}</span><span style="font-size:0.55rem; font-weight:700; color:${vc(r.statusColor)};">${r.status}</span></div>
-      <div class="range-bar" style="background:linear-gradient(90deg, #fca5a5 0%, #fde047 25%, #86efac 55%, #34d399 100%);"><div class="range-dot" style="left:${r.scalePosition}%;"></div></div>
+      <div class="range-bar" style="background:linear-gradient(90deg, #f87171 0%, #fbbf24 25%, #34d399 55%, #34d399 100%);"><div class="range-dot" style="left:${r.scalePosition}%;"></div></div>
       <div style="display:flex; justify-content:space-between; font-size:0.4rem; color:var(--mute); margin-top:2px;"><span>Imbalanced</span><span>Balanced</span></div>
       <div style="font-size:0.55rem; color:var(--dim); margin-top:8px; line-height:1.5;">${r.description}</div>
     </div>`).join('')}

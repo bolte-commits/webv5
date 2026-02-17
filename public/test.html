@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Body Insight — Event Poster</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@800&display=swap" rel="stylesheet">
+<style>
+  @font-face { font-family: 'Monument Extended'; src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype'); font-weight: 800; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: #0a0a0a;
+    color: white;
+    display: flex;
+    justify-content: center;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .poster {
+    width: 500px;
+    height: 850px;
+    background: #0a0a0a;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ===== TOP BAR ===== */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 24px 0;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.03em;
+    color: white;
+  }
+  .pill {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 6px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .pill-outline {
+    border: 1px solid rgba(0,122,255,0.4);
+    color: #0a84ff;
+  }
+  .pill-price {
+    border: 1px solid rgba(0,122,255,0.4);
+    color: white;
+    background: rgba(0,122,255,0.08);
+  }
+  .pill-price strong {
+    font-family: 'Monument Extended', sans-serif;
+    font-size: 0.85rem;
+    color: #0a84ff;
+    margin-right: 4px;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 0 24px 12px;
+  }
+  .event-tag {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #ff3b30;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .event-tag::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff3b30;
+    flex-shrink: 0;
+  }
+  .headline {
+    font-family: 'Monument Extended', sans-serif;
+    font-weight: 800;
+    font-size: 2.4rem;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: white;
+  }
+  .headline .accent {
+    color: #0a84ff;
+    background: rgba(0,122,255,0.12);
+    padding: 0 6px;
+    border-radius: 4px;
+  }
+
+  /* ===== VAN IMAGE ===== */
+  .van-section {
+    position: relative;
+    margin: 0 24px;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .van-section img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    object-position: center 90%;
+    display: block;
+  }
+  .van-label {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .van-label strong { color: #0a84ff; }
+
+  /* ===== LOCATION & TIME CARD ===== */
+  .location-card {
+    margin: 12px 24px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 14px 18px 14px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .loc-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: auto;
+  }
+  .loc-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .loc-name {
+    font-family: 'Monument Extended', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: white;
+    letter-spacing: -0.01em;
+  }
+  .loc-detail {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.55);
+    margin-top: 1px;
+  }
+  .loc-right { text-align: right; }
+  .loc-time {
+    font-family: 'Monument Extended', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #0a84ff;
+    letter-spacing: -0.01em;
+  }
+  .loc-date {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.55);
+    margin-top: 1px;
+  }
+
+  /* ===== REPORT FEATURES ===== */
+  .features {
+    margin: 0 24px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .features-title {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #0a84ff;
+    margin-bottom: 10px;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .feature-item { }
+  .feature-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .feature-emoji { font-size: 1rem; }
+  .feature-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: white;
+  }
+  .feature-desc {
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.5;
+  }
+  .features-footer {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.6);
+    font-weight: 500;
+  }
+  .features-footer strong { color: rgba(255,255,255,0.6); }
+
+  /* ===== TRUST SECTION ===== */
+  .trust {
+    padding: 14px 24px 12px;
+  }
+  .trust-title {
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 8px;
+  }
+  .trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .trust-pill {
+    font-size: 0.6rem;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.7);
+    white-space: nowrap;
+  }
+  .trust-pill strong {
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="poster">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="logo">BODY INSIGHT</div>
+  </div>
+
+  <!-- TRUST -->
+  <div class="trust">
+    <div class="trust-title">Trusted across communities, corporates &amp; sport</div>
+    <div class="trust-row">
+      <div class="trust-pill">&#127968; <strong>BLR &amp; HYD Residences</strong></div>
+      <div class="trust-pill">&#127951; <strong>BCCI</strong> &middot; RCB &middot; LSG</div>
+      <div class="trust-pill">&#127952; <strong>Hockey India</strong> &middot; SAI</div>
+    </div>
+    <div class="trust-row">
+      <div class="trust-pill">Zerodha &middot; PayPal &middot; Microsoft</div>
+      <div class="trust-pill">&#127947; <strong>Dravid Padukone Academy</strong></div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="headline">Get your <span class="accent">DEXA</span> scan at home.</div>
+  </div>
+
+  <!-- VAN IMAGE -->
+  <div class="van-section">
+    <img src="/images/truck.JPG" alt="Body Insight Mobile DEXA Van">
+    <div class="van-label"><strong>Mobile DEXA van</strong> &mdash; we come to you</div>
+  </div>
+
+  <!-- LOCATION, TIME & PRICE -->
+  <div class="location-card">
+    <div class="loc-left">
+      <div class="loc-icon">&#128205;</div>
+      <div>
+        <div class="loc-name">SNN Claremont</div>
+        <div class="loc-detail">Near the Clubhouse</div>
+      </div>
+    </div>
+    <div class="loc-right">
+      <div class="loc-time">7AM &ndash; 7PM</div>
+      <div class="loc-date">Saturday, Feb 21</div>
+    </div>
+    <div class="loc-right" style="border-left: 1px solid rgba(255,255,255,0.08); padding-left: 16px;">
+      <div class="loc-time"><span style="font-family:'DM Sans',sans-serif;">&#8377;</span>2,999</div>
+      <div class="loc-date">per scan</div>
+    </div>
+  </div>
+
+  <!-- REPORT FEATURES -->
+  <div class="features">
+    <div class="features-title">6-min scan &middot; 18-page report &middot; Instant report</div>
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-head"><span class="feature-emoji">&#128293;</span><span class="feature-name">Body Fat %</span></div>
+        <div class="feature-desc">Exact %, not just BMI. Broken down by arms, legs &amp; trunk</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-head"><span class="feature-emoji">🦴</span><span class="feature-name">Bone Health</span></div>
+        <div class="feature-desc">Bone density vs your age group &mdash; fracture risk score</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-head"><span class="feature-emoji">&#9888;&#65039;</span><span class="feature-name">Visceral Fat</span></div>
+        <div class="feature-desc">Dangerous fat around organs &mdash; causes stroke, BP &amp; diabetes</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-head"><span class="feature-emoji">&#128170;</span><span class="feature-name">Muscle Mass</span></div>
+        <div class="feature-desc">Lean tissue per segment &mdash; spot imbalances</div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+</body>
+</html>
