@@ -37,9 +37,7 @@ export default function ContactPage() {
       <PageHero
         title="Contact us"
         subtitle="Have a question or want a custom quote? We'd love to hear from you."
-      >
-        <div className={styles.accentLine} />
-      </PageHero>
+      />
 
       <section className={styles.contentSection}>
         {submitted ? (

@@ -28,7 +28,7 @@ export default function Footer() {
 
 <div className="footer-section">
           <h4>Support</h4>
-          <a href="#">FAQ</a>
+          <Link href="/faq">FAQ</Link>
           <Link href="/contact">Contact</Link>
           <Link href="/privacy">Privacy Policy</Link>
           <Link href="/terms">Terms of Service</Link>

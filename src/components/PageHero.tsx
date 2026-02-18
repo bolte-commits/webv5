@@ -47,6 +47,7 @@ export default function PageHero({
       <h1 id={titleId}>{title}</h1>
       {subtitle && <p id={subtitleId}>{subtitle}</p>}
       {children}
+      <div style={{ width: 48, height: 4, background: 'var(--accent)', borderRadius: 2, margin: '1.5rem auto 0' }} />
     </section>
   );
 }

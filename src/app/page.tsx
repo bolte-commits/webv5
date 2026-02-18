@@ -249,8 +249,8 @@ export default function HomePage() {
               <div className={styles.stepNumber}>3</div>
               <h3>Understand</h3>
               <p>
-                Get your detailed report same day with AI insights and a 60-day
-                action plan tailored to your goals.
+                Get your detailed report within 2 minutes with AI insights and a
+                60-day action plan tailored to your goals.
               </p>
             </div>
           </div>
