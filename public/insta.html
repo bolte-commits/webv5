@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Body Insight — Day 1 Carousel</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Regular.otf') format('opentype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Bold.otf') format('opentype');
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype');
+      font-weight: 800;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+    }
+
+    .slide-label {
+      display: none;
+    }
+
+    .slide {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 80px;
+    }
+
+    /* Logo watermark top */
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 2;
+    }
+
+    /* ===== Slide 1 — Hero ===== */
+    .slide-1 {
+      background: linear-gradient(160deg, #001a3a 0%, #0F0F0F 40%, #0F0F0F 60%, #001233 100%);
+    }
+
+    .slide-1 .logo {
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* Blue glow */
+    .slide-1::before {
+      content: '';
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(10,132,255,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .slide-1 .hero-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 86px;
+      line-height: 1.12;
+      max-width: 920px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-1 .hero-text .accent {
+      color: #3898ff;
+      color: #0A84FF;
+    }
+
+    .slide-1 .subtext {
+      font-family: 'Monument Extended', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      margin-top: 48px;
+      padding: 16px 48px;
+      background: rgba(10,132,255,0.15);
+      border: 1px solid rgba(10,132,255,0.3);
+      border-radius: 50px;
+      color: #5db5ff;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== Slide 2 — What DEXA measures ===== */
+    .slide-2 {
+      background: #0F0F0F;
+    }
+
+    .slide-2 .logo {
+      color: rgba(255,255,255,0.3);
+    }
+
+    .slide-2 .section-title {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 56px;
+      margin-bottom: 72px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-2 .metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      gap: 28px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-2 .metric {
+      background: rgba(10,132,255,0.08);
+      border-left: 4px solid #0A84FF;
+      border-radius: 20px;
+      padding: 44px 36px;
+      text-align: left;
+    }
+
+    .slide-2 .metric-label {
+      font-family: 'Monument Extended', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .slide-2 .metric-desc {
+      font-size: 26px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.5;
+    }
+
+    /* ===== Slide 3 — How it works ===== */
+    .slide-3 {
+      background: linear-gradient(180deg, #071224 0%, #0F0F0F 100%);
+    }
+
+    .slide-3 .logo {
+      color: rgba(255,255,255,0.3);
+    }
+
+    .slide-3 .section-title {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 56px;
+      margin-bottom: 100px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-3 .steps {
+      display: flex;
+      gap: 32px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-3 .step {
+      flex: 1;
+      text-align: center;
+      background: rgba(10,132,255,0.06);
+      border: 1px solid rgba(10,132,255,0.2);
+      border-radius: 24px;
+      padding: 48px 24px;
+    }
+
+    .slide-3 .step-num {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 64px;
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
+      background: #0A84FF;
+      color: white;
+      border-radius: 50%;
+      margin: 0 auto 28px;
+    }
+
+    .slide-3 .step-title {
+      font-family: 'Monument Extended', sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 14px;
+    }
+
+    .slide-3 .step-desc {
+      font-size: 26px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.5;
+    }
+
+    /* ===== Slide 4 — CTA ===== */
+    .slide-4 {
+      background: linear-gradient(160deg, #0062cc 0%, #007aff 40%, #3898ff 100%);
+    }
+
+    .slide-4::before {
+      content: '';
+      position: absolute;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .slide-4 .logo {
+      color: rgba(255,255,255,0.5);
+    }
+
+    .slide-4 .cta-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 72px;
+      line-height: 1.15;
+      max-width: 920px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-4 .cta-url {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      margin-top: 56px;
+      padding: 24px 64px;
+      background: white;
+      color: #007aff;
+      border-radius: 50px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-4 .cta-sub {
+      font-size: 30px;
+      color: rgba(255,255,255,0.7);
+      margin-top: 28px;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1 -->
+  <div class="slide-label">Slide 1</div>
+  <div class="slide slide-1">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="hero-text">
+      The <span class="accent">gold standard</span> in body composition scanning.
+    </div>
+    <div class="subtext">DEXA Body Scan</div>
+  </div>
+
+  <!-- SLIDE 2 -->
+  <div class="slide-label">Slide 2</div>
+  <div class="slide slide-2">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="section-title">What DEXA measures</div>
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-label">Body Fat %</div>
+        <div class="metric-desc">Exact fat percentage, region by region</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Lean Mass</div>
+        <div class="metric-desc">Muscle distribution across your body</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Bone Density</div>
+        <div class="metric-desc">Skeletal strength and fracture risk</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Visceral Fat</div>
+        <div class="metric-desc">Hidden fat around your organs</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Sectional Analysis</div>
+        <div class="metric-desc">Breakdown by arms, legs, trunk</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">L/R Imbalances</div>
+        <div class="metric-desc">Compare left vs right side</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 -->
+  <div class="slide-label">Slide 3</div>
+  <div class="slide slide-3">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="section-title">How it works</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title">Lie down</div>
+        <div class="step-desc">Fully clothed, completely painless</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title">6 minutes</div>
+        <div class="step-desc">The scan runs automatically</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title">Get results</div>
+        <div class="step-desc">Detailed report in 2 minutes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 -->
+  <div class="slide-label">Slide 4</div>
+  <div class="slide slide-4">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="cta-text">Know your body like never before.</div>
+    <div class="cta-url">bodyinsight.in</div>
+    <div class="cta-sub">Book your first DEXA scan today</div>
+  </div>
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const bar = document.createElement('div');
+      bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#000;padding:16px;display:flex;gap:12px;justify-content:center;z-index:999;';
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach((slide, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = `Download Slide ${i + 1}`;
+        btn.style.cssText = 'padding:10px 24px;background:#0A84FF;color:#fff;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+        btn.onclick = () => {
+          btn.textContent = 'Rendering...';
+          html2canvas(slide, { scale: 1, width: 1080, height: 1440, useCORS: true }).then(canvas => {
+            const a = document.createElement('a');
+            a.download = `day1-slide${i + 1}.png`;
+            a.href = canvas.toDataURL('image/png');
+            a.click();
+            btn.textContent = `Download Slide ${i + 1}`;
+          });
+        };
+        bar.appendChild(btn);
+      });
+      const allBtn = document.createElement('button');
+      allBtn.textContent = 'Download All';
+      allBtn.style.cssText = 'padding:10px 24px;background:#fff;color:#0A84FF;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+      allBtn.onclick = async () => {
+        allBtn.textContent = 'Rendering...';
+        for (let i = 0; i < slides.length; i++) {
+          const canvas = await html2canvas(slides[i], { scale: 1, width: 1080, height: 1440, useCORS: true });
+          const a = document.createElement('a');
+          a.download = `day1-slide${i + 1}.png`;
+          a.href = canvas.toDataURL('image/png');
+          a.click();
+          await new Promise(r => setTimeout(r, 500));
+        }
+        allBtn.textContent = 'Download All';
+      };
+      bar.appendChild(allBtn);
+      document.body.appendChild(bar);
+    });
+  </script>
+</body>
+</html>

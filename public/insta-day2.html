@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Body Insight — Day 2 Carousel</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Regular.otf') format('opentype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Bold.otf') format('opentype');
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype');
+      font-weight: 800;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+    }
+
+    .slide {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 80px;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 2;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ===== Slide 1 — Hook ===== */
+    .slide-1 {
+      background: linear-gradient(160deg, #001a3a 0%, #0F0F0F 40%, #0F0F0F 60%, #001233 100%);
+    }
+
+    .slide-1::before {
+      content: '';
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(10,132,255,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .slide-1 .hero-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 86px;
+      line-height: 1.12;
+      max-width: 920px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-1 .hero-text .accent {
+      color: #0A84FF;
+    }
+
+    .slide-1 .subtext {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 600;
+      margin-top: 48px;
+      color: rgba(255,255,255,0.5);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== Slide 2 — The comparison ===== */
+    .slide-2 {
+      background: #0F0F0F;
+      padding: 80px 64px;
+    }
+
+    .slide-2 .section-title {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 48px;
+      line-height: 1.2;
+      margin-bottom: 64px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-2 .comparison {
+      display: flex;
+      gap: 36px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-2 .person {
+      flex: 1;
+      border-radius: 24px;
+      padding: 48px 36px;
+      text-align: center;
+    }
+
+    .slide-2 .person-a {
+      background: rgba(10,132,255,0.08);
+      border: 1px solid rgba(10,132,255,0.2);
+    }
+
+    .slide-2 .person-b {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .slide-2 .person-label {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 24px;
+    }
+
+    .slide-2 .weight {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 72px;
+      margin-bottom: 40px;
+    }
+
+    .slide-2 .person-a .weight {
+      color: #0A84FF;
+    }
+
+    .slide-2 .stat {
+      text-align: left;
+      padding: 16px 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .slide-2 .stat-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 4px;
+    }
+
+    .slide-2 .stat-value {
+      font-family: 'Monument Extended', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .slide-2 .person-a .stat-value {
+      color: #5db5ff;
+    }
+
+    .slide-2 .same-badge {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      color: white;
+      background: #0A84FF;
+      padding: 14px 48px;
+      border-radius: 50px;
+      margin-bottom: 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== Slide 3 — Punchline ===== */
+    .slide-3 {
+      background: linear-gradient(180deg, #071224 0%, #0F0F0F 100%);
+    }
+
+    .slide-3::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(10,132,255,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .slide-3 .punchline {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 64px;
+      line-height: 1.2;
+      max-width: 920px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-3 .punchline .accent {
+      color: #0A84FF;
+    }
+
+    /* ===== Slide 4 — CTA ===== */
+    .slide-4 {
+      background: linear-gradient(160deg, #0062cc 0%, #007aff 40%, #3898ff 100%);
+    }
+
+    .slide-4::before {
+      content: '';
+      position: absolute;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .slide-4 .logo {
+      color: rgba(255,255,255,0.5);
+    }
+
+    .slide-4 .cta-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 72px;
+      line-height: 1.15;
+      max-width: 920px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-4 .cta-url {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      margin-top: 56px;
+      padding: 24px 64px;
+      background: white;
+      color: #007aff;
+      border-radius: 50px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-4 .cta-sub {
+      font-size: 30px;
+      color: rgba(255,255,255,0.7);
+      margin-top: 28px;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1 — Hook -->
+  <div class="slide slide-1">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="hero-text">
+      Your scale is <span class="accent">lying</span> to you.
+    </div>
+    <div class="subtext">Here's why weight alone means nothing.</div>
+  </div>
+
+  <!-- SLIDE 2 — The comparison -->
+  <div class="slide slide-2">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="same-badge">BOTH WEIGH 78 KG</div>
+    <div class="section-title">Same weight. Completely different bodies.</div>
+    <div class="comparison">
+      <div class="person person-a">
+        <div class="person-label">Person A</div>
+        <div class="weight">78 kg</div>
+        <div class="stat">
+          <div class="stat-label">Body Fat</div>
+          <div class="stat-value">18%</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Lean Mass</div>
+          <div class="stat-value">58 kg</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Visceral Fat</div>
+          <div class="stat-value">Low</div>
+        </div>
+      </div>
+      <div class="person person-b">
+        <div class="person-label">Person B</div>
+        <div class="weight">78 kg</div>
+        <div class="stat">
+          <div class="stat-label">Body Fat</div>
+          <div class="stat-value">32%</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Lean Mass</div>
+          <div class="stat-value">47 kg</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Visceral Fat</div>
+          <div class="stat-value">High</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 — Punchline -->
+  <div class="slide slide-3">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="punchline">
+      Weight doesn't tell you what's muscle and what's fat. <span class="accent">DEXA does.</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 — CTA -->
+  <div class="slide slide-4">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="cta-text">Stop guessing. Start knowing.</div>
+    <div class="cta-url">bodyinsight.in</div>
+    <div class="cta-sub">Book your first DEXA scan today</div>
+  </div>
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const bar = document.createElement('div');
+      bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#000;padding:16px;display:flex;gap:12px;justify-content:center;z-index:999;';
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach((slide, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = `Download Slide ${i + 1}`;
+        btn.style.cssText = 'padding:10px 24px;background:#0A84FF;color:#fff;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+        btn.onclick = () => {
+          btn.textContent = 'Rendering...';
+          html2canvas(slide, { scale: 1, width: 1080, height: 1440, useCORS: true }).then(canvas => {
+            const a = document.createElement('a');
+            a.download = `day2-slide${i + 1}.png`;
+            a.href = canvas.toDataURL('image/png');
+            a.click();
+            btn.textContent = `Download Slide ${i + 1}`;
+          });
+        };
+        bar.appendChild(btn);
+      });
+      const allBtn = document.createElement('button');
+      allBtn.textContent = 'Download All';
+      allBtn.style.cssText = 'padding:10px 24px;background:#fff;color:#0A84FF;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+      allBtn.onclick = async () => {
+        allBtn.textContent = 'Rendering...';
+        for (let i = 0; i < slides.length; i++) {
+          const canvas = await html2canvas(slides[i], { scale: 1, width: 1080, height: 1440, useCORS: true });
+          const a = document.createElement('a');
+          a.download = `day2-slide${i + 1}.png`;
+          a.href = canvas.toDataURL('image/png');
+          a.click();
+          await new Promise(r => setTimeout(r, 500));
+        }
+        allBtn.textContent = 'Download All';
+      };
+      bar.appendChild(allBtn);
+      document.body.appendChild(bar);
+    });
+  </script>
+</body>
+</html>
