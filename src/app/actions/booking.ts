@@ -3,7 +3,7 @@
 // TODO: Replace with your real backend URL
 const API_BASE = process.env.API_BASE_URL || "https://api.bodyinsight.in";
 const AUTH_API_BASE =
-  "https://vzhsj8805e.execute-api.ap-south-1.amazonaws.com/prod";
+  "https://pbkivbwxx9.execute-api.ap-south-1.amazonaws.com/prod";
 
 function isAuthError(status: number, message?: string): boolean {
   if (status === 401 || status === 403) return true;

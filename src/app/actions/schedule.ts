@@ -1,7 +1,7 @@
 "use server";
 
 const API_BASE =
-  "https://vzhsj8805e.execute-api.ap-south-1.amazonaws.com/prod";
+  "https://pbkivbwxx9.execute-api.ap-south-1.amazonaws.com/prod";
 
 export interface ScheduleEvent {
   eventId: number;
