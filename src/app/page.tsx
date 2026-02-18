@@ -169,13 +169,14 @@ export default function HomePage() {
               <p>
                 DEXA uses low-dose X-rays to measure your exact body
                 composition. See fat distribution, muscle mass, and bone density
-                with clinical precision. This is how professional athletes and
-                elite sports teams measure performance.
+                with clinical precision — whether you&apos;re tracking fitness
+                goals, monitoring age-related changes, or simply understanding
+                your body better.
               </p>
             </div>
             <div className={styles.featureImage}>
               <img
-                src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop"
+                src="/images/mapped.jpg"
                 alt="DEXA Technology"
               />
             </div>
@@ -289,19 +290,18 @@ export default function HomePage() {
         <div className={styles.sectionContent}>
           <div className={styles.featureGridReverse}>
             <div className={styles.featureText}>
-              <h2>Built for anyone serious about their body</h2>
+              <h2>Built for anyone serious about their health</h2>
               <p>
-                Whether you&apos;re training for performance, managing weight,
-                or monitoring long-term health—DEXA gives you the data you need
-                to make informed decisions. Used by professional athletes,
-                fitness enthusiasts, and health-conscious individuals who refuse
-                to guess.
+                Whether you&apos;re staying active in your 20s, managing weight
+                in your 40s, or monitoring bone density in your 60s — DEXA gives
+                you the data you need to make informed decisions at every stage
+                of life.
               </p>
             </div>
             <div className={styles.featureImage}>
               <img
-                src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=600&fit=crop"
-                alt="Athletes Training"
+                src="/images/built_for.jpg"
+                alt="Health for every age"
               />
             </div>
           </div>

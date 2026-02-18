@@ -488,10 +488,10 @@ function render(d) {
           const regions = Object.keys(rt.fatPercentByRegion);
           const allVals = regions.flatMap(r=>rt.fatPercentByRegion[r]);
           const mn=Math.min(...allVals), mx=Math.max(...allVals), rng=mx-mn||1;
-          const W=400, H=180, pX=30, pY=5, cH=165, cW=340;
+          const W=400, H=170, pX=30, pY=5, cH=155, cW=340;
           const x=i=>pX+(i/(rt.scanDates.length-1))*cW;
           const y=v=>pY+(1-(v-mn)/rng)*cH;
-          let svg='<svg viewBox="0 0 400 180" style="width:100%;height:140px;">';
+          let svg='<svg viewBox="0 0 400 170" style="width:100%;height:130px;">';
           svg+='<line x1="0" y1="'+(H-10)+'" x2="400" y2="'+(H-10)+'" stroke="#e5e7eb" stroke-width="0.5"/>';
           svg+='<line x1="0" y1="'+Math.round(H/2)+'" x2="400" y2="'+Math.round(H/2)+'" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>';
           svg+='<line x1="0" y1="5" x2="400" y2="5" stroke="#e5e7eb" stroke-width="0.5"/>';
@@ -507,18 +507,18 @@ function render(d) {
         <div class="trend-labels">${rt.scanDates.map(d=>'<span>'+d+'</span>').join('')}</div>
       </div>
     </div>
-    <div class="card">
-      <div class="card-title">Fat % by Region</div>
+    <div class="card" style="padding:12px 16px;">
+      <div class="card-title" style="margin-bottom:5px;">Fat % by Region</div>
       <table class="dtable">
-        <tr><th>Region</th>${rt.scanDates.map(d=>'<th>'+d+'</th>').join('')}</tr>
-        ${Object.keys(rt.fatPercentByRegion).map(r=>'<tr><td>'+r+'</td>'+rt.fatPercentByRegion[r].map((v,i,a)=>'<td>'+(i===a.length-1?'<strong>':'')+v+'%'+(i===a.length-1?'</strong>':'')+'</td>').join('')+'</tr>').join('')}
+        <tr><th style="padding:5px 7px;font-size:0.48rem;">Region</th>${rt.scanDates.map(d=>'<th style="padding:5px 7px;font-size:0.48rem;">'+d+'</th>').join('')}</tr>
+        ${Object.keys(rt.fatPercentByRegion).map(r=>'<tr><td style="padding:5px 7px;font-size:0.65rem;">'+r+'</td>'+rt.fatPercentByRegion[r].map((v,i,a)=>'<td style="padding:5px 7px;font-size:0.65rem;">'+(i===a.length-1?'<strong>':'')+v+'%'+(i===a.length-1?'</strong>':'')+'</td>').join('')+'</tr>').join('')}
       </table>
     </div>
-    <div class="card">
-      <div class="card-title">Lean Mass by Region (kg)</div>
+    <div class="card" style="padding:12px 16px;">
+      <div class="card-title" style="margin-bottom:5px;">Lean Mass by Region (kg)</div>
       <table class="dtable">
-        <tr><th>Region</th>${rt.scanDates.map(d=>'<th>'+d+'</th>').join('')}</tr>
-        ${Object.keys(rt.leanMassByRegion).map(r=>'<tr><td>'+r+'</td>'+rt.leanMassByRegion[r].map((v,i,a)=>'<td>'+(i===a.length-1?'<strong>':'')+v+(i===a.length-1?'</strong>':'')+'</td>').join('')+'</tr>').join('')}
+        <tr><th style="padding:5px 7px;font-size:0.48rem;">Region</th>${rt.scanDates.map(d=>'<th style="padding:5px 7px;font-size:0.48rem;">'+d+'</th>').join('')}</tr>
+        ${Object.keys(rt.leanMassByRegion).map(r=>'<tr><td style="padding:5px 7px;font-size:0.65rem;">'+r+'</td>'+rt.leanMassByRegion[r].map((v,i,a)=>'<td style="padding:5px 7px;font-size:0.65rem;">'+(i===a.length-1?'<strong>':'')+v+(i===a.length-1?'</strong>':'')+'</td>').join('')+'</tr>').join('')}
       </table>
     </div>
   </div>
