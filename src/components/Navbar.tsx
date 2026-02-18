@@ -49,7 +49,7 @@ export default function Navbar() {
               <a href="#how-it-works">How it works</a>
               <a href="#scan">The Scan</a>
               <a href="#pricing">Pricing</a>
-              <a href="#results">Results</a>
+              <Link href="/contact">Contact</Link>
               <Link href="/schedule" className="cta-button">
                 Book Your Scan
               </Link>
@@ -90,7 +90,7 @@ export default function Navbar() {
               <a href="#how-it-works" onClick={closeMenu}>How it works</a>
               <a href="#scan" onClick={closeMenu}>The Scan</a>
               <a href="#pricing" onClick={closeMenu}>Pricing</a>
-              <a href="#results" onClick={closeMenu}>Results</a>
+              <Link href="/contact" onClick={closeMenu}>Contact</Link>
               <Link href="/schedule" className="cta-button" onClick={closeMenu}>
                 Book Your Scan
               </Link>

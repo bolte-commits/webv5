@@ -391,11 +391,11 @@ export default function HomePage() {
                 <li>Perfect for apartments &amp; companies</li>
               </ul>
               <a
-                href="#contact"
+                href="/contact"
                 className="cta-button"
                 style={{ width: "100%", textAlign: "center" }}
               >
-                Get Quote
+                Contact Us
               </a>
             </div>
 
@@ -409,7 +409,7 @@ export default function HomePage() {
                 <li>Integrated with training programs</li>
               </ul>
               <a
-                href="#contact"
+                href="/contact"
                 className="cta-button"
                 style={{ width: "100%", textAlign: "center" }}
               >

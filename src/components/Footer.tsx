@@ -26,20 +26,12 @@ export default function Footer() {
           <a href="#">Sample Report</a>
         </div>
 
-        <div className="footer-section">
-          <h4>Company</h4>
-          <a href="#">About Us</a>
-          <a href="#">For Companies</a>
-          <a href="#">For Sports Teams</a>
-          <Link href="/schedule">Locations</Link>
-        </div>
-
-        <div className="footer-section">
+<div className="footer-section">
           <h4>Support</h4>
           <a href="#">FAQ</a>
-          <a href="#">Contact</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
+          <Link href="/contact">Contact</Link>
+          <Link href="/privacy">Privacy Policy</Link>
+          <Link href="/terms">Terms of Service</Link>
         </div>
       </div>
 

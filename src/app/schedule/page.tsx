@@ -74,8 +74,8 @@ export default function SchedulePage() {
     <>
       <PageHero
         title="Book a scan"
-        subtitle="For large groups, contact us at support@bodyinsight.in"
       >
+        <p>For large groups, <Link href="/contact" style={{ color: 'white', textDecoration: 'underline' }}>contact us</Link></p>
         <div className={styles.citySelector}>
           <label htmlFor="city-select">City</label>
           <select
