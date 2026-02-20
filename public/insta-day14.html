@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Body Insight — Day 14 Game Plan Report</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Regular.otf') format('opentype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Bold.otf') format('opentype');
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype');
+      font-weight: 800;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+    }
+
+    .slide {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 80px;
+      background-color: #0F0F0F;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 2;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ===== Slide 1 — Hook ===== */
+    .slide-1 {
+      background: linear-gradient(160deg, #001a3a 0%, #0F0F0F 40%, #0F0F0F 60%, #001233 100%);
+    }
+
+    .slide-1::before {
+      content: '';
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(10,132,255,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .slide-1 .hero-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 72px;
+      line-height: 1.15;
+      max-width: 920px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-1 .hero-text .accent {
+      color: #0A84FF;
+    }
+
+    .slide-1 .subtext {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 600;
+      margin-top: 48px;
+      color: rgba(255,255,255,0.7);
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      line-height: 1.5;
+    }
+
+    /* ===== Slide 2 — Report Screenshot ===== */
+    .slide-2 {
+      background: #0F0F0F;
+      padding: 80px 80px 60px;
+      justify-content: flex-start;
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .slide-2 .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #0A84FF;
+      margin-top: 80px;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-2 .big-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 48px;
+      line-height: 1.2;
+      max-width: 900px;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-2 .big-text .accent {
+      color: #0A84FF;
+    }
+
+    .report-frame {
+      width: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 80px rgba(10,132,255,0.08);
+      position: relative;
+      z-index: 1;
+    }
+
+    .report-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .slide-2 .report-note {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 26px;
+      color: rgba(255,255,255,0.7);
+      margin-top: 32px;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1 — Hook -->
+  <div class="slide slide-1">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="hero-text">Data without <span class="accent">direction</span> is useless.</div>
+    <div class="subtext">That's why every report comes with a game plan.</div>
+  </div>
+
+  <!-- SLIDE 2 — Report Screenshot -->
+  <div class="slide slide-2">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="section-label">From Your Report</div>
+    <div class="big-text">Your <span class="accent">Game Plan.</span> Personalized.</div>
+    <div class="report-frame">
+      <img src="/images/insta/gameplan.png" alt="Body Insight — Personalized Game Plan report page">
+    </div>
+    <div class="report-note">Actual page from a Body Insight DEXA report</div>
+  </div>
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const bar = document.createElement('div');
+      bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#000;padding:16px;display:flex;gap:12px;justify-content:center;z-index:999;';
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach((slide, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = `Download Slide ${i + 1}`;
+        btn.style.cssText = 'padding:10px 24px;background:#0A84FF;color:#fff;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+        btn.onclick = () => {
+          btn.textContent = 'Rendering...';
+          html2canvas(slide, { scale: 1, width: 1080, height: 1440, useCORS: true, backgroundColor: '#0F0F0F' }).then(canvas => {
+            const a = document.createElement('a');
+            a.download = `day14-slide${i + 1}.png`;
+            a.href = canvas.toDataURL('image/png');
+            a.click();
+            btn.textContent = `Download Slide ${i + 1}`;
+          });
+        };
+        bar.appendChild(btn);
+      });
+      const allBtn = document.createElement('button');
+      allBtn.textContent = 'Download All';
+      allBtn.style.cssText = 'padding:10px 24px;background:#fff;color:#0A84FF;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+      allBtn.onclick = async () => {
+        allBtn.textContent = 'Rendering...';
+        for (let i = 0; i < slides.length; i++) {
+          const canvas = await html2canvas(slides[i], { scale: 1, width: 1080, height: 1440, useCORS: true, backgroundColor: '#0F0F0F' });
+          const a = document.createElement('a');
+          a.download = `day14-slide${i + 1}.png`;
+          a.href = canvas.toDataURL('image/png');
+          a.click();
+          await new Promise(r => setTimeout(r, 500));
+        }
+        allBtn.textContent = 'Download All';
+      };
+      bar.appendChild(allBtn);
+      document.body.appendChild(bar);
+    });
+  </script>
+</body>
+</html>

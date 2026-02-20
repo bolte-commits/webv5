@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Body Insight — Day 8 Partnership Spotlight</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Regular.otf') format('opentype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Bold.otf') format('opentype');
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype');
+      font-weight: 800;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+    }
+
+    .slide {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 80px;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 2;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ===== Slide 1 — Partnership Announcement ===== */
+    .slide-1 {
+      background: linear-gradient(160deg, #001a3a 0%, #0F0F0F 35%, #0F0F0F 65%, #001233 100%);
+    }
+
+    .slide-1::before {
+      content: '';
+      position: absolute;
+      width: 900px;
+      height: 900px;
+      background: radial-gradient(circle, rgba(10,132,255,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .slide-1 .bcci-badge {
+      width: 180px;
+      height: 180px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 56px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-1 .bcci-badge img {
+      width: 120px;
+      height: auto;
+    }
+
+    .slide-1 .hero-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 74px;
+      line-height: 1.15;
+      max-width: 920px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-1 .hero-text .accent {
+      color: #0A84FF;
+    }
+
+    .slide-1 .quote {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 30px;
+      font-weight: 500;
+      font-style: italic;
+      color: rgba(255,255,255,0.85);
+      margin-top: 56px;
+      max-width: 780px;
+      line-height: 1.55;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-1 .quote-attribution {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-1 .quote-headshot {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.15);
+    }
+
+    .slide-1 .quote-info {
+      text-align: left;
+    }
+
+    .slide-1 .quote-author {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #0A84FF;
+    }
+
+    .slide-1 .quote-role {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+    }
+
+    .slide-1 .subtext {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 30px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      position: absolute;
+      bottom: 72px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 1;
+    }
+
+    /* ===== Slide 2 — Newspaper Clipping ===== */
+    .slide-2 {
+      background: #0F0F0F;
+      padding: 80px;
+    }
+
+    .slide-2 .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #0A84FF;
+      margin-bottom: 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .clip-frame {
+      width: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 80px rgba(10,132,255,0.08);
+      position: relative;
+      z-index: 1;
+    }
+
+    .clip-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .slide-2 .clip-caption {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      margin-top: 40px;
+      position: relative;
+      z-index: 1;
+      line-height: 1.5;
+    }
+
+    /* ===== Slide 3 — Stats ===== */
+    .slide-3 {
+      background: #0F0F0F;
+      text-align: left;
+      align-items: flex-start;
+      padding: 80px;
+    }
+
+    .slide-3::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(10,132,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      bottom: 5%;
+      right: -5%;
+      pointer-events: none;
+    }
+
+    .slide-3 .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #0A84FF;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-3 .big-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 48px;
+      line-height: 1.2;
+      max-width: 900px;
+      margin-bottom: 56px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-3 .big-text .accent {
+      color: #0A84FF;
+    }
+
+    .slide-3 .stat-row {
+      display: flex;
+      gap: 32px;
+      width: 100%;
+      margin-bottom: 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-block {
+      flex: 1;
+      background: rgba(255,255,255,0.03);
+      border-radius: 24px;
+      padding: 36px 32px;
+      text-align: center;
+    }
+
+    .stat-block .stat-number {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 64px;
+      color: #0A84FF;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .stat-block .stat-desc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24px;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.4;
+    }
+
+    .slide-3 .mandatory-bar {
+      width: 100%;
+      background: rgba(10,132,255,0.08);
+      border-radius: 16px;
+      padding: 28px 36px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.5;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-3 .mandatory-bar strong {
+      color: #0A84FF;
+    }
+
+    /* ===== Slide 4 — Bridge to Consumer ===== */
+    .slide-4 {
+      background: linear-gradient(180deg, #071224 0%, #0F0F0F 100%);
+    }
+
+    .slide-4::before {
+      content: '';
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(10,132,255,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .slide-4 .bridge-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 60px;
+      line-height: 1.2;
+      max-width: 920px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-4 .bridge-text .accent {
+      color: #0A84FF;
+    }
+
+    .slide-4 .bridge-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 30px;
+      font-weight: 500;
+      margin-top: 48px;
+      color: rgba(255,255,255,0.85);
+      position: relative;
+      z-index: 1;
+      max-width: 740px;
+      line-height: 1.55;
+    }
+
+    /* ===== Slide 5 — CTA ===== */
+    .slide-5 {
+      background: linear-gradient(160deg, #0062cc 0%, #007aff 40%, #3898ff 100%);
+    }
+
+    .slide-5::before {
+      content: '';
+      position: absolute;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .slide-5 .logo {
+      color: rgba(255,255,255,0.85);
+    }
+
+    .slide-5 .cta-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 64px;
+      line-height: 1.15;
+      max-width: 920px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-5 .cta-url {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      margin-top: 56px;
+      padding: 24px 64px;
+      background: white;
+      color: #007aff;
+      border-radius: 50px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-5 .cta-sub {
+      font-size: 30px;
+      color: rgba(255,255,255,0.85);
+      margin-top: 28px;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1 — Hook -->
+  <div class="slide slide-1">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="bcci-badge">
+      <img src="/images/insta/bcci.png" alt="BCCI">
+    </div>
+    <div class="hero-text">
+      A Body Insight scan is <span class="accent">mandatory</span> to represent India.
+    </div>
+    <div class="quote">"Body Insight has been instrumental in helping the Indian team prepare for major tournaments"</div>
+    <div class="quote-attribution">
+      <img class="quote-headshot" src="/images/insta/soham.jpeg" alt="Soham Desai">
+      <div class="quote-info">
+        <div class="quote-author">Soham Desai</div>
+        <div class="quote-role">Lead S&C Coach, BCCI & Lucknow Super Giants</div>
+      </div>
+    </div>
+    <div class="subtext">Now it's available to you.</div>
+  </div>
+
+  <!-- SLIDE 2 — Newspaper Clipping -->
+  <div class="slide slide-2">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="section-label">January 2023</div>
+    <div class="clip-frame">
+      <img src="/images/cricket.jpeg" alt="Hindustan Times headline — BCCI introduces DEXA as Team India selection criteria">
+    </div>
+    <div class="clip-caption">This is where it started.</div>
+  </div>
+
+  <!-- SLIDE 3 — Stats -->
+  <div class="slide slide-3">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="section-label">Since the 2022 World Cup</div>
+    <div class="big-text">What started after the <span class="accent">2022 World Cup</span> shaped everything we do.</div>
+    <div class="stat-row">
+      <div class="stat-block">
+        <div class="stat-number">250+</div>
+        <div class="stat-desc">National level cricketers scanned</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number">All</div>
+        <div class="stat-desc">Age groups and genders</div>
+      </div>
+    </div>
+    <div class="mandatory-bar">Body Insight DEXA is a <strong>mandatory test</strong> for every cricketer wishing to represent India.</div>
+  </div>
+
+  <!-- SLIDE 4 — Bridge -->
+  <div class="slide slide-4">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="bridge-text">
+      The same <span class="accent">science.</span> Now available to <span class="accent">you.</span>
+    </div>
+    <div class="bridge-sub">Asymmetry detection. Bone health. Body composition. The exact scan used by India's cricketers is the same one you get when you book with Body Insight.</div>
+  </div>
+
+  <!-- SLIDE 5 — CTA -->
+  <div class="slide slide-5">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="cta-text">Train like a pro. Start with their data.</div>
+    <div class="cta-url">bodyinsight.in</div>
+    <div class="cta-sub">Book your DEXA scan today</div>
+  </div>
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const bar = document.createElement('div');
+      bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#000;padding:16px;display:flex;gap:12px;justify-content:center;z-index:999;';
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach((slide, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = `Download Slide ${i + 1}`;
+        btn.style.cssText = 'padding:10px 24px;background:#0A84FF;color:#fff;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+        btn.onclick = () => {
+          btn.textContent = 'Rendering...';
+          html2canvas(slide, { scale: 1, width: 1080, height: 1440, useCORS: true }).then(canvas => {
+            const a = document.createElement('a');
+            a.download = `day8-slide${i + 1}.png`;
+            a.href = canvas.toDataURL('image/png');
+            a.click();
+            btn.textContent = `Download Slide ${i + 1}`;
+          });
+        };
+        bar.appendChild(btn);
+      });
+      const allBtn = document.createElement('button');
+      allBtn.textContent = 'Download All';
+      allBtn.style.cssText = 'padding:10px 24px;background:#fff;color:#0A84FF;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+      allBtn.onclick = async () => {
+        allBtn.textContent = 'Rendering...';
+        for (let i = 0; i < slides.length; i++) {
+          const canvas = await html2canvas(slides[i], { scale: 1, width: 1080, height: 1440, useCORS: true });
+          const a = document.createElement('a');
+          a.download = `day8-slide${i + 1}.png`;
+          a.href = canvas.toDataURL('image/png');
+          a.click();
+          await new Promise(r => setTimeout(r, 500));
+        }
+        allBtn.textContent = 'Download All';
+      };
+      bar.appendChild(allBtn);
+      document.body.appendChild(bar);
+    });
+  </script>
+</body>
+</html>

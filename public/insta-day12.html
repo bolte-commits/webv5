@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Body Insight — Day 12 Data Drop</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Regular.otf') format('opentype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Bold.otf') format('opentype');
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype');
+      font-weight: 800;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+    }
+
+    .slide {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 80px;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 2;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ===== Single Static Slide ===== */
+    .slide-1 {
+      background: #0F0F0F;
+      text-align: left;
+      align-items: flex-start;
+      padding: 80px;
+    }
+
+    .slide-1::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(10,132,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      bottom: 5%;
+      right: -5%;
+      pointer-events: none;
+    }
+
+    .slide-1 .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #0A84FF;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-1 .big-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 48px;
+      line-height: 1.2;
+      max-width: 900px;
+      margin-bottom: 64px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-1 .big-text .accent {
+      color: #0A84FF;
+    }
+
+    .checklist {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 32px 36px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 20px;
+    }
+
+    .check-item.pass {
+      background: rgba(10,132,255,0.08);
+    }
+
+    .check-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .check-icon.fail {
+      background: rgba(255,59,48,0.15);
+      color: #ff3b30;
+    }
+
+    .check-icon.success {
+      background: rgba(10,132,255,0.2);
+      color: #0A84FF;
+    }
+
+    .check-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .check-item.fail-item .check-label {
+      color: rgba(255,255,255,0.5);
+      text-decoration: line-through;
+      text-decoration-color: rgba(255,255,255,0.3);
+    }
+
+    .check-item.pass .check-label {
+      color: white;
+    }
+
+    .slide-1 .footer-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      margin-top: 56px;
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      line-height: 1.5;
+    }
+
+    .slide-1 .footer-url {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+      color: #0A84FF;
+      position: absolute;
+      bottom: 72px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SINGLE STATIC SLIDE -->
+  <div class="slide slide-1">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="section-label">Data Drop</div>
+    <div class="big-text">Things that <span class="accent">don't</span> tell you your body composition</div>
+
+    <div class="checklist">
+      <div class="check-item fail-item">
+        <div class="check-icon fail">&times;</div>
+        <div class="check-label">Mirror</div>
+      </div>
+      <div class="check-item fail-item">
+        <div class="check-icon fail">&times;</div>
+        <div class="check-label">Scale</div>
+      </div>
+      <div class="check-item fail-item">
+        <div class="check-icon fail">&times;</div>
+        <div class="check-label">BMI Calculator</div>
+      </div>
+      <div class="check-item fail-item">
+        <div class="check-icon fail">&times;</div>
+        <div class="check-label">Calipers</div>
+      </div>
+      <div class="check-item pass">
+        <div class="check-icon success">&check;</div>
+        <div class="check-label">DEXA Scan</div>
+      </div>
+    </div>
+
+    <div class="footer-text">Only one gives you the full picture. Gold standard accuracy, region by region.</div>
+    <div class="footer-url">bodyinsight.in</div>
+  </div>
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const bar = document.createElement('div');
+      bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#000;padding:16px;display:flex;gap:12px;justify-content:center;z-index:999;';
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach((slide, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = `Download Slide ${i + 1}`;
+        btn.style.cssText = 'padding:10px 24px;background:#0A84FF;color:#fff;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+        btn.onclick = () => {
+          btn.textContent = 'Rendering...';
+          html2canvas(slide, { scale: 1, width: 1080, height: 1440, useCORS: true }).then(canvas => {
+            const a = document.createElement('a');
+            a.download = `day12-slide${i + 1}.png`;
+            a.href = canvas.toDataURL('image/png');
+            a.click();
+            btn.textContent = `Download Slide ${i + 1}`;
+          });
+        };
+        bar.appendChild(btn);
+      });
+      const allBtn = document.createElement('button');
+      allBtn.textContent = 'Download All';
+      allBtn.style.cssText = 'padding:10px 24px;background:#fff;color:#0A84FF;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+      allBtn.onclick = async () => {
+        allBtn.textContent = 'Rendering...';
+        for (let i = 0; i < slides.length; i++) {
+          const canvas = await html2canvas(slides[i], { scale: 1, width: 1080, height: 1440, useCORS: true });
+          const a = document.createElement('a');
+          a.download = `day12-slide${i + 1}.png`;
+          a.href = canvas.toDataURL('image/png');
+          a.click();
+          await new Promise(r => setTimeout(r, 500));
+        }
+        allBtn.textContent = 'Download All';
+      };
+      bar.appendChild(allBtn);
+      document.body.appendChild(bar);
+    });
+  </script>
+</body>
+</html>

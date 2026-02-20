@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Body Insight — Day 9 First Scan Walkthrough</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Regular.otf') format('opentype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Bold.otf') format('opentype');
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype');
+      font-weight: 800;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+    }
+
+    .slide {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 80px;
+      background-color: #0F0F0F;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 2;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ===== Slide 1 — Hook ===== */
+    .slide-1 {
+      background: linear-gradient(160deg, #001a3a 0%, #0F0F0F 40%, #0F0F0F 60%, #001233 100%);
+    }
+
+    .slide-1::before {
+      content: '';
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(10,132,255,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .slide-1 .step-count {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 160px;
+      color: #0A84FF;
+      line-height: 1;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-1 .hero-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 64px;
+      line-height: 1.15;
+      max-width: 920px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-1 .subtext {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 600;
+      margin-top: 48px;
+      color: rgba(255,255,255,0.7);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== Step Slides with images (2–4) ===== */
+    .step-slide {
+      background: #0F0F0F;
+      padding: 0;
+      justify-content: flex-start;
+      align-items: stretch;
+      text-align: left;
+    }
+
+    .step-slide .img-area {
+      width: 100%;
+      height: 700px;
+      position: relative;
+      flex-shrink: 0;
+      margin-top: 140px;
+      overflow: hidden;
+    }
+
+    .step-slide .img-area img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .step-slide .img-area::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 400px;
+      background: linear-gradient(to top, #0F0F0F 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .step-slide .text-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 80px 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-slide .step-number {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 100px;
+      color: rgba(10,132,255,0.15);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .step-slide .step-title {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 52px;
+      line-height: 1.15;
+      max-width: 900px;
+      margin-bottom: 28px;
+    }
+
+    .step-slide .step-title .accent {
+      color: #0A84FF;
+    }
+
+    .step-slide .step-desc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 30px;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+      max-width: 820px;
+    }
+
+    .step-slide .step-detail {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 26px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+      max-width: 820px;
+      margin-top: 20px;
+    }
+
+    /* Time pill */
+    .step-slide .time-pill {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #0A84FF;
+      background: rgba(10,132,255,0.08);
+      padding: 14px 36px;
+      border-radius: 50px;
+      margin-top: 28px;
+      display: inline-block;
+    }
+
+
+    /* ===== Slide 6 — CTA ===== */
+    .slide-6 {
+      background: linear-gradient(160deg, #0062cc 0%, #007aff 40%, #3898ff 100%);
+    }
+
+    .slide-6::before {
+      content: '';
+      position: absolute;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .slide-6 .logo {
+      color: rgba(255,255,255,0.85);
+    }
+
+    .slide-6 .cta-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 64px;
+      line-height: 1.15;
+      max-width: 920px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-6 .cta-url {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      margin-top: 56px;
+      padding: 24px 64px;
+      background: white;
+      color: #007aff;
+      border-radius: 50px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-6 .cta-sub {
+      font-size: 30px;
+      color: rgba(255,255,255,0.85);
+      margin-top: 28px;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1 — Hook -->
+  <div class="slide slide-1">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="step-count">4</div>
+    <div class="hero-text">steps to your first DEXA scan</div>
+    <div class="subtext">It's easier than you think.</div>
+  </div>
+
+  <!-- SLIDE 2 — Step 1: Book -->
+  <div class="slide slide-2 step-slide">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="img-area">
+      <img src="/images/insta/appt.png" alt="Body Insight booking flow">
+    </div>
+    <div class="text-area">
+      <div class="step-number">01</div>
+      <div class="step-title">Book <span class="accent">online.</span></div>
+      <div class="step-desc">Pick your city, choose a date and time, and you're locked in. The whole booking takes under a minute.</div>
+      <div class="step-detail">No referral needed. No paperwork.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 — Step 2: Show Up -->
+  <div class="slide slide-3 step-slide">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="img-area">
+      <img src="/images/insta/dexa.png" alt="DEXA scanner">
+    </div>
+    <div class="text-area">
+      <div class="step-number">02</div>
+      <div class="step-title">Show up. <span class="accent">Lie down.</span></div>
+      <div class="step-desc">Walk in, lie on the scanner, stay still. The DEXA machine does the rest. No injections. No fasting. No preparation.</div>
+      <div class="time-pill">Total scan time: 6 minutes</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 — Step 3: Get Your Report -->
+  <div class="slide slide-4 step-slide">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="img-area">
+      <img src="/images/insta/report.jpeg" alt="Body Insight DEXA report">
+    </div>
+    <div class="text-area">
+      <div class="step-number">03</div>
+      <div class="step-title">Get your <span class="accent">full report.</span></div>
+      <div class="step-desc">Body fat %. Lean mass. Visceral fat. Bone density. Left vs right asymmetry. All broken down region by region.</div>
+      <div class="step-detail">Delivered digitally. Yours to keep forever.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5 — Step 4: Take Action -->
+  <div class="slide slide-5 step-slide">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="img-area">
+      <img src="/images/insta/check.png" alt="Taking action with real data">
+    </div>
+    <div class="text-area">
+      <div class="step-number">04</div>
+      <div class="step-title">Start making <span class="accent">progress.</span></div>
+      <div class="step-desc">Now you have real data. Set goals based on your actual body composition — not guesswork. Track changes over time with follow-up scans.</div>
+      <div class="step-detail">Train smarter. Eat smarter. Measure what matters.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6 — CTA -->
+  <div class="slide slide-6">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="cta-text">No needles. No sweat. Just data.</div>
+    <div class="cta-url">bodyinsight.in</div>
+    <div class="cta-sub">Book your first DEXA scan today</div>
+  </div>
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const bar = document.createElement('div');
+      bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#000;padding:16px;display:flex;gap:12px;justify-content:center;z-index:999;';
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach((slide, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = `Download Slide ${i + 1}`;
+        btn.style.cssText = 'padding:10px 24px;background:#0A84FF;color:#fff;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+        btn.onclick = () => {
+          btn.textContent = 'Rendering...';
+          html2canvas(slide, { scale: 1, width: 1080, height: 1440, useCORS: true, backgroundColor: '#0F0F0F' }).then(canvas => {
+            const a = document.createElement('a');
+            a.download = `day9-slide${i + 1}.png`;
+            a.href = canvas.toDataURL('image/png');
+            a.click();
+            btn.textContent = `Download Slide ${i + 1}`;
+          });
+        };
+        bar.appendChild(btn);
+      });
+      const allBtn = document.createElement('button');
+      allBtn.textContent = 'Download All';
+      allBtn.style.cssText = 'padding:10px 24px;background:#fff;color:#0A84FF;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+      allBtn.onclick = async () => {
+        allBtn.textContent = 'Rendering...';
+        for (let i = 0; i < slides.length; i++) {
+          const canvas = await html2canvas(slides[i], { scale: 1, width: 1080, height: 1440, useCORS: true, backgroundColor: '#0F0F0F' });
+          const a = document.createElement('a');
+          a.download = `day9-slide${i + 1}.png`;
+          a.href = canvas.toDataURL('image/png');
+          a.click();
+          await new Promise(r => setTimeout(r, 500));
+        }
+        allBtn.textContent = 'Download All';
+      };
+      bar.appendChild(allBtn);
+      document.body.appendChild(bar);
+    });
+  </script>
+</body>
+</html>

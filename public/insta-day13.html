@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Body Insight — Day 13 Who Should Get a DEXA Scan</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Regular.otf') format('opentype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Bold.otf') format('opentype');
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype');
+      font-weight: 800;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+    }
+
+    .slide {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 80px;
+      background-color: #0F0F0F;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 2;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ===== Slide 1 — Hook ===== */
+    .slide-1 {
+      background: linear-gradient(160deg, #001a3a 0%, #0F0F0F 40%, #0F0F0F 60%, #001233 100%);
+    }
+
+    .slide-1::before {
+      content: '';
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(10,132,255,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .slide-1 .hero-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 72px;
+      line-height: 1.15;
+      max-width: 920px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-1 .hero-text .accent {
+      color: #0A84FF;
+    }
+
+    .slide-1 .subtext {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 600;
+      margin-top: 48px;
+      color: rgba(255,255,255,0.7);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== Persona Slides (2–5) ===== */
+    .persona-slide {
+      background: #0F0F0F;
+      text-align: left;
+      align-items: flex-start;
+      padding: 80px;
+    }
+
+    .persona-slide::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(10,132,255,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .slide-2::before { bottom: 10%; right: -5%; }
+    .slide-3::before { top: 15%; left: -5%; }
+    .slide-4::before { bottom: 5%; left: 50%; transform: translateX(-50%); }
+    .slide-5::before { top: 10%; right: -5%; }
+
+    .persona-slide .persona-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #0A84FF;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .persona-slide .persona-title {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 56px;
+      line-height: 1.15;
+      max-width: 900px;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .persona-slide .persona-title .accent {
+      color: #0A84FF;
+    }
+
+    .persona-slide .persona-desc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 32px;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+      max-width: 820px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .persona-slide .persona-why {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #0A84FF;
+      margin-top: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== Slide 6 — CTA ===== */
+    .slide-6 {
+      background: linear-gradient(160deg, #0062cc 0%, #007aff 40%, #3898ff 100%);
+    }
+
+    .slide-6::before {
+      content: '';
+      position: absolute;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .slide-6 .logo {
+      color: rgba(255,255,255,0.85);
+    }
+
+    .slide-6 .cta-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 64px;
+      line-height: 1.15;
+      max-width: 920px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-6 .cta-url {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      margin-top: 56px;
+      padding: 24px 64px;
+      background: white;
+      color: #007aff;
+      border-radius: 50px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-6 .cta-sub {
+      font-size: 30px;
+      color: rgba(255,255,255,0.85);
+      margin-top: 28px;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1 — Hook -->
+  <div class="slide slide-1">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="hero-text">DEXA isn't just for <span class="accent">bodybuilders.</span></div>
+    <div class="subtext">Here's who it's really for.</div>
+  </div>
+
+  <!-- SLIDE 2 — Starting a fitness journey -->
+  <div class="slide slide-2 persona-slide">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="persona-tag">Starting out</div>
+    <div class="persona-title">Anyone beginning a <span class="accent">fitness journey.</span></div>
+    <div class="persona-desc">You need a baseline. Without knowing where you're starting — your body fat, lean mass, bone density — you're training blind. DEXA gives you day one data.</div>
+    <div class="persona-why">Why: So you can measure real progress, not just weight.</div>
+  </div>
+
+  <!-- SLIDE 3 — Over 40 -->
+  <div class="slide slide-3 persona-slide">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="persona-tag">Over 40</div>
+    <div class="persona-title">Anyone over <span class="accent">40.</span></div>
+    <div class="persona-desc">Bone density starts declining silently. Muscle loss accelerates. Visceral fat creeps up. A DEXA scan catches what you can't feel yet — before it becomes a problem.</div>
+    <div class="persona-why">Why: Bone health and visceral fat become critical markers.</div>
+  </div>
+
+  <!-- SLIDE 4 — Athletes -->
+  <div class="slide slide-4 persona-slide">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="persona-tag">Athletes</div>
+    <div class="persona-title">Anyone tracking <span class="accent">performance.</span></div>
+    <div class="persona-desc">Whether you're a weekend runner or a competitive athlete, DEXA shows if your training is building muscle, burning fat, or creating imbalances that lead to injury.</div>
+    <div class="persona-why">Why: Performance is in the details. DEXA gives you all of them.</div>
+  </div>
+
+  <!-- SLIDE 5 — The curious -->
+  <div class="slide slide-5 persona-slide">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="persona-tag">Just curious</div>
+    <div class="persona-title">Anyone who wants to <span class="accent">know.</span></div>
+    <div class="persona-desc">You don't need a reason. You don't need a goal. Sometimes you just want to understand what's going on inside your body. That's reason enough.</div>
+    <div class="persona-why">Why: Because knowing is better than guessing.</div>
+  </div>
+
+  <!-- SLIDE 6 — CTA -->
+  <div class="slide slide-6">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="cta-text">It's for everyone. Including you.</div>
+    <div class="cta-url">bodyinsight.in</div>
+    <div class="cta-sub">Book your DEXA scan today</div>
+  </div>
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const bar = document.createElement('div');
+      bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#000;padding:16px;display:flex;gap:12px;justify-content:center;z-index:999;';
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach((slide, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = `Download Slide ${i + 1}`;
+        btn.style.cssText = 'padding:10px 24px;background:#0A84FF;color:#fff;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+        btn.onclick = () => {
+          btn.textContent = 'Rendering...';
+          html2canvas(slide, { scale: 1, width: 1080, height: 1440, useCORS: true, backgroundColor: '#0F0F0F' }).then(canvas => {
+            const a = document.createElement('a');
+            a.download = `day13-slide${i + 1}.png`;
+            a.href = canvas.toDataURL('image/png');
+            a.click();
+            btn.textContent = `Download Slide ${i + 1}`;
+          });
+        };
+        bar.appendChild(btn);
+      });
+      const allBtn = document.createElement('button');
+      allBtn.textContent = 'Download All';
+      allBtn.style.cssText = 'padding:10px 24px;background:#fff;color:#0A84FF;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+      allBtn.onclick = async () => {
+        allBtn.textContent = 'Rendering...';
+        for (let i = 0; i < slides.length; i++) {
+          const canvas = await html2canvas(slides[i], { scale: 1, width: 1080, height: 1440, useCORS: true, backgroundColor: '#0F0F0F' });
+          const a = document.createElement('a');
+          a.download = `day13-slide${i + 1}.png`;
+          a.href = canvas.toDataURL('image/png');
+          a.click();
+          await new Promise(r => setTimeout(r, 500));
+        }
+        allBtn.textContent = 'Download All';
+      };
+      bar.appendChild(allBtn);
+      document.body.appendChild(bar);
+    });
+  </script>
+</body>
+</html>

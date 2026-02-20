@@ -144,16 +144,16 @@
   .region-met-val { font-size: 0.7rem; font-weight: 700; color: var(--txt); }
 
   /* ===== SYMMETRY REGION ===== */
-  .sym-region { background: var(--card); border-radius: 12px; padding: 14px; display: flex; gap: 12px; }
-  .sym-region + .sym-region { margin-top: 8px; }
-  .sym-img { width: 110px; min-height: 100px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .sym-region { background: var(--card); border-radius: 12px; padding: 16px; display: flex; gap: 14px; }
+  .sym-region + .sym-region { margin-top: 10px; }
+  .sym-img { width: 120px; min-height: 120px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
   .sym-data { flex: 1; }
-  .sym-name { font-size: 0.72rem; font-weight: 800; color: var(--txt); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .sym-name { font-size: 0.78rem; font-weight: 800; color: var(--txt); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; }
   .sym-table { width: 100%; border-collapse: collapse; }
-  .sym-table th { font-size: 0.48rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mute); text-align: center; padding: 3px 6px; }
+  .sym-table th { font-size: 0.52rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mute); text-align: center; padding: 6px 6px; }
   .sym-table th:first-child { text-align: left; }
-  .sym-table td { font-size: 0.68rem; font-weight: 600; color: var(--txt); text-align: center; padding: 3px 6px; border-top: 1px solid #f5f5f5; }
-  .sym-table td:first-child { text-align: left; color: var(--dim); font-size: 0.58rem; }
+  .sym-table td { font-size: 0.72rem; font-weight: 600; color: var(--txt); text-align: center; padding: 6px 6px; border-top: 1px solid #f5f5f5; }
+  .sym-table td:first-child { text-align: left; color: var(--dim); font-size: 0.62rem; }
   .sym-verdict { font-size: 0.55rem; font-weight: 700; margin-top: 4px; }
 
   /* ===== BONE REGION GRID ===== */
@@ -336,7 +336,7 @@ function trendCard(title, pts, hdr, suffix='', inv=false) {
 // ── Render ───────────────────────────────────────────────────────────────────
 function render(d) {
   const c = d.cover, g = d.atAGlance, bc = d.bodyComposition, ct = d.compositionTrends;
-  const ra = d.regionalAnalysis, rt = d.regionalTrends, sym = d.symmetry, sb = d.sectionalBalance;
+  const ra = d.regionalAnalysis, rt = d.regionalTrends, sym = d.symmetry;
   const vf = d.visceralFat, bh = d.boneHealth, bt = d.boneTrends, ag = d.agRatio;
   const sa = d.sarcopenia, met = d.metabolism, nut = d.nutrition, ap = d.actionPlan;
   const tp = c.totalPages;
@@ -530,10 +530,10 @@ function render(d) {
   ${HDR('Left vs Right')}
   <div class="content">
     <div><div class="section-title">Symmetry Check</div><div class="section-desc">Comparing the left and right sides of your body to detect muscle imbalances or asymmetric fat storage.</div></div>
-    ${sym.regions.map(r=>`<div class="sym-region">
-      <div class="sym-img"><img src="/images/regions/${r.image}.png" alt="${r.name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
+    ${Object.entries(sym.regions).map(([key,r])=>{const name=key.charAt(0).toUpperCase()+key.slice(1);return`<div class="sym-region">
+      <div class="sym-img"><img src="/images/regions/${key}.png" alt="${name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
       <div class="sym-data">
-        <div class="sym-name">${r.name}</div>
+        <div class="sym-name">${name}</div>
         <table class="sym-table">
           <tr><th></th><th>Left</th><th>Right</th></tr>
           <tr><td>Fat %</td><td><strong>${r.left.fatPercent}%</strong></td><td><strong>${r.right.fatPercent}%</strong></td></tr>
@@ -542,9 +542,8 @@ function render(d) {
           <tr><td>Fat</td><td>${r.left.fatKg} kg</td><td>${r.right.fatKg} kg</td></tr>
           <tr><td>Bone</td><td>${r.left.boneKg} kg</td><td>${r.right.boneKg} kg</td></tr>
         </table>
-        <div class="sym-verdict" style="color:${vc(r.verdictColor)};">${r.verdict}</div>
       </div>
-    </div>`).join('')}
+    </div>`}).join('')}
   </div>
   ${FTR(7,tp)}
 </div>
@@ -559,13 +558,13 @@ function render(d) {
       <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#fbbf24;"></span><span style="font-size:0.45rem; color:var(--dim);">Minor imbalance</span></div>
       <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#34d399;"></span><span style="font-size:0.45rem; color:var(--dim);">Good balance</span></div>
     </div>
-    ${sb.regions.map(r=>`<div class="card" style="margin-bottom:8px;">
-      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><span style="font-size:0.75rem; font-weight:700;">${r.name}</span><span style="font-size:0.55rem; font-weight:700; color:${vc(r.statusColor)};">${r.status}</span></div>
-      <div class="range-bar" style="background:linear-gradient(90deg, #f87171 0%, #fbbf24 25%, #34d399 55%, #34d399 100%);"><div class="range-dot" style="left:${r.scalePosition}%;"></div></div>
+    ${Object.entries(sym.regions).map(([key,r])=>{const name=key.charAt(0).toUpperCase()+key.slice(1);const leanDiff=Math.abs(r.left.leanKg-r.right.leanKg);const leanAvg=(r.left.leanKg+r.right.leanKg)/2;const imbalPct=leanAvg>0?(leanDiff/leanAvg*100):0;const status=imbalPct<3?'Good balance':imbalPct<8?'Minor imbalance':'High imbalance';const statusColor=imbalPct<3?'green':imbalPct<8?'yellow':'red';const scalePos=Math.min(95,Math.max(5,100-imbalPct*5));const stronger=r.left.leanKg>r.right.leanKg?'Left':'Right';const desc=imbalPct<3?`${name} are well balanced — lean mass is evenly distributed.`:`${stronger} side carries ${leanDiff.toFixed(1)} kg more lean mass (${imbalPct.toFixed(1)}% difference).`;return`<div class="card" style="margin-bottom:8px;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><span style="font-size:0.75rem; font-weight:700;">${name}</span><span style="font-size:0.55rem; font-weight:700; color:${vc(statusColor)};">${status}</span></div>
+      <div class="range-bar" style="background:linear-gradient(90deg, #f87171 0%, #fbbf24 25%, #34d399 55%, #34d399 100%);"><div class="range-dot" style="left:${scalePos}%;"></div></div>
       <div style="display:flex; justify-content:space-between; font-size:0.4rem; color:var(--mute); margin-top:2px;"><span>Imbalanced</span><span>Balanced</span></div>
-      <div style="font-size:0.55rem; color:var(--dim); margin-top:8px; line-height:1.5;">${r.description}</div>
-    </div>`).join('')}
-    <div class="action ${ac(sb.insightColor)}"><strong>${sb.insight.split(':')[0]}:</strong>${sb.insight.split(':').slice(1).join(':')}</div>
+      <div style="font-size:0.55rem; color:var(--dim); margin-top:8px; line-height:1.5;">${desc}</div>
+    </div>`}).join('')}
+    ${sym.insight?`<div class="action ${ac(sym.insightColor||'green')}"><strong>${sym.insight.split(':')[0]}:</strong>${sym.insight.split(':').slice(1).join(':')}</div>`:''}
   </div>
   ${FTR(8,tp)}
 </div>
