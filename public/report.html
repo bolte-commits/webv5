@@ -525,15 +525,15 @@ function render(d) {
   ${FTR(6,tp)}
 </div>
 
-<!-- PAGE 7: LEFT VS RIGHT -->
+<!-- PAGE 7: LEFT VS RIGHT — Arms & Legs -->
 <div class="page">
   ${HDR('Left vs Right')}
   <div class="content">
     <div><div class="section-title">Symmetry Check</div><div class="section-desc">Comparing the left and right sides of your body to detect muscle imbalances or asymmetric fat storage.</div></div>
-    ${Object.entries(sym.regions).map(([key,r])=>{const name=key.charAt(0).toUpperCase()+key.slice(1);return`<div class="sym-region">
+    ${Object.entries(sym.regions).filter(([key])=>key!=='trunk').map(([key,r])=>{const name=key.charAt(0).toUpperCase()+key.slice(1);const t=r.thresholds;const v=r.val;const status=v<=t[1]?'Good balance':v<=t[2]?'Minor imbalance':'Significant imbalance';const statusColor=v<=t[1]?'green':v<=t[2]?'yellow':'red';const scalePos=Math.min(95,Math.max(5,v/t[3]*100));return`<div class="sym-region" style="flex-wrap:wrap;">
       <div class="sym-img"><img src="/images/regions/${key}.png" alt="${name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
       <div class="sym-data">
-        <div class="sym-name">${name}</div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><div class="sym-name" style="margin-bottom:0;">${name}</div><span style="font-size:0.5rem; font-weight:700; color:${vc(statusColor)};">${status}</span></div>
         <table class="sym-table">
           <tr><th></th><th>Left</th><th>Right</th></tr>
           <tr><td>Fat %</td><td><strong>${r.left.fatPercent}%</strong></td><td><strong>${r.right.fatPercent}%</strong></td></tr>
@@ -543,28 +543,59 @@ function render(d) {
           <tr><td>Bone</td><td>${r.left.boneKg} kg</td><td>${r.right.boneKg} kg</td></tr>
         </table>
       </div>
+      <div style="width:100%; margin-top:10px;">
+        <div class="range-bar" style="background:linear-gradient(90deg, #34d399 0%, #34d399 ${100*t[1]/t[3]}%, #fbbf24 ${100*t[2]/t[3]}%, #f87171 100%);"><div class="range-dot" style="left:${scalePos}%;"></div></div>
+        <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--mute); margin-top:2px;"><span>Balanced</span><span>Imbalanced</span></div>
+      </div>
+      <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:8px;">${r.description}</div>
     </div>`}).join('')}
   </div>
   ${FTR(7,tp)}
 </div>
 
-<!-- PAGE 8: SECTIONAL BALANCE -->
+<!-- PAGE 8: LEFT VS RIGHT — Trunk + Insight -->
 <div class="page">
-  ${HDR('Sectional Balance')}
+  ${HDR('Left vs Right')}
   <div class="content">
-    <div><div class="section-title">Balance Assessment</div><div class="section-desc">How balanced your left and right sides are across each body region. Large imbalances increase injury risk.</div></div>
-    <div style="display:flex; gap:12px; justify-content:center; margin-bottom:12px;">
-      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#f87171;"></span><span style="font-size:0.45rem; color:var(--dim);">High imbalance</span></div>
-      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#fbbf24;"></span><span style="font-size:0.45rem; color:var(--dim);">Minor imbalance</span></div>
-      <div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:#34d399;"></span><span style="font-size:0.45rem; color:var(--dim);">Good balance</span></div>
-    </div>
-    ${Object.entries(sym.regions).map(([key,r])=>{const name=key.charAt(0).toUpperCase()+key.slice(1);const leanDiff=Math.abs(r.left.leanKg-r.right.leanKg);const leanAvg=(r.left.leanKg+r.right.leanKg)/2;const imbalPct=leanAvg>0?(leanDiff/leanAvg*100):0;const status=imbalPct<3?'Good balance':imbalPct<8?'Minor imbalance':'High imbalance';const statusColor=imbalPct<3?'green':imbalPct<8?'yellow':'red';const scalePos=Math.min(95,Math.max(5,100-imbalPct*5));const stronger=r.left.leanKg>r.right.leanKg?'Left':'Right';const desc=imbalPct<3?`${name} are well balanced — lean mass is evenly distributed.`:`${stronger} side carries ${leanDiff.toFixed(1)} kg more lean mass (${imbalPct.toFixed(1)}% difference).`;return`<div class="card" style="margin-bottom:8px;">
-      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><span style="font-size:0.75rem; font-weight:700;">${name}</span><span style="font-size:0.55rem; font-weight:700; color:${vc(statusColor)};">${status}</span></div>
-      <div class="range-bar" style="background:linear-gradient(90deg, #f87171 0%, #fbbf24 25%, #34d399 55%, #34d399 100%);"><div class="range-dot" style="left:${scalePos}%;"></div></div>
-      <div style="display:flex; justify-content:space-between; font-size:0.4rem; color:var(--mute); margin-top:2px;"><span>Imbalanced</span><span>Balanced</span></div>
-      <div style="font-size:0.55rem; color:var(--dim); margin-top:8px; line-height:1.5;">${desc}</div>
-    </div>`}).join('')}
+    ${(()=>{const key='trunk';const r=sym.regions[key];const name='Trunk';const t=r.thresholds;const v=r.val;const status=v<=t[1]?'Good balance':v<=t[2]?'Minor imbalance':'Significant imbalance';const statusColor=v<=t[1]?'green':v<=t[2]?'yellow':'red';const scalePos=Math.min(95,Math.max(5,v/t[3]*100));return`<div class="sym-region" style="flex-wrap:wrap;">
+      <div class="sym-img"><img src="/images/regions/${key}.png" alt="${name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
+      <div class="sym-data">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><div class="sym-name" style="margin-bottom:0;">${name}</div><span style="font-size:0.5rem; font-weight:700; color:${vc(statusColor)};">${status}</span></div>
+        <table class="sym-table">
+          <tr><th></th><th>Left</th><th>Right</th></tr>
+          <tr><td>Fat %</td><td><strong>${r.left.fatPercent}%</strong></td><td><strong>${r.right.fatPercent}%</strong></td></tr>
+          <tr><td>Total</td><td>${r.left.totalKg} kg</td><td>${r.right.totalKg} kg</td></tr>
+          <tr><td>Lean</td><td>${r.left.leanKg} kg</td><td>${r.right.leanKg} kg</td></tr>
+          <tr><td>Fat</td><td>${r.left.fatKg} kg</td><td>${r.right.fatKg} kg</td></tr>
+          <tr><td>Bone</td><td>${r.left.boneKg} kg</td><td>${r.right.boneKg} kg</td></tr>
+        </table>
+      </div>
+      <div style="width:100%; margin-top:10px;">
+        <div class="range-bar" style="background:linear-gradient(90deg, #34d399 0%, #34d399 ${100*t[1]/t[3]}%, #fbbf24 ${100*t[2]/t[3]}%, #f87171 100%);"><div class="range-dot" style="left:${scalePos}%;"></div></div>
+        <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--mute); margin-top:2px;"><span>Balanced</span><span>Imbalanced</span></div>
+      </div>
+      <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:8px;">${r.description}</div>
+    </div>`})()}
     ${sym.insight?`<div class="action ${ac(sym.insightColor||'green')}"><strong>${sym.insight.split(':')[0]}:</strong>${sym.insight.split(':').slice(1).join(':')}</div>`:''}
+    <div class="card" style="margin-top:10px;">
+      <div class="card-title">What Causes Imbalances?</div>
+      <div style="font-size:0.58rem; color:var(--dim); line-height:1.7;">
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Hand dominance</strong> — Your dominant side naturally carries more muscle from daily use.</div>
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">One-sided sports</strong> — Tennis, cricket, or golf develop one side more than the other.</div>
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Injury compensation</strong> — Favouring one side after an injury shifts load to the other.</div>
+        <div><strong style="color:var(--txt);">Uneven training</strong> — Machine-based exercises can mask imbalances that free weights expose.</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:10px;">
+      <div class="card-title">How to Reduce Imbalances</div>
+      <div style="font-size:0.58rem; color:var(--dim); line-height:1.7;">
+        <div style="margin-bottom:8px; padding:8px 10px; background:rgba(248,113,113,0.08); border-left:3px solid #f87171; border-radius:4px; color:var(--txt); font-weight:600;">You cannot spot-reduce fat. Fat loss happens overall through a caloric deficit. But you <em>can</em> spot-build muscle by targeting specific regions with resistance training.</div>
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Use unilateral exercises</strong> — Single-arm rows, lunges, and single-leg deadlifts force each side to work independently.</div>
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Start with the weaker side</strong> — Begin each set with your weaker side and match the reps on the stronger side.</div>
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Swap machines for free weights</strong> — Dumbbells and kettlebells prevent your dominant side from compensating.</div>
+        <div><strong style="color:var(--txt);">Track with regular scans</strong> — A DEXA scan every 3–4 months shows whether the gap is closing over time.</div>
+      </div>
+    </div>
   </div>
   ${FTR(8,tp)}
 </div>
