@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Body Insight — Day 15 Gym Partnership Spotlight</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Regular.otf') format('opentype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Bold.otf') format('opentype');
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: 'Monument Extended';
+      src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype');
+      font-weight: 800;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+    }
+
+    .slide {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 80px;
+      background-color: #0F0F0F;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 2;
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* ── SLIDE 1: Hook ── */
+    .slide-1 .partnership-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #0A84FF;
+      margin-bottom: 48px;
+    }
+
+    .slide-1 .gym-logo-area {
+      width: 240px;
+      height: 240px;
+      background: rgba(255,255,255,0.06);
+      border: 2px dashed rgba(255,255,255,0.15);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 56px;
+    }
+
+    .slide-1 .gym-logo-area span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .slide-1 .hero-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 52px;
+      line-height: 1.2;
+      max-width: 900px;
+    }
+
+    .slide-1 .hero-text .gym-name {
+      color: #0A84FF;
+    }
+
+    .slide-1 .subtext {
+      font-size: 34px;
+      color: rgba(255,255,255,0.7);
+      margin-top: 36px;
+      max-width: 800px;
+      line-height: 1.5;
+    }
+
+    .slide-1 .dual-logos {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      position: absolute;
+      bottom: 100px;
+    }
+
+    .slide-1 .dual-logos .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .slide-1 .dual-logos .x-mark {
+      font-size: 28px;
+      color: rgba(255,255,255,0.25);
+      font-weight: 700;
+    }
+
+    /* ── SLIDE 2: Quote ── */
+    .slide-2 .quote-block {
+      max-width: 860px;
+    }
+
+    .slide-2 .quote-mark {
+      font-family: 'Monument Extended', sans-serif;
+      font-size: 120px;
+      font-weight: 800;
+      color: rgba(10,132,255,0.25);
+      line-height: 0.6;
+      margin-bottom: 20px;
+    }
+
+    .slide-2 .quote-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 42px;
+      font-weight: 600;
+      line-height: 1.55;
+      color: rgba(255,255,255,0.9);
+      font-style: italic;
+    }
+
+    .slide-2 .quote-attribution {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 48px;
+      justify-content: center;
+    }
+
+    .slide-2 .quote-headshot {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 2px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide-2 .quote-headshot span {
+      font-size: 18px;
+      color: rgba(255,255,255,0.25);
+    }
+
+    .slide-2 .quote-info {
+      text-align: left;
+    }
+
+    .slide-2 .quote-name {
+      font-size: 30px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .slide-2 .quote-role {
+      font-size: 24px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+    }
+
+    /* ── SLIDE 3: What Members Get ── */
+    .slide-3 .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #0A84FF;
+      margin-bottom: 40px;
+    }
+
+    .slide-3 .big-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 50px;
+      line-height: 1.2;
+      max-width: 900px;
+      margin-bottom: 64px;
+    }
+
+    .slide-3 .big-text .accent {
+      color: #0A84FF;
+    }
+
+    .slide-3 .benefits-list {
+      width: 100%;
+      max-width: 860px;
+      text-align: left;
+    }
+
+    .slide-3 .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 28px;
+      padding: 32px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .slide-3 .benefit-item:last-child {
+      border-bottom: none;
+    }
+
+    .slide-3 .benefit-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: rgba(10,132,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 28px;
+    }
+
+    .slide-3 .benefit-content {}
+
+    .slide-3 .benefit-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 8px;
+    }
+
+    .slide-3 .benefit-desc {
+      font-size: 26px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.5;
+    }
+
+    /* ── SLIDE 4: CTA ── */
+    .slide-4 {
+      background: linear-gradient(135deg, #0062cc 0%, #007aff 50%, #3898ff 100%);
+    }
+
+    .slide-4 .logo {
+      color: rgba(255,255,255,0.85);
+    }
+
+    .slide-4 .cta-text {
+      font-family: 'Monument Extended', sans-serif;
+      font-weight: 800;
+      font-size: 56px;
+      line-height: 1.2;
+      max-width: 900px;
+    }
+
+    .slide-4 .cta-sub {
+      font-size: 32px;
+      color: rgba(255,255,255,0.85);
+      margin-top: 40px;
+      max-width: 800px;
+      line-height: 1.5;
+    }
+
+    .slide-4 .cta-url {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      margin-top: 56px;
+      padding: 24px 64px;
+      background: white;
+      color: #007aff;
+      border-radius: 50px;
+    }
+
+    .slide-4 .cta-note {
+      font-size: 26px;
+      color: rgba(255,255,255,0.7);
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1 — Hook -->
+  <div class="slide slide-1">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="partnership-label">Partnership Spotlight</div>
+    <div class="gym-logo-area"><span>[Gym Logo]</span></div>
+    <div class="hero-text">Why <span class="gym-name">[Gym Name]</span> chose Body Insight for their members.</div>
+    <div class="dual-logos">
+      <span class="logo-text">[GYM NAME]</span>
+      <span class="x-mark">&times;</span>
+      <span class="logo-text">BODY INSIGHT</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2 — Quote from Gym Owner -->
+  <div class="slide slide-2">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="quote-block">
+      <div class="quote-mark">&ldquo;</div>
+      <div class="quote-text">[Quote from gym owner about why they partnered with Body Insight and how it helps their members.]</div>
+      <div class="quote-attribution">
+        <div class="quote-headshot"><span>[Photo]</span></div>
+        <div class="quote-info">
+          <div class="quote-name">[Owner Name]</div>
+          <div class="quote-role">Founder, [Gym Name]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 — What Members Get -->
+  <div class="slide slide-3">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="section-label">What Members Get</div>
+    <div class="big-text">Exclusive <span class="accent">scan packages</span> for members.</div>
+
+    <div class="benefits-list">
+      <div class="benefit-item">
+        <div class="benefit-icon">1</div>
+        <div class="benefit-content">
+          <div class="benefit-title">Baseline Scan</div>
+          <div class="benefit-desc">Know exactly where you stand — body fat, lean mass, bone density, region by region.</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">2</div>
+        <div class="benefit-content">
+          <div class="benefit-title">Progress Tracking</div>
+          <div class="benefit-desc">Scan every quarter to see what's actually changing — not just weight, but composition.</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">3</div>
+        <div class="benefit-content">
+          <div class="benefit-title">Personalized Game Plan</div>
+          <div class="benefit-desc">Every report comes with nutrition and training recommendations built from your data.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 — CTA -->
+  <div class="slide slide-4">
+    <div class="logo">BODY INSIGHT</div>
+    <div class="cta-text">Ask your gym about Body Insight.</div>
+    <div class="cta-sub">Or book directly.</div>
+    <div class="cta-url">bodyinsight.in</div>
+    <div class="cta-note">Book your DEXA scan today</div>
+  </div>
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const bar = document.createElement('div');
+      bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#000;padding:16px;display:flex;gap:12px;justify-content:center;z-index:999;';
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach((slide, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = `Download Slide ${i + 1}`;
+        btn.style.cssText = 'padding:10px 24px;background:#0A84FF;color:#fff;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+        btn.onclick = () => {
+          btn.textContent = 'Rendering...';
+          html2canvas(slide, { scale: 1, width: 1080, height: 1440, useCORS: true, backgroundColor: '#0F0F0F' }).then(canvas => {
+            const a = document.createElement('a');
+            a.download = `day15-slide${i + 1}.png`;
+            a.href = canvas.toDataURL('image/png');
+            a.click();
+            btn.textContent = `Download Slide ${i + 1}`;
+          });
+        };
+        bar.appendChild(btn);
+      });
+      const allBtn = document.createElement('button');
+      allBtn.textContent = 'Download All';
+      allBtn.style.cssText = 'padding:10px 24px;background:#fff;color:#0A84FF;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;';
+      allBtn.onclick = async () => {
+        allBtn.textContent = 'Rendering...';
+        for (let i = 0; i < slides.length; i++) {
+          const canvas = await html2canvas(slides[i], { scale: 1, width: 1080, height: 1440, useCORS: true, backgroundColor: '#0F0F0F' });
+          const a = document.createElement('a');
+          a.download = `day15-slide${i + 1}.png`;
+          a.href = canvas.toDataURL('image/png');
+          a.click();
+          await new Promise(r => setTimeout(r, 500));
+        }
+        allBtn.textContent = 'Download All';
+      };
+      bar.appendChild(allBtn);
+      document.body.appendChild(bar);
+    });
+  </script>
+</body>
+</html>

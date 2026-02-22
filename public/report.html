@@ -123,6 +123,8 @@
   .action strong { color: var(--txt); }
   .action-g { border-left-color: var(--grn); }
   .action-y { border-left-color: #f59e0b; }
+  .action-r { border-left-color: #ef4444; }
+  .action-n { border-left-color: #9ca3af; }
 
   /* ===== IMAGE PLACEHOLDER ===== */
   .img-ph { border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #f3f4f6; border: 1px dashed var(--border); flex-shrink: 0; }
@@ -248,7 +250,7 @@ function shortDate(dateStr) {
 const vc = c => ({green:'var(--grn)',yellow:'var(--ylw)',red:'var(--red)',grey:'var(--dim)'}[c]||'var(--dim)');
 const vd = c => ({green:'#34d399',yellow:'#f59e0b',red:'#dc2626',grey:'#9CA3AF'}[c]||'#9CA3AF');
 const tc = c => ({green:'tag-g',yellow:'tag-y',red:'tag-r',grey:'tag-n'}[c]||'tag-n');
-const ac = c => ({green:'action-g',yellow:'action-y',red:'action-r'}[c]||'action-g');
+const ac = c => ({green:'action-g',yellow:'action-y',red:'action-r',neutral:'action-n'}[c]||'action-g');
 const BF_CATEGORIES = ['Low Body Fat Risk','Ultra Lean','Lean Body','Higher than average','Excess Body Fat','High Fat Risk'];
 function bfScale(thresholds) {
   // thresholds: [0, 7, 14, 21, 29, 36, 43] — first is min, last is max, 5 zone boundaries in between
@@ -391,7 +393,7 @@ function render(d) {
       <div class="card" style="text-align:center;"><div class="label">Bone Mineral</div><div class="num-lg" style="margin:6px 0 2px;">${g.boneMineralKg}</div><div style="font-size:0.55rem;color:var(--mute);">kg &middot; ${g.boneMineralPercent}%</div></div>
     </div>
     <div class="g2">
-      <div class="card" style="text-align:center;"><div class="label">Visceral Fat</div><div class="num-lg" style="margin:6px 0 2px;">${vf.massGrams}</div><div style="font-size:0.55rem;color:var(--mute);">grams</div></div>
+      <div class="card" style="text-align:center;${vf?'':' opacity:0.4;'}"><div class="label">Visceral Fat</div><div class="num-lg" style="margin:6px 0 2px;">${vf?vf.massGrams:'N/A'}</div><div style="font-size:0.55rem;color:var(--mute);">${vf?'grams':'Not measured'}</div></div>
       <div class="card" style="text-align:center;"><div class="label">T-Score (Bone Health)</div><div class="num-lg" style="margin:6px 0 2px;">${bh.tScore}</div><div style="font-size:0.55rem;color:var(--mute);">vs healthy 30-yr-old</div></div>
     </div>
     <div class="g2">
@@ -576,7 +578,7 @@ function render(d) {
       </div>
       <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:8px;">${r.description}</div>
     </div>`})()}
-    ${sym.insight?`<div class="action ${ac(sym.insightColor||'green')}"><strong>${sym.insight.split(':')[0]}:</strong>${sym.insight.split(':').slice(1).join(':')}</div>`:''}
+    ${sym.insight?`<div class="action ${ac(sym.insightColor||'green')}"><strong>${sym.insight.split(':')[0]}:</strong> ${sym.insight.split(':').slice(1).join(':').trim()}</div>`:''}
     <div class="card" style="margin-top:10px;">
       <div class="card-title">What Causes Imbalances?</div>
       <div style="font-size:0.58rem; color:var(--dim); line-height:1.7;">
@@ -605,9 +607,9 @@ function render(d) {
   ${HDR('Fat Analysis')}
   <div class="content">
     <div><div class="section-title">Visceral &amp; Subcutaneous Fat</div><div class="section-desc">Visceral fat surrounds your organs and is linked to serious health risks. Subcutaneous fat sits under your skin.</div></div>
-    <div class="g2">
-      <div class="card" style="text-align:center;"><div class="label">Visceral Fat</div><div class="num-lg" style="margin:6px 0 3px;">${vf.massGrams}</div><div style="font-size:0.5rem; color:var(--mute);">grams</div><div class="tag ${tc(vf.massGrams<250?'green':vf.massGrams<500?'yellow':'red')}" style="margin-top:6px;">${vf.status}</div></div>
-      <div class="card" style="text-align:center;"><div class="label">Subcutaneous Fat</div><div class="num-lg" style="margin:6px 0 3px;">${vf.subcutaneousKg}</div><div style="font-size:0.5rem; color:var(--mute);">kg</div><div class="tag tag-n" style="margin-top:6px;">${vf.subcutaneousPercent}% of total</div></div>
+    ${vf?`<div class="g2">
+      <div class="card" style="text-align:center;"><div class="label">Visceral Fat</div><div class="num-lg" style="margin:6px 0 3px;">${vf.massGrams}</div><div style="font-size:0.5rem; color:var(--mute);">grams</div><div class="tag ${tc(vf.val<=vf.thresholds[1]?'green':vf.val<=vf.thresholds[2]?'yellow':'red')}" style="margin-top:6px;">${vf.status}</div></div>
+      <div class="card" style="text-align:center;"><div class="label">Subcutaneous Fat</div><div class="num-lg" style="margin:6px 0 3px;">${vf.subcutaneousKg}</div><div style="font-size:0.5rem; color:var(--mute);">grams</div><div class="tag tag-n" style="margin-top:6px;">${vf.subcutaneousPercent}% of total fat</div></div>
     </div>
     <div class="card">
       <div class="card-title">Visceral Fat Detail</div>
@@ -616,8 +618,8 @@ function render(d) {
         <div style="text-align:center;"><div class="label" style="color:var(--mute);">Volume</div><div class="num-sm" style="margin-top:3px;">${vf.volumeCm3}<small style="font-size:0.5rem; color:var(--mute); font-family:'DM Sans';"> cm&sup3;</small></div></div>
         <div style="text-align:center;"><div class="label" style="color:var(--mute);">Area</div><div class="num-sm" style="margin-top:3px;">${vf.areaCm2}<small style="font-size:0.5rem; color:var(--mute); font-family:'DM Sans';"> cm&sup2;</small></div></div>
       </div>
-      <div class="vf-scale" style="margin-top:25px;"><div class="vf-you" style="left:${vf.scalePosition}%;">You</div><div class="vf-dot" style="left:${vf.scalePosition}%;"></div></div>
-      <div style="display:flex; justify-content:space-between; font-size:0.48rem; color:var(--mute); font-weight:600;"><span>0g &mdash; Safe</span><span>250g &mdash; Moderate</span><span>500g &mdash; High</span><span>750g+</span></div>
+      ${(()=>{const t=vf.thresholds;const v=vf.val;const scalePos=Math.min(95,Math.max(5,v/t[3]*100));return`<div class="vf-scale" style="margin-top:25px; background:linear-gradient(90deg, #34d399 0%, #34d399 ${100*t[1]/t[3]}%, #fbbf24 ${100*t[2]/t[3]}%, #f87171 100%);"><div class="vf-you" style="left:${scalePos}%;">You</div><div class="vf-dot" style="left:${scalePos}%;"></div></div>
+      <div style="display:flex; justify-content:space-between; font-size:0.48rem; color:var(--mute); font-weight:600;"><span>Safe</span><span>Moderate</span><span>High</span></div>`})()}
     </div>
     <div class="card">
       <div class="card-title">Visceral Fat Trend</div>
@@ -626,7 +628,22 @@ function render(d) {
         ${trendLabels(vf.trend)}
       </div>
     </div>
-    <div class="action ${ac(vf.insightColor)}"><strong>${vf.insight.split('.')[0]}.</strong>${vf.insight.split('.').slice(1).join('.').trim()}</div>
+    <div class="action ${ac(vf.insightColor)}"><strong>${vf.insight.split('.')[0]}.</strong> ${vf.insight.split('.').slice(1).join('.').trim()}</div>`
+    :`<div class="g2">
+      <div class="card" style="text-align:center; opacity:0.4;"><div class="label">Visceral Fat</div><div class="num-lg" style="margin:6px 0 3px;">N/A</div><div style="font-size:0.5rem; color:var(--mute);">grams</div><div class="tag tag-n" style="margin-top:6px;">Not available</div></div>
+      <div class="card" style="text-align:center; opacity:0.4;"><div class="label">Subcutaneous Fat</div><div class="num-lg" style="margin:6px 0 3px;">N/A</div><div style="font-size:0.5rem; color:var(--mute);">grams</div><div class="tag tag-n" style="margin-top:6px;">Not available</div></div>
+    </div>
+    <div class="card" style="opacity:0.4;">
+      <div class="card-title">Visceral Fat Detail</div>
+      <div class="g3" style="margin-bottom:10px;">
+        <div style="text-align:center;"><div class="label" style="color:var(--mute);">Mass</div><div class="num-sm" style="margin-top:3px;">N/A</div></div>
+        <div style="text-align:center;"><div class="label" style="color:var(--mute);">Volume</div><div class="num-sm" style="margin-top:3px;">N/A</div></div>
+        <div style="text-align:center;"><div class="label" style="color:var(--mute);">Area</div><div class="num-sm" style="margin-top:3px;">N/A</div></div>
+      </div>
+      <div class="vf-scale" style="margin-top:25px; background:#e5e7eb !important;"></div>
+      <div style="display:flex; justify-content:space-between; font-size:0.48rem; color:var(--mute); font-weight:600;"><span>Safe</span><span>Moderate</span><span>High</span></div>
+    </div>
+    <div class="action ${ac('neutral')}"><strong>Visceral fat data is not available for this scan.</strong> DEXA visceral fat estimation is not calculated for individuals under 18 years of age or beyond a certain height-to-weight ratio. If you believe this is an error, please contact Body Insight for assistance.</div>`}
   </div>
   ${FTR(9,tp)}
 </div>
@@ -666,7 +683,7 @@ function render(d) {
       <div class="insight"><h4>What the scores mean</h4><p><strong>T-Score</strong> compares to peak bone mass of a healthy young adult. <strong>Z-Score</strong> compares to your age group. Below -2.5 = osteoporosis.</p></div>
       <div class="insight"><h4>Strengthen your bones</h4><ul><li>Calcium &amp; Vitamin D</li><li>Weight-bearing exercise</li><li>Resistance training</li><li>Avoid smoking &amp; excess alcohol</li></ul></div>
     </div>
-    <div class="action ${ac(bt.insightColor)}"><strong>${bt.insight.split('.')[0]}.</strong>${bt.insight.split('.').slice(1).join('.').trim()}</div>
+    <div class="action ${ac(bt.insightColor)}"><strong>${bt.insight.split('.')[0]}.</strong> ${bt.insight.split('.').slice(1).join('.').trim()}</div>
   </div>
   ${FTR(11,tp)}
 </div>
@@ -689,7 +706,7 @@ function render(d) {
       <div class="insight"><h4>What is A/G Ratio?</h4><p>Compares fat percentage in your belly vs hip region using DEXA fat %, not waist inches &mdash; far more accurate than a tape measure.</p></div>
       <div class="insight"><h4>Why it matters</h4><p>Ratios above 1.0 correlate with higher visceral fat and metabolic risk. Below 1.0 is associated with lower cardiovascular risk.</p></div>
     </div>
-    <div class="action ${ac(ag.insightColor)}"><strong>${ag.insight.split('.')[0]}.</strong>${ag.insight.split('.').slice(1).join('.').trim()}</div>
+    <div class="action ${ac(ag.insightColor)}"><strong>${ag.insight.split('.')[0]}.</strong> ${ag.insight.split('.').slice(1).join('.').trim()}</div>
   </div>
   ${FTR(12,tp)}
 </div>
@@ -713,7 +730,7 @@ function render(d) {
       <div class="insight"><h4>What is ALMI?</h4><p>Lean mass of arms + legs divided by height&sup2;. For you: ${sa.formula}. The sarcopenia cutoff for ${c.sex.toLowerCase()==='male'?'men':'women'} is &lt; ${sa.threshold} ${sa.unit}.</p></div>
       <div class="insight"><h4>Why it matters</h4><p>Low ALMI signals age-related muscle loss (sarcopenia), increasing fall risk, frailty, and metabolic dysfunction. Resistance training is the best prevention.</p></div>
     </div>
-    <div class="action ${ac(sa.insightColor)}"><strong>${sa.insight.split('.')[0]}.</strong>${sa.insight.split('.').slice(1).join('.').trim()}</div>
+    <div class="action ${ac(sa.insightColor)}"><strong>${sa.insight.split('.')[0]}.</strong> ${sa.insight.split('.').slice(1).join('.').trim()}</div>
   </div>
   ${FTR(13,tp)}
 </div>
@@ -786,7 +803,7 @@ function render(d) {
       <div class="insight"><h4>About Macros</h4><p>The three nutrient categories that provide energy: protein (builds muscle), carbohydrates (fuel), and fat (hormones &amp; cell health).</p></div>
       <div class="insight"><h4>Why Count Macros?</h4><p>Not all calories are equal. Hitting protein targets protects lean mass. Adjusting carbs/fat based on your goal optimizes results.</p></div>
     </div>
-    <div class="action ${ac(nut.insightColor)}"><strong>${nut.insight.split('.')[0]}.</strong>${nut.insight.split('.').slice(1).join('.').trim()}</div>
+    <div class="action ${ac(nut.insightColor)}"><strong>${nut.insight.split('.')[0]}.</strong> ${nut.insight.split('.').slice(1).join('.').trim()}</div>
   </div>
   ${FTR(16,tp)}
 </div>
