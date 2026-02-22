@@ -346,6 +346,7 @@ function render(d) {
 
   document.body.innerHTML = `
 
+<!-- TEMPORARILY HIDDEN: PAGES 1-9 --><div style="display:none;">
 <!-- PAGE 1: COVER -->
 <div class="page" style="display:flex;flex-direction:column;padding:0;overflow:hidden;background:var(--pri);">
   <div class="cover">
@@ -648,6 +649,8 @@ function render(d) {
   ${FTR(9,tp)}
 </div>
 
+</div><!-- END TEMPORARILY HIDDEN: PAGES 1-9 -->
+
 <!-- PAGE 10: BONE HEALTH -->
 <div class="page">
   ${HDR('Bone Health')}
@@ -665,7 +668,7 @@ function render(d) {
     </div>
     <div class="card">
       <div class="card-title">Bone Density Scale</div>
-      ${(()=>{const t=bh.thresolds;const v=bh.val;if(v!=null&&t){const scalePos=Math.min(95,Math.max(5,(v-t[0])/(t[3]-t[0])*100));return`<div class="bh-scale-bar" style="background:linear-gradient(90deg, #f87171 0%, #fbbf24 ${100*(t[1]-t[0])/(t[3]-t[0])}%, #34d399 ${100*(t[2]-t[0])/(t[3]-t[0])}%, #34d399 100%);"><div class="vf-you" style="left:${scalePos}%;">You</div><div class="vf-dot" style="left:${scalePos}%;"></div></div>`}else{return`<div class="bh-scale-bar" style="background:#e5e7eb !important;"></div>`}})()}
+      ${(()=>{const t=bh.thresholds;const v=bh.val;if(v!=null&&t){const scalePos=Math.min(95,Math.max(5,(v-t[0])/(t[3]-t[0])*100));return`<div class="bh-scale-bar" style="background:linear-gradient(90deg, #f87171 0%, #fbbf24 ${100*(t[1]-t[0])/(t[3]-t[0])}%, #34d399 ${100*(t[2]-t[0])/(t[3]-t[0])}%, #34d399 100%);"><div class="vf-you" style="left:${scalePos}%;">You</div><div class="vf-dot" style="left:${scalePos}%;"></div></div>`}else{return`<div class="bh-scale-bar" style="background:#e5e7eb !important;"></div>`}})()}
       <div style="display:flex; justify-content:space-between; font-size:0.48rem; color:var(--mute); font-weight:600;"><span>Very Low</span><span>Average</span><span>Excellent</span></div>
     </div>
   </div>
@@ -688,6 +691,7 @@ function render(d) {
   ${FTR(11,tp)}
 </div>
 
+<!-- TEMPORARILY HIDDEN: PAGES 12-17 --><div style="display:none;">
 <!-- PAGE 12: A/G RATIO -->
 <div class="page">
   ${HDR('Fat Distribution')}
@@ -824,6 +828,7 @@ function render(d) {
   </div>
   ${FTR(17,tp)}
 </div>
+</div><!-- END TEMPORARILY HIDDEN: PAGES 12-17 -->
 
   `; // end of template literal
 } // end of render()
