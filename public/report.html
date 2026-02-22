@@ -346,7 +346,6 @@ function render(d) {
 
   document.body.innerHTML = `
 
-<!-- TEMPORARILY HIDDEN: PAGES 1-9 --><div style="display:none;">
 <!-- PAGE 1: COVER -->
 <div class="page" style="display:flex;flex-direction:column;padding:0;overflow:hidden;background:var(--pri);">
   <div class="cover">
@@ -649,27 +648,25 @@ function render(d) {
   ${FTR(9,tp)}
 </div>
 
-</div><!-- END TEMPORARILY HIDDEN: PAGES 1-9 -->
-
 <!-- PAGE 10: BONE HEALTH -->
 <div class="page">
   ${HDR('Bone Health')}
   <div class="content">
     <div><div class="section-title">Your Skeleton</div><div class="section-desc">DEXA measures bone mineral density (BMD) &mdash; a key indicator of skeletal strength and fracture risk.</div></div>
     <div class="g2">
-      <div class="card" style="text-align:center;${bh.tScore!=null?'':' opacity:0.4;'}"><div class="label">T-Score (Young Adult)</div><div class="num-lg" style="margin:6px 0 3px;">${bh.tScore!=null?bh.tScore:'N/A'}</div><div style="font-size:0.5rem; color:var(--dim);">${bh.tScore!=null?'vs healthy 30-yr-old':'Not available'}</div><div class="tag ${tc(bh.tScore!=null?bh.insightColor:'grey')}" style="margin-top:5px;">${bh.tScore!=null?bh.tScoreStatus:'Not available'}</div></div>
+      <div class="card" style="text-align:center;${bh.tScore!=null?'':' opacity:0.4;'}"><div class="label">T-Score (Young Adult)</div><div class="num-lg" style="margin:6px 0 3px;">${bh.tScore!=null?bh.tScore:'N/A'}</div><div style="font-size:0.5rem; color:var(--dim);">${bh.tScore!=null?'vs healthy 30-yr-old':'Not available'}</div><div class="tag ${tc(bh.tScore!=null?(bh.tScore<-1?'red':bh.tScore<0?'yellow':'green'):'grey')}" style="margin-top:5px;">${bh.tScore!=null?bh.tScoreStatus:'Not available'}</div></div>
       <div class="card" style="text-align:center;${bh.zScore!=null?'':' opacity:0.4;'}"><div class="label">Z-Score (Age Matched)</div><div class="num-lg" style="margin:6px 0 3px;">${bh.zScore!=null?bh.zScore:'N/A'}</div><div style="font-size:0.5rem; color:var(--dim);">${bh.zScore!=null?'vs your age group':'Not available'}</div><div class="tag ${tc(bh.zScore!=null?(bh.zScore<-1?'red':bh.zScore<0?'yellow':'green'):'grey')}" style="margin-top:5px;">${bh.zScore!=null?bh.zScoreStatus:'Not available'}</div></div>
-    </div>
-    <div class="card" style="flex:1; display:flex; flex-direction:column;">
-      <div class="card-title">Bone Mineral Density by Region (g/cm&sup2;)</div>
-      <div class="bone-grid" style="flex:1;">
-        ${Object.entries(bh.bmdByRegion).map(([name,val],i,a)=>'<div class="bone-card"'+(i===a.length-1?' style="background:#f3f4f6;"':'')+'><div class="bone-img"><img src="/images/bone/'+name.toLowerCase()+'.png" alt="'+name+'" style="width:100%; height:100%; object-fit:cover; border-radius:6px;" /></div><div class="bone-name"'+(i===a.length-1?' style="color:var(--txt);"':'')+'>'+name+'</div><div class="bone-val">'+val+'</div></div>').join('')}
-      </div>
     </div>
     <div class="card">
       <div class="card-title">Bone Density Scale</div>
       ${(()=>{const t=bh.thresholds;const v=bh.val;if(v!=null&&t){const scalePos=Math.min(95,Math.max(5,(v-t[0])/(t[3]-t[0])*100));return`<div class="bh-scale-bar" style="background:linear-gradient(90deg, #f87171 0%, #fbbf24 ${100*(t[1]-t[0])/(t[3]-t[0])}%, #34d399 ${100*(t[2]-t[0])/(t[3]-t[0])}%, #34d399 100%);"><div class="vf-you" style="left:${scalePos}%;">You</div><div class="vf-dot" style="left:${scalePos}%;"></div></div>`}else{return`<div class="bh-scale-bar" style="background:#e5e7eb !important;"></div>`}})()}
       <div style="display:flex; justify-content:space-between; font-size:0.48rem; color:var(--mute); font-weight:600;"><span>Very Low</span><span>Average</span><span>Excellent</span></div>
+      <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:0.5rem; line-height:1.5; color:var(--mute);"><strong>${bh.insight.split('.')[0]}.</strong> ${bh.insight.split('.').slice(1).join('.').trim()}</div>
+    </div>
+    ${trendCard('T-Score Trend', bh.trend.tScore, 'T-Score', '')}
+    <div class="g2">
+      <div class="insight"><h4>What the scores mean</h4><p><strong>T-Score</strong> compares to peak bone mass of a healthy young adult. <strong>Z-Score</strong> compares to your age group. Below -2.5 = osteoporosis.</p></div>
+      <div class="insight"><h4>Strengthen your bones</h4><ul><li>Calcium &amp; Vitamin D</li><li>Weight-bearing exercise</li><li>Resistance training</li><li>Avoid smoking &amp; excess alcohol</li></ul></div>
     </div>
   </div>
   ${FTR(10,tp)}
@@ -680,18 +677,17 @@ function render(d) {
   ${HDR('Bone Trends')}
   <div class="content" style="display:flex; flex-direction:column;">
     <div><div class="section-title">Bone Health Over Time</div><div class="section-desc">Tracking your T-Score and total bone mineral density across ${bh.trend.tScore.length} DEXA scans.</div></div>
-    ${trendCard('T-Score Trend', bh.trend.tScore, 'T-Score', '')}
-    ${trendCard('Total BMD Trend (g/cm&sup2;)', bh.trend.totalBmd, 'BMD', '')}
-    <div class="g2">
-      <div class="insight"><h4>What the scores mean</h4><p><strong>T-Score</strong> compares to peak bone mass of a healthy young adult. <strong>Z-Score</strong> compares to your age group. Below -2.5 = osteoporosis.</p></div>
-      <div class="insight"><h4>Strengthen your bones</h4><ul><li>Calcium &amp; Vitamin D</li><li>Weight-bearing exercise</li><li>Resistance training</li><li>Avoid smoking &amp; excess alcohol</li></ul></div>
+    <div class="card" style="flex:1; display:flex; flex-direction:column;">
+      <div class="card-title">Bone Mineral Density by Region (g/cm&sup2;)</div>
+      <div class="bone-grid" style="flex:1;">
+        ${Object.entries(bh.bmdByRegion).map(([name,val],i,a)=>'<div class="bone-card"'+(i===a.length-1?' style="background:#f3f4f6;"':'')+'><div class="bone-img"><img src="/images/bone/'+name.toLowerCase()+'.png" alt="'+name+'" style="width:100%; height:100%; object-fit:cover; border-radius:6px;" /></div><div class="bone-name"'+(i===a.length-1?' style="color:var(--txt);"':'')+'>'+name+'</div><div class="bone-val">'+val+'</div></div>').join('')}
+      </div>
     </div>
-    <div class="action ${ac(bh.insightColor)}"><strong>${bh.insight.split('.')[0]}.</strong> ${bh.insight.split('.').slice(1).join('.').trim()}</div>
+    ${trendCard('Total BMD Trend (g/cm&sup2;)', bh.trend.totalBmd, 'BMD', '')}
   </div>
   ${FTR(11,tp)}
 </div>
 
-<!-- TEMPORARILY HIDDEN: PAGES 12-17 --><div style="display:none;">
 <!-- PAGE 12: A/G RATIO -->
 <div class="page">
   ${HDR('Fat Distribution')}
@@ -828,8 +824,6 @@ function render(d) {
   </div>
   ${FTR(17,tp)}
 </div>
-</div><!-- END TEMPORARILY HIDDEN: PAGES 12-17 -->
-
   `; // end of template literal
 } // end of render()
 
