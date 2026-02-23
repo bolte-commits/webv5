@@ -739,7 +739,8 @@ function render(d) {
   ${FTR(13,tp)}
 </div>
 
-</div><!-- PAGE 14: METABOLISM -->
+</div>
+<div style="display:none;"><!-- PAGE 14: METABOLISM -->
 <div class="page">
   ${HDR('Metabolism')}
   <div class="content">
@@ -778,29 +779,56 @@ function render(d) {
   ${FTR(14,tp)}
 </div>
 
-<!-- PAGE 15: RMR DEEP DIVE -->
+</div>
+<div style="display:none;"><!-- PAGE 15: RMR DEEP DIVE -->
 <div class="page">
   ${HDR('Metabolism')}
   <div class="content">
-    <div><div class="section-title">Your Daily Calorie Needs</div><div class="section-desc">Everything you need to know about your resting metabolic rate and how to use it.</div></div>
-    <div class="card">
-      <div class="card-title">Your Daily Calorie Needs</div>
-      <div style="display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f3f4f6;"><span style="font-size:0.68rem; color:var(--dim);">1. Your <strong style="color:var(--txt);">RMR</strong></span><span class="num-sm">${met.rmr}</span></div>
-      <div style="display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f3f4f6;"><span style="font-size:0.68rem; color:var(--dim);">2. <strong style="color:var(--txt);">Lifestyle factor</strong> (${met.lifestyleFactor})</span><span class="num-sm">+${met.lifestyleCalories}</span></div>
-      <div style="display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f3f4f6;"><span style="font-size:0.68rem; color:var(--dim);">3. <strong style="color:var(--txt);">Workout calories</strong></span><span class="num-sm">+${met.workoutCalories}</span></div>
-      <div style="display:flex; justify-content:space-between; padding:8px 0 0;"><span style="font-size:0.78rem; font-weight:700; color:var(--txt);">Total Daily Expenditure</span><span class="num-md">${met.tdee}</span></div>
+    <div><div class="section-title">How to Use Your RMR</div><div class="section-desc">Use your RMR to estimate your total daily calorie burn based on activity level, then build your diet around that number.</div></div>
+    <div class="card" style="text-align:center; padding:20px; background:linear-gradient(135deg, rgba(10,132,255,0.04), rgba(52,211,153,0.04));">
+      <div class="label">Your Total Daily Expenditure</div>
+      <div class="num-hero" style="margin:6px 0 4px;">${met.tdee}</div>
+      <div style="font-size:0.6rem; color:var(--dim);">kcal / day</div>
+      <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border); font-size:0.55rem; line-height:1.5; color:var(--dim);">This is the total number of calories your body burns each day, including rest, daily activity, and exercise. Eat around this to maintain weight, below to lose, or above to gain.</div>
     </div>
     <div class="card">
-      <div class="card-title">Estimated Calories Burned per Hour</div>
-      <div style="display:flex; flex-direction:column;">
-        ${met.caloriesBurnedPerHour.map((a,i,arr)=>'<div style="display:flex; justify-content:space-between; padding:5px 0;'+(i<arr.length-1?' border-bottom:1px solid #f3f4f6;':'')+'"><span style="font-size:0.6rem; color:var(--dim);">'+a.emoji+' '+a.activity+'</span><span class="num-sm">'+a.calories+'</span></div>').join('')}
+      <div class="card-title">How is TDEE Calculated?</div>
+      <div style="display:flex; justify-content:center; gap:16px; padding:8px 0;">
+        <div style="text-align:center;"><div class="num-sm" style="color:var(--txt);">${met.rmr}</div><div style="font-size:0.48rem; color:var(--dim);">RMR</div></div>
+        <div style="font-size:0.7rem; color:var(--dim); align-self:center;">+</div>
+        <div style="text-align:center;"><div class="num-sm" style="color:var(--txt);">${met.lifestyleCalories}</div><div style="font-size:0.48rem; color:var(--dim);">Lifestyle</div></div>
+        <div style="font-size:0.7rem; color:var(--dim); align-self:center;">+</div>
+        <div style="text-align:center;"><div class="num-sm" style="color:var(--txt);">${met.workoutCalories}</div><div style="font-size:0.48rem; color:var(--dim);">Workouts</div></div>
+        <div style="font-size:0.7rem; color:var(--dim); align-self:center;">=</div>
+        <div style="text-align:center;"><div class="num-sm" style="color:var(--pri); font-weight:800;">${met.tdee}</div><div style="font-size:0.48rem; color:var(--dim);">TDEE</div></div>
+      </div>
+      <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:0.55rem; line-height:1.5; color:var(--dim);"><strong style="color:var(--txt);">RMR</strong> is measured by your DEXA scan. <strong style="color:var(--txt);">Lifestyle</strong> accounts for daily non-exercise activity (walking, chores, work). <strong style="color:var(--txt);">Workouts</strong> covers intentional exercise sessions.</div>
+      <div style="margin-top:6px; font-size:0.5rem; color:var(--dim); font-style:italic;">Note: The "active calories" on your smartwatch is a combination of both lifestyle and workout calories.</div>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Lifestyle Activity Factor</div>
+        <div style="font-size:0.48rem; color:var(--dim); margin-top:-7px; margin-bottom:6px;">Based on your RMR of ${met.rmr} kcal</div>
+        <div style="display:flex; flex-direction:column;">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Sedentary</span><br><span style="font-size:0.48rem; color:var(--dim);">Desk job, minimal movement</span></span><span class="num-sm">${Math.round(met.rmr*0.2)}</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Light activity</span><br><span style="font-size:0.48rem; color:var(--dim);">Walking, light chores</span></span><span class="num-sm">${Math.round(met.rmr*0.375)}</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Moderately active</span><br><span style="font-size:0.48rem; color:var(--dim);">Regular exercise, active job</span></span><span class="num-sm">${Math.round(met.rmr*0.55)}</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Very active</span><br><span style="font-size:0.48rem; color:var(--dim);">Intense daily training</span></span><span class="num-sm">${Math.round(met.rmr*0.725)}</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Calories Burned / 30 min</div>
+        <div style="font-size:0.48rem; color:var(--dim); margin-top:-7px; margin-bottom:6px;">Personalized to your body composition</div>
+        <div style="display:flex; flex-direction:column;">
+          ${met.caloriesBurnedPerHour.map((a,i,arr)=>'<div style="display:flex; justify-content:space-between; padding:5px 0;'+(i<arr.length-1?' border-bottom:1px solid #f3f4f6;':'')+'"><span style="font-size:0.55rem; color:var(--dim);">'+a.emoji+' '+a.activity+'</span><span class="num-sm">'+a.calories+'</span></div>').join('')}
+        </div>
       </div>
     </div>
   </div>
   ${FTR(15,tp)}
 </div>
 
-<!-- PAGE 16: NUTRITION -->
+</div><!-- PAGE 16: NUTRITION -->
 <div class="page">
   ${HDR('Nutrition Plan')}
   <div class="content">
