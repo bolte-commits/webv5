@@ -192,7 +192,7 @@
 
   /* ===== MACRO ===== */
   .macro-row { background: var(--card); border-radius: 12px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; }
-  .macro-row + .macro-row { margin-top: 8px; }
+  .macro-row + .macro-row { margin-top: 0; }
   .macro-circles { display: flex; gap: 8px; }
   .macro-circ { display: flex; flex-direction: column; align-items: center; gap: 2px; }
   .macro-ring { width: 48px; height: 48px; border-radius: 50%; border: 3px solid var(--pri); display: flex; flex-direction: column; align-items: center; justify-content: center; }
@@ -832,13 +832,17 @@ function render(d) {
 <div class="page">
   ${HDR('Nutrition Plan')}
   <div class="content">
-    <div><div class="section-title">What to Eat</div><div class="section-desc">Based on your TDEE of ${nut.tdee} kcal. Protein is kept high (${nut.proteinPerKg}g/kg) to maintain lean mass across all goals.</div></div>
-    ${nut.plans.map(p=>'<div class="macro-row"><div><div style="font-size:0.75rem; font-weight:700; color:var(--txt);">'+p.goal+'</div><div style="font-size:0.55rem; color:var(--dim);">'+p.calories+' kcal &middot; '+p.description+'</div></div><div class="macro-circles"><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-p);"><span class="macro-ring-num">'+p.proteinG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Protein</span></div><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-c);"><span class="macro-ring-num">'+p.carbsG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Carbs</span></div><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-f);"><span class="macro-ring-num">'+p.fatG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Fat</span></div></div></div>').join('')}
-    <div class="g2">
-      <div class="insight"><h4>About Macros</h4><p>The three nutrient categories that provide energy: protein (builds muscle), carbohydrates (fuel), and fat (hormones &amp; cell health).</p></div>
-      <div class="insight"><h4>Why Count Macros?</h4><p>Not all calories are equal. Hitting protein targets protects lean mass. Adjusting carbs/fat based on your goal optimizes results.</p></div>
+    <div><div class="section-title">Your Nutrition Plan</div><div class="section-desc">Personalized calorie and macro targets for three different goals based on your body composition.</div></div>
+    <div style="display:flex; flex-direction:column; gap:8px;">
+    ${nut.plans.map(p=>{const rec=p.goal.toLowerCase().includes('maintain');const pred=p.calories<nut.tdee?'Should result in ~'+((nut.tdee-p.calories)*7/7700).toFixed(1)+' kg loss per week':p.calories>nut.tdee?'Should result in ~'+((p.calories-nut.tdee)*7/7700).toFixed(1)+' kg gain per week':'Should help you maintain your current weight';return'<div class="macro-row"><div><div style="font-size:0.65rem; font-weight:700; color:var(--txt);">'+p.goal+(rec?' <span style="font-size:0.45rem; font-weight:700; color:var(--brand); background:rgba(0,122,255,0.1); padding:2px 8px; border-radius:10px; margin-left:6px; vertical-align:middle;">RECOMMENDED</span>':'')+'</div><div style="margin:4px 0 2px;"><span class="num-lg">'+p.calories+'</span> <span style="font-size:0.55rem; color:var(--dim);">kcal / day</span></div><div style="font-size:0.48rem; color:var(--dim);">'+pred+'</div></div><div class="macro-circles"><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-p);"><span class="macro-ring-num">'+p.proteinG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Protein</span></div><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-c);"><span class="macro-ring-num">'+p.carbsG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Carbs</span></div><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-f);"><span class="macro-ring-num">'+p.fatG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Fat</span></div></div></div>'}).join('')}
     </div>
-    <div class="action ${ac(nut.insightColor)}"><strong>${nut.insight.split('.')[0]}.</strong> ${nut.insight.split('.').slice(1).join('.').trim()}</div>
+    <div class="action ${ac('green')}"><strong>${nut.insight.split('.')[0]}.</strong> ${nut.insight.split('.').slice(1).join('.').trim()}</div>
+    <div class="card" style="font-size:0.65rem; color:var(--dim); line-height:1.7;">
+      <div class="card-title">How Nutrition Affects Your Body</div>
+      <p style="margin-bottom:6px;"><strong style="color:var(--txt);">Calories determine your weight.</strong> Eat less than your TDEE and you lose weight. Eat more and you gain. But the number on the scale doesn't tell you what you're actually losing or gaining.</p>
+      <p style="margin-bottom:6px;"><strong style="color:var(--txt);">Macros determine your composition.</strong> Two people on the same calorie deficit can get very different results. One loses mostly fat and keeps muscle. The other loses muscle, slows their metabolism, and ends up weaker &mdash; even at a lower weight. The difference is protein.</p>
+      <p><strong style="color:var(--txt);">Protein is the key.</strong> It signals your body to preserve lean tissue during a deficit and build it during a surplus. Carbs fuel your workouts and daily energy. Fat supports hormones and cell health. Getting the ratio right makes every calorie count.</p>
+    </div>
   </div>
   ${FTR(16,tp)}
 </div>
