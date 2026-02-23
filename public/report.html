@@ -346,7 +346,7 @@ function render(d) {
 
   document.body.innerHTML = `
 
-<!-- PAGE 1: COVER -->
+<div style="display:none;"><!-- PAGE 1: COVER -->
 <div class="page" style="display:flex;flex-direction:column;padding:0;overflow:hidden;background:var(--pri);">
   <div class="cover">
     <div class="cover-top"><div class="cover-logo">BODY INSIGHT</div><div class="cover-sub">DEXA Body Composition Report</div></div>
@@ -712,53 +712,66 @@ function render(d) {
   ${FTR(12,tp)}
 </div>
 
+</div>
+<div style="display:none;">
 <!-- PAGE 13: SARCOPENIA SCREENING -->
 <div class="page">
   ${HDR('Muscle Health')}
   <div class="content">
     <div><div class="section-title">Sarcopenia Screening</div><div class="section-desc">ALMI (Appendicular Lean Mass Index) measures the lean mass in your arms and legs relative to your height &mdash; the clinical standard for detecting muscle loss.</div></div>
-    <div class="card" style="text-align:center; padding:20px;">
+    ${(()=>{const t=sa.thresholds;const v=sa.value;const c=v<t[1]?'red':v<t[2]?'yellow':'green';const scalePos=Math.min(95,Math.max(5,(v-t[0])/(t[3]-t[0])*100));return`<div class="card" style="text-align:center; padding:20px;">
       <div class="label">Your ALMI</div>
-      <div class="num-hero" style="margin:6px 0 3px;">${sa.almi.toFixed(2)}</div>
-      <div style="font-size:0.6rem; color:var(--dim);">${sa.unit}</div>
+      <div class="num-hero" style="margin:6px 0 3px;">${v}</div>
+      <div style="font-size:0.6rem; color:var(--dim);">kg/m&sup2;</div>
       <div style="position:relative; margin:12px auto 0; max-width:340px;">
-        <div class="range-bar" style="background:linear-gradient(90deg, #fca5a5 0%, #fde047 25%, #86efac 55%, #34d399 100%);"><div class="range-dot" style="left:${sa.scalePosition}%;"></div></div>
-        <div style="display:flex; justify-content:space-between; font-size:0.42rem; color:var(--mute); font-weight:600; margin-top:4px;"><span>5.0</span><span>7.0</span><span>9.0</span><span>11.0</span></div>
+        <div class="range-bar" style="background:linear-gradient(90deg, #f87171 0%, #fbbf24 ${100*(t[1]-t[0])/(t[3]-t[0])}%, #34d399 ${100*(t[2]-t[0])/(t[3]-t[0])}%, #34d399 100%); height:6px;"><div class="range-dot" style="left:${scalePos}%;"></div></div>
+        <div style="display:flex; justify-content:space-between; font-size:0.42rem; color:var(--mute); font-weight:600; margin-top:4px;"><span>${t[0]}</span><span>${t[1]}</span><span>${t[2]}</span><span>${t[3]}</span></div>
       </div>
-      <div class="verdict" style="color:${vc(sa.verdictColor)}; margin-top:8px;"><span class="verdict-dot" style="background:${vd(sa.verdictColor)};"></span> ${sa.verdict}</div>
-    </div>
+      <div class="verdict" style="color:${vc(c)}; margin-top:8px;"><span class="verdict-dot" style="background:${vd(c)};"></span> ${sa.verdict}</div>
+    </div>`})()}
     <div class="g2">
-      <div class="insight"><h4>What is ALMI?</h4><p>Lean mass of arms + legs divided by height&sup2;. For you: ${sa.formula}. The sarcopenia cutoff for ${c.sex.toLowerCase()==='male'?'men':'women'} is &lt; ${sa.threshold} ${sa.unit}.</p></div>
       <div class="insight"><h4>Why it matters</h4><p>Low ALMI signals age-related muscle loss (sarcopenia), increasing fall risk, frailty, and metabolic dysfunction. Resistance training is the best prevention.</p></div>
+      <div class="insight"><h4>How to improve ALMI</h4><ul><li>Progressive resistance training</li><li>High-protein diet</li><li>Adequate sleep &amp; recovery</li><li>Creatine supplementation</li></ul></div>
     </div>
-    <div class="action ${ac(sa.insightColor)}"><strong>${sa.insight.split('.')[0]}.</strong> ${sa.insight.split('.').slice(1).join('.').trim()}</div>
+    <div class="action ${ac(sa.value<sa.thresholds[1]?'red':sa.value<sa.thresholds[2]?'yellow':'green')}"><strong>${sa.insight.split('.')[0]}.</strong> ${sa.insight.split('.').slice(1).join('.').trim()}</div>
+    ${trendCard('ALMI Trend', sa.trend, 'ALMI', '')}
   </div>
   ${FTR(13,tp)}
 </div>
 
-<!-- PAGE 14: METABOLISM -->
+</div><!-- PAGE 14: METABOLISM -->
 <div class="page">
   ${HDR('Metabolism')}
   <div class="content">
     <div><div class="section-title">How You Burn Energy</div><div class="section-desc">Your Resting Metabolic Rate (RMR) is how many calories your body burns at complete rest.</div></div>
-    <div class="card" style="text-align:center; padding:22px;">
+    ${(()=>{const t=met.thresholds;const v=met.value;const c=v<t[1]?'red':v<t[2]?'yellow':'green';const scalePos=Math.min(95,Math.max(5,(v-t[0])/(t[3]-t[0])*100));return`<div class="card" style="text-align:center; padding:22px;">
       <div class="label">Resting Metabolic Rate</div>
       <div class="num-hero" style="margin:6px 0 3px;">${met.rmr}</div>
       <div style="font-size:0.65rem; color:var(--dim);">kcal per day at rest</div>
-      <div style="font-size:0.58rem; color:var(--grn); font-weight:700; margin-top:6px;">${met.rmrAboveAvgPercent}% above average for your age &amp; sex</div>
-    </div>
-    <div class="card">
-      <div class="card-title">Your Daily Calorie Needs</div>
-      <div style="display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f3f4f6;"><span style="font-size:0.68rem; color:var(--dim);">1. Your <strong style="color:var(--txt);">RMR</strong></span><span class="num-sm">${met.rmr}</span></div>
-      <div style="display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f3f4f6;"><span style="font-size:0.68rem; color:var(--dim);">2. <strong style="color:var(--txt);">Lifestyle factor</strong> (${met.lifestyleFactor})</span><span class="num-sm">+${met.lifestyleCalories}</span></div>
-      <div style="display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f3f4f6;"><span style="font-size:0.68rem; color:var(--dim);">3. <strong style="color:var(--txt);">Workout calories</strong></span><span class="num-sm">+${met.workoutCalories}</span></div>
-      <div style="display:flex; justify-content:space-between; padding:8px 0 0;"><span style="font-size:0.78rem; font-weight:700; color:var(--txt);">Total Daily Expenditure</span><span class="num-md">${met.tdee}</span></div>
-    </div>
-    <div class="card">
+      <div style="position:relative; margin:12px auto 0; max-width:340px;">
+        <div class="range-bar" style="background:linear-gradient(90deg, #f87171 0%, #fbbf24 ${100*(t[1]-t[0])/(t[3]-t[0])}%, #34d399 ${100*(t[2]-t[0])/(t[3]-t[0])}%, #34d399 100%); height:6px;"><div class="range-dot" style="left:${scalePos}%;"></div></div>
+        <div style="display:flex; justify-content:space-between; font-size:0.42rem; color:var(--mute); font-weight:600; margin-top:4px;"><span>${t[0]}</span><span>${t[1]}</span><span>${t[2]}</span><span>${t[3]}</span></div>
+      </div>
+      <div class="verdict" style="color:${vc(c)}; margin-top:8px;"><span class="verdict-dot" style="background:${vd(c)};"></span> ${met.verdict}</div>
+    </div>`})()}
+    <div class="card" style="padding:12px 14px;flex:1;display:flex;flex-direction:column;">
       <div class="card-title">RMR Trend</div>
-      <div class="trend-chart">
-        ${trendSvg(met.rmrTrend,400,70,'')}
-        ${trendLabels(met.rmrTrend)}
+      <div class="trend-chart" style="flex:1;min-width:0;display:flex;flex-direction:column;">
+        ${trendSvg(met.rmrTrend,400,70,'')}${trendLabels(met.rmrTrend)}
+      </div>
+    </div>
+    <div class="g2">
+      <div class="insight"><h4>What's a good RMR?</h4><p>There is no "good" RMR &mdash; it's unique to your body. However, higher RMR relative to your size means you burn more calories at rest.</p></div>
+      <div class="insight"><h4>Can I increase RMR?</h4><p>Building muscle is the most effective way. Also: move often, eat whole foods frequently, try interval training, and get adequate sleep.</p></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Factors That Contribute to RMR</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{1F3CB}\u{FE0F}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Body Composition</div><div style="font-size:0.5rem; color:var(--dim);">Muscle burns more calories than fat. More lean mass = higher RMR.</div></div></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{1F4CF}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Body Size</div><div style="font-size:0.5rem; color:var(--dim);">Larger bodies require more energy to maintain basic functions.</div></div></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{231B}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Age</div><div style="font-size:0.5rem; color:var(--dim);">Metabolic slowdown and muscle loss occur naturally with age.</div></div></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{1F464}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Gender</div><div style="font-size:0.5rem; color:var(--dim);">Men tend to have higher RMR due to greater muscle mass.</div></div></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{1F321}\u{FE0F}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Environment</div><div style="font-size:0.5rem; color:var(--dim);">Extreme heat or cold forces the body to work harder to regulate temperature.</div></div></div>
       </div>
     </div>
   </div>
@@ -769,20 +782,13 @@ function render(d) {
 <div class="page">
   ${HDR('Metabolism')}
   <div class="content">
-    <div><div class="section-title">Understanding Your RMR</div><div class="section-desc">Everything you need to know about your resting metabolic rate and how to use it.</div></div>
-    <div class="g2" style="margin-bottom:10px;">
-      <div class="insight"><h4>What's a good RMR?</h4><p>There is no "good" RMR &mdash; it's unique to your body. However, higher RMR relative to your size means you burn more calories at rest.</p></div>
-      <div class="insight"><h4>Can I increase RMR?</h4><p>Building muscle is the most effective way. Also: move often, eat whole foods frequently, try interval training, and get adequate sleep.</p></div>
-    </div>
-    <div class="card" style="margin-bottom:10px;">
-      <div class="card-title">Factors That Contribute to RMR</div>
-      <div style="display:flex; flex-direction:column; gap:8px;">
-        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{1F3CB}\u{FE0F}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Body Composition</div><div style="font-size:0.5rem; color:var(--dim);">Muscle burns more calories than fat. More lean mass = higher RMR.</div></div></div>
-        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{1F4CF}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Body Size</div><div style="font-size:0.5rem; color:var(--dim);">Larger bodies require more energy to maintain basic functions.</div></div></div>
-        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{231B}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Age</div><div style="font-size:0.5rem; color:var(--dim);">Metabolic slowdown and muscle loss occur naturally with age.</div></div></div>
-        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{1F464}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Gender</div><div style="font-size:0.5rem; color:var(--dim);">Men tend to have higher RMR due to greater muscle mass.</div></div></div>
-        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="font-size:0.85rem;">\u{1F321}\u{FE0F}</div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Environment</div><div style="font-size:0.5rem; color:var(--dim);">Extreme heat or cold forces the body to work harder to regulate temperature.</div></div></div>
-      </div>
+    <div><div class="section-title">Your Daily Calorie Needs</div><div class="section-desc">Everything you need to know about your resting metabolic rate and how to use it.</div></div>
+    <div class="card">
+      <div class="card-title">Your Daily Calorie Needs</div>
+      <div style="display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f3f4f6;"><span style="font-size:0.68rem; color:var(--dim);">1. Your <strong style="color:var(--txt);">RMR</strong></span><span class="num-sm">${met.rmr}</span></div>
+      <div style="display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f3f4f6;"><span style="font-size:0.68rem; color:var(--dim);">2. <strong style="color:var(--txt);">Lifestyle factor</strong> (${met.lifestyleFactor})</span><span class="num-sm">+${met.lifestyleCalories}</span></div>
+      <div style="display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f3f4f6;"><span style="font-size:0.68rem; color:var(--dim);">3. <strong style="color:var(--txt);">Workout calories</strong></span><span class="num-sm">+${met.workoutCalories}</span></div>
+      <div style="display:flex; justify-content:space-between; padding:8px 0 0;"><span style="font-size:0.78rem; font-weight:700; color:var(--txt);">Total Daily Expenditure</span><span class="num-md">${met.tdee}</span></div>
     </div>
     <div class="card">
       <div class="card-title">Estimated Calories Burned per Hour</div>
