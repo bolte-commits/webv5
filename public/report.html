@@ -346,7 +346,7 @@ function render(d) {
 
   document.body.innerHTML = `
 
-<div style="display:none;"><!-- PAGE 1: COVER -->
+<!-- PAGE 1: COVER -->
 <div class="page" style="display:flex;flex-direction:column;padding:0;overflow:hidden;background:var(--pri);">
   <div class="cover">
     <div class="cover-top"><div class="cover-logo">BODY INSIGHT</div><div class="cover-sub">DEXA Body Composition Report</div></div>
@@ -688,7 +688,7 @@ function render(d) {
   ${FTR(11,tp)}
 </div>
 
-</div><!-- PAGE 12: A/G RATIO -->
+<!-- PAGE 12: A/G RATIO -->
 <div class="page">
   ${HDR('Fat Distribution')}
   <div class="content">
@@ -712,7 +712,7 @@ function render(d) {
   ${FTR(12,tp)}
 </div>
 
-<div style="display:none;"><!-- PAGE 13: SARCOPENIA SCREENING -->
+<!-- PAGE 13: SARCOPENIA SCREENING -->
 <div class="page">
   ${HDR('Muscle Health')}
   <div class="content">
@@ -824,7 +824,6 @@ function render(d) {
     <div style="font-size:0.48rem; color:var(--mute); line-height:1.6; font-style:italic;">This report is generated from DEXA (Dual-Energy X-ray Absorptiometry) scan data and is intended for informational purposes. It does not constitute medical advice. Consult a healthcare professional before making changes to your diet or exercise program.</div>
   </div>
   ${FTR(17,tp)}
-</div>
 </div>
   `; // end of template literal
 } // end of render()
