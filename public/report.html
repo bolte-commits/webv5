@@ -346,7 +346,7 @@ function render(d) {
 
   document.body.innerHTML = `
 
-<!-- PAGE 1: COVER -->
+<div style="display:none;"><!-- PAGE 1: COVER -->
 <div class="page" style="display:flex;flex-direction:column;padding:0;overflow:hidden;background:var(--pri);">
   <div class="cover">
     <div class="cover-top"><div class="cover-logo">BODY INSIGHT</div><div class="cover-sub">DEXA Body Composition Report</div></div>
@@ -688,30 +688,31 @@ function render(d) {
   ${FTR(11,tp)}
 </div>
 
-<!-- PAGE 12: A/G RATIO -->
+</div><!-- PAGE 12: A/G RATIO -->
 <div class="page">
   ${HDR('Fat Distribution')}
   <div class="content">
     <div><div class="section-title">Android-to-Gynoid Ratio</div><div class="section-desc">This ratio compares fat in your belly (android) to your hips (gynoid). It reveals whether you carry weight in a pattern associated with higher or lower metabolic risk.</div></div>
-    <div class="card" style="text-align:center; padding:24px;">
+    ${(()=>{const t=ag.thresholds;const v=ag.value;const c=v<t[1]?'green':v<t[2]?'yellow':'red';const scalePos=Math.min(95,Math.max(5,(v-t[0])/(t[3]-t[0])*100));return`<div class="card" style="text-align:center; padding:24px;">
       <div class="label">Your A/G Ratio</div>
-      <div class="num-hero" style="margin:8px 0 10px;">${ag.value}</div>
+      <div class="num-hero" style="margin:8px 0 10px;">${v}</div>
       <div style="position:relative; margin:0 auto; max-width:340px;">
-        <div class="range-bar" style="background:linear-gradient(90deg, #34d399 0%, #86efac 33%, #fde047 50%, #fca5a5 75%, #f87171 100%); height:6px;"><div class="range-dot" style="left:${ag.scalePosition}%;"></div></div>
-        <div style="display:flex; justify-content:space-between; font-size:0.42rem; color:var(--mute); font-weight:600; margin-top:4px;"><span>0.5</span><span>0.8</span><span>1.0</span><span>1.5</span><span>2.0</span></div>
+        <div class="range-bar" style="background:linear-gradient(90deg, #34d399 0%, #34d399 ${100*(t[1]-t[0])/(t[3]-t[0])}%, #fbbf24 ${100*(t[2]-t[0])/(t[3]-t[0])}%, #f87171 100%); height:6px;"><div class="range-dot" style="left:${scalePos}%;"></div></div>
+        <div style="display:flex; justify-content:space-between; font-size:0.42rem; color:var(--mute); font-weight:600; margin-top:4px;"><span>${t[0]}</span><span>${t[1]}</span><span>${t[2]}</span><span>${t[3]}</span></div>
       </div>
-      <div class="verdict" style="color:${vc(ag.verdictColor)}; margin-top:8px;"><span class="verdict-dot" style="background:${vd(ag.verdictColor)};"></span> ${ag.verdict}</div>
-    </div>
+      <div class="verdict" style="color:${vc(c)}; margin-top:8px;"><span class="verdict-dot" style="background:${vd(c)};"></span> ${ag.verdict}</div>
+    </div>`})()}
     <div class="g2">
       <div class="insight"><h4>What is A/G Ratio?</h4><p>Compares fat percentage in your belly vs hip region using DEXA fat %, not waist inches &mdash; far more accurate than a tape measure.</p></div>
       <div class="insight"><h4>Why it matters</h4><p>Ratios above 1.0 correlate with higher visceral fat and metabolic risk. Below 1.0 is associated with lower cardiovascular risk.</p></div>
     </div>
-    <div class="action ${ac(ag.insightColor)}"><strong>${ag.insight.split('.')[0]}.</strong> ${ag.insight.split('.').slice(1).join('.').trim()}</div>
+    <div class="action ${ac(ag.value<ag.thresholds[1]?'green':ag.value<ag.thresholds[2]?'yellow':'red')}"><strong>${ag.insight.split('.')[0]}.</strong> ${ag.insight.split('.').slice(1).join('.').trim()}</div>
+    ${trendCard('A/G Ratio Trend', ag.trend, 'A/G Ratio', '')}
   </div>
   ${FTR(12,tp)}
 </div>
 
-<!-- PAGE 13: SARCOPENIA SCREENING -->
+<div style="display:none;"><!-- PAGE 13: SARCOPENIA SCREENING -->
 <div class="page">
   ${HDR('Muscle Health')}
   <div class="content">
@@ -823,6 +824,7 @@ function render(d) {
     <div style="font-size:0.48rem; color:var(--mute); line-height:1.6; font-style:italic;">This report is generated from DEXA (Dual-Energy X-ray Absorptiometry) scan data and is intended for informational purposes. It does not constitute medical advice. Consult a healthcare professional before making changes to your diet or exercise program.</div>
   </div>
   ${FTR(17,tp)}
+</div>
 </div>
   `; // end of template literal
 } // end of render()
