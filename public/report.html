@@ -340,7 +340,7 @@ function render(d) {
   const c = d.cover, g = d.atAGlance, bc = d.bodyComposition, ct = d.compositionTrends;
   const ra = d.regionalAnalysis, rt = d.regionalTrends, sym = d.symmetry;
   const vf = d.visceralFat, bh = d.boneHealth, ag = d.agRatio;
-  const sa = d.sarcopenia, met = d.metabolism, nut = d.nutrition, ap = d.actionPlan;
+  const sa = d.sarcopenia, met = d.metabolism, nut = met, ap = d.actionPlan;
   const tp = c.totalPages;
   const bf = bfScale(g.bodyFatThresholds);
 
@@ -398,7 +398,7 @@ function render(d) {
     </div>
     <div class="g2">
       <div class="card" style="text-align:center;"><div class="label">Resting Metabolic Rate</div><div class="num-lg" style="margin:6px 0 2px;">${met.rmr}</div><div style="font-size:0.55rem;color:var(--mute);">kcal/day at rest</div></div>
-      <div class="card" style="text-align:center;"><div class="label">Total Daily Expenditure</div><div class="num-lg" style="margin:6px 0 2px;">${met.tdee}</div><div style="font-size:0.55rem;color:var(--mute);">kcal/day</div></div>
+      <div class="card" style="text-align:center;"><div class="label">Total Daily Expenditure</div><div class="num-lg" style="margin:6px 0 2px;">${Math.round(met.tdee)}</div><div style="font-size:0.55rem;color:var(--mute);">kcal/day</div></div>
     </div>
   </div>
   ${FTR(2,tp)}
@@ -745,7 +745,7 @@ function render(d) {
   ${HDR('Metabolism')}
   <div class="content">
     <div><div class="section-title">How You Burn Energy</div><div class="section-desc">Your Resting Metabolic Rate (RMR) is how many calories your body burns at complete rest.</div></div>
-    ${(()=>{const t=met.thresholds;const v=met.value;const c=v<t[1]?'red':v<t[2]?'yellow':'green';const scalePos=Math.min(95,Math.max(5,(v-t[0])/(t[3]-t[0])*100));return`<div class="card" style="text-align:center; padding:22px;">
+    ${(()=>{const t=met.thresholds;const v=met.rmr;const c=v<t[1]?'red':v<t[2]?'yellow':'green';const scalePos=Math.min(95,Math.max(5,(v-t[0])/(t[3]-t[0])*100));return`<div class="card" style="text-align:center; padding:22px;">
       <div class="label">Resting Metabolic Rate</div>
       <div class="num-hero" style="margin:6px 0 3px;">${met.rmr}</div>
       <div style="font-size:0.65rem; color:var(--dim);">kcal per day at rest</div>
@@ -786,7 +786,7 @@ function render(d) {
     <div><div class="section-title">How to Use Your RMR</div><div class="section-desc">Use your RMR to estimate your total daily calorie burn based on activity level, then build your diet around that number.</div></div>
     <div class="card" style="text-align:center; padding:20px;">
       <div class="label">Your Total Daily Expenditure</div>
-      <div class="num-hero" style="margin:6px 0 4px;">${met.tdee}</div>
+      <div class="num-hero" style="margin:6px 0 4px;">${Math.round(met.tdee)}</div>
       <div style="font-size:0.6rem; color:var(--dim);">kcal / day</div>
       <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border); font-size:0.55rem; line-height:1.5; color:var(--dim);">This is the total number of calories your body burns each day, including rest, daily activity, and exercise. Eat around this to maintain weight, below to lose, or above to gain.</div>
     </div>
@@ -795,11 +795,11 @@ function render(d) {
       <div style="display:flex; justify-content:center; gap:16px; padding:8px 0;">
         <div style="text-align:center;"><div class="num-sm" style="color:var(--txt);">${met.rmr}</div><div style="font-size:0.48rem; color:var(--dim);">RMR</div></div>
         <div style="font-size:0.7rem; color:var(--dim); align-self:center;">+</div>
-        <div style="text-align:center;"><div class="num-sm" style="color:var(--txt);">${met.lifestyleCalories}</div><div style="font-size:0.48rem; color:var(--dim);">Lifestyle</div></div>
+        <div style="text-align:center;"><div class="num-sm" style="color:var(--txt);">${Math.round(met.lifestyleCalories)}</div><div style="font-size:0.48rem; color:var(--dim);">Lifestyle</div></div>
         <div style="font-size:0.7rem; color:var(--dim); align-self:center;">+</div>
         <div style="text-align:center;"><div class="num-sm" style="color:var(--txt);">${met.workoutCalories}</div><div style="font-size:0.48rem; color:var(--dim);">Workouts</div></div>
         <div style="font-size:0.7rem; color:var(--dim); align-self:center;">=</div>
-        <div style="text-align:center;"><div class="num-sm" style="color:var(--pri); font-weight:800;">${met.tdee}</div><div style="font-size:0.48rem; color:var(--dim);">TDEE</div></div>
+        <div style="text-align:center;"><div class="num-sm" style="color:var(--pri); font-weight:800;">${Math.round(met.tdee)}</div><div style="font-size:0.48rem; color:var(--dim);">TDEE</div></div>
       </div>
       <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:0.55rem; line-height:1.5; color:var(--dim);"><strong style="color:var(--txt);">RMR</strong> is measured by your DEXA scan. <strong style="color:var(--txt);">Lifestyle</strong> accounts for daily non-exercise activity (walking, chores, work). <strong style="color:var(--txt);">Workouts</strong> covers intentional exercise sessions.</div>
       <div style="margin-top:6px; font-size:0.5rem; color:var(--dim); font-style:italic;">Note: The "active calories" on your smartwatch is a combination of both lifestyle and workout calories.</div>
@@ -809,17 +809,17 @@ function render(d) {
         <div class="card-title">Lifestyle Activity Factor</div>
         <div style="font-size:0.48rem; color:var(--dim); margin-top:-7px; margin-bottom:6px;">Based on your RMR of ${met.rmr} kcal</div>
         <div style="display:flex; flex-direction:column;">
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Sedentary</span><br><span style="font-size:0.48rem; color:var(--dim);">Desk job, minimal movement</span></span><span class="num-sm">${Math.round(met.rmr*0.2)}</span></div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Light activity</span><br><span style="font-size:0.48rem; color:var(--dim);">Walking, light chores</span></span><span class="num-sm">${Math.round(met.rmr*0.375)}</span></div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Moderately active</span><br><span style="font-size:0.48rem; color:var(--dim);">Regular exercise, active job</span></span><span class="num-sm">${Math.round(met.rmr*0.55)}</span></div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Very active</span><br><span style="font-size:0.48rem; color:var(--dim);">Intense daily training</span></span><span class="num-sm">${Math.round(met.rmr*0.725)}</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Sedentary</span><br><span style="font-size:0.48rem; color:var(--dim);">Desk job, minimal movement</span></span><span class="num-sm">${met.lifeStyleCaloriesMap.sedentary}</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Light activity</span><br><span style="font-size:0.48rem; color:var(--dim);">Walking, light chores</span></span><span class="num-sm">${met.lifeStyleCaloriesMap.light}</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Moderately active</span><br><span style="font-size:0.48rem; color:var(--dim);">Regular exercise, active job</span></span><span class="num-sm">${met.lifeStyleCaloriesMap.moderate}</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Very active</span><br><span style="font-size:0.48rem; color:var(--dim);">Intense daily training</span></span><span class="num-sm">${met.lifeStyleCaloriesMap.intense}</span></div>
         </div>
       </div>
       <div class="card">
         <div class="card-title">Calories Burned / 30 min</div>
         <div style="font-size:0.48rem; color:var(--dim); margin-top:-7px; margin-bottom:6px;">Personalized to your body composition</div>
         <div style="display:flex; flex-direction:column;">
-          ${met.caloriesBurnedPerHour.map((a,i,arr)=>'<div style="display:flex; justify-content:space-between; padding:5px 0;'+(i<arr.length-1?' border-bottom:1px solid #f3f4f6;':'')+'"><span style="font-size:0.55rem; color:var(--dim);">'+a.emoji+' '+a.activity+'</span><span class="num-sm">'+a.calories+'</span></div>').join('')}
+          ${(()=>{const cb=met.caloriesBurnedPerHalfHour;const activities=[['WALKING','\u{1F6B6}','Walking'],['RUNNING_SLOW','\u{1F3C3}','Jogging'],['RUNNING_FAST','\u{1F3C3}\u{200D}\u{2642}\u{FE0F}','Running'],['CYCLING','\u{1F6B4}','Cycling'],['SWIMMING','\u{1F3CA}','Swimming'],['WEIGHT','\u{1F3CB}\u{FE0F}','Weight Training'],['YOGA','\u{1F9D8}','Yoga'],['BOXING','\u{1F94A}','Boxing']];return activities.filter(a=>cb[a[0]]!=null).map((a,i,arr)=>'<div style="display:flex; justify-content:space-between; padding:5px 0;'+(i<arr.length-1?' border-bottom:1px solid #f3f4f6;':'')+'"><span style="font-size:0.55rem; color:var(--dim);">'+a[1]+' '+a[2]+'</span><span class="num-sm">'+cb[a[0]]+'</span></div>').join('')})()}
         </div>
       </div>
     </div>
@@ -833,7 +833,7 @@ function render(d) {
   <div class="content">
     <div><div class="section-title">Your Nutrition Plan</div><div class="section-desc">Personalized calorie and macro targets for three different goals based on your body composition.</div></div>
     <div style="display:flex; flex-direction:column; gap:8px;">
-    ${nut.plans.map(p=>{const rec=p.goal.toLowerCase().includes('maintain');const pred=p.calories<nut.tdee?'Should result in ~'+((nut.tdee-p.calories)*7/7700).toFixed(1)+' kg loss per week':p.calories>nut.tdee?'Should result in ~'+((p.calories-nut.tdee)*7/7700).toFixed(1)+' kg gain per week':'Should help you maintain your current weight';return'<div class="macro-row"><div><div style="font-size:0.65rem; font-weight:700; color:var(--txt);">'+p.goal+(rec?' <span style="font-size:0.45rem; font-weight:700; color:var(--brand); background:rgba(0,122,255,0.1); padding:2px 8px; border-radius:10px; margin-left:6px; vertical-align:middle;">RECOMMENDED</span>':'')+'</div><div style="margin:4px 0 2px;"><span class="num-lg">'+p.calories+'</span> <span style="font-size:0.55rem; color:var(--dim);">kcal / day</span></div><div style="font-size:0.48rem; color:var(--dim);">'+pred+'</div></div><div class="macro-circles"><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-p);"><span class="macro-ring-num">'+p.proteinG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Protein</span></div><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-c);"><span class="macro-ring-num">'+p.carbsG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Carbs</span></div><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-f);"><span class="macro-ring-num">'+p.fatG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Fat</span></div></div></div>'}).join('')}
+    ${nut.plans.map(p=>{const rec=p.recommended;const pred=Math.round(p.calories)<nut.tdee?'Should result in ~'+((nut.tdee-Math.round(p.calories))*7/7700).toFixed(1)+' kg loss per week':Math.round(p.calories)>nut.tdee?'Should result in ~'+((Math.round(p.calories)-nut.tdee)*7/7700).toFixed(1)+' kg gain per week':'Should help you maintain your current weight';return'<div class="macro-row"><div><div style="font-size:0.65rem; font-weight:700; color:var(--txt);">'+p.goal+(rec?' <span style="font-size:0.45rem; font-weight:700; color:var(--brand); background:rgba(0,122,255,0.1); padding:2px 8px; border-radius:10px; margin-left:6px; vertical-align:middle;">RECOMMENDED</span>':'')+'</div><div style="margin:4px 0 2px;"><span class="num-lg">'+Math.round(p.calories)+'</span> <span style="font-size:0.55rem; color:var(--dim);">kcal / day</span></div><div style="font-size:0.48rem; color:var(--dim);">'+pred+'</div></div><div class="macro-circles"><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-p);"><span class="macro-ring-num">'+p.proteinG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Protein</span></div><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-c);"><span class="macro-ring-num">'+p.carbsG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Carbs</span></div><div class="macro-circ"><div class="macro-ring" style="border-color:var(--macro-f);"><span class="macro-ring-num">'+p.fatG+'</span><span class="macro-ring-unit">g</span></div><span class="macro-label">Fat</span></div></div></div>'}).join('')}
     </div>
     <div class="action ${ac('green')}"><strong>${nut.insight.split('.')[0]}.</strong> ${nut.insight.split('.').slice(1).join('.').trim()}</div>
     <div class="card" style="font-size:0.65rem; color:var(--dim); line-height:1.7;">
