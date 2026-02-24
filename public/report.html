@@ -753,7 +753,7 @@ function render(d) {
         <div class="range-bar" style="background:linear-gradient(90deg, #f87171 0%, #fbbf24 ${100*(t[1]-t[0])/(t[3]-t[0])}%, #34d399 ${100*(t[2]-t[0])/(t[3]-t[0])}%, #34d399 100%); height:6px;"><div class="range-dot" style="left:${scalePos}%;"></div></div>
         <div style="display:flex; justify-content:space-between; font-size:0.42rem; color:var(--mute); font-weight:600; margin-top:4px;"><span>${t[0]}</span><span>${t[1]}</span><span>${t[2]}</span><span>${t[3]}</span></div>
       </div>
-      <div class="verdict" style="color:${vc(c)}; margin-top:8px;"><span class="verdict-dot" style="background:${vd(c)};"></span> ${met.verdict}</div>
+      <div class="verdict" style="color:${vc(c)}; margin-top:8px;">${met.verdict}</div>
     </div>`})()}
     <div class="card" style="padding:12px 14px;flex:1;display:flex;flex-direction:column;">
       <div class="card-title">RMR Trend</div>
