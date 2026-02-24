@@ -52,9 +52,9 @@
 
   /* ===== FOOTER ===== */
   .ftr { background: var(--pri); padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-  .ftr-left { font-size: 0.6rem; color: rgba(255,255,255,0.3); }
-  .ftr-left a { color: var(--brand); text-decoration: none; }
-  .ftr-pg { font-size: 0.55rem; color: rgba(255,255,255,0.25); font-weight: 600; }
+  .ftr-left { font-size: 0.6rem; color: rgba(255,255,255,0.7); }
+  .ftr-left a { color: rgba(255,255,255,0.7); text-decoration: none; }
+  .ftr-pg { font-size: 0.55rem; color: rgba(255,255,255,0.7); font-weight: 600; }
 
   /* ===== CONTENT ===== */
   .content { flex: 1; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
@@ -299,7 +299,7 @@ const REGIONS = {
 };
 const REGION_ORDER = ['arms','legs','trunk','android','gynoid'];
 const HDR = s => `<div class="hdr"><div class="hdr-l"><div class="hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="hdr-logo">BODY INSIGHT</span></div><div class="hdr-section"><strong>${s}</strong></div></div>`;
-const FTR = (p,t) => `<div class="ftr"><div class="ftr-left"><a>bodyinsight.in</a></div><div class="ftr-pg">${p} of ${t}</div></div>`;
+const FTR = (p,t) => `<div class="ftr"><div class="ftr-left">&#127760; bodyinsight.in</div><div style="font-size:0.6rem; color:rgba(255,255,255,0.7); display:flex; align-items:center; gap:3px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="rgba(255,255,255,0.7)"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> @bodyinsight.in</div><div class="ftr-pg">${p} of ${t}</div></div>`;
 
 function trendSvg(points, W=240, H=70, suffix='', invert=false) {
   const vals = points.map(p=>p.value), mn = Math.min(...vals), mx = Math.max(...vals), rng = mx-mn||1;
@@ -346,7 +346,7 @@ function render(d) {
 
   document.body.innerHTML = `
 
-<div style="display:none;"><!-- PAGE 1: COVER -->
+<!-- PAGE 1: COVER -->
 <div class="page" style="display:flex;flex-direction:column;padding:0;overflow:hidden;background:var(--pri);">
   <div class="cover">
     <div class="cover-top"><div class="cover-logo">BODY INSIGHT</div><div class="cover-sub">DEXA Body Composition Report</div></div>
@@ -423,17 +423,15 @@ function render(d) {
         </div>
       </div>
       <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
-        ${[['Lean Mass',g.leanMassKg,bc.leanMass],
-           ['Fat Mass',g.fatMassKg,bc.fatMass],
-           ['Bone Mineral',g.boneMineralKg,bc.boneMineral]
-        ].map(([label,kg,item])=>{ const s = compScale(item); return `<div class="card" style="padding:10px 12px;flex:1;">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;"><span style="font-size:0.68rem;font-weight:700;">${label}</span><span class="num-md">${kg} <small style="font-size:0.5rem;color:var(--mute);font-family:'DM Sans';font-weight:600;">kg</small></span></div>
-          <div style="font-size:0.52rem;color:var(--dim);margin-bottom:4px;">${item.description}</div>
+        ${(()=>{const tips={'Lean Mass':'Resistance training and protein-rich diet help build and preserve lean tissue.','Fat Mass':'A sustained caloric deficit combined with strength training reduces fat while preserving muscle.','Bone Mineral':'Weight-bearing exercise, calcium, and vitamin D support bone mineral density.'};return [['Lean Mass',g.leanMassKg,bc.leanMass],['Fat Mass',g.fatMassKg,bc.fatMass],['Bone Mineral',g.boneMineralKg,bc.boneMineral]].map(([label,kg,item])=>{ const s = compScale(item); return `<div class="card" style="padding:12px 14px;flex:1;display:flex;flex-direction:column;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;"><span style="font-size:0.68rem;font-weight:700;">${label}</span><span class="num-md">${kg} <small style="font-size:0.5rem;color:var(--mute);font-family:'DM Sans';font-weight:600;">kg</small></span></div>
+          <div style="font-size:0.52rem;color:var(--dim);margin-bottom:6px;">${item.description}</div>
           ${s ? `<div class="range-bar" style="background:${s.grad};"><div class="range-dot" style="left:${s.pos}%;"></div></div>
-          <div class="verdict" style="color:${vc(s.verdictColor)};"><span class="verdict-dot" style="background:${vd(s.verdictColor)};"></span> ${s.verdict}</div>`
+          <div class="verdict" style="color:${vc(s.verdictColor)};margin-bottom:6px;"><span class="verdict-dot" style="background:${vd(s.verdictColor)};"></span> ${s.verdict}</div>`
           : `<div class="range-bar" style="background:#e5e7eb;"></div>
-          <div class="verdict" style="color:var(--mute);"><span class="verdict-dot" style="background:var(--mute);"></span> Scale not available</div>`}
-        </div>`; }).join('')}
+          <div class="verdict" style="color:var(--mute);margin-bottom:6px;"><span class="verdict-dot" style="background:var(--mute);"></span> Scale not available</div>`}
+          <div style="margin-top:auto;font-size:0.48rem;color:var(--dim);line-height:1.5;border-top:1px solid var(--border);padding-top:6px;">${tips[label]}</div>
+        </div>`; }).join('')})()}
       </div>
     </div>
     <div class="action ${ac(bc.insightColor)}"><strong>${bc.insight.split('.')[0]}.</strong> ${bc.insight.split('.').slice(1).join('.').trim()}</div>
@@ -712,8 +710,6 @@ function render(d) {
   ${FTR(12,tp)}
 </div>
 
-</div>
-<div style="display:none;">
 <!-- PAGE 13: SARCOPENIA SCREENING -->
 <div class="page">
   ${HDR('Muscle Health')}
@@ -739,7 +735,6 @@ function render(d) {
   ${FTR(13,tp)}
 </div>
 
-</div>
 <!-- PAGE 14: METABOLISM -->
 <div class="page">
   ${HDR('Metabolism')}
@@ -779,7 +774,7 @@ function render(d) {
   ${FTR(14,tp)}
 </div>
 
-</div><!-- PAGE 15: RMR DEEP DIVE -->
+<!-- PAGE 15: RMR DEEP DIVE -->
 <div class="page">
   ${HDR('Metabolism')}
   <div class="content">
@@ -802,12 +797,13 @@ function render(d) {
         <div style="text-align:center;"><div class="num-sm" style="color:var(--pri); font-weight:800;">${Math.round(met.tdee)}</div><div style="font-size:0.48rem; color:var(--dim);">TDEE</div></div>
       </div>
       <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:0.55rem; line-height:1.5; color:var(--dim);"><strong style="color:var(--txt);">RMR</strong> is measured by your DEXA scan. <strong style="color:var(--txt);">Lifestyle</strong> accounts for daily non-exercise activity (walking, chores, work). <strong style="color:var(--txt);">Workouts</strong> covers intentional exercise sessions.</div>
-      <div style="margin-top:6px; font-size:0.5rem; color:var(--dim); font-style:italic;">Note: The "active calories" on your smartwatch is a combination of both lifestyle and workout calories.</div>
+      <div style="margin-top:6px; font-size:0.5rem; color:var(--dim); font-style:italic;">This assumes a sedentary lifestyle with a workout of 30 min weight training and 30 min jogging. Adjust using the tables below.</div>
+      <div style="margin-top:4px; font-size:0.5rem; color:var(--dim); font-style:italic;">Tip: Your smartwatch's "active calories" already includes both lifestyle and workout burn — you can use that directly in place of those two values.</div>
     </div>
     <div class="g2">
       <div class="card">
         <div class="card-title">Lifestyle Activity Factor</div>
-        <div style="font-size:0.48rem; color:var(--dim); margin-top:-7px; margin-bottom:6px;">Based on your RMR of ${met.rmr} kcal</div>
+        <div style="font-size:0.48rem; color:var(--dim); margin-top:-7px; margin-bottom:6px;">Use these values to calculate your TDEE</div>
         <div style="display:flex; flex-direction:column;">
           <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Sedentary</span><br><span style="font-size:0.48rem; color:var(--dim);">Desk job, minimal movement</span></span><span class="num-sm">${met.lifeStyleCaloriesMap.sedentary}</span></div>
           <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Light activity</span><br><span style="font-size:0.48rem; color:var(--dim);">Walking, light chores</span></span><span class="num-sm">${met.lifeStyleCaloriesMap.light}</span></div>
@@ -817,9 +813,9 @@ function render(d) {
       </div>
       <div class="card">
         <div class="card-title">Calories Burned / 30 min</div>
-        <div style="font-size:0.48rem; color:var(--dim); margin-top:-7px; margin-bottom:6px;">Personalized to your body composition</div>
+        <div style="font-size:0.48rem; color:var(--dim); margin-top:-7px; margin-bottom:6px;">Use these values to calculate your TDEE</div>
         <div style="display:flex; flex-direction:column;">
-          ${(()=>{const cb=met.caloriesBurnedPerHalfHour;const activities=[['WALKING','\u{1F6B6}','Walking'],['RUNNING_SLOW','\u{1F3C3}','Jogging'],['RUNNING_FAST','\u{1F3C3}\u{200D}\u{2642}\u{FE0F}','Running'],['CYCLING','\u{1F6B4}','Cycling'],['SWIMMING','\u{1F3CA}','Swimming'],['WEIGHT','\u{1F3CB}\u{FE0F}','Weight Training'],['YOGA','\u{1F9D8}','Yoga'],['BOXING','\u{1F94A}','Boxing']];return activities.filter(a=>cb[a[0]]!=null).map((a,i,arr)=>'<div style="display:flex; justify-content:space-between; padding:5px 0;'+(i<arr.length-1?' border-bottom:1px solid #f3f4f6;':'')+'"><span style="font-size:0.55rem; color:var(--dim);">'+a[1]+' '+a[2]+'</span><span class="num-sm">'+cb[a[0]]+'</span></div>').join('')})()}
+          ${(()=>{const cb=met.caloriesBurnedPerHalfHour;const activities=[['WALKING','\u{1F6B6}','Walking'],['RUNNING_SLOW','\u{1F3C3}','Jogging'],['RUNNING_FAST','\u{1F3C3}\u{200D}\u{2642}\u{FE0F}','Running'],['CYCLING','\u{1F6B4}','Cycling'],['SWIMMING','\u{1F3CA}','Swimming'],['WEIGHT','\u{1F3CB}\u{FE0F}','Weight Training'],['YOGA','\u{1F9D8}','Yoga'],['BADMINTON','\u{1F3F8}','Badminton'],['BOXING','\u{1F94A}','Boxing']];return activities.filter(a=>cb[a[0]]!=null).map((a,i,arr)=>'<div style="display:flex; justify-content:space-between; padding:5px 0;'+(i<arr.length-1?' border-bottom:1px solid #f3f4f6;':'')+'"><span style="font-size:0.55rem; color:var(--dim);">'+a[1]+' '+a[2]+'</span><span class="num-sm">'+cb[a[0]]+'</span></div>').join('')})()}
         </div>
       </div>
     </div>
