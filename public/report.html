@@ -227,13 +227,21 @@
 <script>
 // ── Fetch report data from API ───────────────────────────────────────────────
 async function fetchReportData() {
-  const res = await fetch('https://pbkivbwxx9.execute-api.ap-south-1.amazonaws.com/prod/getDexaDataForAppointment', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ appointmentId: '6966822dd5859bf0394d4f6f', botCode: 'PBGFVO' })
-  });
-  const json = await res.json();
-  return json;
+  const params = new URLSearchParams(window.location.search);
+  const appointmentId = params.get('id');
+  const botCode = params.get('bc');
+  if (!appointmentId || !botCode) return null;
+  try {
+    const res = await fetch('https://pbkivbwxx9.execute-api.ap-south-1.amazonaws.com/prod/getDexaDataForAppointment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ appointmentId, botCode })
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (e) {
+    return null;
+  }
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -861,8 +869,18 @@ function render(d) {
   `; // end of template literal
 } // end of render()
 
+// ── 404 page ────────────────────────────────────────────────────────────────────
+function render404() {
+  document.body.innerHTML = `
+<div class="page" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;">
+  <div style="font-family:'Monument Extended',sans-serif;font-size:4rem;font-weight:800;color:var(--pri);line-height:1;">404</div>
+  <div style="font-size:1rem;font-weight:700;color:var(--txt);margin-top:12px;">Report not found</div>
+  <div style="font-size:0.75rem;color:var(--dim);margin-top:6px;line-height:1.5;">The report you're looking for doesn't exist or the link is invalid.</div>
+</div>`;
+}
+
 // ── Init ────────────────────────────────────────────────────────────────────────
-fetchReportData().then(render);
+fetchReportData().then(d => d ? render(d) : render404());
 </script>
 </body>
 </html>
