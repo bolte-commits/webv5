@@ -312,7 +312,7 @@ const FTR = (p,t) => `<div class="ftr"><div class="ftr-left">&#127760; bodyinsig
 function trendSvg(points, W=240, H=70, suffix='', invert=false) {
   const vals = points.map(p=>p.value), mn = Math.min(...vals), mx = Math.max(...vals), rng = mx-mn||1;
   const pX=20, pY=6, cW=W-pX*2, cH=H-pY*2;
-  const x = i => pX + (i/(points.length-1))*cW;
+  const x = i => points.length===1 ? W/2 : pX + (i/(points.length-1))*cW;
   const y = v => { const n=(v-mn)/rng; return invert ? pY+n*cH : pY+(1-n)*cH; };
   const pts = points.map((p,i) => x(i).toFixed(0)+','+y(p.value).toFixed(0)).join(' ');
   const circles = points.map((p,i) => `<circle cx="${x(i).toFixed(0)}" cy="${y(p.value).toFixed(0)}" r="3" fill="var(--pri)"/>`).join('');
@@ -327,7 +327,7 @@ function trendSvg(points, W=240, H=70, suffix='', invert=false) {
     <polyline points="${pts}" fill="none" stroke="var(--pri)" stroke-width="2" stroke-linecap="round"/>
     ${circles}${labels}</svg>`;
 }
-function trendLabels(pts) { return `<div class="trend-labels">${pts.map(p=>`<span>${p.date||p.label}</span>`).join('')}</div>`; }
+function trendLabels(pts) { return `<div class="trend-labels" style="${pts.length===1?'justify-content:center;':''}">${pts.map(p=>`<span>${p.date||p.label}</span>`).join('')}</div>`; }
 function trendTable(pts, hdr, suffix='') {
   const r = [...pts].reverse();
   return `<table class="dtable" style="width:auto;flex-shrink:0;margin:0;font-size:0.5rem;">
@@ -337,7 +337,7 @@ function trendTable(pts, hdr, suffix='') {
 function trendCard(title, pts, hdr, suffix='', inv=false) {
   return `<div class="card" style="padding:12px 14px;flex:1;display:flex;flex-direction:column;">
     <div class="card-title">${title}</div>
-    <div style="display:flex;gap:12px;align-items:stretch;flex:1;">
+    <div style="display:flex;gap:12px;align-items:flex-start;flex:1;">
       <div class="trend-chart" style="flex:1;min-width:0;display:flex;flex-direction:column;">
         ${trendSvg(pts,240,70,suffix,inv)}${trendLabels(pts)}
       </div>${trendTable(pts,hdr,suffix)}</div></div>`;
@@ -465,12 +465,12 @@ function render(d) {
   <div class="content">
     <div><div class="section-title">Where Your Fat Lives</div><div class="section-desc">DEXA measures composition in 5 distinct regions, revealing how lean tissue and fat are distributed across your body.</div></div>
     ${REGION_ORDER.map(key=>{ const r = ra[key], info = REGIONS[key]; if(!r) return ''; return `<div class="region">
-      <div class="region-img"><img src="/images/regions/${info.image}.png" alt="${info.name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
+      <div class="region-img"><img src="/images/regions/${info.image}.png" alt="${info.name}" style="width:100%; height:100%; object-fit:contain; border-radius:8px;" /></div>
       <div class="region-data">
         <div class="region-name">${info.name}</div>
         <div style="display:flex;align-items:baseline;gap:8px;">
           <div class="region-fat">${r.fatPercent}<small>% fat</small></div>
-          <div class="region-delta" style="color:${r.change <= 0 ? 'var(--grn)' : 'var(--red)'};">${r.change <= 0 ? '&darr;' : '&uarr;'} ${Math.abs(r.change)}% from ${r.previousDate}</div>
+          ${r.change!=null && r.previousDate ? `<div class="region-delta" style="color:${r.change <= 0 ? 'var(--grn)' : 'var(--red)'};">${r.change <= 0 ? '&darr;' : '&uarr;'} ${Math.abs(r.change)}% from ${r.previousDate}</div>` : ''}
         </div>
         <div class="region-metrics">
           <div class="region-met"><div class="region-met-label">Lean</div><div class="region-met-val">${r.leanKg} kg</div></div>
@@ -497,7 +497,7 @@ function render(d) {
           const allVals = regions.flatMap(r=>rt.fatPercentByRegion[r]);
           const mn=Math.min(...allVals), mx=Math.max(...allVals), rng=mx-mn||1;
           const W=400, H=170, pX=30, pY=5, cH=155, cW=340;
-          const x=i=>pX+(i/(rt.scanDates.length-1))*cW;
+          const x=i=>rt.scanDates.length===1 ? W/2 : pX+(i/(rt.scanDates.length-1))*cW;
           const y=v=>pY+(1-(v-mn)/rng)*cH;
           let svg='<svg viewBox="0 0 400 170" style="width:100%;height:130px;">';
           svg+='<line x1="0" y1="'+(H-10)+'" x2="400" y2="'+(H-10)+'" stroke="#e5e7eb" stroke-width="0.5"/>';
@@ -505,14 +505,18 @@ function render(d) {
           svg+='<line x1="0" y1="5" x2="400" y2="5" stroke="#e5e7eb" stroke-width="0.5"/>';
           regions.forEach((r,ri)=>{
             const pts=rt.fatPercentByRegion[r].map((v,i)=>x(i).toFixed(0)+','+y(v).toFixed(0)).join(' ');
-            const lastY=y(rt.fatPercentByRegion[r].slice(-1)[0]).toFixed(0);
+            const lastVal=rt.fatPercentByRegion[r].slice(-1)[0];
+            const lastX=x(rt.fatPercentByRegion[r].length-1).toFixed(0);
+            const lastY=y(lastVal).toFixed(0);
             svg+='<polyline points="'+pts+'" fill="none" stroke="'+colors[ri]+'" stroke-width="2" stroke-linecap="round"/>';
-            svg+='<text x="380" y="'+(Number(lastY)+3)+'" font-size="7" fill="'+colors[ri]+'" font-weight="'+(ri===0?700:600)+'">'+r+'</text>';
+            rt.fatPercentByRegion[r].forEach((v,i)=>{ svg+='<circle cx="'+x(i).toFixed(0)+'" cy="'+y(v).toFixed(0)+'" r="3" fill="'+colors[ri]+'"/>'; });
+            const labelX=rt.scanDates.length===1 ? Number(lastX)+20 : 380;
+            svg+='<text x="'+labelX+'" y="'+(Number(lastY)+3)+'" font-size="7" fill="'+colors[ri]+'" font-weight="'+(ri===0?700:600)+'">'+r+'</text>';
           });
           svg+='</svg>';
           return svg;
         })()}
-        <div class="trend-labels">${rt.scanDates.map(d=>'<span>'+d+'</span>').join('')}</div>
+        <div class="trend-labels" style="${rt.scanDates.length===1?'justify-content:center;':''}">${rt.scanDates.map(d=>'<span>'+d+'</span>').join('')}</div>
       </div>
     </div>
     <div class="card" style="padding:12px 16px;">
@@ -539,7 +543,7 @@ function render(d) {
   <div class="content">
     <div><div class="section-title">Symmetry Check</div><div class="section-desc">Comparing the left and right sides of your body to detect muscle imbalances or asymmetric fat storage.</div></div>
     ${Object.entries(sym.regions).filter(([key])=>key!=='trunk').map(([key,r])=>{const name=key.charAt(0).toUpperCase()+key.slice(1);const t=r.thresholds;const v=r.val;const status=v<=t[1]?'Good balance':v<=t[2]?'Minor imbalance':'Significant imbalance';const statusColor=v<=t[1]?'green':v<=t[2]?'yellow':'red';const scalePos=Math.min(95,Math.max(5,v/t[3]*100));return`<div class="sym-region" style="flex-wrap:wrap;">
-      <div class="sym-img"><img src="/images/regions/${key}.png" alt="${name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
+      <div class="sym-img"><img src="/images/regions/${key}.png" alt="${name}" style="width:100%; height:100%; object-fit:contain; border-radius:8px;" /></div>
       <div class="sym-data">
         <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><div class="sym-name" style="margin-bottom:0;">${name}</div><span style="font-size:0.5rem; font-weight:700; color:${vc(statusColor)};">${status}</span></div>
         <table class="sym-table">
@@ -555,7 +559,7 @@ function render(d) {
         <div class="range-bar" style="background:linear-gradient(90deg, #34d399 0%, #34d399 ${100*t[1]/t[3]}%, #fbbf24 ${100*t[2]/t[3]}%, #f87171 100%);"><div class="range-dot" style="left:${scalePos}%;"></div></div>
         <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--mute); margin-top:2px;"><span>Balanced</span><span>Imbalanced</span></div>
       </div>
-      <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:8px;">${r.description}</div>
+      <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:8px;">${r.insight}</div>
     </div>`}).join('')}
   </div>
   ${FTR(7,tp)}
@@ -566,7 +570,7 @@ function render(d) {
   ${HDR('Left vs Right')}
   <div class="content">
     ${(()=>{const key='trunk';const r=sym.regions[key];const name='Trunk';const t=r.thresholds;const v=r.val;const status=v<=t[1]?'Good balance':v<=t[2]?'Minor imbalance':'Significant imbalance';const statusColor=v<=t[1]?'green':v<=t[2]?'yellow':'red';const scalePos=Math.min(95,Math.max(5,v/t[3]*100));return`<div class="sym-region" style="flex-wrap:wrap;">
-      <div class="sym-img"><img src="/images/regions/${key}.png" alt="${name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" /></div>
+      <div class="sym-img"><img src="/images/regions/${key}.png" alt="${name}" style="width:100%; height:100%; object-fit:contain; border-radius:8px;" /></div>
       <div class="sym-data">
         <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><div class="sym-name" style="margin-bottom:0;">${name}</div><span style="font-size:0.5rem; font-weight:700; color:${vc(statusColor)};">${status}</span></div>
         <table class="sym-table">
@@ -582,7 +586,7 @@ function render(d) {
         <div class="range-bar" style="background:linear-gradient(90deg, #34d399 0%, #34d399 ${100*t[1]/t[3]}%, #fbbf24 ${100*t[2]/t[3]}%, #f87171 100%);"><div class="range-dot" style="left:${scalePos}%;"></div></div>
         <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--mute); margin-top:2px;"><span>Balanced</span><span>Imbalanced</span></div>
       </div>
-      <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:8px;">${r.description}</div>
+      <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:8px;">${r.insight}</div>
     </div>`})()}
     ${sym.insight?`<div class="action ${ac(sym.insightColor||'green')}"><strong>${sym.insight.split(':')[0]}:</strong> ${sym.insight.split(':').slice(1).join(':').trim()}</div>`:''}
     <div class="card" style="margin-top:10px;">
