@@ -138,45 +138,53 @@
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 12px;
-    padding: 14px 18px 14px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 16px 18px;
   }
-  .loc-left {
+  .loc-top {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-right: auto;
+    gap: 8px;
+    margin-bottom: 12px;
   }
   .loc-icon {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     flex-shrink: 0;
   }
   .loc-name {
     font-family: 'Monument Extended', sans-serif;
     font-weight: 800;
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: white;
     letter-spacing: -0.01em;
   }
-  .loc-detail {
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.55);
-    margin-top: 1px;
+  .loc-details {
+    display: flex;
+    gap: 0;
   }
-  .loc-right { text-align: right; }
-  .loc-time {
-    font-family: 'Monument Extended', sans-serif;
-    font-weight: 800;
-    font-size: 0.95rem;
+  .loc-detail-item {
+    flex: 1;
+    padding: 0 14px;
+    border-left: 1px solid rgba(255,255,255,0.1);
+  }
+  .loc-detail-item:first-child {
+    padding-left: 0;
+    border-left: none;
+  }
+  .loc-label {
+    font-size: 0.48rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 2px;
+  }
+  .loc-value {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: white;
+  }
+  .loc-value.accent {
     color: #0a84ff;
-    letter-spacing: -0.01em;
-  }
-  .loc-date {
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.55);
-    margin-top: 1px;
   }
 
   /* ===== REPORT FEATURES ===== */
@@ -297,20 +305,23 @@
 
   <!-- LOCATION, TIME & PRICE -->
   <div class="location-card">
-    <div class="loc-left">
+    <div class="loc-top">
       <div class="loc-icon">&#128205;</div>
-      <div>
-        <div class="loc-name">SNN Clermont</div>
-        <div class="loc-detail"></div>
+      <div class="loc-name">SNN Clermont</div>
+    </div>
+    <div class="loc-details">
+      <div class="loc-detail-item">
+        <div class="loc-label">Date</div>
+        <div class="loc-value">Sunday, Mar 1</div>
       </div>
-    </div>
-    <div class="loc-right">
-      <div class="loc-time">7AM to 4PM</div>
-      <div class="loc-date">Sunday, Mar 1</div>
-    </div>
-    <div class="loc-right" style="border-left: 1px solid rgba(255,255,255,0.3); padding-left: 16px; margin-left: 12px;">
-      <div class="loc-time"><span style="font-family:'DM Sans',sans-serif;">&#8377;</span>2,999</div>
-      <div class="loc-date">per scan</div>
+      <div class="loc-detail-item">
+        <div class="loc-label">Time</div>
+        <div class="loc-value">7AM &ndash; 4PM</div>
+      </div>
+      <div class="loc-detail-item">
+        <div class="loc-label">Price</div>
+        <div class="loc-value accent">&#8377;2,999</div>
+      </div>
     </div>
   </div>
 
