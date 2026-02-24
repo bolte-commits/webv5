@@ -136,7 +136,7 @@
   .region { background: var(--card); border-radius: 12px; padding: 10px; display: flex; gap: 10px; align-items: stretch; flex: 1; }
   .region + .region { margin-top: 4px; }
   .region-img { width: 75px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
-  .region-data { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .region-data { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 2px; }
   .region-name { font-size: 0.72rem; font-weight: 800; color: var(--txt); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
   .region-fat { font-family: 'Monument Extended', sans-serif; font-size: 1rem; font-weight: 800; color: var(--pri); line-height: 1; }
   .region-fat small { font-size: 0.5rem; color: var(--mute); font-family: 'DM Sans'; font-weight: 600; }
@@ -416,7 +416,7 @@ function render(d) {
     </div>
     <div style="display:flex;gap:10px;flex:1;max-height:520px;">
       <div style="width:155px;flex-shrink:0;position:relative;">
-        <img src="/images/xray.jpg" alt="DEXA Scan" style="width:100%;height:100%;border-radius:12px;object-fit:cover;">
+        <img src="${bc.image}" alt="DEXA Scan" style="width:100%;height:100%;border-radius:12px;object-fit:cover;">
         <div style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);padding:3px 8px;border-radius:20px;">
           <div style="display:flex;align-items:center;gap:3px;"><span style="width:6px;height:6px;border-radius:2px;background:#00e5ff;"></span><span style="font-size:0.38rem;font-weight:600;color:white;">Lean</span></div>
           <div style="display:flex;align-items:center;gap:3px;"><span style="width:6px;height:6px;border-radius:2px;background:#ff4444;"></span><span style="font-size:0.38rem;font-weight:600;color:white;">Fat</span></div>
@@ -464,7 +464,7 @@ function render(d) {
           <div class="region-fat">${r.fatPercent}<small>% fat</small></div>
           <div class="region-delta" style="color:${r.change <= 0 ? 'var(--grn)' : 'var(--red)'};">${r.change <= 0 ? '&darr;' : '&uarr;'} ${Math.abs(r.change)}% from ${r.previousDate}</div>
         </div>
-        <div class="region-metrics" style="margin-top:auto;">
+        <div class="region-metrics">
           <div class="region-met"><div class="region-met-label">Lean</div><div class="region-met-val">${r.leanKg} kg</div></div>
           <div class="region-met"><div class="region-met-label">Fat</div><div class="region-met-val">${r.fatKg} kg</div></div>
           <div class="region-met"><div class="region-met-label">Total</div><div class="region-met-val">${r.totalKg} kg</div></div>
