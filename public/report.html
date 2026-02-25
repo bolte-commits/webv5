@@ -466,7 +466,7 @@ function render(d) {
     <div><div class="section-title">How Your Body Has Changed</div><div class="section-desc">Tracking lean mass, fat mass, and body fat across your DEXA scans.</div></div>
     ${ct.scans.length===1 ? `<div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:12px; border:1.5px dashed var(--border); border-radius:12px; padding:30px;">
         <div style="font-family:'Monument Extended',sans-serif; font-size:1.1rem; font-weight:800; color:var(--pri);">Trends unlock after Scan 2</div>
-        <div style="font-size:0.65rem; color:var(--dim); max-width:300px; line-height:1.5;">This is your first scan. Book a follow-up in 3\u20134 months and this page will show how your body composition changes over time.</div>
+        <div style="font-size:0.65rem; color:var(--dim); max-width:300px; line-height:1.5;">Trends will appear from your next scan onwards, letting you track how your body changes over time.</div>
       </div>`
     : `${trendCard('Body Fat % Trend', ct.scans.map(s=>({date:s.date,value:s.bodyFatPercent})), 'Fat %', '%')}
     ${trendCard('Lean Mass Trend', ct.scans.map(s=>({date:s.date,value:s.leanMassKg})), 'Lean (kg)', '')}
@@ -525,7 +525,7 @@ function render(d) {
     <div><div class="section-title">Regional Fat % Over Time</div><div class="section-desc">How fat percentage in each body region has changed across your scans.</div></div>
     ${rt.scanDates.length===1 ? `<div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:12px; border:1.5px dashed var(--border); border-radius:12px; padding:30px;">
         <div style="font-family:'Monument Extended',sans-serif; font-size:1.1rem; font-weight:800; color:var(--pri);">Trends unlock after Scan 2</div>
-        <div style="font-size:0.65rem; color:var(--dim); max-width:300px; line-height:1.5;">This is your first scan. Book a follow-up in 3\u20134 months to see how your regional composition changes over time.</div>
+        <div style="font-size:0.65rem; color:var(--dim); max-width:300px; line-height:1.5;">Trends will appear from your next scan onwards, letting you track how your regional composition changes over time.</div>
       </div>`
     : `<div class="card">
       <div class="card-title">All Regions &mdash; Fat % Trend</div>
