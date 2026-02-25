@@ -135,7 +135,7 @@
   /* ===== REGION CARD (for sectional + symmetry + bone) ===== */
   .region { background: var(--card); border-radius: 12px; padding: 10px; display: flex; gap: 10px; align-items: stretch; flex: 1; }
   .region + .region { margin-top: 4px; }
-  .region-img { width: 75px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .region-img { width: 67px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
   .region-data { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 2px; }
   .region-name { font-size: 0.72rem; font-weight: 800; color: var(--txt); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
   .region-fat { font-family: 'Monument Extended', sans-serif; font-size: 1rem; font-weight: 800; color: var(--pri); line-height: 1; }
@@ -148,7 +148,7 @@
   /* ===== SYMMETRY REGION ===== */
   .sym-region { background: var(--card); border-radius: 12px; padding: 16px; display: flex; gap: 14px; }
   .sym-region + .sym-region { margin-top: 10px; }
-  .sym-img { width: 120px; min-height: 120px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .sym-img { width: 108px; min-height: 108px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
   .sym-data { flex: 1; }
   .sym-name { font-size: 0.78rem; font-weight: 800; color: var(--txt); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; }
   .sym-table { width: 100%; border-collapse: collapse; }
@@ -161,7 +161,7 @@
   /* ===== BONE REGION GRID ===== */
   .bone-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
   .bone-card { background: var(--card); border-radius: 10px; padding: 8px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .bone-img { width: 60%; margin: 0 auto; border-radius: 6px; overflow: hidden; margin-bottom: 4px; }
+  .bone-img { width: 54%; margin: 0 auto; border-radius: 6px; overflow: hidden; margin-bottom: 4px; }
   .bone-name { font-size: 0.52rem; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 0.06em; }
   .bone-val { font-family: 'Monument Extended', sans-serif; font-size: 0.85rem; font-weight: 800; color: var(--pri); margin: 2px 0; }
   .bone-unit { font-size: 0.42rem; color: var(--mute); }
@@ -542,7 +542,7 @@ function render(d) {
 <div class="page">
   ${HDR('Left vs Right')}
   <div class="content">
-    <div><div class="section-title">Symmetry Check</div><div class="section-desc">Comparing the left and right sides of your body to detect muscle imbalances or asymmetric fat storage.</div></div>
+    <div><div class="section-title">Symmetry Check</div><div class="section-desc">Comparing the left and right sides of your body to detect imbalances</div></div>
     ${Object.entries(sym.regions).filter(([key])=>key!=='trunk').map(([key,r])=>{const name=key.charAt(0).toUpperCase()+key.slice(1);const t=r.thresholds;const v=r.val;const status=v<=t[1]?'Good balance':v<=t[2]?'Minor imbalance':'Significant imbalance';const statusColor=v<=t[1]?'green':v<=t[2]?'yellow':'red';const scalePos=Math.min(95,Math.max(5,v/t[3]*100));return`<div class="sym-region" style="flex-wrap:wrap;">
       <div class="sym-img"><img src="/images/regions/${key}.png" alt="${name}" style="width:100%; height:100%; object-fit:contain; border-radius:8px;" /></div>
       <div class="sym-data">
@@ -550,17 +550,16 @@ function render(d) {
         <table class="sym-table">
           <tr><th></th><th>Left</th><th>Right</th></tr>
           <tr><td>Fat %</td><td><strong>${r.left.fatPercent}%</strong></td><td><strong>${r.right.fatPercent}%</strong></td></tr>
-          <tr><td>Total</td><td>${r.left.totalKg} kg</td><td>${r.right.totalKg} kg</td></tr>
           <tr><td>Lean</td><td>${r.left.leanKg} kg</td><td>${r.right.leanKg} kg</td></tr>
           <tr><td>Fat</td><td>${r.left.fatKg} kg</td><td>${r.right.fatKg} kg</td></tr>
           <tr><td>Bone</td><td>${r.left.boneKg} kg</td><td>${r.right.boneKg} kg</td></tr>
         </table>
       </div>
-      <div style="width:100%; margin-top:10px;">
+      <div style="width:100%; margin-top:0;">
         <div class="range-bar" style="background:linear-gradient(90deg, #34d399 0%, #34d399 ${100*t[1]/t[3]}%, #fbbf24 ${100*t[2]/t[3]}%, #f87171 100%);"><div class="range-dot" style="left:${scalePos}%;"></div></div>
         <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--mute); margin-top:2px;"><span>Balanced</span><span>Imbalanced</span></div>
       </div>
-      <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:8px;">${r.insight}</div>
+      <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:0;">${r.insight}</div>
     </div>`}).join('')}
   </div>
   ${FTR(7,tp)}
@@ -577,17 +576,16 @@ function render(d) {
         <table class="sym-table">
           <tr><th></th><th>Left</th><th>Right</th></tr>
           <tr><td>Fat %</td><td><strong>${r.left.fatPercent}%</strong></td><td><strong>${r.right.fatPercent}%</strong></td></tr>
-          <tr><td>Total</td><td>${r.left.totalKg} kg</td><td>${r.right.totalKg} kg</td></tr>
           <tr><td>Lean</td><td>${r.left.leanKg} kg</td><td>${r.right.leanKg} kg</td></tr>
           <tr><td>Fat</td><td>${r.left.fatKg} kg</td><td>${r.right.fatKg} kg</td></tr>
           <tr><td>Bone</td><td>${r.left.boneKg} kg</td><td>${r.right.boneKg} kg</td></tr>
         </table>
       </div>
-      <div style="width:100%; margin-top:10px;">
+      <div style="width:100%; margin-top:0;">
         <div class="range-bar" style="background:linear-gradient(90deg, #34d399 0%, #34d399 ${100*t[1]/t[3]}%, #fbbf24 ${100*t[2]/t[3]}%, #f87171 100%);"><div class="range-dot" style="left:${scalePos}%;"></div></div>
         <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--mute); margin-top:2px;"><span>Balanced</span><span>Imbalanced</span></div>
       </div>
-      <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:8px;">${r.insight}</div>
+      <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:0;">${r.insight}</div>
     </div>`})()}
     ${sym.insight?`<div class="action ${ac(sym.insightColor||'green')}"><strong>${sym.insight.split(':')[0]}:</strong> ${sym.insight.split(':').slice(1).join(':').trim()}</div>`:''}
     <div class="card" style="margin-top:10px;">
