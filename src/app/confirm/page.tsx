@@ -123,6 +123,7 @@ function ConfirmContent() {
     if (result.success) {
       if (result.pricing) setPricing(result.pricing);
       setSuccess(true);
+      logout();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       setBookingError(result.error || "Booking failed. Please try again.");

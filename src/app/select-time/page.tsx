@@ -9,7 +9,7 @@ import {
   type EventInfo,
 } from "@/app/actions/schedule";
 import { formatPrice } from "@/lib/constants";
-import { getStoredToken } from "@/lib/auth";
+import { getStoredToken, logout } from "@/lib/auth";
 import styles from "./page.module.css";
 
 function SelectTimeContent() {
@@ -22,10 +22,9 @@ function SelectTimeContent() {
   const [error, setError] = useState("");
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [event, setEvent] = useState<EventInfo | null>(null);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
 
   useEffect(() => {
+    logout();
     if (!eventId) {
       setError("Missing event. Please go back and select an event.");
       setLoading(false);
@@ -43,17 +42,11 @@ function SelectTimeContent() {
   }, [eventId]);
 
   const handleSelect = (appt: Appointment) => {
-    setSelectedId(appt._id);
-    setSelectedLabel(appt.displayTime);
-  };
-
-  const handleConfirm = () => {
-    if (!selectedId || !selectedLabel) return;
     const token = getStoredToken();
     if (token) {
-      router.push("/confirm?appointmentId=" + selectedId);
+      router.push("/confirm?appointmentId=" + appt._id);
     } else {
-      router.push("/login?appointmentId=" + selectedId);
+      router.push("/login?appointmentId=" + appt._id);
     }
   };
 
@@ -159,11 +152,7 @@ function SelectTimeContent() {
               {appointments.map((appt) => (
                 <button
                   key={appt._id}
-                  className={
-                    selectedId === appt._id
-                      ? styles.timeSlotSelected
-                      : styles.timeSlot
-                  }
+                  className={styles.timeSlot}
                   onClick={() => handleSelect(appt)}
                 >
                   {appt.displayTime}
@@ -198,18 +187,6 @@ function SelectTimeContent() {
         )}
       </section>
 
-      <div
-        className={
-          selectedId ? styles.confirmBarVisible : styles.confirmBar
-        }
-      >
-        <div className={styles.selectedTime}>
-          Your slot: <span>{selectedLabel || "--"}</span>
-        </div>
-        <button className={styles.confirmBtn} onClick={handleConfirm}>
-          Confirm booking
-        </button>
-      </div>
     </>
   );
 }
