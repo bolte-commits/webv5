@@ -35,7 +35,7 @@
   }
 
   /* ===== PAGE ===== */
-  .page { width: 500px; min-height: 880px; background: var(--bg); box-shadow: 0 20px 80px rgba(0,0,0,0.25); display: flex; flex-direction: column; overflow: hidden; }
+  .page { width: 500px; height: 880px; background: var(--bg); box-shadow: 0 20px 80px rgba(0,0,0,0.25); display: flex; flex-direction: column; overflow: hidden; }
   @media print {
     body { background: none; padding: 0; gap: 0; }
     .page { box-shadow: none; page-break-after: always; }
@@ -464,22 +464,41 @@ function render(d) {
 <div class="page">
   ${HDR('Regional Analysis')}
   <div class="content">
-    <div><div class="section-title">Where Your Fat Lives</div><div class="section-desc">DEXA measures composition in 5 distinct regions, revealing how lean tissue and fat are distributed across your body.</div></div>
-    ${REGION_ORDER.map(key=>{ const r = ra[key], info = REGIONS[key]; if(!r) return ''; return `<div class="region">
-      <div class="region-img"><img src="/images/regions/${info.image}.png" alt="${info.name}" style="width:100%; height:100%; object-fit:contain; border-radius:8px;" /></div>
-      <div class="region-data">
-        <div class="region-name">${info.name}</div>
-        <div style="display:flex;align-items:baseline;gap:8px;">
-          <div class="region-fat">${r.fatPercent}<small>% fat</small></div>
-          ${r.change!=null && r.previousDate ? `<div class="region-delta" style="color:${r.change <= 0 ? 'var(--grn)' : 'var(--red)'};">${r.change <= 0 ? '&darr;' : '&uarr;'} ${Math.abs(r.change)}% from ${r.previousDate}</div>` : ''}
-        </div>
-        <div class="region-metrics">
-          <div class="region-met"><div class="region-met-label">Lean</div><div class="region-met-val">${r.leanKg} kg</div></div>
-          <div class="region-met"><div class="region-met-label">Fat</div><div class="region-met-val">${r.fatKg} kg</div></div>
-          <div class="region-met"><div class="region-met-label">Total</div><div class="region-met-val">${r.totalKg} kg</div></div>
-        </div>
+    <div><div class="section-title">Where Your Fat Lives</div><div class="section-desc">How lean tissue and fat are distributed across 5 body regions.</div></div>
+    <div class="card" style="padding:0; overflow:hidden;">
+      <table style="width:100%; border-collapse:collapse;">
+        <tr style="background:#f9fafb;">
+          <th style="padding:10px 14px; text-align:left; font-size:0.5rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--mute);">Region</th>
+          <th style="padding:10px 8px; text-align:center; font-size:0.5rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--mute);">Fat %</th>
+          <th style="padding:10px 8px; text-align:center; font-size:0.5rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--mute);">Lean (kg)</th>
+          <th style="padding:10px 8px; text-align:center; font-size:0.5rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--mute);">Fat (kg)</th>
+          <th style="padding:10px 8px; text-align:center; font-size:0.5rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--mute);">Total (kg)</th>
+        </tr>
+        ${REGION_ORDER.map((key,i)=>{ const r = ra[key], info = REGIONS[key]; if(!r) return ''; return `
+        <tr style="border-top:1px solid #f0f0f0;">
+          <td style="padding:10px 14px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <img src="/images/regions/${info.image}.png" alt="${info.name}" style="width:50px; height:50px; object-fit:contain; border-radius:6px;" />
+              <span style="font-size:0.72rem; font-weight:800; color:var(--txt); text-transform:uppercase; letter-spacing:0.04em;">${info.name}</span>
+            </div>
+          </td>
+          <td style="padding:10px 8px; text-align:center;"><span style="font-family:'Monument Extended',sans-serif; font-size:0.95rem; font-weight:800; color:var(--pri);">${r.fatPercent}</span><span style="font-size:0.5rem; color:var(--mute);">%</span></td>
+          <td style="padding:10px 8px; text-align:center; font-size:0.7rem; font-weight:700; color:var(--txt);">${r.leanKg}</td>
+          <td style="padding:10px 8px; text-align:center; font-size:0.7rem; font-weight:700; color:var(--txt);">${r.fatKg}</td>
+          <td style="padding:10px 8px; text-align:center; font-size:0.7rem; font-weight:700; color:var(--txt);">${r.totalKg}</td>
+        </tr>`; }).join('')}
+      </table>
+    </div>
+    <div class="card" style="padding:12px 16px;">
+      <div class="card-title">Understanding Your Regions</div>
+      <div style="font-size:0.55rem; color:var(--dim); line-height:1.65;">
+        <div style="margin-bottom:4px;"><strong style="color:var(--txt);">Android (Belly)</strong> — Fat here is linked to metabolic risk, insulin resistance, and cardiovascular disease.</div>
+        <div style="margin-bottom:4px;"><strong style="color:var(--txt);">Gynoid (Hip)</strong> — Hip fat is more protective and associated with lower metabolic risk than belly fat.</div>
+        <div style="margin-bottom:4px;"><strong style="color:var(--txt);">Trunk</strong> — Your entire torso. A broad indicator of central fat distribution.</div>
+        <div style="margin-bottom:4px;"><strong style="color:var(--txt);">Arms &amp; Legs</strong> — Limb composition reflects training balance and functional strength.</div>
+        <div><strong style="color:var(--txt);">Why it matters</strong> — Where you carry fat matters more than how much. Two people at the same body fat % can have very different health risks.</div>
       </div>
-    </div>`; }).join('')}
+    </div>
   </div>
   ${FTR(5,tp)}
 </div>
@@ -521,14 +540,14 @@ function render(d) {
       </div>
     </div>
     <div class="card" style="padding:12px 16px;">
-      <div class="card-title" style="margin-bottom:5px;">Fat % by Region</div>
+      <div class="card-title" style="margin-bottom:5px;">Fat % Trend by Region</div>
       <table class="dtable">
         <tr><th style="padding:5px 7px;font-size:0.48rem;">Region</th>${rt.scanDates.map(d=>'<th style="padding:5px 7px;font-size:0.48rem;">'+d+'</th>').join('')}</tr>
         ${Object.keys(rt.fatPercentByRegion).map(r=>'<tr><td style="padding:5px 7px;font-size:0.65rem;">'+r+'</td>'+rt.fatPercentByRegion[r].map((v,i,a)=>'<td style="padding:5px 7px;font-size:0.65rem;">'+(i===a.length-1?'<strong>':'')+v+'%'+(i===a.length-1?'</strong>':'')+'</td>').join('')+'</tr>').join('')}
       </table>
     </div>
     <div class="card" style="padding:12px 16px;">
-      <div class="card-title" style="margin-bottom:5px;">Lean Mass by Region (kg)</div>
+      <div class="card-title" style="margin-bottom:5px;">Lean Mass Trend by Region (kg)</div>
       <table class="dtable">
         <tr><th style="padding:5px 7px;font-size:0.48rem;">Region</th>${rt.scanDates.map(d=>'<th style="padding:5px 7px;font-size:0.48rem;">'+d+'</th>').join('')}</tr>
         ${Object.keys(rt.leanMassByRegion).map(r=>'<tr><td style="padding:5px 7px;font-size:0.65rem;">'+r+'</td>'+rt.leanMassByRegion[r].map((v,i,a)=>'<td style="padding:5px 7px;font-size:0.65rem;">'+(i===a.length-1?'<strong>':'')+v+(i===a.length-1?'</strong>':'')+'</td>').join('')+'</tr>').join('')}
@@ -750,7 +769,7 @@ function render(d) {
 <div class="page">
   ${HDR('Metabolism')}
   <div class="content">
-    <div><div class="section-title">How You Burn Energy</div><div class="section-desc">Your Resting Metabolic Rate (RMR) is how many calories your body burns at complete rest.</div></div>
+    <div><div class="section-title">How You Burn Energy</div><div class="section-desc">Your RMR is how many calories your body burns at complete rest.</div></div>
     ${(()=>{const t=met.thresholds;const v=met.rmr;const c=v<t[1]?'red':v<t[2]?'yellow':'green';const scalePos=Math.min(95,Math.max(5,(v-t[0])/(t[3]-t[0])*100));return`<div class="card" style="text-align:center; padding:22px;">
       <div class="label">Resting Metabolic Rate</div>
       <div class="num-hero" style="margin:6px 0 3px;">${met.rmr}</div>
@@ -791,7 +810,7 @@ function render(d) {
   <div class="content">
     <div><div class="section-title">How to Use Your RMR</div><div class="section-desc">Use your RMR to estimate your total daily calorie burn based on activity level, then build your diet around that number.</div></div>
     <div class="card" style="text-align:center; padding:20px;">
-      <div class="label">Your Total Daily Expenditure</div>
+      <div class="label">Your Total Daily Energy Expenditure (TDEE)</div>
       <div class="num-hero" style="margin:6px 0 4px;">${Math.round(met.tdee)}</div>
       <div style="font-size:0.6rem; color:var(--dim);">kcal / day</div>
       <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border); font-size:0.55rem; line-height:1.5; color:var(--dim);">This is the total number of calories your body burns each day, including rest, daily activity, and exercise. Eat around this to maintain weight, below to lose, or above to gain.</div>
@@ -812,21 +831,21 @@ function render(d) {
       <div style="margin-top:4px; font-size:0.5rem; color:var(--dim); font-style:italic;">Tip: Your smartwatch's "active calories" already includes both lifestyle and workout burn — you can use that directly in place of those two values.</div>
     </div>
     <div class="g2">
-      <div class="card">
+      <div class="card" style="padding-bottom:8px;">
         <div class="card-title">Lifestyle Activity Factor</div>
-        <div style="font-size:0.48rem; color:var(--dim); margin-top:-7px; margin-bottom:6px;">Use these values to calculate your TDEE</div>
+        <div style="font-size:0.48rem; color:var(--dim); margin-top:-7px; margin-bottom:4px;">Use these values to calculate your TDEE</div>
         <div style="display:flex; flex-direction:column;">
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Sedentary</span><br><span style="font-size:0.48rem; color:var(--dim);">Desk job, minimal movement</span></span><span class="num-sm">${met.lifeStyleCaloriesMap.sedentary}</span></div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Light activity</span><br><span style="font-size:0.48rem; color:var(--dim);">Walking, light chores</span></span><span class="num-sm">${met.lifeStyleCaloriesMap.light}</span></div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Moderately active</span><br><span style="font-size:0.48rem; color:var(--dim);">Regular exercise, active job</span></span><span class="num-sm">${met.lifeStyleCaloriesMap.moderate}</span></div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Very active</span><br><span style="font-size:0.48rem; color:var(--dim);">Intense daily training</span></span><span class="num-sm">${met.lifeStyleCaloriesMap.intense}</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:3px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Sedentary</span><br><span style="font-size:0.48rem; color:var(--dim);">Desk job, minimal movement</span></span><span class="num-sm">${met.lifeStyleCaloriesMap.sedentary}</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:3px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Light activity</span><br><span style="font-size:0.48rem; color:var(--dim);">Walking, light chores</span></span><span class="num-sm">${met.lifeStyleCaloriesMap.light}</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:3px 0; border-bottom:1px solid #f3f4f6;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Moderately active</span><br><span style="font-size:0.48rem; color:var(--dim);">Regular exercise, active job</span></span><span class="num-sm">${met.lifeStyleCaloriesMap.moderate}</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:3px 0;"><span><span style="font-size:0.55rem; color:var(--txt); font-weight:600;">Very active</span><br><span style="font-size:0.48rem; color:var(--dim);">Intense daily training</span></span><span class="num-sm">${met.lifeStyleCaloriesMap.intense}</span></div>
         </div>
       </div>
-      <div class="card">
+      <div class="card" style="padding-bottom:8px;">
         <div class="card-title">Calories Burned / 30 min</div>
-        <div style="font-size:0.48rem; color:var(--dim); margin-top:-7px; margin-bottom:6px;">Use these values to calculate your TDEE</div>
+        <div style="font-size:0.48rem; color:var(--dim); margin-top:-7px; margin-bottom:4px;">Use these values to calculate your TDEE</div>
         <div style="display:flex; flex-direction:column;">
-          ${(()=>{const cb=met.caloriesBurnedPerHalfHour;const activities=[['WALKING','\u{1F6B6}','Walking'],['RUNNING_SLOW','\u{1F3C3}','Jogging'],['RUNNING_FAST','\u{1F3C3}\u{200D}\u{2642}\u{FE0F}','Running'],['CYCLING','\u{1F6B4}','Cycling'],['SWIMMING','\u{1F3CA}','Swimming'],['WEIGHT','\u{1F3CB}\u{FE0F}','Weight Training'],['YOGA','\u{1F9D8}','Yoga'],['BADMINTON','\u{1F3F8}','Badminton'],['BOXING','\u{1F94A}','Boxing']];return activities.filter(a=>cb[a[0]]!=null).map((a,i,arr)=>'<div style="display:flex; justify-content:space-between; padding:5px 0;'+(i<arr.length-1?' border-bottom:1px solid #f3f4f6;':'')+'"><span style="font-size:0.55rem; color:var(--dim);">'+a[1]+' '+a[2]+'</span><span class="num-sm">'+cb[a[0]]+'</span></div>').join('')})()}
+          ${(()=>{const cb=met.caloriesBurnedPerHalfHour;const activities=[['WALKING','\u{1F6B6}','Walking'],['RUNNING_SLOW','\u{1F3C3}','Jogging'],['RUNNING_FAST','\u{1F3C3}\u{200D}\u{2642}\u{FE0F}','Running'],['CYCLING','\u{1F6B4}','Cycling'],['SWIMMING','\u{1F3CA}','Swimming'],['WEIGHT','\u{1F3CB}\u{FE0F}','Weight Training'],['YOGA','\u{1F9D8}','Yoga'],['BADMINTON','\u{1F3F8}','Badminton'],['BOXING','\u{1F94A}','Boxing']];return activities.filter(a=>cb[a[0]]!=null).map((a,i,arr)=>'<div style="display:flex; justify-content:space-between; padding:3px 0;'+(i<arr.length-1?' border-bottom:1px solid #f3f4f6;':'')+'"><span style="font-size:0.55rem; color:var(--dim);">'+a[1]+' '+a[2]+'</span><span class="num-sm">'+cb[a[0]]+'</span></div>').join('')})()}
         </div>
       </div>
     </div>
