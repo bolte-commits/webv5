@@ -345,21 +345,10 @@ function trendCard(title, pts, hdr, suffix='', inv=false) {
 
 function blurredTrendCard(title, pts, hdr, suffix='', inv=false) {
   if (pts.length > 1) return trendCard(title, pts, hdr, suffix, inv);
-  const v = pts[0].value;
-  const step = Math.abs(v) * 0.05 || 0.3;
-  const dir = inv ? 1 : -1;
-  const fake = [
-    { date: 'Scan 1', value: v },
-    { date: 'Scan 2', value: +(v + dir*step).toFixed(1) },
-    { date: 'Scan 3', value: +(v + dir*step*2.2).toFixed(1) },
-    { date: 'Scan 4', value: +(v + dir*step*3).toFixed(1) }
-  ];
-  return `<div style="position:relative;">
-    <div style="filter:blur(5px); opacity:0.5; pointer-events:none;">
-      ${trendCard(title, fake, hdr, suffix, inv)}
-    </div>
-    <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center;">
-      <div style="font-size:0.6rem; font-weight:700; color:var(--pri);">Trends appear after Scan 2</div>
+  return `<div class="card" style="display:flex; align-items:center; justify-content:center; border:1.5px dashed var(--border); background:var(--card); min-height:60px;">
+    <div style="text-align:center;">
+      <div style="font-size:0.55rem; font-weight:700; color:var(--pri);">${title}</div>
+      <div style="font-size:0.48rem; color:var(--dim); margin-top:2px;">Trends appear after Scan 2</div>
     </div>
   </div>`;
 }
@@ -475,29 +464,10 @@ function render(d) {
   ${HDR('Composition Trends')}
   <div class="content" style="display:flex; flex-direction:column;">
     <div><div class="section-title">How Your Body Has Changed</div><div class="section-desc">Tracking lean mass, fat mass, and body fat across your DEXA scans.</div></div>
-    ${ct.scans.length===1 ? (()=>{
-      const s=ct.scans[0], bf=s.bodyFatPercent, lm=s.leanMassKg, fm=s.fatMassKg;
-      const fake=[
-        {date:'Scan 1',value:bf},{date:'Scan 2',value:+(bf-0.8).toFixed(1)},{date:'Scan 3',value:+(bf-1.5).toFixed(1)},{date:'Scan 4',value:+(bf-2.1).toFixed(1)}
-      ];
-      const fakeL=[
-        {date:'Scan 1',value:lm},{date:'Scan 2',value:+(lm+0.5).toFixed(1)},{date:'Scan 3',value:+(lm+1.1).toFixed(1)},{date:'Scan 4',value:+(lm+1.6).toFixed(1)}
-      ];
-      const fakeF=[
-        {date:'Scan 1',value:fm},{date:'Scan 2',value:+(fm-0.4).toFixed(1)},{date:'Scan 3',value:+(fm-0.9).toFixed(1)},{date:'Scan 4',value:+(fm-1.2).toFixed(1)}
-      ];
-      return `<div style="position:relative; flex:1; display:flex; flex-direction:column;">
-        <div style="filter:blur(5px); opacity:0.5; pointer-events:none; flex:1; display:flex; flex-direction:column;">
-          ${trendCard('Body Fat % Trend',fake,'Fat %','%')}
-          ${trendCard('Lean Mass Trend',fakeL,'Lean (kg)','')}
-          ${trendCard('Fat Mass Trend',fakeF,'Fat (kg)','')}
-        </div>
-        <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:8px;">
-          <div style="font-family:'Monument Extended',sans-serif; font-size:1.1rem; font-weight:800; color:var(--pri);">Trends unlock after Scan 2</div>
-          <div style="font-size:0.65rem; color:var(--dim); max-width:300px; line-height:1.5;">This is your first scan. Book a follow-up in 3\u20134 months and this page will show how your body composition changes over time.</div>
-        </div>
-      </div>`;
-    })()
+    ${ct.scans.length===1 ? `<div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:12px; border:1.5px dashed var(--border); border-radius:12px; padding:30px;">
+        <div style="font-family:'Monument Extended',sans-serif; font-size:1.1rem; font-weight:800; color:var(--pri);">Trends unlock after Scan 2</div>
+        <div style="font-size:0.65rem; color:var(--dim); max-width:300px; line-height:1.5;">This is your first scan. Book a follow-up in 3\u20134 months and this page will show how your body composition changes over time.</div>
+      </div>`
     : `${trendCard('Body Fat % Trend', ct.scans.map(s=>({date:s.date,value:s.bodyFatPercent})), 'Fat %', '%')}
     ${trendCard('Lean Mass Trend', ct.scans.map(s=>({date:s.date,value:s.leanMassKg})), 'Lean (kg)', '')}
     ${trendCard('Fat Mass Trend', ct.scans.map(s=>({date:s.date,value:s.fatMassKg})), 'Fat (kg)', '')}`}
@@ -553,44 +523,10 @@ function render(d) {
   ${HDR('Regional Trends')}
   <div class="content">
     <div><div class="section-title">Regional Fat % Over Time</div><div class="section-desc">How fat percentage in each body region has changed across your scans.</div></div>
-    ${rt.scanDates.length===1 ? (()=>{
-      const regions=Object.keys(rt.fatPercentByRegion);
-      const fakeDates=['Scan 1','Scan 2','Scan 3','Scan 4'];
-      const fakeFat={};regions.forEach(r=>{const v=rt.fatPercentByRegion[r][0];fakeFat[r]=[v,+(v-0.6).toFixed(1),+(v-1.2).toFixed(1),+(v-1.8).toFixed(1)];});
-      const fakeLean={};Object.keys(rt.leanMassByRegion).forEach(r=>{const v=rt.leanMassByRegion[r][0];fakeLean[r]=[v,+(v+0.3).toFixed(1),+(v+0.6).toFixed(1),+(v+0.9).toFixed(1)];});
-      const colors=['var(--pri)','#555','#888','#aaa','#ccc'];
-      const allVals=regions.flatMap(r=>fakeFat[r]);
-      const mn=Math.min(...allVals),mx=Math.max(...allVals),rng=mx-mn||1;
-      const W=400,H=170,pX=30,pY=5,cH=155,cW=340;
-      const x=i=>pX+(i/3)*cW;
-      const y=v=>pY+(1-(v-mn)/rng)*cH;
-      let svg='<svg viewBox="0 0 400 170" style="width:100%;height:130px;">';
-      svg+='<line x1="0" y1="'+(H-10)+'" x2="400" y2="'+(H-10)+'" stroke="#e5e7eb" stroke-width="0.5"/>';
-      svg+='<line x1="0" y1="'+Math.round(H/2)+'" x2="400" y2="'+Math.round(H/2)+'" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="3"/>';
-      svg+='<line x1="0" y1="5" x2="400" y2="5" stroke="#e5e7eb" stroke-width="0.5"/>';
-      regions.forEach((r,ri)=>{
-        const pts=fakeFat[r].map((v,i)=>x(i).toFixed(0)+','+y(v).toFixed(0)).join(' ');
-        svg+='<polyline points="'+pts+'" fill="none" stroke="'+colors[ri]+'" stroke-width="2" stroke-linecap="round"/>';
-        fakeFat[r].forEach((v,i)=>{svg+='<circle cx="'+x(i).toFixed(0)+'" cy="'+y(v).toFixed(0)+'" r="3" fill="'+colors[ri]+'"/>';});
-        svg+='<text x="380" y="'+(Number(y(fakeFat[r][3]).toFixed(0))+3)+'" font-size="7" fill="'+colors[ri]+'" font-weight="'+(ri===0?700:600)+'">'+r+'</text>';
-      });
-      svg+='</svg>';
-      return `<div style="position:relative; flex:1; display:flex; flex-direction:column;">
-        <div style="filter:blur(5px); opacity:0.5; pointer-events:none; flex:1; display:flex; flex-direction:column; gap:12px;">
-          <div class="card"><div class="card-title">All Regions &mdash; Fat % Trend</div><div class="trend-chart">${svg}<div class="trend-labels">${fakeDates.map(d=>'<span>'+d+'</span>').join('')}</div></div></div>
-          <div class="card" style="padding:12px 16px;"><div class="card-title" style="margin-bottom:5px;">Fat % Trend by Region</div>
-            <table class="dtable"><tr><th style="padding:5px 7px;font-size:0.48rem;">Region</th>${fakeDates.map(d=>'<th style="padding:5px 7px;font-size:0.48rem;">'+d+'</th>').join('')}</tr>
-            ${regions.map(r=>'<tr><td style="padding:5px 7px;font-size:0.65rem;">'+r+'</td>'+fakeFat[r].map((v,i,a)=>'<td style="padding:5px 7px;font-size:0.65rem;">'+(i===a.length-1?'<strong>':'')+v+'%'+(i===a.length-1?'</strong>':'')+'</td>').join('')+'</tr>').join('')}</table></div>
-          <div class="card" style="padding:12px 16px;"><div class="card-title" style="margin-bottom:5px;">Lean Mass Trend by Region (kg)</div>
-            <table class="dtable"><tr><th style="padding:5px 7px;font-size:0.48rem;">Region</th>${fakeDates.map(d=>'<th style="padding:5px 7px;font-size:0.48rem;">'+d+'</th>').join('')}</tr>
-            ${Object.keys(fakeLean).map(r=>'<tr><td style="padding:5px 7px;font-size:0.65rem;">'+r+'</td>'+fakeLean[r].map((v,i,a)=>'<td style="padding:5px 7px;font-size:0.65rem;">'+(i===a.length-1?'<strong>':'')+v+(i===a.length-1?'</strong>':'')+'</td>').join('')+'</tr>').join('')}</table></div>
-        </div>
-        <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:8px;">
-          <div style="font-family:'Monument Extended',sans-serif; font-size:1.1rem; font-weight:800; color:var(--pri);">Trends unlock after Scan 2</div>
-          <div style="font-size:0.65rem; color:var(--dim); max-width:300px; line-height:1.5;">This is your first scan. Book a follow-up in 3\u20134 months to see how your regional composition changes over time.</div>
-        </div>
-      </div>`;
-    })()
+    ${rt.scanDates.length===1 ? `<div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:12px; border:1.5px dashed var(--border); border-radius:12px; padding:30px;">
+        <div style="font-family:'Monument Extended',sans-serif; font-size:1.1rem; font-weight:800; color:var(--pri);">Trends unlock after Scan 2</div>
+        <div style="font-size:0.65rem; color:var(--dim); max-width:300px; line-height:1.5;">This is your first scan. Book a follow-up in 3\u20134 months to see how your regional composition changes over time.</div>
+      </div>`
     : `<div class="card">
       <div class="card-title">All Regions &mdash; Fat % Trend</div>
       <div class="trend-chart">
@@ -736,9 +672,7 @@ function render(d) {
     ${(()=>{
       const pts=vf.trend.map(t=>({date:t.date,value:t.grams}));
       if(pts.length>1) return `<div class="card"><div class="card-title">Visceral Fat Trend</div><div class="trend-chart">${trendSvg(pts,400,70,'g')}${trendLabels(pts)}</div></div>`;
-      const v=pts[0].value,s=Math.abs(v)*0.05||5;
-      const fake=[{date:'Scan 1',value:v},{date:'Scan 2',value:+(v-s).toFixed(0)},{date:'Scan 3',value:+(v-s*2.2).toFixed(0)},{date:'Scan 4',value:+(v-s*3).toFixed(0)}];
-      return `<div style="position:relative;"><div style="filter:blur(5px); opacity:0.5; pointer-events:none;"><div class="card"><div class="card-title">Visceral Fat Trend</div><div class="trend-chart">${trendSvg(fake,400,70,'g')}${trendLabels(fake)}</div></div></div><div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;"><div style="font-size:0.6rem; font-weight:700; color:var(--pri);">Trends appear after Scan 2</div></div></div>`;
+      return `<div class="card" style="display:flex; align-items:center; justify-content:center; border:1.5px dashed var(--border); min-height:60px;"><div style="text-align:center;"><div style="font-size:0.55rem; font-weight:700; color:var(--pri);">Visceral Fat Trend</div><div style="font-size:0.48rem; color:var(--dim); margin-top:2px;">Trends appear after Scan 2</div></div></div>`;
     })()}`
     :`<div class="g2">
       <div class="card" style="text-align:center; opacity:0.4;"><div class="label">Visceral Fat</div><div class="num-lg" style="margin:6px 0 3px;">N/A</div><div style="font-size:0.5rem; color:var(--mute);">grams</div><div class="tag tag-n" style="margin-top:6px;">Not available</div></div>
@@ -866,9 +800,7 @@ function render(d) {
     ${(()=>{
       const pts=met.rmrTrend;
       if(pts.length>1) return `<div class="card" style="padding:12px 14px;flex:1;display:flex;flex-direction:column;"><div class="card-title">RMR Trend</div><div class="trend-chart" style="flex:1;min-width:0;display:flex;flex-direction:column;">${trendSvg(pts,400,70,'')}${trendLabels(pts)}</div></div>`;
-      const v=pts[0].value,s=Math.abs(v)*0.05||10;
-      const fake=[{date:'Scan 1',value:v},{date:'Scan 2',value:+(v+s).toFixed(0)},{date:'Scan 3',value:+(v+s*2.2).toFixed(0)},{date:'Scan 4',value:+(v+s*3).toFixed(0)}];
-      return `<div style="position:relative;"><div style="filter:blur(5px); opacity:0.5; pointer-events:none;"><div class="card" style="padding:12px 14px;flex:1;display:flex;flex-direction:column;"><div class="card-title">RMR Trend</div><div class="trend-chart" style="flex:1;min-width:0;display:flex;flex-direction:column;">${trendSvg(fake,400,70,'')}${trendLabels(fake)}</div></div></div><div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;"><div style="font-size:0.6rem; font-weight:700; color:var(--pri);">Trends appear after Scan 2</div></div></div>`;
+      return `<div class="card" style="display:flex; align-items:center; justify-content:center; border:1.5px dashed var(--border); min-height:60px;"><div style="text-align:center;"><div style="font-size:0.55rem; font-weight:700; color:var(--pri);">RMR Trend</div><div style="font-size:0.48rem; color:var(--dim); margin-top:2px;">Trends appear after Scan 2</div></div></div>`;
     })()}
     <div class="g2">
       <div class="insight"><h4>What's a good RMR?</h4><p>There is no "good" RMR &mdash; it's unique to your body. However, higher RMR relative to your size means you burn more calories at rest.</p></div>
