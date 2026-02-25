@@ -8,11 +8,11 @@ export interface ScheduleEvent {
   area: string;
   landmark: string;
   city?: string;
-  dayOfWeek: string;
-  date: string;
+  displayDate: string;
   time: string;
   isFull: boolean;
   isPrivate?: boolean;
+  locationUrl?: string;
 }
 
 export interface Appointment {

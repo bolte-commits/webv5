@@ -56,28 +56,9 @@
     padding: 4rem 2rem;
 }
 
-.citySection {
-    display: none;
-}
-
-.citySectionActive {
-    display: block;
-}
-
-.areaGroup {
-    margin-bottom: 4rem;
-}
-
-.areaHeader {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid var(--accent);
-}
-
 .datesList {
     display: grid;
-    gap: 0.8rem;
+    gap: 1rem;
 }
 
 .dateRow {
@@ -92,38 +73,53 @@
 }
 
 .dateRow:hover {
-    background: white;
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
-.dateInfo {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
+.rowLeft {
     flex: 1;
+    min-width: 0;
 }
 
 .dateLandmark {
     font-weight: 700;
-    min-width: 200px;
     font-size: 1.05rem;
+    line-height: 1.3;
 }
 
-.dateDay {
-    font-weight: 600;
-    min-width: 80px;
+.dateTimeLine {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
     color: var(--text-light);
 }
 
 .dateDate {
-    color: var(--text-light);
-    min-width: 80px;
+    font-weight: 600;
+}
+
+.dateSep {
+    opacity: 0.4;
 }
 
 .dateTime {
-    color: var(--text-light);
-    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.mapLink {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0.4rem;
+    color: var(--accent);
+    vertical-align: middle;
+    transition: opacity 0.2s;
+}
+
+.mapLink:hover {
+    opacity: 0.7;
 }
 
 .privateTag {
@@ -262,37 +258,17 @@
         padding: 3rem 1.5rem;
     }
 
-    .areaHeader {
-        font-size: 1.8rem;
-    }
-
     .dateRow {
         flex-direction: column;
         align-items: flex-start;
         gap: 1rem;
-        padding: 1rem;
+        padding: 1.2rem;
     }
 
-    .dateInfo {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: flex-start;
-        width: 100%;
-    }
-
-    .dateLandmark {
-        min-width: auto;
-    }
-
-    .dateDay,
-    .dateDate {
-        min-width: auto;
-    }
-
-    .bookBtn,
-    .bookBtnFull {
-        width: 100%;
-        text-align: center;
+    .dateRow {
+        flex-direction: row;
+        align-items: center;
+        padding: 1rem 1.2rem;
     }
 
     .skeletonRow {

@@ -9,41 +9,12 @@ import styles from "./page.module.css";
 interface EventEntry {
   eventId: number;
   landmark: string;
-  day: string;
-  date: string;
+  area: string;
+  displayDate: string;
   time: string;
   full: boolean;
   isPrivate: boolean;
-}
-
-interface AreaGroup {
-  area: string;
-  entries: EventEntry[];
-}
-
-function groupByArea(events: ScheduleEvent[]): AreaGroup[] {
-  // Events are pre-sorted by startTime from the API.
-  // Map insertion order preserves earliest-first area ordering.
-  const areaMap = new Map<string, EventEntry[]>();
-
-  for (const ev of events) {
-    if (!areaMap.has(ev.area)) areaMap.set(ev.area, []);
-    areaMap.get(ev.area)!.push({
-      eventId: ev.eventId,
-      landmark: ev.landmark,
-      day: ev.dayOfWeek,
-      date: ev.date,
-      time: ev.time,
-      full: ev.isFull,
-      isPrivate: ev.isPrivate || false,
-    });
-  }
-
-  const groups: AreaGroup[] = [];
-  for (const [area, entries] of areaMap) {
-    groups.push({ area, entries });
-  }
-  return groups;
+  locationUrl?: string;
 }
 
 export default function SchedulePage() {
@@ -63,11 +34,19 @@ export default function SchedulePage() {
     });
   }, []);
 
-  const groups = useMemo(() => {
-    const filtered = allEvents.filter(
-      (ev) => (ev.city || "Bengaluru") === selectedCity
-    );
-    return groupByArea(filtered);
+  const entries = useMemo(() => {
+    return allEvents
+      .filter((ev) => (ev.city || "Bengaluru") === selectedCity)
+      .map((ev): EventEntry => ({
+        eventId: ev.eventId,
+        landmark: ev.landmark,
+        area: ev.area,
+        displayDate: ev.displayDate,
+        time: ev.time,
+        locationUrl: ev.locationUrl,
+        full: ev.isFull,
+        isPrivate: ev.isPrivate || false,
+      }));
   }, [allEvents, selectedCity]);
 
   return (
@@ -111,7 +90,7 @@ export default function SchedulePage() {
             {error}
           </p>
         )}
-        {!loading && !error && groups.length === 0 && (
+        {!loading && !error && entries.length === 0 && (
           <div className={styles.emptyState}>
             <svg className={styles.emptyIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -127,44 +106,52 @@ export default function SchedulePage() {
             </p>
           </div>
         )}
-        {groups.map((group) => (
-          <div key={group.area} className={styles.areaGroup}>
-            <h2 className={styles.areaHeader}>{group.area}</h2>
-            <div className={styles.datesList}>
-              {group.entries.map((entry) => (
-                  <div key={entry.eventId} className={styles.dateRow}>
-                    <div className={styles.dateInfo}>
-                      <div className={styles.dateLandmark}>
-                        {entry.landmark}
-                        {entry.isPrivate && (
-                          <span className={styles.privateTag}>
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                            </svg>
-                            Invite only
-                          </span>
-                        )}
-                      </div>
-                      <div className={styles.dateDay}>{entry.day}</div>
-                      <div className={styles.dateDate}>{entry.date}</div>
-                      <div className={styles.dateTime}>{entry.time}</div>
-                    </div>
-                    {entry.full ? (
-                      <span className={styles.bookBtnFull}>Full</span>
-                    ) : (
-                      <Link
-                        href={`/select-time?eventId=${entry.eventId}`}
-                        className={styles.bookBtn}
-                      >
-                        Book
-                      </Link>
+        {entries.length > 0 && (
+          <div className={styles.datesList}>
+            {entries.map((entry) => (
+              <div key={entry.eventId} className={styles.dateRow}>
+                <div className={styles.rowLeft}>
+                  <div className={styles.dateLandmark}>
+                    {entry.landmark}, {entry.area}
+                    {entry.locationUrl && (
+                      <a href={entry.locationUrl} target="_blank" rel="noopener noreferrer" className={styles.mapLink} title="Open in Maps">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          <polyline points="15 3 21 3 21 9" />
+                          <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                      </a>
+                    )}
+                    {entry.isPrivate && (
+                      <span className={styles.privateTag}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        Invite only
+                      </span>
                     )}
                   </div>
-              ))}
-            </div>
+                  <div className={styles.dateTimeLine}>
+                    <span className={styles.dateDate}>{entry.displayDate}</span>
+                    <span className={styles.dateSep}>&middot;</span>
+                    <span className={styles.dateTime}>{entry.time}</span>
+                  </div>
+                </div>
+                {entry.full ? (
+                  <span className={styles.bookBtnFull}>Full</span>
+                ) : (
+                  <Link
+                    href={`/select-time?eventId=${entry.eventId}`}
+                    className={styles.bookBtn}
+                  >
+                    Book
+                  </Link>
+                )}
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </section>
     </>
   );
