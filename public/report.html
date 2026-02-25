@@ -365,9 +365,10 @@ function render(d) {
         <div class="cover-stat"><div class="cover-label">Age / Sex</div><div class="cover-val">${c.age} / ${c.sex}</div></div>
         <div class="cover-stat"><div class="cover-label">Height</div><div class="cover-val">${c.heightCm} cm</div></div>
         <div class="cover-stat"><div class="cover-label">Weight</div><div class="cover-val">${c.weightKg} kg</div></div>
+        <div class="cover-stat"><div class="cover-label">Scan Date</div><div class="cover-val">${formatDate(c.scanDate)}</div></div>
       </div>
     </div>
-    <div class="cover-bottom"><div class="cover-date">${formatDate(c.scanDate)}</div></div>
+    <div class="cover-bottom"><div style="font-size:0.48rem; color:rgba(255,255,255,0.35); line-height:1.6; text-align:center; max-width:400px; margin:0 auto;">This report contains medical-grade DEXA measurements. All suggestions and interpretations are for educational purposes only and do not constitute medical advice. Please consult your physician before making any health decisions.</div></div>
   </div>
   <div class="cover-ftr"><a>bodyinsight.in</a> &middot; support@bodyinsight.in</div>
 </div>
