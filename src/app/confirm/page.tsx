@@ -30,8 +30,9 @@ function ConfirmContent() {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
-  const [height, setHeight] = useState("");
-  const [weight, setWeight] = useState("");
+  const [height, setHeight] = useState(""); // stored as cm internally
+  const [heightFt, setHeightFt] = useState(5);
+  const [heightIn, setHeightIn] = useState(6);
   const [token, setToken] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [couponApplied, setCouponApplied] = useState(false);
@@ -72,8 +73,12 @@ function ConfirmContent() {
       if (result.user) {
         if (result.user.name) setName(result.user.name);
         if (result.user.gender) setGender(result.user.gender);
-        if (result.user.height) setHeight(String(result.user.height));
-        if (result.user.weight) setWeight(String(result.user.weight));
+        if (result.user.height) {
+          setHeight(String(result.user.height));
+          const totalIn = Math.round(result.user.height / 2.54);
+          setHeightFt(Math.floor(totalIn / 12));
+          setHeightIn(totalIn % 12);
+        }
         if (result.user.phone) {
           const digits = result.user.phone.replace(/\D/g, "");
           if (digits.length === 10) setPhone(digits);
@@ -112,7 +117,6 @@ function ConfirmContent() {
       phone: phone || undefined,
       coupon: couponCode.trim().toUpperCase() || undefined,
       height: height ? Number(height) : undefined,
-      weight: weight ? Number(weight) : undefined,
       gender: gender || undefined,
     });
     setLoading(false);
@@ -292,11 +296,6 @@ function ConfirmContent() {
         {/* Booking details form */}
         {!success && !hasPending && !checkingPending && (
           <div className={styles.card}>
-            <h2>Your details</h2>
-            <p className={styles.subtitle}>
-              Fill in your information to complete the booking.
-            </p>
-
             <div className={styles.bookingSummary}>
               <div className={styles.summaryTitle}>Booking summary</div>
               <div className={styles.summaryLocation}>
@@ -342,43 +341,55 @@ function ConfirmContent() {
                 />
               </div>
               <div className={styles.formGroup}>
-                <label htmlFor="gender-input">Gender</label>
-                <select
-                  id="gender-input"
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                >
-                  <option value="" disabled>
-                    Select
-                  </option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </select>
-              </div>
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="height-input">Height (cm)</label>
-                  <input
-                    type="number"
-                    id="height-input"
-                    placeholder="170"
-                    min={120}
-                    max={210}
-                    value={height}
-                    onChange={(e) => setHeight(e.target.value)}
-                  />
+                <label>Gender</label>
+                <div className={styles.genderButtons}>
+                  <button
+                    type="button"
+                    className={`${styles.genderBtn} ${gender === "male" ? styles.genderBtnActive : ""}`}
+                    onClick={() => setGender("male")}
+                  >
+                    Male
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.genderBtn} ${gender === "female" ? styles.genderBtnActive : ""}`}
+                    onClick={() => setGender("female")}
+                  >
+                    Female
+                  </button>
                 </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="weight-input">Weight (kg)</label>
-                  <input
-                    type="number"
-                    id="weight-input"
-                    placeholder="70"
-                    min={35}
-                    max={135}
-                    value={weight}
-                    onChange={(e) => setWeight(e.target.value)}
-                  />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Height</label>
+                <div className={styles.heightPicker}>
+                  <div className={styles.heightSelect}>
+                    <select
+                      value={heightFt}
+                      onChange={(e) => {
+                        const ft = Number(e.target.value);
+                        setHeightFt(ft);
+                        setHeight(String(Math.round((ft * 12 + heightIn) * 2.54)));
+                      }}
+                    >
+                      {[4, 5, 6, 7].map((ft) => (
+                        <option key={ft} value={ft}>{ft} ft</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className={styles.heightSelect}>
+                    <select
+                      value={heightIn}
+                      onChange={(e) => {
+                        const inches = Number(e.target.value);
+                        setHeightIn(inches);
+                        setHeight(String(Math.round((heightFt * 12 + inches) * 2.54)));
+                      }}
+                    >
+                      {Array.from({ length: 12 }, (_, i) => (
+                        <option key={i} value={i}>{i} in</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </div>
               <div className={styles.formGroup}>

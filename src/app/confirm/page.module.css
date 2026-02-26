@@ -82,6 +82,73 @@
     border-color: var(--accent);
 }
 
+/* Gender toggle buttons */
+.genderButtons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+}
+
+.genderBtn {
+    padding: 0.85rem 1rem;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    background: var(--white);
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    color: #999;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.genderBtn:hover {
+    border-color: #ccc;
+    color: var(--text);
+}
+
+.genderBtnActive {
+    border-color: var(--accent);
+    background: #f0f7ff;
+    color: var(--accent);
+}
+
+.genderBtnActive:hover {
+    border-color: var(--accent);
+    background: #f0f7ff;
+    color: var(--accent);
+}
+
+/* Height picker */
+.heightPicker {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.heightSelect {
+    flex: 1;
+}
+
+.heightSelect select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.3s;
+    background: var(--white);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.heightSelect select:focus {
+    border-color: #e8e8e8;
+}
+
 .formRow {
     display: grid;
     grid-template-columns: 1fr 1fr;

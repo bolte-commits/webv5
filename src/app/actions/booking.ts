@@ -24,7 +24,6 @@ export interface UserProfile {
   dateOfBirth: string;
   gender: string;
   height: number;
-  weight: number;
   phone: string;
 }
 
@@ -49,7 +48,6 @@ export async function checkPendingAppointment(
       dateOfBirth: data.user.dateOfBirth || "",
       gender: data.user.gender || "",
       height: data.user.height || 0,
-      weight: data.user.weight || 0,
       phone: data.user.phone || "",
     } : undefined;
     if (data.hasPendingAppointment) {
@@ -138,7 +136,6 @@ export interface BookingPayload {
   phone?: string;
   coupon?: string;
   height?: number;
-  weight?: number;
   gender?: string;
 }
 
