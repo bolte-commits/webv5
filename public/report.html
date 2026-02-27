@@ -581,10 +581,10 @@ function render(d) {
   ${HDR('Left vs Right')}
   <div class="content">
     <div><div class="section-title">Symmetry Check</div><div class="section-desc">Comparing the left and right sides of your body to detect imbalances</div></div>
-    ${Object.entries(sym.regions).filter(([key])=>key!=='trunk').map(([key,r])=>{const name=key.charAt(0).toUpperCase()+key.slice(1);const t=r.thresholds;const v=r.val;const status=v<=t[1]?'Good balance':v<=t[2]?'Minor imbalance':'Significant imbalance';const statusColor=v<=t[1]?'green':v<=t[2]?'yellow':'red';const scalePos=Math.min(95,Math.max(5,v/t[3]*100));return`<div class="sym-region" style="flex-wrap:wrap;">
+    ${Object.entries(sym.regions).filter(([key])=>key!=='trunk').map(([key,r])=>{const name=key.charAt(0).toUpperCase()+key.slice(1);const t=r.thresholds;const v=r.leanImbalancePercent;const hasValue=v!=null;const scalePos=hasValue?Math.min(95,Math.max(5,v/t[3]*100)):0;return`<div class="sym-region" style="flex-wrap:wrap;">
       <div class="sym-img"><img src="/images/regions/${key}.png" alt="${name}" style="width:100%; height:100%; object-fit:contain; border-radius:8px;" /></div>
       <div class="sym-data">
-        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><div class="sym-name" style="margin-bottom:0;">${name}</div><span style="font-size:0.5rem; font-weight:700; color:${vc(statusColor)};">${status}</span></div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><div class="sym-name" style="margin-bottom:0;">${name}</div><span style="font-size:0.5rem; font-weight:700; color:${vc(r.statusColor)};">${r.status}</span></div>
         <table class="sym-table">
           <tr><th></th><th>Left</th><th>Right</th></tr>
           <tr><td>Fat %</td><td><strong>${r.left.fatPercent}%</strong></td><td><strong>${r.right.fatPercent}%</strong></td></tr>
@@ -594,7 +594,7 @@ function render(d) {
         </table>
       </div>
       <div style="width:100%; margin-top:0;">
-        <div class="range-bar" style="background:linear-gradient(90deg, #34d399 0%, #34d399 ${100*t[1]/t[3]}%, #fbbf24 ${100*t[2]/t[3]}%, #f87171 100%);"><div class="range-dot" style="left:${scalePos}%;"></div></div>
+        ${hasValue?`<div class="range-bar" style="background:linear-gradient(90deg, #34d399 0%, #34d399 ${100*t[1]/t[3]}%, #fbbf24 ${100*t[2]/t[3]}%, #f87171 100%);"><div class="range-dot" style="left:${scalePos}%;"></div></div>`:`<div class="range-bar" style="background:#ddd;"></div>`}
         <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--mute); margin-top:2px;"><span>Balanced</span><span>Imbalanced</span></div>
       </div>
       <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:0;">${r.insight}</div>
@@ -607,10 +607,10 @@ function render(d) {
 <div class="page">
   ${HDR('Left vs Right')}
   <div class="content">
-    ${(()=>{const key='trunk';const r=sym.regions[key];const name='Trunk';const t=r.thresholds;const v=r.val;const status=v<=t[1]?'Good balance':v<=t[2]?'Minor imbalance':'Significant imbalance';const statusColor=v<=t[1]?'green':v<=t[2]?'yellow':'red';const scalePos=Math.min(95,Math.max(5,v/t[3]*100));return`<div class="sym-region" style="flex-wrap:wrap;">
+    ${(()=>{const key='trunk';const r=sym.regions[key];const name='Trunk';const t=r.thresholds;const v=r.leanImbalancePercent;const hasValue=v!=null;const scalePos=hasValue?Math.min(95,Math.max(5,v/t[3]*100)):0;return`<div class="sym-region" style="flex-wrap:wrap;">
       <div class="sym-img"><img src="/images/regions/${key}.png" alt="${name}" style="width:100%; height:100%; object-fit:contain; border-radius:8px;" /></div>
       <div class="sym-data">
-        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><div class="sym-name" style="margin-bottom:0;">${name}</div><span style="font-size:0.5rem; font-weight:700; color:${vc(statusColor)};">${status}</span></div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><div class="sym-name" style="margin-bottom:0;">${name}</div><span style="font-size:0.5rem; font-weight:700; color:${vc(r.statusColor)};">${r.status}</span></div>
         <table class="sym-table">
           <tr><th></th><th>Left</th><th>Right</th></tr>
           <tr><td>Fat %</td><td><strong>${r.left.fatPercent}%</strong></td><td><strong>${r.right.fatPercent}%</strong></td></tr>
@@ -620,7 +620,7 @@ function render(d) {
         </table>
       </div>
       <div style="width:100%; margin-top:0;">
-        <div class="range-bar" style="background:linear-gradient(90deg, #34d399 0%, #34d399 ${100*t[1]/t[3]}%, #fbbf24 ${100*t[2]/t[3]}%, #f87171 100%);"><div class="range-dot" style="left:${scalePos}%;"></div></div>
+        ${hasValue?`<div class="range-bar" style="background:linear-gradient(90deg, #34d399 0%, #34d399 ${100*t[1]/t[3]}%, #fbbf24 ${100*t[2]/t[3]}%, #f87171 100%);"><div class="range-dot" style="left:${scalePos}%;"></div></div>`:`<div class="range-bar" style="background:#ddd;"></div>`}
         <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--mute); margin-top:2px;"><span>Balanced</span><span>Imbalanced</span></div>
       </div>
       <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:0;">${r.insight}</div>
