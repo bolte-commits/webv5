@@ -23,7 +23,7 @@ export default function Footer() {
           <Link href="/#scan">The Scan</Link>
           <Link href="/#how-it-works">How it Works</Link>
           <Link href="/#pricing">Pricing</Link>
-          <a href="#">Sample Report</a>
+          <a href="https://d3vn46qh52pv01.cloudfront.net/Sample%20Report.pdf" target="_blank" rel="noopener noreferrer">Sample Report</a>
         </div>
 
 <div className="footer-section">

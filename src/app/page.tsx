@@ -79,7 +79,7 @@ export default function HomePage() {
               <Link href="/schedule" className="cta-button">
                 Book Your Scan
               </Link>
-              <a href="#" className={styles.ctaButtonOutline}>
+              <a href="https://d3vn46qh52pv01.cloudfront.net/Sample%20Report.pdf" target="_blank" rel="noopener noreferrer" className={styles.ctaButtonOutline}>
                 See Sample Report
               </a>
               <span className={styles.priceTag}>Starting at ₹2,999</span>
