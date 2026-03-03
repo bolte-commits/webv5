@@ -264,15 +264,11 @@ function ConfirmContent() {
                   className={styles.cancelApptBtn}
                   disabled={cancelling}
                   onClick={async () => {
-                    if (!pendingDetails?.pendingAppointmentId || !token) return;
+                    if (!pendingDetails?.pendingAppointmentId || !pendingDetails?.bc) return;
                     setCancelError("");
                     setCancelling(true);
-                    const result = await cancelUpcomingAppointment(token, pendingDetails.pendingAppointmentId);
+                    const result = await cancelUpcomingAppointment(pendingDetails.pendingAppointmentId, pendingDetails.bc);
                     setCancelling(false);
-                    if (result.unauthorized) {
-                      redirectToLogin();
-                      return;
-                    }
                     if (result.success) {
                       setHasPending(false);
                     } else {

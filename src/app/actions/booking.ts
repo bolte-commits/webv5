@@ -13,6 +13,7 @@ function isAuthError(status: number, message?: string): boolean {
 
 export interface PendingDetails {
   pendingAppointmentId: string;
+  bc: string;
   landmark: string;
   area: string;
   date: string;
@@ -56,6 +57,7 @@ export async function checkPendingAppointment(
         user,
         details: {
           pendingAppointmentId: data.pendingAppointmentId,
+          bc: data.bc,
           landmark: data.landmark,
           area: data.area,
           date: data.date,
@@ -106,19 +108,16 @@ export async function getAppointment(
 }
 
 export async function cancelUpcomingAppointment(
-  token: string,
-  appointmentId: string
-): Promise<{ success: boolean; unauthorized?: boolean; error?: string }> {
+  appointmentId: string,
+  bc: string
+): Promise<{ success: boolean; error?: string }> {
   try {
     const res = await fetch(`${AUTH_API_BASE}/cancelUpcomingAppointment`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, appointmentId }),
+      body: JSON.stringify({ appointmentId, bc }),
     });
     const data = await res.json();
-    if (!res.ok && isAuthError(res.status, data.message)) {
-      return { success: false, unauthorized: true };
-    }
     if (!res.ok) {
       return { success: false, error: data.message };
     }
