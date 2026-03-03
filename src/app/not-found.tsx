@@ -9,6 +9,7 @@ export default function NotFound() {
         alignItems: "center",
         justifyContent: "center",
         minHeight: "60vh",
+        marginTop: "4rem",
         padding: "4rem 2rem",
         textAlign: "center",
       }}

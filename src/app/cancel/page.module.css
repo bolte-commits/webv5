@@ -1,0 +1,67 @@
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 12rem 1.5rem 12rem;
+}
+
+.card {
+  background: var(--card-bg, #fff);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.heading {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+}
+
+.subtext {
+  font-size: 0.95rem;
+  color: var(--text-secondary, #666);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.cancelBtn {
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: #dc2626;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancelBtn:hover {
+  background: #b91c1c;
+}
+
+.successIcon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1rem;
+  background: #d1fae5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.successIcon svg {
+  width: 28px;
+  height: 28px;
+  stroke: #059669;
+}
+
+.errorText {
+  color: #dc2626;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
