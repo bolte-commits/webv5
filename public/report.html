@@ -359,7 +359,7 @@ function render(d) {
   const ra = d.regionalAnalysis, rt = d.regionalTrends, sym = d.symmetry;
   const vf = d.visceralFat, bh = d.boneHealth, ag = d.agRatio;
   const sa = d.sarcopenia, met = d.metabolism, nut = met, ap = d.actionPlan;
-  const tp = c.totalPages;
+  const tp = c.totalPages + 3;
   const bf = bfScale(g.bodyFatThresholds);
 
   document.body.innerHTML = `
@@ -905,6 +905,173 @@ function render(d) {
   </div>
   ${FTR(17,tp)}
 </div>
+` + /* COMMENTED OUT — Workout & Diet pages
+<!-- PAGE 18: SAMPLE WORKOUT — REASONING + DAYS 1 & 2 -->
+<div class="page">
+  ${HDR('Sample Workout')}
+  <div class="content">
+    <div><div class="section-title">Sample Workout Plan</div><div class="section-desc">A 4-day split tailored to your DEXA scan. Tap the play icon on any exercise to watch a video demo.</div></div>
+
+    <!-- DEXA reasoning -->
+    <div class="card">
+      <div class="card-title">Why This Plan?</div>
+      <div style="display:flex; flex-direction:column; gap:6px; font-size:0.58rem; color:var(--dim); line-height:1.55;">
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="flex-shrink:0; width:18px; height:18px; border-radius:50%; background:var(--brand); margin-top:1px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.5rem;font-weight:700;color:#fff;">1</span></div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Arms — Room to Grow</div><div>Your scan shows lower lean mass in both arms. Extra arm volume is included on upper body days to help build them up.</div></div></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="flex-shrink:0; width:18px; height:18px; border-radius:50%; background:var(--brand); margin-top:1px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.5rem;font-weight:700;color:#fff;">2</span></div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Legs — Great Foundation</div><div>Your legs carry above-average lean mass. Volume is kept moderate so you can maintain while focusing on upper body.</div></div></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="flex-shrink:0; width:18px; height:18px; border-radius:50%; background:var(--brand); margin-top:1px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.5rem;font-weight:700;color:#fff;">3</span></div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Left vs Right — Balancing Out</div><div>Your left leg has less lean mass than the right. Single-leg exercises (*) are included — always start with the left side.</div></div></div>
+      </div>
+    </div>
+
+    <!-- Day 1 -->
+    <div class="card">
+      <div class="card-title">Monday — Upper Push</div>
+      <div style="display:flex; flex-direction:column; gap:5px;">
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=bench+press+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Bench Press</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">4 sets · 8 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=overhead+press+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Overhead Press</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 10 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=incline+dumbbell+press" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Incline DB Press</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 10 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=lateral+raises+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Lateral Raises</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 15 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=skull+crushers+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Skull Crushers</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">4 sets · 10 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=tricep+overhead+extension" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">OH Tricep Extension</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 12 reps</span></div>
+      </div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="card">
+      <div class="card-title">Tuesday — Lower Body</div>
+      <div style="display:flex; flex-direction:column; gap:5px;">
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=barbell+squat+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Barbell Squat</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">4 sets · 6 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=bulgarian+split+squat" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Split Squats *</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 10 each leg</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=single+leg+press" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Single-Leg Press *</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 12 each leg</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=hip+thrust+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Hip Thrusts</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 12 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=leg+curls+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Leg Curls</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 12 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=calf+raises+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Calf Raises</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">4 sets · 15 reps</span></div>
+      </div>
+    </div>
+  </div>
+  ${FTR(18,tp)}
+</div>
+
+<!-- PAGE 19: SAMPLE WORKOUT — DAYS 3 & 4 -->
+<div class="page">
+  ${HDR('Sample Workout')}
+  <div class="content">
+
+    <!-- Day 3 -->
+    <div class="card">
+      <div class="card-title">Thursday — Upper Pull</div>
+      <div style="display:flex; flex-direction:column; gap:5px;">
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=barbell+row+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Barbell Rows</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">4 sets · 8 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=pull+ups+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Pull-Ups</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 8 to 10 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=face+pulls+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Face Pulls</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 15 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=barbell+curl+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Barbell Curls</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">4 sets · 10 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=incline+dumbbell+curl" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Incline DB Curls</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 12 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=hammer+curls+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Hammer Curls</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 12 reps</span></div>
+      </div>
+    </div>
+
+    <!-- Day 4 -->
+    <div class="card">
+      <div class="card-title">Friday — Lower + Core</div>
+      <div style="display:flex; flex-direction:column; gap:5px;">
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=deadlift+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Deadlift</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">4 sets · 5 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=single+leg+rdl+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Single-Leg RDL *</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 10 each leg</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=hip+thrust+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Hip Thrusts</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 12 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=walking+lunges+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Walking Lunges *</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 12 each leg</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=hanging+leg+raises" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Hanging Leg Raises</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 12 reps</span></div>
+        <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=plank+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Plank</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 45 sec hold</span></div>
+      </div>
+    </div>
+
+    <div style="font-size:0.55rem; color:var(--dim); line-height:1.55;">
+      <strong style="color:var(--txt);">*</strong> Single-leg — start with the left side first to help balance out the difference in lean mass. Rest 60–90s between sets.
+    </div>
+
+    <div class="g2">
+      <div class="insight"><h4>Warm Up</h4><p>5 min light cardio + dynamic stretches before each session.</p></div>
+      <div class="insight"><h4>Progressive Overload</h4><p>Try to add a little weight or an extra rep each week.</p></div>
+    </div>
+  </div>
+  ${FTR(19,tp)}
+</div>
+
+<!-- PAGE 20: SAMPLE DIET PLAN -->
+<div class="page">
+  ${HDR('Sample Diet')}
+  <div class="content" style="gap:10px;">
+    <div><div class="section-title">Sample Diet Plan</div><div class="section-desc">A balanced 2,000 kcal day with high protein to support lean mass growth and recovery.</div></div>
+
+    <div style="display:flex; justify-content:space-between; padding:10px 16px; background:var(--card); border-radius:14px;">
+      <div style="text-align:center;"><span class="num-lg" style="font-size:1.5rem;">2,000</span><div style="font-size:0.55rem; color:var(--dim); font-weight:600;">KCAL</div></div>
+      <div style="text-align:center;"><div style="font-size:1.1rem; font-weight:800; color:var(--macro-p); font-family:'Monument Extended',sans-serif;">150g</div><div style="font-size:0.55rem; color:var(--dim); font-weight:600;">PROTEIN</div></div>
+      <div style="text-align:center;"><div style="font-size:1.1rem; font-weight:800; color:var(--macro-f); font-family:'Monument Extended',sans-serif;">200g</div><div style="font-size:0.55rem; color:var(--dim); font-weight:600;">CARBS</div></div>
+      <div style="text-align:center;"><div style="font-size:1.1rem; font-weight:800; color:var(--macro-f); font-family:'Monument Extended',sans-serif;">67g</div><div style="font-size:0.55rem; color:var(--dim); font-weight:600;">FAT</div></div>
+    </div>
+
+    <!-- Meal 1 -->
+    <div class="card" style="padding:12px 16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <div style="font-size:0.6rem; font-weight:700; color:var(--brand); text-transform:uppercase; letter-spacing:0.08em;">Breakfast</div>
+        <div style="font-size:0.55rem; font-weight:700; color:var(--dim);">~480 kcal</div>
+      </div>
+      <div style="font-size:0.7rem; color:var(--txt); line-height:1.8;">
+        3 whole eggs scrambled &bull; 2 slices whole wheat toast &bull; 1 medium banana &bull; black coffee or green tea
+      </div>
+      <div style="font-size:0.52rem; color:var(--mute); margin-top:3px;">P: 28g &ensp; C: 52g &ensp; F: 18g</div>
+    </div>
+
+    <!-- Meal 2 -->
+    <div class="card" style="padding:12px 16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <div style="font-size:0.6rem; font-weight:700; color:var(--brand); text-transform:uppercase; letter-spacing:0.08em;">Lunch</div>
+        <div style="font-size:0.55rem; font-weight:700; color:var(--dim);">~560 kcal</div>
+      </div>
+      <div style="font-size:0.7rem; color:var(--txt); line-height:1.8;">
+        180g grilled chicken breast &bull; 1 cup cooked brown rice &bull; 1 cup mixed vegetables (broccoli, carrots) &bull; 1 tsp olive oil
+      </div>
+      <div style="font-size:0.52rem; color:var(--mute); margin-top:3px;">P: 48g &ensp; C: 58g &ensp; F: 14g</div>
+    </div>
+
+    <!-- Meal 3 -->
+    <div class="card" style="padding:12px 16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <div style="font-size:0.6rem; font-weight:700; color:var(--brand); text-transform:uppercase; letter-spacing:0.08em;">Evening Snack</div>
+        <div style="font-size:0.55rem; font-weight:700; color:var(--dim);">~280 kcal</div>
+      </div>
+      <div style="font-size:0.7rem; color:var(--txt); line-height:1.8;">
+        1 scoop whey protein with water &bull; 1 medium apple &bull; 15g almonds (about 10–12)
+      </div>
+      <div style="font-size:0.52rem; color:var(--mute); margin-top:3px;">P: 30g &ensp; C: 28g &ensp; F: 10g</div>
+    </div>
+
+    <!-- Meal 4 -->
+    <div class="card" style="padding:12px 16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <div style="font-size:0.6rem; font-weight:700; color:var(--brand); text-transform:uppercase; letter-spacing:0.08em;">Dinner</div>
+        <div style="font-size:0.55rem; font-weight:700; color:var(--dim);">~520 kcal</div>
+      </div>
+      <div style="font-size:0.7rem; color:var(--txt); line-height:1.8;">
+        150g grilled fish (salmon or tilapia) &bull; 2 chapatis or 1 cup quinoa &bull; 1 cup dal / lentil soup &bull; side salad
+      </div>
+      <div style="font-size:0.52rem; color:var(--mute); margin-top:3px;">P: 40g &ensp; C: 52g &ensp; F: 18g</div>
+    </div>
+
+    <!-- Meal 5 -->
+    <div class="card" style="padding:12px 16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <div style="font-size:0.6rem; font-weight:700; color:var(--brand); text-transform:uppercase; letter-spacing:0.08em;">Before Bed</div>
+        <div style="font-size:0.55rem; font-weight:700; color:var(--dim);">~160 kcal</div>
+      </div>
+      <div style="font-size:0.7rem; color:var(--txt); line-height:1.8;">
+        200g Greek yogurt (low fat) &bull; a pinch of cinnamon
+      </div>
+      <div style="font-size:0.52rem; color:var(--mute); margin-top:3px;">P: 20g &ensp; C: 10g &ensp; F: 5g</div>
+    </div>
+
+    <div style="font-size:0.52rem; color:var(--mute); line-height:1.6; font-style:italic;">This is a sample plan for illustrative purposes. Adjust portions based on your personalized macro targets from the Nutrition page. Consult a dietitian for a tailored plan.</div>
+  </div>
+  ${FTR(20,tp)}
+</div>
+END COMMENTED OUT */ `
   `; // end of template literal
 } // end of render()
 

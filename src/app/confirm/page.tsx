@@ -31,6 +31,7 @@ function ConfirmContent() {
   const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
   const [height, setHeight] = useState(""); // stored as cm internally
+  const [weight, setWeight] = useState("");
   const [heightFt, setHeightFt] = useState(5);
   const [heightIn, setHeightIn] = useState(6);
   const [token, setToken] = useState("");
@@ -79,6 +80,7 @@ function ConfirmContent() {
           setHeightFt(Math.floor(totalIn / 12));
           setHeightIn(totalIn % 12);
         }
+        if (result.user.weight) setWeight(String(result.user.weight));
         if (result.user.phone) {
           const digits = result.user.phone.replace(/\D/g, "");
           if (digits.length === 10) setPhone(digits);
@@ -117,6 +119,7 @@ function ConfirmContent() {
       phone: phone || undefined,
       coupon: couponCode.trim().toUpperCase() || undefined,
       height: height ? Number(height) : undefined,
+      weight: weight ? Number(weight) : undefined,
       gender: gender || undefined,
     });
     setLoading(false);
@@ -387,6 +390,18 @@ function ConfirmContent() {
                     </select>
                   </div>
                 </div>
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="weight-input">Weight (kg)</label>
+                <input
+                  type="number"
+                  id="weight-input"
+                  placeholder="Weight in kg"
+                  min={35}
+                  max={135}
+                  value={weight}
+                  onChange={(e) => setWeight(e.target.value)}
+                />
               </div>
               <div className={styles.formGroup}>
                 <label htmlFor="coupon-input">Coupon code (optional)</label>
