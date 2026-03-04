@@ -110,6 +110,18 @@ function ConfirmContent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBookingError("");
+
+    if (height && weight) {
+      const h = Number(height) / 100;
+      const bmi = Number(weight) / (h * h);
+      if (bmi > 39) {
+        const proceed = window.confirm(
+          "Visceral fat measurement is not clinically validated for BMI above 39 and will not be included in your report. All other metrics will be available. Do you wish to proceed?"
+        );
+        if (!proceed) return;
+      }
+    }
+
     setLoading(true);
     const result = await confirmBooking({
       token,
