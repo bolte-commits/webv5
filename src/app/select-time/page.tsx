@@ -124,6 +124,9 @@ function SelectTimeContent() {
                 <div className={styles.detailValue}>{formatPrice(event.amount)}</div>
               </div>
             </div>
+            {event.isPrivate && (
+              <div className={styles.accessNotice}>{event.accessText || "Private event"}</div>
+            )}
             <div className={styles.scanInfo}>
               <svg
                 viewBox="0 0 24 24"
