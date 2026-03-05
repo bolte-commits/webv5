@@ -1,10 +1,40 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import styles from "./page.module.css";
 
+function MetricFlipCard({ label, back, flipped, onFlip }: { label: string; back: string; flipped: boolean; onFlip: () => void }) {
+  return (
+    <div
+      className={`${styles.dataCard} ${styles.flipCard} ${flipped ? styles.flipped : ""}`}
+      onClick={onFlip}
+    >
+      <div className={styles.flipInner}>
+        <div className={styles.flipFront}>
+          <div className={styles.dataLabel}>{label}</div>
+          <div className={styles.dataSublabel}>Tap to learn</div>
+        </div>
+        <div className={styles.flipBack}>
+          <div className={styles.flipBackText}>{back}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function HomePage() {
+  const [flippedCard, setFlippedCard] = useState<string | null>(null);
+  const [scrollPct, setScrollPct] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const handleCarouselScroll = useCallback(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setScrollPct(max > 0 ? (el.scrollLeft / max) * 100 : 0);
+  }, []);
+
   useEffect(() => {
     // Smooth scroll for anchor links
     function handleClick(this: HTMLAnchorElement, e: Event) {
@@ -192,27 +222,36 @@ export default function HomePage() {
             <p>Every metric that matters, measured with precision.</p>
           </div>
 
-          <div className={styles.dataGrid}>
-            <div className={styles.dataCard}>
-              <div className={styles.dataValue}>28.5%</div>
-              <div className={styles.dataLabel}>Body Fat</div>
-              <div className={styles.dataSublabel}>Regional breakdown</div>
+          <div className={styles.carouselWrap} ref={carouselRef} onScroll={handleCarouselScroll}>
+            <div className={styles.carouselTrack}>
+              {[
+                { label: "Body Fat %", back: "Exact fat percentage broken down by arms, legs & trunk — not just BMI." },
+                { label: "Lean Mass", back: "Total muscle mass per body segment. Track gains and spot imbalances." },
+                { label: "Visceral Fat", back: "Dangerous fat around your organs linked to diabetes, stroke & heart disease." },
+                { label: "Bone Density", back: "Bone mineral density vs your age group with fracture risk T-score." },
+                { label: "Weak Regions", back: "Identify low-density bone areas and muscle-deficient zones early." },
+                { label: "Left-Right Imbalances", back: "Compare muscle and fat distribution between your left and right sides." },
+                { label: "Metabolism Estimate", back: "Your resting metabolic rate — know exactly how many calories you burn at rest." },
+                { label: "Macro Recommendations", back: "Personalised protein, carb & fat targets based on your body composition." },
+                { label: "Sarcopenia Screening", back: "Early detection of age-related muscle loss using clinical DEXA thresholds." },
+              ].map((card) => (
+                <MetricFlipCard key={card.label} label={card.label} back={card.back} flipped={flippedCard === card.label} onFlip={() => setFlippedCard(flippedCard === card.label ? null : card.label)} />
+              ))}
             </div>
-            <div className={styles.dataCard}>
-              <div className={styles.dataValue}>46.2kg</div>
-              <div className={styles.dataLabel}>Lean Mass</div>
-              <div className={styles.dataSublabel}>Left-right balance</div>
-            </div>
-            <div className={styles.dataCard}>
-              <div className={styles.dataValue}>5/10</div>
-              <div className={styles.dataLabel}>Visceral Fat</div>
-              <div className={styles.dataSublabel}>Health risk indicator</div>
-            </div>
-            <div className={styles.dataCard}>
-              <div className={styles.dataValue}>1.104</div>
-              <div className={styles.dataLabel}>Bone Density</div>
-              <div className={styles.dataSublabel}>g/cm² T-score</div>
-            </div>
+          </div>
+          <div className={styles.dots}>
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <span
+                key={i}
+                className={`${styles.dot} ${Math.round((scrollPct / 100) * 8) === i ? styles.dotActive : ""}`}
+                onClick={() => {
+                  const el = carouselRef.current;
+                  if (!el) return;
+                  const max = el.scrollWidth - el.clientWidth;
+                  el.scrollTo({ left: (i / 8) * max, behavior: "smooth" });
+                }}
+              />
+            ))}
           </div>
         </div>
       </section>

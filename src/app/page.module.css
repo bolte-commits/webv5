@@ -28,7 +28,7 @@
 }
 
 .heroTitle {
-    font-family: 'Monument Extended', sans-serif;
+    font-family: var(--font-heading), sans-serif;
     font-size: 5rem;
     margin-bottom: 1.5rem;
     color: var(--primary);
@@ -296,37 +296,115 @@
 }
 
 /* ===== Data Display ===== */
-.dataGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
+.carouselWrap {
     margin-top: 4rem;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2rem;
+    position: relative;
+}
+
+.carouselWrap::-webkit-scrollbar {
+    display: none;
+}
+
+.dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 1.5rem;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.dotActive {
+    width: 24px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.carouselTrack {
+    display: flex;
+    gap: 1.25rem;
+    width: max-content;
 }
 
 .dataCard {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 2.5rem;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 220px;
+    flex-shrink: 0;
     text-align: center;
 }
 
-.dataValue {
-    font-size: 3rem;
-    font-weight: 900;
-    margin-bottom: 0.5rem;
-    font-family: 'Monument Extended', sans-serif;
+.flipCard {
+    perspective: 1000px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.flipInner {
+    position: relative;
+    width: 100%;
+    min-height: 160px;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.flipped .flipInner {
+    transform: rotateY(180deg);
+}
+
+.flipFront,
+.flipBack {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: none;
+    color: var(--text);
+}
+
+.flipBack {
+    transform: rotateY(180deg);
+    background: white;
 }
 
 .dataLabel {
-    font-size: 1.15rem;
-    opacity: 0.7;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    font-family: var(--font-heading), sans-serif;
 }
 
 .dataSublabel {
-    font-size: 1.05rem;
-    opacity: 0.5;
-    margin-top: 0.5rem;
+    font-size: 0.7rem;
+    color: #999;
+    margin-top: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+}
+
+.flipBackText {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: #555;
+    text-align: center;
 }
 
 /* ===== Pricing ===== */
@@ -384,7 +462,7 @@
     font-weight: 900;
     color: var(--accent);
     margin: 1.5rem 0;
-    font-family: 'Monument Extended', sans-serif;
+    font-family: var(--font-heading), sans-serif;
 }
 
 .pricingFeatures {
@@ -437,7 +515,7 @@
     font-size: 2.5rem;
     font-weight: 900;
     margin-bottom: 2rem;
-    font-family: 'Monument Extended', sans-serif;
+    font-family: var(--font-heading), sans-serif;
 }
 
 .stepCard h3 {
@@ -573,10 +651,6 @@
         gap: 2rem;
     }
 
-    .dataGrid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
     .statsContent {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -613,9 +687,8 @@
         font-size: 1.2rem;
     }
 
-    .dataGrid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+    .dataCard {
+        width: 200px;
     }
 
     .heroButtons {
@@ -728,15 +801,15 @@
         font-size: 1.05rem;
     }
 
-    .dataValue {
-        font-size: 2.5rem;
+    .dataCard {
+        width: 180px;
+    }
+
+    .flipInner {
+        min-height: 140px;
     }
 
     .dataLabel {
-        font-size: 1rem;
-    }
-
-    .dataSublabel {
         font-size: 0.9rem;
     }
 

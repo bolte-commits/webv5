@@ -171,7 +171,7 @@
 }
 
 .sectionTitle {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 1.3rem;
   font-weight: 800;
   color: var(--r-text);
@@ -215,7 +215,7 @@
 }
 
 .heroScore {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 6rem;
   font-weight: 800;
   line-height: 1;
@@ -359,7 +359,7 @@
 }
 
 .snapValue {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 2rem;
   font-weight: 800;
   color: var(--r-text);
@@ -476,7 +476,7 @@
 }
 
 .detailName {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 1.1rem;
   font-weight: 800;
   color: var(--r-text);
@@ -503,7 +503,7 @@
 }
 
 .detailMetricValue {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 1.1rem;
   font-weight: 800;
   color: var(--r-text);
@@ -660,7 +660,7 @@
 }
 
 .hcFrontValue {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 1.6rem;
   font-weight: 800;
   color: var(--r-text);
@@ -726,7 +726,7 @@
 }
 
 .hdVal {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 1rem;
   font-weight: 800;
   color: var(--r-text);
@@ -850,7 +850,7 @@
 }
 
 .boneVal {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 0.82rem;
   font-weight: 800;
   color: var(--r-text);
@@ -934,7 +934,7 @@
 }
 
 .symCard2Name {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 1rem;
   font-weight: 800;
   color: var(--r-text);
@@ -1095,7 +1095,7 @@
 }
 
 .actVal {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 0.85rem;
   font-weight: 800;
   color: var(--r-text);
@@ -1142,7 +1142,7 @@
 }
 
 .fuelBigNum {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 2.8rem;
   font-weight: 800;
   color: var(--r-text);
@@ -1194,7 +1194,7 @@
 }
 
 .breakdownVal {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 0.95rem;
   font-weight: 800;
   color: var(--r-text);
@@ -1216,7 +1216,7 @@
 }
 
 .breakdownTotalVal {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 1.2rem;
   font-weight: 800;
   color: var(--r-accent);
@@ -1259,7 +1259,7 @@
 }
 
 .planCalories {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 2.2rem;
   font-weight: 800;
   color: var(--r-text);

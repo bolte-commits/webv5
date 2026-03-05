@@ -24,7 +24,7 @@
 }
 
 .value {
-  font-family: 'Monument Extended', sans-serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 1.1rem;
   font-weight: 800;
   color: var(--r-text, #f5f5f7);

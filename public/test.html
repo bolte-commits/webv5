@@ -4,9 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Body Insight — Event Poster</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  @font-face { font-family: 'Monument Extended'; src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype'); font-weight: 800; }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -61,7 +60,7 @@
     background: rgba(0,122,255,0.08);
   }
   .pill-price strong {
-    font-family: 'Monument Extended', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 0.85rem;
     color: #0a84ff;
     margin-right: 4px;
@@ -90,7 +89,7 @@
     flex-shrink: 0;
   }
   .headline {
-    font-family: 'Monument Extended', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-weight: 800;
     font-size: 2.4rem;
     line-height: 1.05;
@@ -131,6 +130,19 @@
     gap: 6px;
   }
   .van-label strong { color: #0a84ff; }
+  .gold-badge {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, #d4a843, #f5d680, #d4a843);
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
 
   /* ===== LOCATION & TIME CARD ===== */
   .location-card {
@@ -151,7 +163,7 @@
     flex-shrink: 0;
   }
   .loc-name {
-    font-family: 'Monument Extended', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-weight: 800;
     font-size: 1rem;
     color: white;
@@ -282,41 +294,42 @@
   <div class="trust">
     <div class="trust-title">Trusted across communities, corporates &amp; sport</div>
     <div class="trust-row">
-      <div class="trust-pill">&#127968; <strong>BLR &amp; HYD Residences</strong></div>
+      <div class="trust-pill"><strong>IAS Officer Association</strong></div>
       <div class="trust-pill">&#127951; <strong>BCCI</strong> &middot; RCB &middot; LSG</div>
       <div class="trust-pill">&#127952; <strong>Hockey India</strong> &middot; SAI</div>
     </div>
     <div class="trust-row">
       <div class="trust-pill">Zerodha &middot; PayPal &middot; Microsoft</div>
-      <div class="trust-pill">&#127947; <strong>Dravid Padukone Academy</strong></div>
+      <div class="trust-pill">&#127947; <strong>Indian Institute of Science</strong></div>
     </div>
   </div>
 
   <!-- HERO -->
   <div class="hero">
-    <div class="headline"><span class="accent">DEXA</span> Scan</div>
+    <div class="headline"><span class="accent">DEXA</span> Total Body Scan</div>
   </div>
 
   <!-- VAN IMAGE -->
   <div class="van-section">
     <img src="/images/truck.JPG" alt="Body Insight Mobile DEXA Van">
     <div class="van-label"><strong>Mobile DEXA van</strong> &mdash; we come to you</div>
+    <div class="gold-badge">&#9733; Gold Standard Accuracy</div>
   </div>
 
   <!-- LOCATION, TIME & PRICE -->
   <div class="location-card">
     <div class="loc-top">
       <div class="loc-icon">&#128205;</div>
-      <div class="loc-name">SNN Clermont</div>
+      <div class="loc-name">Adarsh Palm Retreat</div>
     </div>
     <div class="loc-details">
       <div class="loc-detail-item">
         <div class="loc-label">Date</div>
-        <div class="loc-value">Sunday, Mar 1</div>
+        <div class="loc-value">Sunday, Mar 8</div>
       </div>
       <div class="loc-detail-item">
         <div class="loc-label">Time</div>
-        <div class="loc-value">7AM &ndash; 4PM</div>
+        <div class="loc-value">7AM &ndash; 6PM</div>
       </div>
       <div class="loc-detail-item">
         <div class="loc-label">Price</div>
@@ -327,23 +340,31 @@
 
   <!-- REPORT FEATURES -->
   <div class="features">
-    <div class="features-title">6-min scan &middot; 18-page report &middot; Instant report</div>
+    <div class="features-title">What the scan measures</div>
     <div class="features-grid">
       <div class="feature-item">
         <div class="feature-head"><span class="feature-emoji">&#128293;</span><span class="feature-name">Body Fat %</span></div>
-        <div class="feature-desc">Exact %, not just BMI. Broken down by arms, legs &amp; trunk</div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-head"><span class="feature-emoji">🦴</span><span class="feature-name">Bone Health</span></div>
-        <div class="feature-desc">Bone density vs your age group &mdash; fracture risk score</div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-head"><span class="feature-emoji">&#9888;&#65039;</span><span class="feature-name">Visceral Fat</span></div>
-        <div class="feature-desc">Dangerous fat around organs &mdash; causes stroke, BP &amp; diabetes</div>
       </div>
       <div class="feature-item">
         <div class="feature-head"><span class="feature-emoji">&#128170;</span><span class="feature-name">Muscle Mass</span></div>
-        <div class="feature-desc">Lean tissue per segment &mdash; spot imbalances</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-head"><span class="feature-emoji">🦴</span><span class="feature-name">Bone Density</span></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-head"><span class="feature-emoji">&#9888;&#65039;</span><span class="feature-name">Visceral Fat</span></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-head"><span class="feature-emoji">&#9878;&#65039;</span><span class="feature-name">Segmental Analysis</span></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-head"><span class="feature-emoji">&#128200;</span><span class="feature-name">Resting Metabolic Rate</span></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-head"><span class="feature-emoji">&#127860;</span><span class="feature-name">Calorie Guidance</span></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-head"><span class="feature-emoji">&#8596;&#65039;</span><span class="feature-name">Left-Right Imbalances</span></div>
       </div>
     </div>
   </div>
