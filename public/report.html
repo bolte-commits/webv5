@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Body Insight — DEXA Report</title>
+<title>Body Insight - DEXA Report</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@800&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
 <style>
   @font-face { font-family: 'Monument Extended'; src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype'); font-weight: 800; }
@@ -261,7 +261,7 @@ const tc = c => ({green:'tag-g',yellow:'tag-y',red:'tag-r',grey:'tag-n'}[c]||'ta
 const ac = c => ({green:'action-g',yellow:'action-y',red:'action-r',neutral:'action-n',grey:'action-n'}[c]||'action-g');
 const BF_CATEGORIES = ['Low Body Fat Risk','Ultra Lean','Lean Body','Higher than average','Excess Body Fat','High Fat Risk'];
 function bfScale(thresholds) {
-  // thresholds: [0, 7, 14, 21, 29, 36, 43] — first is min, last is max, 5 zone boundaries in between
+  // thresholds: [0, 7, 14, 21, 29, 36, 43] - first is min, last is max, 5 zone boundaries in between
   const min = thresholds[0], max = thresholds[thresholds.length - 1];
   const zones = thresholds.slice(1, -1);
   const p = zones.map(v => (((v - min) / (max - min)) * 100).toFixed(1));
@@ -273,7 +273,7 @@ function bfCategory(fatPercent, zones) {
   return BF_CATEGORIES[BF_CATEGORIES.length - 1];
 }
 function compScale(item) {
-  // If val or thresholds missing, return null — caller renders "N/A" state
+  // If val or thresholds missing, return null - caller renders "N/A" state
   if (item.val == null || !item.thresholds) return null;
   const t = item.thresholds;
   const min = t[0], b1 = t[1], b2 = t[2], max = t[3];
@@ -345,7 +345,7 @@ function trendCard(title, pts, hdr, suffix='', inv=false) {
 
 function blurredTrendCard(title, pts, hdr, suffix='', inv=false) {
   if (pts.length > 1) return trendCard(title, pts, hdr, suffix, inv);
-  return `<div class="card" style="display:flex; align-items:center; justify-content:center; border:1.5px dashed var(--border); background:var(--card); min-height:60px;">
+  return `<div class="card" style="display:flex; align-items:center; justify-content:center; border:1.5px dashed var(--border); background:var(--card); flex:1; min-height:60px;">
     <div style="text-align:center;">
       <div style="font-size:0.55rem; font-weight:700; color:var(--pri);">${title}</div>
       <div style="font-size:0.48rem; color:var(--dim); margin-top:2px;">Trends appear after Scan 2</div>
@@ -508,11 +508,11 @@ function render(d) {
     <div class="card" style="padding:12px 16px;">
       <div class="card-title">Understanding Your Regions</div>
       <div style="font-size:0.55rem; color:var(--dim); line-height:1.65;">
-        <div style="margin-bottom:4px;"><strong style="color:var(--txt);">Android (Belly)</strong> — Fat here is linked to metabolic risk, insulin resistance, and cardiovascular disease.</div>
-        <div style="margin-bottom:4px;"><strong style="color:var(--txt);">Gynoid (Hip)</strong> — Hip fat is more protective and associated with lower metabolic risk than belly fat.</div>
-        <div style="margin-bottom:4px;"><strong style="color:var(--txt);">Trunk</strong> — Your entire torso. A broad indicator of central fat distribution.</div>
-        <div style="margin-bottom:4px;"><strong style="color:var(--txt);">Arms &amp; Legs</strong> — Limb composition reflects training balance and functional strength.</div>
-        <div><strong style="color:var(--txt);">Why it matters</strong> — Where you carry fat matters more than how much. Two people at the same body fat % can have very different health risks.</div>
+        <div style="margin-bottom:4px;"><strong style="color:var(--txt);">Android (Belly)</strong> - Fat here is linked to metabolic risk, insulin resistance, and cardiovascular disease.</div>
+        <div style="margin-bottom:4px;"><strong style="color:var(--txt);">Gynoid (Hip)</strong> - Hip fat is more protective and associated with lower metabolic risk than belly fat.</div>
+        <div style="margin-bottom:4px;"><strong style="color:var(--txt);">Trunk</strong> - Your entire torso. A broad indicator of central fat distribution.</div>
+        <div style="margin-bottom:4px;"><strong style="color:var(--txt);">Arms &amp; Legs</strong> - Limb composition reflects training balance and functional strength.</div>
+        <div><strong style="color:var(--txt);">Why it matters</strong> - Where you carry fat matters more than how much. Two people at the same body fat % can have very different health risks.</div>
       </div>
     </div>
   </div>
@@ -529,7 +529,7 @@ function render(d) {
         <div style="font-size:0.65rem; color:var(--dim); max-width:300px; line-height:1.5;">Trends will appear from your next scan onwards, letting you track how your regional composition changes over time.</div>
       </div>`
     : `<div class="card">
-      <div class="card-title">All Regions &mdash; Fat % Trend</div>
+      <div class="card-title">All Regions - Fat % Trend</div>
       <div class="trend-chart">
         ${(()=>{
           const colors = ['var(--pri)','#555','#888','#aaa','#ccc'];
@@ -577,7 +577,7 @@ function render(d) {
   ${FTR(6,tp)}
 </div>
 
-<!-- PAGE 7: LEFT VS RIGHT — Arms & Legs -->
+<!-- PAGE 7: LEFT VS RIGHT - Arms & Legs -->
 <div class="page">
   ${HDR('Left vs Right')}
   <div class="content">
@@ -604,7 +604,7 @@ function render(d) {
   ${FTR(7,tp)}
 </div>
 
-<!-- PAGE 8: LEFT VS RIGHT — Trunk + Insight -->
+<!-- PAGE 8: LEFT VS RIGHT - Trunk + Insight -->
 <div class="page">
   ${HDR('Left vs Right')}
   <div class="content">
@@ -630,20 +630,20 @@ function render(d) {
     <div class="card" style="margin-top:10px;">
       <div class="card-title">What Causes Imbalances?</div>
       <div style="font-size:0.58rem; color:var(--dim); line-height:1.7;">
-        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Hand dominance</strong> — Your dominant side naturally carries more muscle from daily use.</div>
-        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">One-sided sports</strong> — Tennis, cricket, or golf develop one side more than the other.</div>
-        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Injury compensation</strong> — Favouring one side after an injury shifts load to the other.</div>
-        <div><strong style="color:var(--txt);">Uneven training</strong> — Machine-based exercises can mask imbalances that free weights expose.</div>
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Hand dominance</strong> - Your dominant side naturally carries more muscle from daily use.</div>
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">One-sided sports</strong> - Tennis, cricket, or golf develop one side more than the other.</div>
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Injury compensation</strong> - Favouring one side after an injury shifts load to the other.</div>
+        <div><strong style="color:var(--txt);">Uneven training</strong> - Machine-based exercises can mask imbalances that free weights expose.</div>
       </div>
     </div>
     <div class="card" style="margin-top:10px;">
       <div class="card-title">How to Reduce Imbalances</div>
       <div style="font-size:0.58rem; color:var(--dim); line-height:1.7;">
         <div style="margin-bottom:8px; padding:8px 10px; background:rgba(248,113,113,0.08); border-left:3px solid #f87171; border-radius:4px; color:var(--txt); font-weight:600;">You cannot spot-reduce fat. Fat loss happens overall through a caloric deficit. But you <em>can</em> spot-build muscle by targeting specific regions with resistance training.</div>
-        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Use unilateral exercises</strong> — Single-arm rows, lunges, and single-leg deadlifts force each side to work independently.</div>
-        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Start with the weaker side</strong> — Begin each set with your weaker side and match the reps on the stronger side.</div>
-        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Swap machines for free weights</strong> — Dumbbells and kettlebells prevent your dominant side from compensating.</div>
-        <div><strong style="color:var(--txt);">Track with regular scans</strong> — A DEXA scan every 3–4 months shows whether the gap is closing over time.</div>
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Use unilateral exercises</strong> - Single-arm rows, lunges, and single-leg deadlifts force each side to work independently.</div>
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Start with the weaker side</strong> - Begin each set with your weaker side and match the reps on the stronger side.</div>
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Swap machines for free weights</strong> - Dumbbells and kettlebells prevent your dominant side from compensating.</div>
+        <div><strong style="color:var(--txt);">Track with regular scans</strong> - A DEXA scan every 3–4 months shows whether the gap is closing over time.</div>
       </div>
     </div>
   </div>
@@ -673,7 +673,7 @@ function render(d) {
     ${(()=>{
       const pts=vf.trend.map(t=>({date:t.date,value:t.grams}));
       if(pts.length>1) return `<div class="card"><div class="card-title">Visceral Fat Trend</div><div class="trend-chart">${trendSvg(pts,400,70,'g')}${trendLabels(pts)}</div></div>`;
-      return `<div class="card" style="display:flex; align-items:center; justify-content:center; border:1.5px dashed var(--border); min-height:60px;"><div style="text-align:center;"><div style="font-size:0.55rem; font-weight:700; color:var(--pri);">Visceral Fat Trend</div><div style="font-size:0.48rem; color:var(--dim); margin-top:2px;">Trends appear after Scan 2</div></div></div>`;
+      return `<div class="card" style="display:flex; align-items:center; justify-content:center; border:1.5px dashed var(--border); flex:1; min-height:60px;"><div style="text-align:center;"><div style="font-size:0.55rem; font-weight:700; color:var(--pri);">Visceral Fat Trend</div><div style="font-size:0.48rem; color:var(--dim); margin-top:2px;">Trends appear after Scan 2</div></div></div>`;
     })()}`
     :`<div class="g2">
       <div class="card" style="text-align:center; opacity:0.4;"><div class="label">Visceral Fat</div><div class="num-lg" style="margin:6px 0 3px;">N/A</div><div style="font-size:0.5rem; color:var(--mute);">grams</div><div class="tag tag-n" style="margin-top:6px;">Not available</div></div>
@@ -706,37 +706,37 @@ function render(d) {
       <div class="card" style="flex:1; margin:0; display:flex; flex-direction:column; justify-content:center;">
         <div class="card-title">Two Types of Belly Fat</div>
         <div style="font-size:0.58rem; color:var(--dim); line-height:1.7;">
-          <div style="margin-bottom:8px;"><strong style="color:var(--txt);">Subcutaneous fat</strong> — Sits between your skin and abdominal muscles. This is the fat you can pinch. While excess is undesirable, it is far less dangerous than visceral fat.</div>
-          <div><strong style="color:var(--txt);">Visceral fat</strong> — Wraps around your internal organs deep inside the abdominal cavity, between the muscle wall and your organs. It is metabolically active and far more harmful.</div>
+          <div style="margin-bottom:8px;"><strong style="color:var(--txt);">Subcutaneous fat</strong> - Sits between your skin and abdominal muscles. This is the fat you can pinch. While excess is undesirable, it is far less dangerous than visceral fat.</div>
+          <div><strong style="color:var(--txt);">Visceral fat</strong> - Wraps around your internal organs deep inside the abdominal cavity, between the muscle wall and your organs. It is metabolically active and far more harmful.</div>
         </div>
       </div>
     </div>
     <div class="card">
       <div class="card-title">What Causes High Visceral Fat?</div>
       <div style="font-size:0.58rem; color:var(--dim); line-height:1.7;">
-        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Caloric surplus</strong> — Consistently eating more than you burn, especially from processed foods and sugary drinks.</div>
-        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Sedentary lifestyle</strong> — Lack of physical activity slows metabolism and promotes fat storage around organs.</div>
-        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Chronic stress &amp; poor sleep</strong> — Elevated cortisol directs fat storage preferentially to the visceral compartment.</div>
-        <div><strong style="color:var(--txt);">Alcohol &amp; genetics</strong> — High alcohol intake and genetic predisposition increase visceral fat accumulation.</div>
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Caloric surplus</strong> - Consistently eating more than you burn, especially from processed foods and sugary drinks.</div>
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Sedentary lifestyle</strong> - Lack of physical activity slows metabolism and promotes fat storage around organs.</div>
+        <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Chronic stress &amp; poor sleep</strong> - Elevated cortisol directs fat storage preferentially to the visceral compartment.</div>
+        <div><strong style="color:var(--txt);">Alcohol &amp; genetics</strong> - High alcohol intake and genetic predisposition increase visceral fat accumulation.</div>
       </div>
     </div>
     <div class="g2">
       <div class="card">
         <div class="card-title">Why Is It Dangerous?</div>
         <div style="font-size:0.58rem; color:var(--dim); line-height:1.7;">
-          <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Heart disease</strong> — Raises LDL, triglycerides, and blood pressure.</div>
-          <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Type 2 diabetes</strong> — Drives insulin resistance.</div>
-          <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Inflammation</strong> — Linked to cancers, fatty liver, and metabolic syndrome.</div>
-          <div><strong style="color:var(--txt);">Hormonal disruption</strong> — Interferes with appetite and stress hormones.</div>
+          <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Heart disease</strong> - Raises LDL, triglycerides, and blood pressure.</div>
+          <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Type 2 diabetes</strong> - Drives insulin resistance.</div>
+          <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Inflammation</strong> - Linked to cancers, fatty liver, and metabolic syndrome.</div>
+          <div><strong style="color:var(--txt);">Hormonal disruption</strong> - Interferes with appetite and stress hormones.</div>
         </div>
       </div>
       <div class="card">
         <div class="card-title">How to Reduce It</div>
         <div style="font-size:0.58rem; color:var(--dim); line-height:1.7;">
-          <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Caloric deficit</strong> — Visceral fat responds faster than subcutaneous fat.</div>
-          <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Exercise</strong> — Aerobic + resistance training are most effective.</div>
-          <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Sleep 7–9 hrs</strong> — Lowers cortisol and visceral fat storage.</div>
-          <div><strong style="color:var(--txt);">Cut refined carbs &amp; alcohol</strong> — Choose whole foods and lean protein.</div>
+          <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Caloric deficit</strong> - Visceral fat responds faster than subcutaneous fat.</div>
+          <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Exercise</strong> - Aerobic + resistance training are most effective.</div>
+          <div style="margin-bottom:6px;"><strong style="color:var(--txt);">Sleep 7–9 hrs</strong> - Lowers cortisol and visceral fat storage.</div>
+          <div><strong style="color:var(--txt);">Cut refined carbs &amp; alcohol</strong> - Choose whole foods and lean protein.</div>
         </div>
       </div>
     </div>
@@ -748,7 +748,7 @@ function render(d) {
 <div class="page">
   ${HDR('Bone Health')}
   <div class="content">
-    <div><div class="section-title">Your Skeleton</div><div class="section-desc">DEXA measures bone mineral density (BMD) &mdash; a key indicator of skeletal strength and fracture risk.</div></div>
+    <div><div class="section-title">Your Skeleton</div><div class="section-desc">DEXA measures bone mineral density (BMD) - a key indicator of skeletal strength and fracture risk.</div></div>
     <div class="g2">
       <div class="card" style="text-align:center;${bh.tScore!=null?'':' opacity:0.4;'}"><div class="label">T-Score (Young Adult)</div><div class="num-lg" style="margin:6px 0 3px;">${bh.tScore!=null?bh.tScore:'N/A'}</div><div style="font-size:0.5rem; color:var(--dim);">${bh.tScore!=null?'vs healthy 30-yr-old':'Not available'}</div><div class="tag ${tc(bh.tScore!=null?(bh.tScore<-1?'red':bh.tScore<0?'yellow':'green'):'grey')}" style="margin-top:5px;">${bh.tScore!=null?bh.tScoreStatus:'Not available'}</div></div>
       <div class="card" style="text-align:center;${bh.zScore!=null?'':' opacity:0.4;'}"><div class="label">Z-Score (Age Matched)</div><div class="num-lg" style="margin:6px 0 3px;">${bh.zScore!=null?bh.zScore:'N/A'}</div><div style="font-size:0.5rem; color:var(--dim);">${bh.zScore!=null?'vs your age group':'Not available'}</div><div class="tag ${tc(bh.zScore!=null?(bh.zScore<-1?'red':bh.zScore<0?'yellow':'green'):'grey')}" style="margin-top:5px;">${bh.zScore!=null?bh.zScoreStatus:'Not available'}</div></div>
@@ -799,7 +799,7 @@ function render(d) {
       <div class="verdict" style="color:${vc(c)}; margin-top:8px;"><span class="verdict-dot" style="background:${vd(c)};"></span> ${ag.verdict}</div>
     </div>`})()}
     <div class="g2">
-      <div class="insight"><h4>What is A/G Ratio?</h4><p>Compares fat percentage in your belly vs hip region using DEXA fat %, not waist inches &mdash; far more accurate than a tape measure.</p></div>
+      <div class="insight"><h4>What is A/G Ratio?</h4><p>Compares fat percentage in your belly vs hip region using DEXA fat %, not waist inches - far more accurate than a tape measure.</p></div>
       <div class="insight"><h4>Why it matters</h4><p>Ratios above 1.0 correlate with higher visceral fat and metabolic risk. Below 1.0 is associated with lower cardiovascular risk.</p></div>
     </div>
     <div class="action ${ac(ag.value<ag.thresholds[1]?'green':ag.value<ag.thresholds[2]?'yellow':'red')}"><strong>${ag.insight.split('.')[0]}.</strong> ${ag.insight.split('.').slice(1).join('.').trim()}</div>
@@ -812,7 +812,7 @@ function render(d) {
 <div class="page">
   ${HDR('Muscle Health')}
   <div class="content">
-    <div><div class="section-title">Sarcopenia Screening</div><div class="section-desc">ALMI (Appendicular Lean Mass Index) measures the lean mass in your arms and legs relative to your height &mdash; the clinical standard for detecting muscle loss.</div></div>
+    <div><div class="section-title">Sarcopenia Screening</div><div class="section-desc">ALMI (Appendicular Lean Mass Index) measures the lean mass in your arms and legs relative to your height - the clinical standard for detecting muscle loss.</div></div>
     ${(()=>{const t=sa.thresholds;const v=sa.value;const c=v<t[1]?'red':v<t[2]?'yellow':'green';const scalePos=Math.min(95,Math.max(5,(v-t[0])/(t[3]-t[0])*100));return`<div class="card" style="text-align:center; padding:20px;">
       <div class="label">Your ALMI</div>
       <div class="num-hero" style="margin:6px 0 3px;">${v}</div>
@@ -851,10 +851,10 @@ function render(d) {
     ${(()=>{
       const pts=met.rmrTrend;
       if(pts.length>1) return `<div class="card" style="padding:12px 14px;flex:1;display:flex;flex-direction:column;"><div class="card-title">RMR Trend</div><div class="trend-chart" style="flex:1;min-width:0;display:flex;flex-direction:column;">${trendSvg(pts,400,70,'')}${trendLabels(pts)}</div></div>`;
-      return `<div class="card" style="display:flex; align-items:center; justify-content:center; border:1.5px dashed var(--border); min-height:60px;"><div style="text-align:center;"><div style="font-size:0.55rem; font-weight:700; color:var(--pri);">RMR Trend</div><div style="font-size:0.48rem; color:var(--dim); margin-top:2px;">Trends appear after Scan 2</div></div></div>`;
+      return `<div class="card" style="display:flex; align-items:center; justify-content:center; border:1.5px dashed var(--border); flex:1; min-height:60px;"><div style="text-align:center;"><div style="font-size:0.55rem; font-weight:700; color:var(--pri);">RMR Trend</div><div style="font-size:0.48rem; color:var(--dim); margin-top:2px;">Trends appear after Scan 2</div></div></div>`;
     })()}
     <div class="g2">
-      <div class="insight"><h4>What's a good RMR?</h4><p>There is no "good" RMR &mdash; it's unique to your body. However, higher RMR relative to your size means you burn more calories at rest.</p></div>
+      <div class="insight"><h4>What's a good RMR?</h4><p>There is no "good" RMR - it's unique to your body. However, higher RMR relative to your size means you burn more calories at rest.</p></div>
       <div class="insight"><h4>Can I increase RMR?</h4><p>Building muscle is the most effective way. Also: move often, eat whole foods frequently, try interval training, and get adequate sleep.</p></div>
     </div>
     <div class="card">
@@ -895,7 +895,7 @@ function render(d) {
       </div>
       <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:0.55rem; line-height:1.5; color:var(--dim);"><strong style="color:var(--txt);">RMR</strong> is measured by your DEXA scan. <strong style="color:var(--txt);">Lifestyle</strong> accounts for daily non-exercise activity (walking, chores, work). <strong style="color:var(--txt);">Workouts</strong> covers intentional exercise sessions.</div>
       <div style="margin-top:6px; font-size:0.5rem; color:var(--dim); font-style:italic;">This assumes a sedentary lifestyle with a workout of 30 min weight training and 30 min jogging. Adjust using the tables below.</div>
-      <div style="margin-top:4px; font-size:0.5rem; color:var(--dim); font-style:italic;">Tip: Your smartwatch's "active calories" already includes both lifestyle and workout burn — you can use that directly in place of those two values.</div>
+      <div style="margin-top:4px; font-size:0.5rem; color:var(--dim); font-style:italic;">Tip: Your smartwatch's "active calories" already includes both lifestyle and workout burn - you can use that directly in place of those two values.</div>
     </div>
     <div class="g2">
       <div class="card" style="padding-bottom:8px;">
@@ -932,7 +932,7 @@ function render(d) {
     <div class="card" style="font-size:0.65rem; color:var(--dim); line-height:1.7;">
       <div class="card-title">How Nutrition Affects Your Body</div>
       <p style="margin-bottom:6px;"><strong style="color:var(--txt);">Calories determine your weight.</strong> Eat less than your TDEE and you lose weight. Eat more and you gain. But the number on the scale doesn't tell you what you're actually losing or gaining.</p>
-      <p style="margin-bottom:6px;"><strong style="color:var(--txt);">Macros determine your composition.</strong> Two people on the same calorie deficit can get very different results. One loses mostly fat and keeps muscle. The other loses muscle, slows their metabolism, and ends up weaker &mdash; even at a lower weight. The difference is protein.</p>
+      <p style="margin-bottom:6px;"><strong style="color:var(--txt);">Macros determine your composition.</strong> Two people on the same calorie deficit can get very different results. One loses mostly fat and keeps muscle. The other loses muscle, slows their metabolism, and ends up weaker - even at a lower weight. The difference is protein.</p>
       <p><strong style="color:var(--txt);">Protein is the key.</strong> It signals your body to preserve lean tissue during a deficit and build it during a surplus. Carbs fuel your workouts and daily energy. Fat supports hormones and cell health. Getting the ratio right makes every calorie count.</p>
     </div>
   </div>
@@ -955,8 +955,8 @@ function render(d) {
   </div>
   ${FTR(18,tp)}
 </div>
-` + /* COMMENTED OUT — Workout & Diet pages
-<!-- PAGE 19: SAMPLE WORKOUT — REASONING + DAYS 1 & 2 -->
+` + /* COMMENTED OUT - Workout & Diet pages
+<!-- PAGE 19: SAMPLE WORKOUT - REASONING + DAYS 1 & 2 -->
 <div class="page">
   ${HDR('Sample Workout')}
   <div class="content">
@@ -966,15 +966,15 @@ function render(d) {
     <div class="card">
       <div class="card-title">Why This Plan?</div>
       <div style="display:flex; flex-direction:column; gap:6px; font-size:0.58rem; color:var(--dim); line-height:1.55;">
-        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="flex-shrink:0; width:18px; height:18px; border-radius:50%; background:var(--brand); margin-top:1px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.5rem;font-weight:700;color:#fff;">1</span></div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Arms — Room to Grow</div><div>Your scan shows lower lean mass in both arms. Extra arm volume is included on upper body days to help build them up.</div></div></div>
-        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="flex-shrink:0; width:18px; height:18px; border-radius:50%; background:var(--brand); margin-top:1px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.5rem;font-weight:700;color:#fff;">2</span></div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Legs — Great Foundation</div><div>Your legs carry above-average lean mass. Volume is kept moderate so you can maintain while focusing on upper body.</div></div></div>
-        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="flex-shrink:0; width:18px; height:18px; border-radius:50%; background:var(--brand); margin-top:1px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.5rem;font-weight:700;color:#fff;">3</span></div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Left vs Right — Balancing Out</div><div>Your left leg has less lean mass than the right. Single-leg exercises (*) are included — always start with the left side.</div></div></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="flex-shrink:0; width:18px; height:18px; border-radius:50%; background:var(--brand); margin-top:1px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.5rem;font-weight:700;color:#fff;">1</span></div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Arms - Room to Grow</div><div>Your scan shows lower lean mass in both arms. Extra arm volume is included on upper body days to help build them up.</div></div></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="flex-shrink:0; width:18px; height:18px; border-radius:50%; background:var(--brand); margin-top:1px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.5rem;font-weight:700;color:#fff;">2</span></div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Legs - Great Foundation</div><div>Your legs carry above-average lean mass. Volume is kept moderate so you can maintain while focusing on upper body.</div></div></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><div style="flex-shrink:0; width:18px; height:18px; border-radius:50%; background:var(--brand); margin-top:1px;display:flex;align-items:center;justify-content:center;"><span style="font-size:0.5rem;font-weight:700;color:#fff;">3</span></div><div><div style="font-size:0.62rem; font-weight:700; color:var(--txt);">Left vs Right - Balancing Out</div><div>Your left leg has less lean mass than the right. Single-leg exercises (*) are included - always start with the left side.</div></div></div>
       </div>
     </div>
 
     <!-- Day 1 -->
     <div class="card">
-      <div class="card-title">Monday — Upper Push</div>
+      <div class="card-title">Monday - Upper Push</div>
       <div style="display:flex; flex-direction:column; gap:5px;">
         <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=bench+press+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Bench Press</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">4 sets · 8 reps</span></div>
         <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=overhead+press+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Overhead Press</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 10 reps</span></div>
@@ -987,7 +987,7 @@ function render(d) {
 
     <!-- Day 2 -->
     <div class="card">
-      <div class="card-title">Tuesday — Lower Body</div>
+      <div class="card-title">Tuesday - Lower Body</div>
       <div style="display:flex; flex-direction:column; gap:5px;">
         <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=barbell+squat+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Barbell Squat</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">4 sets · 6 reps</span></div>
         <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=bulgarian+split+squat" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Split Squats *</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 10 each leg</span></div>
@@ -1001,14 +1001,14 @@ function render(d) {
   ${FTR(19,tp)}
 </div>
 
-<!-- PAGE 20: SAMPLE WORKOUT — DAYS 3 & 4 -->
+<!-- PAGE 20: SAMPLE WORKOUT - DAYS 3 & 4 -->
 <div class="page">
   ${HDR('Sample Workout')}
   <div class="content">
 
     <!-- Day 3 -->
     <div class="card">
-      <div class="card-title">Thursday — Upper Pull</div>
+      <div class="card-title">Thursday - Upper Pull</div>
       <div style="display:flex; flex-direction:column; gap:5px;">
         <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=barbell+row+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Barbell Rows</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">4 sets · 8 reps</span></div>
         <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=pull+ups+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Pull-Ups</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 8 to 10 reps</span></div>
@@ -1021,7 +1021,7 @@ function render(d) {
 
     <!-- Day 4 -->
     <div class="card">
-      <div class="card-title">Friday — Lower + Core</div>
+      <div class="card-title">Friday - Lower + Core</div>
       <div style="display:flex; flex-direction:column; gap:5px;">
         <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=deadlift+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Deadlift</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">4 sets · 5 reps</span></div>
         <div style="display:flex; align-items:center; gap:10px;"><a href="https://youtube.com/results?search_query=single+leg+rdl+form" target="_blank" style="text-decoration:none; flex-shrink:0; width:20px; height:20px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="8" height="8" viewBox="0 0 24 24" fill="var(--dim)"><polygon points="8,5 19,12 8,19"/></svg></a><div style="flex:1;"><span style="font-size:0.68rem; font-weight:600; color:var(--txt);">Single-Leg RDL *</span></div><span style="font-size:0.55rem; color:var(--dim); font-weight:600; white-space:nowrap;">3 sets · 10 each leg</span></div>
@@ -1033,7 +1033,7 @@ function render(d) {
     </div>
 
     <div style="font-size:0.55rem; color:var(--dim); line-height:1.55;">
-      <strong style="color:var(--txt);">*</strong> Single-leg — start with the left side first to help balance out the difference in lean mass. Rest 60–90s between sets.
+      <strong style="color:var(--txt);">*</strong> Single-leg - start with the left side first to help balance out the difference in lean mass. Rest 60–90s between sets.
     </div>
 
     <div class="g2">
