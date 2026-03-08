@@ -330,22 +330,22 @@ function trendSvg(points, W=240, H=70, suffix='', invert=false) {
 function trendLabels(pts) { return `<div class="trend-labels" style="${pts.length===1?'justify-content:center;':''}">${pts.map(p=>`<span>${p.date||p.label}</span>`).join('')}</div>`; }
 function trendTable(pts, hdr, suffix='') {
   const r = [...pts].reverse();
-  return `<table class="dtable" style="width:auto;flex-shrink:0;margin:0;font-size:0.5rem;">
+  return `<table class="dtable" style="width:auto;flex-shrink:0;margin:0;padding:0;font-size:0.5rem;align-self:flex-start;">
     <tr><th>Date</th><th>${hdr}</th></tr>
     ${r.map((p,i)=>`<tr><td>${p.date||p.label}</td><td>${i===0?'<strong>':''}${p.value}${suffix}${i===0?'</strong>':''}</td></tr>`).join('')}</table>`;
 }
 function trendCard(title, pts, hdr, suffix='', inv=false) {
-  return `<div class="card" style="padding:12px 14px;flex:1;display:flex;flex-direction:column;">
-    <div class="card-title">${title}</div>
+  return `<div class="card" style="padding:12px 14px;flex:1;max-height:200px;display:flex;flex-direction:column;">
+    <div class="card-title" style="margin-bottom:0;">${title}</div>
     <div style="display:flex;gap:12px;align-items:flex-start;flex:1;">
-      <div class="trend-chart" style="flex:1;min-width:0;display:flex;flex-direction:column;">
+      <div class="trend-chart" style="flex:1;min-width:0;display:flex;flex-direction:column;margin-top:8px;">
         ${trendSvg(pts,240,70,suffix,inv)}${trendLabels(pts)}
       </div>${trendTable(pts,hdr,suffix)}</div></div>`;
 }
 
 function blurredTrendCard(title, pts, hdr, suffix='', inv=false) {
   if (pts.length > 1) return trendCard(title, pts, hdr, suffix, inv);
-  return `<div class="card" style="display:flex; align-items:center; justify-content:center; border:1.5px dashed var(--border); background:var(--card); flex:1; min-height:60px;">
+  return `<div class="card" style="display:flex; align-items:center; justify-content:center; border:1.5px dashed var(--border); background:var(--card); flex:1; max-height:200px; min-height:60px;">
     <div style="text-align:center;">
       <div style="font-size:0.55rem; font-weight:700; color:var(--pri);">${title}</div>
       <div style="font-size:0.48rem; color:var(--dim); margin-top:2px;">Trends appear after Scan 2</div>
@@ -757,13 +757,14 @@ function render(d) {
       <div class="card-title">Bone Density Scale</div>
       ${(()=>{const t=bh.thresholds;const v=bh.val;if(v!=null&&t){const scalePos=Math.min(95,Math.max(5,(v-t[0])/(t[3]-t[0])*100));return`<div class="bh-scale-bar" style="background:linear-gradient(90deg, #f87171 0%, #fbbf24 ${100*(t[1]-t[0])/(t[3]-t[0])}%, #34d399 ${100*(t[2]-t[0])/(t[3]-t[0])}%, #34d399 100%);"><div class="vf-you" style="left:${scalePos}%;">You</div><div class="vf-dot" style="left:${scalePos}%;"></div></div>`}else{return`<div class="bh-scale-bar" style="background:#e5e7eb !important;"></div>`}})()}
       <div style="display:flex; justify-content:space-between; font-size:0.48rem; color:var(--mute); font-weight:600;"><span>Very Low</span><span>Average</span><span>Excellent</span></div>
-      <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:0.5rem; line-height:1.5; color:var(--mute);"><strong>${bh.insight.split('.')[0]}.</strong> ${bh.insight.split('.').slice(1).join('.').trim()}</div>
+      <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:0.7rem; line-height:1.5; color:var(--dim);"><strong style="color:var(--txt);">${bh.insight.split('.')[0]}.</strong> ${bh.insight.split('.').slice(1).join('.').trim()}</div>
     </div>
     ${blurredTrendCard('T-Score Trend', bh.trend.tScore, 'T-Score', '')}
     <div class="g2">
-      <div class="insight"><h4>What the scores mean</h4><p><strong>T-Score</strong> compares to peak bone mass of a healthy young adult. <strong>Z-Score</strong> compares to your age group. Below -2.5 = osteoporosis.</p></div>
-      <div class="insight"><h4>Strengthen your bones</h4><ul><li>Calcium &amp; Vitamin D</li><li>Weight-bearing exercise</li><li>Resistance training</li><li>Avoid smoking &amp; excess alcohol</li></ul></div>
+      <div class="insight"><h4>What the scores mean</h4><p><strong>T-Score</strong> compares to peak bone mass of a healthy young adult. <strong>Z-Score</strong> compares to your age group. Based on T-Score: above -1.0 = normal, -1.0 to -2.5 = osteopenia, below -2.5 = osteoporosis.</p></div>
+      <div class="insight"><h4>To strengthen your bones</h4><ul><li>Calcium &amp; Vitamin D</li><li>Weight-bearing exercise</li><li>Resistance training</li><li>Avoid smoking &amp; excess alcohol</li></ul></div>
     </div>
+    <div style="font-size:0.48rem; color:var(--mute); line-height:1.5; font-style:italic; padding:6px 10px; background:var(--card); border-left:3px solid var(--border); border-radius:4px;">Note: Doctors may also measure bone density at other sites such as the wrist, forearm, or lumbar spine to diagnose osteoporosis. A whole-body DEXA scan provides a general overview but may not replace site-specific assessments.</div>
   </div>
   ${FTR(11,tp)}
 </div>
