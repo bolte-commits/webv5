@@ -12,7 +12,7 @@ export async function contactUs(
     const res = await fetch(`${API_BASE}/contactUs`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, subject, message }),
+      body: JSON.stringify({ email: email.toLowerCase(), subject, message }),
     });
     const data = await res.json();
     if (!res.ok) {

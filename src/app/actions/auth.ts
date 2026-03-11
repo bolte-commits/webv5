@@ -10,7 +10,7 @@ export async function sendOtp(
     const res = await fetch(`${API_BASE}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email: email.toLowerCase() }),
     });
     const data = await res.json();
     if (!res.ok) {
@@ -34,7 +34,7 @@ export async function verifyOtp(
     const res = await fetch(`${API_BASE}/verifyLoginOtp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, otp }),
+      body: JSON.stringify({ email: email.toLowerCase(), otp }),
     });
     const data = await res.json();
     if (!res.ok) {

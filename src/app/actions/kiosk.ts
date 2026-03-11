@@ -20,7 +20,7 @@ export async function kioskSignup(
     const res = await fetch(`${API_BASE}/kioskSignup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, email: data.email.toLowerCase() }),
     });
     const json = await res.json();
     if (!res.ok) {
