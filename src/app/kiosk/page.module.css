@@ -1,0 +1,184 @@
+.container {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+}
+
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    animation: fadeIn 0.4s ease;
+}
+
+.card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+.formGroup {
+    margin-bottom: 1.25rem;
+}
+
+.formGroup label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+}
+
+.input {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input:focus {
+    border-color: var(--accent);
+}
+
+.genderRow {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.genderBtn {
+    flex: 1;
+    padding: 0.9rem;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    background: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+}
+
+.genderBtnActive {
+    composes: genderBtn;
+    border-color: var(--accent);
+}
+
+.heightPicker {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.heightSelect {
+    flex: 1;
+}
+
+.heightSelect select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.3s;
+    background: var(--white);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.heightSelect select:focus {
+    border-color: var(--accent);
+}
+
+.error {
+    color: #dc2626;
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+    font-weight: 600;
+}
+
+/* Success screen */
+.successScreen {
+    text-align: center;
+    animation: fadeIn 0.4s ease;
+}
+
+.successScreen h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.successSubtitle {
+    color: var(--text-light);
+    margin-bottom: 2.5rem;
+    font-size: 0.95rem;
+}
+
+.idLabel {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.userId {
+    font-size: 6rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 2rem;
+    font-family: var(--font-heading), 'Space Grotesk', sans-serif;
+    letter-spacing: -0.02em;
+}
+
+.newSignupBtn {
+    background: none;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    padding: 0.9rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+}
+
+.newSignupBtn:hover {
+    background: var(--accent);
+    color: white;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1.5rem 3rem;
+    }
+
+    .card {
+        padding: 1.5rem;
+    }
+
+    .card h2 {
+        font-size: 1.3rem;
+    }
+
+    .userId {
+        font-size: 4.5rem;
+    }
+}
