@@ -7,54 +7,77 @@ import PageHero from "@/components/PageHero";
 import {
   confirmBooking,
   checkPendingAppointment,
-  cancelUpcomingAppointment,
-  getAppointment,
-  applyCouponCode,
-  type AppointmentDetails,
-  type PendingDetails,
-  type BookingPricing,
+  cancelAppointment,
+  type PendingAppointment,
+  type BookingResult,
 } from "@/app/actions/booking";
 import { getStoredToken, logout } from "@/lib/auth";
-import { formatPrice } from "@/lib/constants";
+import { formatPrice, formatDate } from "@/lib/constants";
 import styles from "./page.module.css";
+
+const BOOKING_CONTEXT_KEY = "bi_booking";
+
+interface BookingContext {
+  eventId: number;
+  service: string;
+  startTime: string;
+  displayTime?: string;
+  name?: string;
+  area?: string;
+  date?: string;
+  displayDate?: string;
+  amount?: string;
+  mapUrl?: string | null;
+}
 
 function ConfirmContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const appointmentId = searchParams.get("appointmentId") || "";
+  const eventId = Number(searchParams.get("eventId") || "0");
+  const service = searchParams.get("service") || "dexa";
+  const startTime = searchParams.get("startTime") || "";
 
-  const [appt, setAppt] = useState<AppointmentDetails | null>(null);
+  // Load booking context from sessionStorage
+  const [bookingCtx, setBookingCtx] = useState<BookingContext | null>(null);
 
   const [name, setName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [gender, setGender] = useState("");
-  const [phone, setPhone] = useState("");
-  const [height, setHeight] = useState(""); // stored as cm internally
+  const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
-  const [heightFt, setHeightFt] = useState(5);
-  const [heightIn, setHeightIn] = useState(6);
+  const [heightFt, setHeightFt] = useState<number | "">("");
+  const [heightIn, setHeightIn] = useState<number | "">("");
   const [token, setToken] = useState("");
-  const [couponCode, setCouponCode] = useState("");
-  const [couponApplied, setCouponApplied] = useState(false);
-  const [couponPricing, setCouponPricing] = useState<BookingPricing | null>(null);
-  const [couponError, setCouponError] = useState("");
-  const [applyingCoupon, setApplyingCoupon] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [pricing, setPricing] = useState<BookingPricing | null>(null);
+  const [bookingResult, setBookingResult] = useState<BookingResult | null>(null);
   const [bookingError, setBookingError] = useState("");
   const [hasPending, setHasPending] = useState(false);
-  const [pendingDetails, setPendingDetails] = useState<PendingDetails | null>(null);
+  const [pendingDetails, setPendingDetails] = useState<PendingAppointment | null>(null);
   const [checkingPending, setCheckingPending] = useState(true);
   const [cancelling, setCancelling] = useState(false);
   const [cancelError, setCancelError] = useState("");
 
   const redirectToLogin = () => {
     logout();
-    router.push("/login?appointmentId=" + appointmentId);
+    const params = new URLSearchParams();
+    if (eventId) params.set("eventId", String(eventId));
+    if (service) params.set("service", service);
+    if (startTime) params.set("startTime", startTime);
+    router.push("/login?" + params.toString());
   };
 
   useEffect(() => {
+    // Load booking context from sessionStorage
+    try {
+      const stored = sessionStorage.getItem(BOOKING_CONTEXT_KEY);
+      if (stored) {
+        setBookingCtx(JSON.parse(stored));
+      }
+    } catch {
+      // ignore parse errors
+    }
+
     const t = getStoredToken();
     if (!t) {
       redirectToLogin();
@@ -67,26 +90,23 @@ function ConfirmContent() {
         redirectToLogin();
         return;
       }
-      if (result.hasPending && result.details) {
+      if (result.pendingAppointment) {
         setHasPending(true);
-        setPendingDetails(result.details);
+        setPendingDetails(result.pendingAppointment);
       }
-      if (result.user) {
-        if (result.user.name) setName(result.user.name);
-        if (result.user.gender) setGender(result.user.gender);
-        if (result.user.height) {
-          setHeight(String(result.user.height));
-          const totalIn = Math.round(result.user.height / 2.54);
+      if (result.profile) {
+        const p = result.profile;
+        if (p.name) setName(p.name);
+        if (p.gender) setGender(p.gender);
+        if (p.height) {
+          setHeight(String(p.height));
+          const totalIn = Math.round(Number(p.height) / 2.54);
           setHeightFt(Math.floor(totalIn / 12));
           setHeightIn(totalIn % 12);
         }
-        if (result.user.weight) setWeight(String(result.user.weight));
-        if (result.user.phone) {
-          const digits = result.user.phone.replace(/\D/g, "");
-          if (digits.length === 10) setPhone(digits);
-        }
-        if (result.user.dateOfBirth) {
-          const d = new Date(result.user.dateOfBirth);
+        if (p.weight) setWeight(String(p.weight));
+        if (p.dateOfBirth) {
+          const d = new Date(p.dateOfBirth);
           if (!isNaN(d.getTime())) {
             setDateOfBirth(d.toISOString().split("T")[0]);
           }
@@ -94,16 +114,8 @@ function ConfirmContent() {
       }
       setCheckingPending(false);
     });
-
-    if (appointmentId) {
-      getAppointment(appointmentId).then((result) => {
-        if (result.success && result.details) {
-          setAppt(result.details);
-        }
-      });
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appointmentId]);
+  }, []);
 
   const [loading, setLoading] = useState(false);
 
@@ -111,28 +123,38 @@ function ConfirmContent() {
     e.preventDefault();
     setBookingError("");
 
-    if (height && weight) {
-      const h = Number(height) / 100;
-      const bmi = Number(weight) / (h * h);
-      if (bmi > 39) {
-        const proceed = window.confirm(
-          "Visceral fat measurement is not clinically validated for BMI above 39 and will not be included in your report. All other metrics will be available. Do you wish to proceed?"
-        );
-        if (!proceed) return;
-      }
+    if (!gender) {
+      setBookingError("Please select your gender.");
+      return;
+    }
+    if (!height || heightFt === "" || heightIn === "") {
+      setBookingError("Please select your height.");
+      return;
+    }
+    if (!weight) {
+      setBookingError("Please enter your weight.");
+      return;
+    }
+
+    const h = Number(height) / 100;
+    const bmi = Number(weight) / (h * h);
+    if (bmi > 39) {
+      const proceed = window.confirm(
+        "Visceral fat measurement is not clinically validated for BMI above 39 and will not be included in your report. All other metrics will be available. Do you wish to proceed?"
+      );
+      if (!proceed) return;
     }
 
     setLoading(true);
-    const result = await confirmBooking({
-      token,
-      appointmentId,
+    const result = await confirmBooking(token, {
+      eventId,
+      service,
+      startTime,
       name,
+      gender,
       dateOfBirth,
-      phone: phone || undefined,
-      coupon: couponCode.trim().toUpperCase() || undefined,
-      height: height ? Number(height) : undefined,
-      weight: weight ? Number(weight) : undefined,
-      gender: gender || undefined,
+      height,
+      weight,
     });
     setLoading(false);
     if (result.unauthorized) {
@@ -140,46 +162,23 @@ function ConfirmContent() {
       return;
     }
     if (result.success) {
-      if (result.pricing) setPricing(result.pricing);
+      if (result.appointment) setBookingResult(result.appointment);
       setSuccess(true);
       logout();
+      sessionStorage.removeItem(BOOKING_CONTEXT_KEY);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       setBookingError(result.error || "Booking failed. Please try again.");
     }
   };
 
-  const handleApplyCoupon = async () => {
-    const code = couponCode.trim().toUpperCase();
-    if (!code) return;
-    if (!token) {
-      redirectToLogin();
-      return;
-    }
-    setCouponError("");
-    setApplyingCoupon(true);
-    const result = await applyCouponCode(token, appointmentId, code);
-    setApplyingCoupon(false);
-    if (result.unauthorized) {
-      redirectToLogin();
-      return;
-    }
-    if (result.success && result.pricing) {
-      setCouponApplied(true);
-      setCouponPricing(result.pricing);
-    } else {
-      setCouponApplied(false);
-      setCouponPricing(null);
-      setCouponError(result.error || "Invalid coupon code");
-    }
-  };
-
-  const handleRemoveCoupon = () => {
-    setCouponCode("");
-    setCouponApplied(false);
-    setCouponPricing(null);
-    setCouponError("");
-  };
+  // Display info: prefer booking result (after success), then booking context, then fallback
+  const displayName = bookingResult?.locationName || bookingCtx?.name || "";
+  const displayArea = bookingResult?.locationArea || bookingCtx?.area || "";
+  const rawDate = bookingResult?.date || bookingCtx?.date || "";
+  const displayDate = rawDate ? formatDate(rawDate) : "";
+  const displayTime = bookingResult?.time || bookingCtx?.displayTime || "";
+  const displayAmount = bookingResult?.amountDue || bookingCtx?.amount || "";
 
   const heroTitle = hasPending
     ? "You already have a booking"
@@ -252,15 +251,13 @@ function ConfirmContent() {
                 <div className={styles.pendingSummary}>
                   <div className={styles.summaryRow}>
                     <span className={styles.summaryRowLabel}>Location</span>
-                    <span className={styles.summaryRowValue}>{pendingDetails.landmark}</span>
-                  </div>
-                  <div className={styles.summaryRow}>
-                    <span className={styles.summaryRowLabel}>Area</span>
-                    <span className={styles.summaryRowValue}>{pendingDetails.area}</span>
+                    <span className={styles.summaryRowValue}>
+                      {pendingDetails.locationName}, {pendingDetails.locationArea}
+                    </span>
                   </div>
                   <div className={styles.summaryRow}>
                     <span className={styles.summaryRowLabel}>Date</span>
-                    <span className={styles.summaryRowValue}>{pendingDetails.date}</span>
+                    <span className={styles.summaryRowValue}>{formatDate(pendingDetails.date)}</span>
                   </div>
                   <div className={styles.summaryRow}>
                     <span className={styles.summaryRowLabel}>Time</span>
@@ -269,7 +266,7 @@ function ConfirmContent() {
                 </div>
               )}
               <p className={styles.successSub}>
-                Cancel it to book a new one, or use a different email if this booking is for someone else.
+                Cancel it to book a new one, or use a different phone number if this booking is for someone else.
               </p>
               {cancelError && (
                 <p className={styles.cancelError}>{cancelError}</p>
@@ -279,10 +276,10 @@ function ConfirmContent() {
                   className={styles.cancelApptBtn}
                   disabled={cancelling}
                   onClick={async () => {
-                    if (!pendingDetails?.pendingAppointmentId || !pendingDetails?.bc) return;
+                    if (!pendingDetails) return;
                     setCancelError("");
                     setCancelling(true);
-                    const result = await cancelUpcomingAppointment(pendingDetails.pendingAppointmentId, pendingDetails.bc);
+                    const result = await cancelAppointment(pendingDetails.id, pendingDetails.token);
                     setCancelling(false);
                     if (result.success) {
                       setHasPending(false);
@@ -297,7 +294,7 @@ function ConfirmContent() {
                   className={styles.switchEmailBtn}
                   onClick={redirectToLogin}
                 >
-                  Use a different email
+                  Use a different phone number
                 </button>
               </div>
             </div>
@@ -310,10 +307,10 @@ function ConfirmContent() {
             <div className={styles.bookingSummary}>
               <div className={styles.summaryTitle}>Booking summary</div>
               <div className={styles.summaryLocation}>
-                {appt ? appt.landmark : "Loading..."}
+                {displayName || "Loading..."}
               </div>
               <div className={styles.summaryDetails}>
-                {appt ? appt.date : "--"} at {appt ? appt.time : "--"}
+                {displayDate || "--"} at {displayTime || "--"}
               </div>
             </div>
 
@@ -323,22 +320,9 @@ function ConfirmContent() {
                 <input
                   type="text"
                   id="name-input"
-                  placeholder="Your full name"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="phone-input">Phone number</label>
-                <input
-                  type="tel"
-                  id="phone-input"
-                  placeholder="10-digit mobile number"
-                  inputMode="numeric"
-                  maxLength={10}
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
                 />
               </div>
               <div className={styles.formGroup}>
@@ -353,17 +337,17 @@ function ConfirmContent() {
               </div>
               <div className={styles.formGroup}>
                 <label>Gender</label>
-                <div className={styles.genderButtons}>
+                <div className={styles.genderRow}>
                   <button
                     type="button"
-                    className={`${styles.genderBtn} ${gender === "male" ? styles.genderBtnActive : ""}`}
+                    className={gender === "male" ? styles.genderBtnActive : styles.genderBtn}
                     onClick={() => setGender("male")}
                   >
                     Male
                   </button>
                   <button
                     type="button"
-                    className={`${styles.genderBtn} ${gender === "female" ? styles.genderBtnActive : ""}`}
+                    className={gender === "female" ? styles.genderBtnActive : styles.genderBtn}
                     onClick={() => setGender("female")}
                   >
                     Female
@@ -379,9 +363,11 @@ function ConfirmContent() {
                       onChange={(e) => {
                         const ft = Number(e.target.value);
                         setHeightFt(ft);
-                        setHeight(String(Math.round((ft * 12 + heightIn) * 2.54)));
+                        const inches = heightIn || 0;
+                        setHeight(String(Math.round((ft * 12 + inches) * 2.54)));
                       }}
                     >
+                      <option value="" disabled>- ft</option>
                       {[4, 5, 6, 7].map((ft) => (
                         <option key={ft} value={ft}>{ft} ft</option>
                       ))}
@@ -393,9 +379,12 @@ function ConfirmContent() {
                       onChange={(e) => {
                         const inches = Number(e.target.value);
                         setHeightIn(inches);
-                        setHeight(String(Math.round((heightFt * 12 + inches) * 2.54)));
+                        const ft = heightFt || 5;
+                        if (!heightFt) setHeightFt(ft);
+                        setHeight(String(Math.round((ft * 12 + inches) * 2.54)));
                       }}
                     >
+                      <option value="" disabled>- in</option>
                       {Array.from({ length: 12 }, (_, i) => (
                         <option key={i} value={i}>{i} in</option>
                       ))}
@@ -408,65 +397,17 @@ function ConfirmContent() {
                 <input
                   type="number"
                   id="weight-input"
-                  placeholder="Weight in kg"
+                  required
                   min={35}
                   max={135}
                   value={weight}
                   onChange={(e) => setWeight(e.target.value)}
                 />
               </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="coupon-input">Coupon code (optional)</label>
-                <div className={styles.couponWrap}>
-                  <input
-                    type="text"
-                    id="coupon-input"
-                    placeholder="e.g. FIRST50"
-                    value={couponCode}
-                    disabled={couponApplied}
-                    onChange={(e) => { setCouponCode(e.target.value); setCouponError(""); }}
-                  />
-                  {couponApplied ? (
-                    <button
-                      type="button"
-                      className={styles.couponRemoveBtn}
-                      onClick={handleRemoveCoupon}
-                    >
-                      Remove
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      className={styles.couponApplyBtn}
-                      disabled={!couponCode.trim() || applyingCoupon}
-                      onClick={handleApplyCoupon}
-                    >
-                      {applyingCoupon ? "Applying..." : "Apply"}
-                    </button>
-                  )}
-                </div>
-                {couponError && (
-                  <p className={styles.couponMsgError}>{couponError}</p>
-                )}
-                {couponApplied && couponPricing && (
-                  <p className={styles.couponMsgSuccess}>
-                    Coupon applied! You save {formatPrice(couponPricing.discount)}
-                  </p>
-                )}
-              </div>
               <div className={styles.summaryPrice}>
                 <span className={styles.priceLabel}>Price</span>
                 <span className={styles.priceValue}>
-                  {couponApplied && couponPricing ? (
-                    <>
-                      <span className={styles.priceOriginal}>
-                        {formatPrice(couponPricing.basePrice)}
-                      </span>
-                      {formatPrice(couponPricing.finalPrice)}
-                    </>
-                  ) : (
-                    appt ? formatPrice(appt.amount) : "--"
-                  )}
+                  {displayAmount ? formatPrice(Number(displayAmount)) : "--"}
                 </span>
               </div>
               {bookingError && (
@@ -474,7 +415,7 @@ function ConfirmContent() {
                   {bookingError}
                 </p>
               )}
-              <button type="submit" className="pill-btn" disabled={loading}>
+              <button type="submit" className="pill-btn" disabled={loading || !name || !dateOfBirth || !gender || heightFt === "" || heightIn === "" || !weight}>
                 {loading ? "Confirming..." : "Confirm Booking"}
               </button>
             </form>
@@ -505,50 +446,34 @@ function ConfirmContent() {
                 <div className={styles.summaryRow}>
                   <span className={styles.summaryRowLabel}>Location</span>
                   <span className={styles.summaryRowValue}>
-                    {appt?.landmark || "--"}
+                    {bookingResult
+                      ? `${bookingResult.locationName}, ${bookingResult.locationArea}`
+                      : displayName || "--"}
                   </span>
                 </div>
                 <div className={styles.summaryRow}>
                   <span className={styles.summaryRowLabel}>Date</span>
                   <span className={styles.summaryRowValue}>
-                    {appt?.date || "--"}
+                    {displayDate || "--"}
                   </span>
                 </div>
                 <div className={styles.summaryRow}>
                   <span className={styles.summaryRowLabel}>Time slot</span>
-                  <span className={styles.summaryRowValue}>{appt?.time || "--"}</span>
+                  <span className={styles.summaryRowValue}>
+                    {bookingResult?.time || displayTime || "--"}
+                  </span>
                 </div>
                 <div className={styles.summaryRow}>
                   <span className={styles.summaryRowLabel}>Name</span>
                   <span className={styles.summaryRowValue}>{name}</span>
                 </div>
-                {pricing && (
-                  <>
-                    {pricing.discount > 0 ? (
-                      <div className={styles.summaryRow}>
-                        <span className={styles.summaryRowLabel}>Amount</span>
-                        <span className={styles.summaryRowValue}>
-                          <span
-                            style={{
-                              textDecoration: "line-through",
-                              color: "#aaa",
-                              marginRight: "0.4rem",
-                            }}
-                          >
-                            {formatPrice(pricing.basePrice)}
-                          </span>
-                          {formatPrice(pricing.finalPrice)}
-                        </span>
-                      </div>
-                    ) : (
-                      <div className={styles.summaryRow}>
-                        <span className={styles.summaryRowLabel}>Amount</span>
-                        <span className={styles.summaryRowValue}>
-                          {formatPrice(pricing.finalPrice)}
-                        </span>
-                      </div>
-                    )}
-                  </>
+                {bookingResult?.amountDue && (
+                  <div className={styles.summaryRow}>
+                    <span className={styles.summaryRowLabel}>Amount</span>
+                    <span className={styles.summaryRowValue}>
+                      {formatPrice(Number(bookingResult.amountDue))}
+                    </span>
+                  </div>
                 )}
               </div>
               <Link href="/schedule" className={styles.backHome}>

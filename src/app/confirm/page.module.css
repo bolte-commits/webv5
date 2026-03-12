@@ -57,10 +57,12 @@
 
 .formGroup label {
     display: block;
-    font-weight: 600;
+    font-weight: 500;
     margin-bottom: 0.4rem;
-    font-size: 0.9rem;
-    color: var(--text);
+    font-size: 0.75rem;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 .formGroup input,
@@ -70,7 +72,8 @@
     border: 2px solid #e8e8e8;
     border-radius: 12px;
     font-size: 1rem;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-family: 'Bw Modelica', sans-serif;
     outline: none;
     transition: border-color 0.3s;
     background: var(--white);
@@ -82,41 +85,31 @@
     border-color: var(--accent);
 }
 
-/* Gender toggle buttons */
-.genderButtons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.6rem;
+
+
+/* Gender buttons */
+.genderRow {
+    display: flex;
+    gap: 0.75rem;
 }
 
 .genderBtn {
-    padding: 0.85rem 1rem;
+    flex: 1;
+    padding: 0.85rem;
     border: 2px solid #e8e8e8;
     border-radius: 12px;
-    background: var(--white);
+    background: white;
     font-size: 1rem;
-    font-weight: 600;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
-    color: #999;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
-}
-
-.genderBtn:hover {
-    border-color: #ccc;
+    transition: all 0.3s;
+    font-family: 'Bw Modelica', sans-serif;
     color: var(--text);
 }
 
 .genderBtnActive {
+    composes: genderBtn;
     border-color: var(--accent);
-    background: #f0f7ff;
-    color: var(--accent);
-}
-
-.genderBtnActive:hover {
-    border-color: var(--accent);
-    background: #f0f7ff;
-    color: var(--accent);
 }
 
 /* Height picker */
@@ -136,8 +129,8 @@
     border: 2px solid #e8e8e8;
     border-radius: 12px;
     font-size: 1rem;
-    font-weight: 600;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-family: 'Bw Modelica', sans-serif;
     outline: none;
     transition: border-color 0.3s;
     background: var(--white);
@@ -146,7 +139,7 @@
 }
 
 .heightSelect select:focus {
-    border-color: #e8e8e8;
+    border-color: var(--accent);
 }
 
 .formRow {
@@ -182,7 +175,7 @@
     font-weight: 700;
     font-size: 0.95rem;
     cursor: pointer;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
     transition: all 0.3s;
     white-space: nowrap;
     flex-shrink: 0;
@@ -207,7 +200,7 @@
     font-weight: 700;
     font-size: 0.95rem;
     cursor: pointer;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
     transition: all 0.3s;
     white-space: nowrap;
     flex-shrink: 0;
@@ -263,7 +256,7 @@
 }
 
 .summaryPrice {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     padding: 1rem 1.2rem;
     background: #f8f8f8;
     border-radius: 12px;
@@ -351,7 +344,7 @@
     font-weight: 700;
     font-size: 1rem;
     cursor: pointer;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
     transition: all 0.3s;
 }
 
@@ -375,7 +368,7 @@
     font-weight: 700;
     font-size: 1rem;
     cursor: pointer;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
     transition: all 0.3s;
 }
 
