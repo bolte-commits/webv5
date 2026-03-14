@@ -1,7 +1,6 @@
 "use server";
 
-const API_BASE =
-  "https://pbkivbwxx9.execute-api.ap-south-1.amazonaws.com/prod";
+const API_URL = process.env.API_URL || "http://localhost:3000";
 
 export async function contactUs(
   email: string,
@@ -9,14 +8,14 @@ export async function contactUs(
   message: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const res = await fetch(`${API_BASE}/contactUs`, {
+    const res = await fetch(`${API_URL}/contact`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: email.toLowerCase(), subject, message }),
     });
     const data = await res.json();
     if (!res.ok) {
-      return { success: false, error: data.message || "Failed to send message" };
+      return { success: false, error: data.error || "Failed to send message" };
     }
     return { success: true };
   } catch {

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Body Insight — Banner Ad</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&display=swap" rel="stylesheet">
+<link href="/fonts/stylesheet.css" rel="stylesheet">
+<style>
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Bw Modelica', -apple-system, sans-serif;
+    background: #0a0a0a;
+    color: white;
+    display: flex;
+    justify-content: center;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .banner {
+    width: 1000px;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ===== FULL BACKGROUND IMAGE ===== */
+  .banner-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .banner-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 85%;
+    display: block;
+  }
+
+  /* ===== DARK OVERLAY ===== */
+  .banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0.15) 30%,
+      rgba(0,0,0,0.7) 55%,
+      rgba(0,0,0,0.92) 100%
+    );
+    z-index: 1;
+  }
+
+  /* ===== CONTENT ===== */
+  .banner-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    padding: 0 32px 24px;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: -0.03em;
+    color: rgba(255,255,255,0.6);
+    position: absolute;
+    top: 20px;
+    left: 32px;
+    z-index: 2;
+  }
+
+  .bottom-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 28px;
+  }
+
+  .bottom-left {
+    flex: 1;
+  }
+
+  .bottom-right {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
+  .headline {
+    font-family: 'Bw Modelica', sans-serif;
+    font-weight: 800;
+    font-size: 2.2rem;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: white;
+    margin-bottom: 6px;
+  }
+  .headline .accent {
+    color: #0a84ff;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+  .subtitle strong {
+    color: rgba(255,255,255,0.85);
+  }
+
+  /* ===== EVENT DETAILS ROW ===== */
+  .details-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .detail-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 10px 16px;
+  }
+  .detail-chip .icon {
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+  .detail-chip .text {
+    display: flex;
+    flex-direction: column;
+  }
+  .detail-chip .label {
+    font-size: 0.48rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.5);
+  }
+  .detail-chip .value {
+    font-family: 'Bw Modelica', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: white;
+  }
+  .detail-chip .value.blue {
+    color: #0a84ff;
+  }
+
+  /* ===== FEATURES STRIP ===== */
+  .features-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+  .feature-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.65);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .feature-tag .emoji {
+    font-size: 0.8rem;
+  }
+  .feature-sep {
+    color: rgba(255,255,255,0.2);
+    font-size: 0.7rem;
+  }
+
+  /* ===== TRUST ROW ===== */
+  .trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+  }
+  .trust-label {
+    font-size: 0.48rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.35);
+    margin-right: 3px;
+  }
+  .trust-pill {
+    font-size: 0.52rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.55);
+    white-space: nowrap;
+  }
+  .trust-pill strong {
+    font-weight: 700;
+    color: rgba(255,255,255,0.75);
+  }
+
+  /* ===== ACCURACY BADGE ===== */
+  .accuracy-badge {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    z-index: 2;
+    background: linear-gradient(135deg, #d4a843, #f5d680, #d4a843);
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="banner">
+
+  <!-- FULL-BLEED BACKGROUND IMAGE -->
+  <div class="banner-bg">
+    <img src="/images/truck.JPG" alt="Body Insight Mobile DEXA Van">
+  </div>
+
+  <!-- DARK GRADIENT OVERLAY -->
+  <div class="banner-overlay"></div>
+
+  <!-- ACCURACY BADGE -->
+  <div class="accuracy-badge">&#9733; Gold Standard</div>
+
+  <!-- LOGO TOP LEFT -->
+  <div class="logo">BODY INSIGHT</div>
+
+  <!-- CONTENT OVERLAY AT BOTTOM -->
+  <div class="banner-content">
+    <div class="bottom-row">
+      <div class="bottom-left">
+        <div class="headline"><span class="accent">DEXA</span> Scan @ Clubhouse</div>
+        <div class="subtitle">Bringing the <strong>IPL players' favorite health tech</strong> to Brigade Gateway Residences.</div>
+        <div class="details-row">
+          <div class="detail-chip">
+            <span class="icon">&#128197;</span>
+            <div class="text">
+              <span class="label">When</span>
+              <span class="value">Sat, Mar 14 &middot; 7AM&ndash;5PM</span>
+            </div>
+          </div>
+          <div class="detail-chip">
+            <div class="text">
+              <span class="label">Price</span>
+              <span class="value blue">&#8377;2,999</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-right">
+        <div class="features-strip">
+          <span class="feature-tag"><span class="emoji">&#128293;</span> Body Fat %</span>
+          <span class="feature-sep">&middot;</span>
+          <span class="feature-tag"><span class="emoji">&#128170;</span> Muscle Mass</span>
+          <span class="feature-sep">&middot;</span>
+          <span class="feature-tag"><span class="emoji">🦴</span> Bone Density</span>
+          <span class="feature-sep">&middot;</span>
+          <span class="feature-tag"><span class="emoji">&#9888;&#65039;</span> Visceral Fat</span>
+          <span class="feature-sep">&middot;</span>
+          <span class="feature-tag"><span class="emoji">&#128200;</span> RMR</span>
+          <span class="feature-sep">&middot;</span>
+          <span class="feature-tag"><span class="emoji">&#9878;&#65039;</span> Segmental</span>
+        </div>
+
+        <div class="trust-row">
+          <span class="trust-label">Trusted by</span>
+          <div class="trust-pill"><strong>BCCI</strong> &middot; RCB</div>
+          <div class="trust-pill"><strong>Hockey India</strong></div>
+          <div class="trust-pill"><strong>IISc</strong></div>
+          <div class="trust-pill">Zerodha &middot; PayPal</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

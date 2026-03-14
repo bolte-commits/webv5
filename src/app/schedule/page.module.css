@@ -21,7 +21,7 @@
     background: white;
     color: var(--primary);
     min-width: 300px;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
     cursor: pointer;
     font-weight: 700;
     appearance: none;

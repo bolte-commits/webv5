@@ -8,8 +8,10 @@ import {
   confirmBooking,
   checkPendingAppointment,
   cancelAppointment,
+  validateCoupon,
   type PendingAppointment,
   type BookingResult,
+  type CouponValidationResult,
 } from "@/app/actions/booking";
 import { getStoredToken, logout } from "@/lib/auth";
 import { formatPrice, formatDate } from "@/lib/constants";
@@ -57,6 +59,12 @@ function ConfirmContent() {
   const [checkingPending, setCheckingPending] = useState(true);
   const [cancelling, setCancelling] = useState(false);
   const [cancelError, setCancelError] = useState("");
+
+  // Coupon
+  const [couponCode, setCouponCode] = useState("");
+  const [couponApplying, setCouponApplying] = useState(false);
+  const [couponResult, setCouponResult] = useState<CouponValidationResult | null>(null);
+  const [couponError, setCouponError] = useState("");
 
   const redirectToLogin = () => {
     logout();
@@ -119,6 +127,32 @@ function ConfirmContent() {
 
   const [loading, setLoading] = useState(false);
 
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim() || !token) return;
+    setCouponError("");
+    setCouponApplying(true);
+    const result = await validateCoupon(token, {
+      code: couponCode.trim(),
+      eventId,
+      service,
+      amount: Number(displayAmount),
+    });
+    setCouponApplying(false);
+    if (result.valid) {
+      setCouponResult(result);
+      setCouponError("");
+    } else {
+      setCouponResult(null);
+      setCouponError(result.error || "Invalid coupon");
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setCouponResult(null);
+    setCouponCode("");
+    setCouponError("");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBookingError("");
@@ -155,6 +189,7 @@ function ConfirmContent() {
       dateOfBirth,
       height,
       weight,
+      ...(couponResult?.valid && couponResult.coupon ? { couponCode: couponResult.coupon.code } : {}),
     });
     setLoading(false);
     if (result.unauthorized) {
@@ -404,10 +439,57 @@ function ConfirmContent() {
                   onChange={(e) => setWeight(e.target.value)}
                 />
               </div>
+              {/* Coupon */}
+              <div className={styles.formGroup}>
+                <label>Have a coupon?</label>
+                <div className={styles.couponWrap}>
+                  <input
+                    type="text"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                    placeholder="Enter code"
+                    disabled={!!couponResult?.valid}
+                    onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleApplyCoupon(); } }}
+                  />
+                  {couponResult?.valid ? (
+                    <button type="button" className={styles.couponRemoveBtn} onClick={handleRemoveCoupon}>
+                      Remove
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className={styles.couponApplyBtn}
+                      onClick={handleApplyCoupon}
+                      disabled={couponApplying || !couponCode.trim()}
+                    >
+                      {couponApplying ? "..." : "Apply"}
+                    </button>
+                  )}
+                </div>
+                {couponResult?.valid && couponResult.coupon && (
+                  <p className={styles.couponMsgSuccess}>
+                    {couponResult.coupon.code} applied — {formatPrice(couponResult.discount!)} off
+                  </p>
+                )}
+                {couponError && (
+                  <p className={styles.couponMsgError}>{couponError}</p>
+                )}
+              </div>
+
               <div className={styles.summaryPrice}>
                 <span className={styles.priceLabel}>Price</span>
                 <span className={styles.priceValue}>
-                  {displayAmount ? formatPrice(Number(displayAmount)) : "--"}
+                  {couponResult?.valid && displayAmount ? (
+                    <>
+                      <span className={styles.priceOriginal}>{formatPrice(Number(displayAmount))}</span>
+                      {formatPrice(couponResult.finalAmount!)}
+                      <span className={styles.priceDiscountTag}>
+                        {couponResult.coupon?.discountType === "percentage" ? `${couponResult.coupon.discountValue}% off` : `${formatPrice(couponResult.discount!)} off`}
+                      </span>
+                    </>
+                  ) : (
+                    displayAmount ? formatPrice(Number(displayAmount)) : "--"
+                  )}
                 </span>
               </div>
               {bookingError && (

@@ -40,7 +40,7 @@
     border: 2px solid #e8e8e8;
     border-radius: 12px;
     font-size: 1rem;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
     outline: none;
     transition: border-color 0.3s;
 }
@@ -64,7 +64,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
 }
 
 .genderBtnActive {
@@ -89,7 +89,7 @@
     border-radius: 12px;
     font-size: 1rem;
     font-weight: 600;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
     outline: none;
     transition: border-color 0.3s;
     background: var(--white);
@@ -138,7 +138,7 @@
     color: var(--accent);
     line-height: 1;
     margin-bottom: 2rem;
-    font-family: var(--font-heading), 'Space Grotesk', sans-serif;
+    font-family: var(--font-heading), 'Bw Modelica', sans-serif;
     letter-spacing: -0.02em;
 }
 
@@ -152,7 +152,7 @@
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
 }
 
 .newSignupBtn:hover {

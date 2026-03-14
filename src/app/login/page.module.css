@@ -87,7 +87,7 @@
     border: 2px solid #e8e8e8;
     border-radius: 12px;
     font-size: 1rem;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
     outline: none;
     transition: border-color 0.3s;
 }
@@ -111,7 +111,7 @@
     font-weight: 700;
     border: 2px solid #e8e8e8;
     border-radius: 12px;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
     outline: none;
     transition: border-color 0.3s;
 }
@@ -132,7 +132,7 @@
     font-weight: 600;
     font-size: 0.95rem;
     cursor: pointer;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
     text-decoration: underline;
 }
 

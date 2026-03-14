@@ -25,7 +25,7 @@
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
     cursor: pointer;
     text-align: left;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
     transition: box-shadow 0.2s;
 }
 

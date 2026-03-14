@@ -13,26 +13,37 @@ function LoginContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const appointmentId = searchParams.get("appointmentId") || "";
+  // Preserve booking params to pass through to confirm page
+  const eventId = searchParams.get("eventId") || "";
+  const service = searchParams.get("service") || "";
+  const startTime = searchParams.get("startTime") || "";
+
+  const buildConfirmUrl = () => {
+    const params = new URLSearchParams();
+    if (eventId) params.set("eventId", eventId);
+    if (service) params.set("service", service);
+    if (startTime) params.set("startTime", startTime);
+    return "/confirm?" + params.toString();
+  };
 
   const [step, setStep] = useState(1);
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(""));
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  const isValidPhone = /^\d{10}$/.test(phone.trim());
   const isOtpFilled = otp.every((d) => d.length === 1);
 
   const stepContent: Record<number, { title: string; subtitle: string }> = {
     1: {
-      title: "Verify your email",
+      title: "Verify your phone",
       subtitle: "Quick verification before we confirm your booking.",
     },
     2: {
       title: "Enter the code",
-      subtitle: "We sent a 6-digit OTP to your email.",
+      subtitle: "We sent a 6-digit OTP to your phone.",
     },
   };
 
@@ -40,11 +51,18 @@ function LoginContent() {
   const handleSendOtp = async () => {
     setError("");
     setLoading(true);
-    const result = await sendOtp(email.trim());
+    const result = await sendOtp(phone.trim());
     setLoading(false);
     if (result.success) {
-      setStep(2);
-      setTimeout(() => otpRefs.current[0]?.focus(), 100);
+      if (result.newUser && result.token) {
+        // New user — token returned directly, no OTP needed
+        setStoredToken(result.token);
+        router.push(buildConfirmUrl());
+      } else {
+        // Existing user — OTP sent, show verification step
+        setStep(2);
+        setTimeout(() => otpRefs.current[0]?.focus(), 100);
+      }
     } else {
       setError(result.error || "Failed to send OTP");
     }
@@ -83,11 +101,11 @@ function LoginContent() {
   const handleVerify = async () => {
     setError("");
     setLoading(true);
-    const result = await verifyOtp(email.trim(), otp.join(""));
+    const result = await verifyOtp(phone.trim(), otp.join(""));
     setLoading(false);
     if (result.success) {
       if (result.token) setStoredToken(result.token);
-      router.push("/confirm?appointmentId=" + appointmentId);
+      router.push(buildConfirmUrl());
     } else {
       setError(result.error || "Invalid OTP");
     }
@@ -97,7 +115,7 @@ function LoginContent() {
     setOtp(Array(OTP_LENGTH).fill(""));
     setError("");
     otpRefs.current[0]?.focus();
-    await sendOtp(email.trim());
+    await sendOtp(phone.trim());
   };
 
   return (
@@ -151,20 +169,22 @@ function LoginContent() {
       </div>
 
       <section className={styles.contentSection}>
-        {/* Step 1: Email */}
+        {/* Step 1: Phone */}
         <div
           className={step === 1 ? styles.stepCardActive : styles.stepCard}
         >
-          <h2>Enter your email</h2>
+          <h2>Enter your phone number</h2>
           <p className={styles.subtitle}>
             We&apos;ll send you a one-time verification code.
           </p>
           <input
-            type="email"
+            type="tel"
             className={styles.emailInput}
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e) => { setEmail(e.target.value.toLowerCase()); setError(""); }}
+            placeholder="10 digit phone number"
+            inputMode="numeric"
+            maxLength={10}
+            value={phone}
+            onChange={(e) => { setPhone(e.target.value.replace(/\D/g, "")); setError(""); }}
           />
           {error && step === 1 && (
             <p style={{ color: "#dc2626", fontSize: "0.9rem", marginTop: "0.5rem", fontWeight: 600 }}>
@@ -173,10 +193,10 @@ function LoginContent() {
           )}
           <button
             className="pill-btn"
-            disabled={!isValidEmail || loading}
+            disabled={!isValidPhone || loading}
             onClick={handleSendOtp}
           >
-            {loading ? "Sending..." : "Send OTP"}
+            {loading ? "Sending..." : "Continue"}
           </button>
         </div>
 
@@ -186,7 +206,7 @@ function LoginContent() {
         >
           <h2>Verify OTP</h2>
           <p className={styles.subtitle}>
-            Enter the 6-digit code sent to <strong>{email.trim()}</strong>
+            Enter the 6-digit code sent to <strong>{phone.trim()}</strong>
           </p>
           <div className={styles.otpInputs}>
             {otp.map((digit, i) => (

@@ -1,0 +1,59 @@
+@font-face {
+    font-family: 'Bw Modelica';
+    src: url('BwModelicaCyrillicDEMO-Regular.woff2') format('woff2'),
+        url('BwModelicaCyrillicDEMO-Regular.woff') format('woff'),
+        url('BwModelicaCyrillicDEMO-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bw Modelica';
+    src: url('BwModelicaCyrillicDEMO-Medium.woff2') format('woff2'),
+        url('BwModelicaCyrillicDEMO-Medium.woff') format('woff'),
+        url('BwModelicaCyrillicDEMO-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bw Modelica';
+    src: url('BwModelicaCyrillicDEMO-Bold.woff2') format('woff2'),
+        url('BwModelicaCyrillicDEMO-Bold.woff') format('woff'),
+        url('BwModelicaCyrillicDEMO-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bw Modelica';
+    src: url('BwModelicaCyrillicDEMO-ExtraBold.woff2') format('woff2'),
+        url('BwModelicaCyrillicDEMO-ExtraBold.woff') format('woff'),
+        url('BwModelicaCyrillicDEMO-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bw Modelica';
+    src: url('BwModelicaCyrillicDEMO-Black.woff2') format('woff2'),
+        url('BwModelicaCyrillicDEMO-Black.woff') format('woff'),
+        url('BwModelicaCyrillicDEMO-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bw Modelica';
+    src: url('BwModelicaCyrillicDEMO-Light.woff2') format('woff2'),
+        url('BwModelicaCyrillicDEMO-Light.woff') format('woff'),
+        url('BwModelicaCyrillicDEMO-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}

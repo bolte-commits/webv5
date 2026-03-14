@@ -8,13 +8,13 @@ import styles from "./page.module.css";
 
 interface EventEntry {
   eventId: number;
-  landmark: string;
+  name: string;
   area: string;
   displayDate: string;
   time: string;
   full: boolean;
   isPrivate: boolean;
-  locationUrl?: string;
+  mapUrl?: string | null;
 }
 
 export default function SchedulePage() {
@@ -39,11 +39,11 @@ export default function SchedulePage() {
       .filter((ev) => (ev.city || "Bengaluru") === selectedCity)
       .map((ev): EventEntry => ({
         eventId: ev.eventId,
-        landmark: ev.landmark,
+        name: ev.name,
         area: ev.area,
         displayDate: ev.displayDate,
         time: ev.time,
-        locationUrl: ev.locationUrl,
+        mapUrl: ev.mapUrl,
         full: ev.isFull,
         isPrivate: ev.isPrivate || false,
       }));
@@ -112,9 +112,9 @@ export default function SchedulePage() {
               <div key={entry.eventId} className={styles.dateRow}>
                 <div className={styles.rowLeft}>
                   <div className={styles.dateLandmark}>
-                    {entry.landmark}, {entry.area}
-                    {entry.locationUrl && (
-                      <a href={entry.locationUrl} target="_blank" rel="noopener noreferrer" className={styles.mapLink} title="Open in Maps">
+                    {entry.name}, {entry.area}
+                    {entry.mapUrl && (
+                      <a href={entry.mapUrl} target="_blank" rel="noopener noreferrer" className={styles.mapLink} title="Open in Maps">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                           <polyline points="15 3 21 3 21 9" />

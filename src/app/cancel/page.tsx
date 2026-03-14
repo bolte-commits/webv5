@@ -2,18 +2,18 @@
 
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { cancelUpcomingAppointment } from "@/app/actions/booking";
+import { cancelAppointment } from "@/app/actions/booking";
 import styles from "./page.module.css";
 
 function CancelContent() {
   const searchParams = useSearchParams();
-  const id = searchParams.get("id") || "";
-  const bc = searchParams.get("bc") || "";
+  const appointmentId = searchParams.get("appointmentId") || "";
+  const token = searchParams.get("token") || "";
 
   const [status, setStatus] = useState<"confirm" | "cancelling" | "success" | "error">("confirm");
   const [errorMsg, setErrorMsg] = useState("");
 
-  if (!id || !bc) {
+  if (!appointmentId || !token) {
     return (
       <div className={styles.card}>
         <p className={styles.errorText}>Invalid cancellation link.</p>
@@ -23,7 +23,7 @@ function CancelContent() {
 
   const handleCancel = async () => {
     setStatus("cancelling");
-    const result = await cancelUpcomingAppointment(id, bc);
+    const result = await cancelAppointment(Number(appointmentId), token);
     if (result.success) {
       setStatus("success");
     } else {

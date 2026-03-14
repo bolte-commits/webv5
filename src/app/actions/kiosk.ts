@@ -1,7 +1,6 @@
 "use server";
 
-const API_BASE =
-  "https://pbkivbwxx9.execute-api.ap-south-1.amazonaws.com/prod";
+const API_URL = process.env.API_URL || "http://localhost:3000";
 
 interface KioskSignupData {
   name: string;
@@ -17,16 +16,16 @@ export async function kioskSignup(
   data: KioskSignupData
 ): Promise<{ success: boolean; _id?: number; error?: string }> {
   try {
-    const res = await fetch(`${API_BASE}/kioskSignup`, {
+    const res = await fetch(`${API_URL}/users/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...data, email: data.email.toLowerCase() }),
     });
     const json = await res.json();
     if (!res.ok) {
-      return { success: false, error: json.message || "Signup failed" };
+      return { success: false, error: json.error || "Signup failed" };
     }
-    return { success: true, _id: json._id };
+    return { success: true, _id: json.user?.id };
   } catch {
     return { success: false, error: "Network error. Please try again." };
   }

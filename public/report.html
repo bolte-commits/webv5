@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Body Insight - DEXA Report</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@800&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
 <style>
-  @font-face { font-family: 'Monument Extended'; src: url('/fonts/PPMonumentExtended-Black.otf') format('opentype'); font-weight: 800; }
+  @import url('/fonts/stylesheet.css');
 
   :root {
     --pri: #0F0F0F;
@@ -27,7 +27,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'DM Sans', 'Noto Color Emoji', sans-serif;
+    font-family: 'Bw Modelica', 'Noto Color Emoji', sans-serif;
     background: none;
     display: flex; flex-direction: column; align-items: center;
     padding: 0; gap: 0;
@@ -66,7 +66,7 @@
   .cover-sub { font-size: 0.6rem; color: rgba(255,255,255,0.6); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; }
   .cover-middle { display: flex; flex-direction: column; align-items: center; margin-bottom: auto; text-align: center; }
   .cover-prepared { font-size: 0.5rem; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600; margin-bottom: 6px; }
-  .cover-name { font-family: 'Monument Extended', sans-serif; font-size: 2.8rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; }
+  .cover-name { font-family: 'Bw Modelica', sans-serif; font-size: 2.8rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; }
   .cover-stat { }
   .cover-label { font-size: 0.45rem; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; margin-bottom: 1px; }
   .cover-val { font-size: 0.85rem; font-weight: 700; color: rgba(255,255,255,0.85); }
@@ -82,11 +82,11 @@
   .section-desc { font-size: 0.7rem; color: var(--dim); line-height: 1.55; }
   .label { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand); }
 
-  .num-hero { font-family: 'Monument Extended', sans-serif; font-size: 3rem; font-weight: 800; line-height: 1; color: var(--pri); letter-spacing: -0.03em; }
+  .num-hero { font-family: 'Bw Modelica', sans-serif; font-size: 3rem; font-weight: 800; line-height: 1; color: var(--pri); letter-spacing: -0.03em; }
   .num-hero span { font-size: 1.2rem; color: var(--mute); }
-  .num-lg { font-family: 'Monument Extended', sans-serif; font-size: 1.8rem; font-weight: 800; line-height: 1; color: var(--pri); }
-  .num-md { font-family: 'Monument Extended', sans-serif; font-size: 1.2rem; font-weight: 800; line-height: 1; color: var(--pri); }
-  .num-sm { font-family: 'Monument Extended', sans-serif; font-size: 0.9rem; font-weight: 800; line-height: 1; color: var(--pri); }
+  .num-lg { font-family: 'Bw Modelica', sans-serif; font-size: 1.8rem; font-weight: 800; line-height: 1; color: var(--pri); }
+  .num-md { font-family: 'Bw Modelica', sans-serif; font-size: 1.2rem; font-weight: 800; line-height: 1; color: var(--pri); }
+  .num-sm { font-family: 'Bw Modelica', sans-serif; font-size: 0.9rem; font-weight: 800; line-height: 1; color: var(--pri); }
 
   /* ===== CARDS ===== */
   .card { background: var(--card); border-radius: 14px; padding: 16px 18px; }
@@ -138,8 +138,8 @@
   .region-img { width: 67px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
   .region-data { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 2px; }
   .region-name { font-size: 0.72rem; font-weight: 800; color: var(--txt); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
-  .region-fat { font-family: 'Monument Extended', sans-serif; font-size: 1rem; font-weight: 800; color: var(--pri); line-height: 1; }
-  .region-fat small { font-size: 0.5rem; color: var(--mute); font-family: 'DM Sans'; font-weight: 600; }
+  .region-fat { font-family: 'Bw Modelica', sans-serif; font-size: 1rem; font-weight: 800; color: var(--pri); line-height: 1; }
+  .region-fat small { font-size: 0.5rem; color: var(--mute); font-family: 'Bw Modelica'; font-weight: 600; }
   .region-metrics { display: flex; gap: 12px; margin-top: 4px; }
   .region-met { }
   .region-met-label { font-size: 0.42rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mute); }
@@ -163,7 +163,7 @@
   .bone-card { background: var(--card); border-radius: 10px; padding: 8px; display: flex; flex-direction: column; align-items: center; text-align: center; }
   .bone-img { width: 54%; margin: 0 auto; border-radius: 6px; overflow: hidden; margin-bottom: 4px; }
   .bone-name { font-size: 0.52rem; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 0.06em; }
-  .bone-val { font-family: 'Monument Extended', sans-serif; font-size: 0.85rem; font-weight: 800; color: var(--pri); margin: 2px 0; }
+  .bone-val { font-family: 'Bw Modelica', sans-serif; font-size: 0.85rem; font-weight: 800; color: var(--pri); margin: 2px 0; }
   .bone-unit { font-size: 0.42rem; color: var(--mute); }
 
   /* ===== VF / BONE HEALTH SCALES ===== */
@@ -196,7 +196,7 @@
   .macro-circles { display: flex; gap: 8px; }
   .macro-circ { display: flex; flex-direction: column; align-items: center; gap: 2px; }
   .macro-ring { width: 48px; height: 48px; border-radius: 50%; border: 3px solid var(--pri); display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 4px; }
-  .macro-ring-num { font-family: 'Monument Extended', sans-serif; font-size: 0.75rem; font-weight: 800; color: var(--pri); line-height: 1; }
+  .macro-ring-num { font-family: 'Bw Modelica', sans-serif; font-size: 0.75rem; font-weight: 800; color: var(--pri); line-height: 1; }
   .macro-ring-unit { font-size: 0.38rem; color: var(--mute); }
   .macro-label { font-size: 0.45rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--dim); }
 
@@ -228,15 +228,12 @@
 // ── Fetch report data from API ───────────────────────────────────────────────
 async function fetchReportData() {
   const params = new URLSearchParams(window.location.search);
-  const appointmentId = params.get('id');
-  const botCode = params.get('bc');
-  if (!appointmentId || !botCode) return null;
+  const reportId = params.get('id');
+  const token = params.get('t');
+  if (!reportId || !token) return null;
   try {
-    const res = await fetch('https://pbkivbwxx9.execute-api.ap-south-1.amazonaws.com/prod/getDexaDataForAppointment', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ appointmentId, botCode })
-    });
+    const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://api.bodyinsight.in';
+    const res = await fetch(`${API_URL}/reports/${reportId}/${token}`);
     if (!res.ok) return null;
     return await res.json();
   } catch (e) {
@@ -445,7 +442,7 @@ function render(d) {
       </div>
       <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
         ${(()=>{const tips={'Lean Mass':'Resistance training and protein-rich diet help build and preserve lean tissue.','Fat Mass':'A sustained caloric deficit combined with strength training reduces fat while preserving muscle.','Bone Mineral':'Weight-bearing exercise, calcium, and vitamin D support bone mineral density.'};return [['Lean Mass',g.leanMassKg,bc.leanMass],['Fat Mass',g.fatMassKg,bc.fatMass],['Bone Mineral',g.boneMineralKg,bc.boneMineral]].map(([label,kg,item])=>{ const s = compScale(item); return `<div class="card" style="padding:12px 14px;flex:1;display:flex;flex-direction:column;">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;"><span style="font-size:0.68rem;font-weight:700;">${label}</span><span class="num-md">${kg} <small style="font-size:0.5rem;color:var(--mute);font-family:'DM Sans';font-weight:600;">kg</small></span></div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;"><span style="font-size:0.68rem;font-weight:700;">${label}</span><span class="num-md">${kg} <small style="font-size:0.5rem;color:var(--mute);font-family:'Bw Modelica';font-weight:600;">kg</small></span></div>
           <div style="font-size:0.52rem;color:var(--dim);margin-bottom:6px;">${item.description}</div>
           ${s ? `<div class="range-bar" style="background:${s.grad};"><div class="range-dot" style="left:${s.pos}%;"></div></div>
           <div class="verdict" style="color:${vc(s.verdictColor)};margin-bottom:6px;"><span class="verdict-dot" style="background:${vd(s.verdictColor)};"></span> ${s.verdict}</div>`
@@ -466,7 +463,7 @@ function render(d) {
   <div class="content" style="display:flex; flex-direction:column;">
     <div><div class="section-title">How Your Body Has Changed</div><div class="section-desc">Tracking lean mass, fat mass, and body fat across your DEXA scans.</div></div>
     ${ct.scans.length===1 ? `<div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:12px; border:1.5px dashed var(--border); border-radius:12px; padding:30px;">
-        <div style="font-family:'Monument Extended',sans-serif; font-size:1.1rem; font-weight:800; color:var(--pri);">Trends unlock after Scan 2</div>
+        <div style="font-family:'Bw Modelica',sans-serif; font-size:1.1rem; font-weight:800; color:var(--pri);">Trends unlock after Scan 2</div>
         <div style="font-size:0.65rem; color:var(--dim); max-width:300px; line-height:1.5;">Trends will appear from your next scan onwards, letting you track how your body changes over time.</div>
       </div>`
     : `${trendCard('Body Fat % Trend', ct.scans.map(s=>({date:s.date,value:s.bodyFatPercent})), 'Fat %', '%')}
@@ -498,7 +495,7 @@ function render(d) {
               <span style="font-size:0.72rem; font-weight:800; color:var(--txt); text-transform:uppercase; letter-spacing:0.04em;">${info.name}</span>
             </div>
           </td>
-          <td style="padding:10px 8px; text-align:center;"><span style="font-family:'Monument Extended',sans-serif; font-size:0.95rem; font-weight:800; color:var(--pri);">${r.fatPercent}</span><span style="font-size:0.5rem; color:var(--mute);">%</span></td>
+          <td style="padding:10px 8px; text-align:center;"><span style="font-family:'Bw Modelica',sans-serif; font-size:0.95rem; font-weight:800; color:var(--pri);">${r.fatPercent}</span><span style="font-size:0.5rem; color:var(--mute);">%</span></td>
           <td style="padding:10px 8px; text-align:center; font-size:0.7rem; font-weight:700; color:var(--txt);">${r.leanKg}</td>
           <td style="padding:10px 8px; text-align:center; font-size:0.7rem; font-weight:700; color:var(--txt);">${r.fatKg}</td>
           <td style="padding:10px 8px; text-align:center; font-size:0.7rem; font-weight:700; color:var(--txt);">${r.totalKg}</td>
@@ -525,7 +522,7 @@ function render(d) {
   <div class="content">
     <div><div class="section-title">Regional Fat % Over Time</div><div class="section-desc">How fat percentage in each body region has changed across your scans.</div></div>
     ${rt.scanDates.length===1 ? `<div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:12px; border:1.5px dashed var(--border); border-radius:12px; padding:30px;">
-        <div style="font-family:'Monument Extended',sans-serif; font-size:1.1rem; font-weight:800; color:var(--pri);">Trends unlock after Scan 2</div>
+        <div style="font-family:'Bw Modelica',sans-serif; font-size:1.1rem; font-weight:800; color:var(--pri);">Trends unlock after Scan 2</div>
         <div style="font-size:0.65rem; color:var(--dim); max-width:300px; line-height:1.5;">Trends will appear from your next scan onwards, letting you track how your regional composition changes over time.</div>
       </div>`
     : `<div class="card">
@@ -662,9 +659,9 @@ function render(d) {
     <div class="card">
       <div class="card-title">Visceral Fat Detail</div>
       <div class="g3" style="margin-bottom:10px;">
-        <div style="text-align:center;"><div class="label" style="color:var(--mute);">Mass</div><div class="num-sm" style="margin-top:3px;">${vf.massGrams}<small style="font-size:0.5rem; color:var(--mute); font-family:'DM Sans';"> g</small></div></div>
-        <div style="text-align:center;"><div class="label" style="color:var(--mute);">Volume</div><div class="num-sm" style="margin-top:3px;">${vf.volumeCm3}<small style="font-size:0.5rem; color:var(--mute); font-family:'DM Sans';"> cm&sup3;</small></div></div>
-        <div style="text-align:center;"><div class="label" style="color:var(--mute);">Area</div><div class="num-sm" style="margin-top:3px;">${vf.areaCm2}<small style="font-size:0.5rem; color:var(--mute); font-family:'DM Sans';"> cm&sup2;</small></div></div>
+        <div style="text-align:center;"><div class="label" style="color:var(--mute);">Mass</div><div class="num-sm" style="margin-top:3px;">${vf.massGrams}<small style="font-size:0.5rem; color:var(--mute); font-family:'Bw Modelica';"> g</small></div></div>
+        <div style="text-align:center;"><div class="label" style="color:var(--mute);">Volume</div><div class="num-sm" style="margin-top:3px;">${vf.volumeCm3}<small style="font-size:0.5rem; color:var(--mute); font-family:'Bw Modelica';"> cm&sup3;</small></div></div>
+        <div style="text-align:center;"><div class="label" style="color:var(--mute);">Area</div><div class="num-sm" style="margin-top:3px;">${vf.areaCm2}<small style="font-size:0.5rem; color:var(--mute); font-family:'Bw Modelica';"> cm&sup2;</small></div></div>
       </div>
       ${(()=>{const t=vf.thresholds;const v=vf.val;const scalePos=Math.min(95,Math.max(5,v/t[3]*100));return`<div class="vf-scale" style="margin-top:25px; background:linear-gradient(90deg, #34d399 0%, #34d399 ${100*t[1]/t[3]}%, #fbbf24 ${100*t[2]/t[3]}%, #f87171 100%);"><div class="vf-you" style="left:${scalePos}%;">You</div><div class="vf-dot" style="left:${scalePos}%;"></div></div>
       <div style="display:flex; justify-content:space-between; font-size:0.48rem; color:var(--mute); font-weight:600;"><span>Safe</span><span>Moderate</span><span>High</span></div>`})()}
@@ -940,8 +937,8 @@ function render(d) {
   ${FTR(17,tp)}
 </div>
 
-<!-- PAGE 18: ACTION PLAN -->
-<div class="page">
+<!-- PAGE 18: ACTION PLAN (skipped if actionPlan not present) -->
+${ap ? `<div class="page">
   ${HDR('Action Plan')}
   <div class="content">
     <div><div class="section-title">What to Do Next</div><div class="section-desc">Based on your full DEXA analysis, here are your priority actions ranked by importance.</div></div>
@@ -955,7 +952,7 @@ function render(d) {
     <div style="font-size:0.48rem; color:var(--mute); line-height:1.6; font-style:italic;">This report is generated from DEXA (Dual-Energy X-ray Absorptiometry) scan data and is intended for informational purposes. It does not constitute medical advice. Consult a healthcare professional before making changes to your diet or exercise program.</div>
   </div>
   ${FTR(18,tp)}
-</div>
+</div>` : ''}
 ` + /* COMMENTED OUT - Workout & Diet pages
 <!-- PAGE 19: SAMPLE WORKOUT - REASONING + DAYS 1 & 2 -->
 <div class="page">
@@ -1053,9 +1050,9 @@ function render(d) {
 
     <div style="display:flex; justify-content:space-between; padding:10px 16px; background:var(--card); border-radius:14px;">
       <div style="text-align:center;"><span class="num-lg" style="font-size:1.5rem;">2,000</span><div style="font-size:0.55rem; color:var(--dim); font-weight:600;">KCAL</div></div>
-      <div style="text-align:center;"><div style="font-size:1.1rem; font-weight:800; color:var(--macro-p); font-family:'Monument Extended',sans-serif;">150g</div><div style="font-size:0.55rem; color:var(--dim); font-weight:600;">PROTEIN</div></div>
-      <div style="text-align:center;"><div style="font-size:1.1rem; font-weight:800; color:var(--macro-f); font-family:'Monument Extended',sans-serif;">200g</div><div style="font-size:0.55rem; color:var(--dim); font-weight:600;">CARBS</div></div>
-      <div style="text-align:center;"><div style="font-size:1.1rem; font-weight:800; color:var(--macro-f); font-family:'Monument Extended',sans-serif;">67g</div><div style="font-size:0.55rem; color:var(--dim); font-weight:600;">FAT</div></div>
+      <div style="text-align:center;"><div style="font-size:1.1rem; font-weight:800; color:var(--macro-p); font-family:'Bw Modelica',sans-serif;">150g</div><div style="font-size:0.55rem; color:var(--dim); font-weight:600;">PROTEIN</div></div>
+      <div style="text-align:center;"><div style="font-size:1.1rem; font-weight:800; color:var(--macro-f); font-family:'Bw Modelica',sans-serif;">200g</div><div style="font-size:0.55rem; color:var(--dim); font-weight:600;">CARBS</div></div>
+      <div style="text-align:center;"><div style="font-size:1.1rem; font-weight:800; color:var(--macro-f); font-family:'Bw Modelica',sans-serif;">67g</div><div style="font-size:0.55rem; color:var(--dim); font-weight:600;">FAT</div></div>
     </div>
 
     <!-- Meal 1 -->
@@ -1130,7 +1127,7 @@ END COMMENTED OUT */ `
 function render404() {
   document.body.innerHTML = `
 <div class="page" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;">
-  <div style="font-family:'Monument Extended',sans-serif;font-size:4rem;font-weight:800;color:var(--pri);line-height:1;">404</div>
+  <div style="font-family:'Bw Modelica',sans-serif;font-size:4rem;font-weight:800;color:var(--pri);line-height:1;">404</div>
   <div style="font-size:1rem;font-weight:700;color:var(--txt);margin-top:12px;">Report not found</div>
   <div style="font-size:0.75rem;color:var(--dim);margin-top:6px;line-height:1.5;">The report you're looking for doesn't exist or the link is invalid.</div>
 </div>`;

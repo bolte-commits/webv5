@@ -1,29 +1,36 @@
 "use server";
 
-const API_BASE =
-  "https://pbkivbwxx9.execute-api.ap-south-1.amazonaws.com/prod";
+const API_URL = process.env.API_URL || "http://localhost:3000";
 
 export async function sendOtp(
-  email: string
-): Promise<{ success: boolean; error?: string }> {
+  phone: string
+): Promise<{
+  success: boolean;
+  newUser?: boolean;
+  token?: string;
+  error?: string;
+}> {
   try {
-    const res = await fetch(`${API_BASE}/login`, {
+    const res = await fetch(`${API_URL}/auth/send-otp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: email.toLowerCase() }),
+      body: JSON.stringify({ phone }),
     });
     const data = await res.json();
     if (!res.ok) {
-      return { success: false, error: data.message || "Failed to send OTP" };
+      return { success: false, error: data.error || "Failed to send OTP" };
     }
-    return { success: true };
+    if (data.newUser) {
+      return { success: true, newUser: true, token: data.token };
+    }
+    return { success: true, newUser: false };
   } catch {
     return { success: false, error: "Network error. Please try again." };
   }
 }
 
 export async function verifyOtp(
-  email: string,
+  phone: string,
   otp: string
 ): Promise<{
   success: boolean;
@@ -31,19 +38,16 @@ export async function verifyOtp(
   error?: string;
 }> {
   try {
-    const res = await fetch(`${API_BASE}/verifyLoginOtp`, {
+    const res = await fetch(`${API_URL}/auth/verify-otp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: email.toLowerCase(), otp }),
+      body: JSON.stringify({ phone, otp }),
     });
     const data = await res.json();
     if (!res.ok) {
-      return { success: false, error: data.message || "Invalid OTP" };
+      return { success: false, error: data.error || "Invalid OTP" };
     }
-    return {
-      success: true,
-      token: data.token,
-    };
+    return { success: true, token: data.token };
   } catch {
     return { success: false, error: "Network error. Please try again." };
   }

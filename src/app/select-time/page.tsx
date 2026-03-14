@@ -4,13 +4,16 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import PageHero from "@/components/PageHero";
 import {
-  fetchAppointments,
-  type Appointment,
+  fetchSlots,
+  type Slot,
   type EventInfo,
 } from "@/app/actions/schedule";
 import { formatPrice } from "@/lib/constants";
-import { getStoredToken, logout } from "@/lib/auth";
+import { logout } from "@/lib/auth";
 import styles from "./page.module.css";
+
+const BOOKING_CONTEXT_KEY = "bi_booking";
+const DEFAULT_SERVICE = "dexa";
 
 function SelectTimeContent() {
   const searchParams = useSearchParams();
@@ -20,7 +23,7 @@ function SelectTimeContent() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [slots, setSlots] = useState<Slot[]>([]);
   const [event, setEvent] = useState<EventInfo | null>(null);
 
   useEffect(() => {
@@ -30,24 +33,42 @@ function SelectTimeContent() {
       setLoading(false);
       return;
     }
-    fetchAppointments(Number(eventId)).then((result) => {
+    fetchSlots(Number(eventId), DEFAULT_SERVICE).then((result) => {
       setLoading(false);
       if (result.success) {
-        setAppointments(result.appointments);
+        setSlots(result.slots);
         setEvent(result.event);
       } else {
-        setError(result.error || "Failed to load appointments");
+        setError(result.error || "Failed to load time slots");
       }
     });
   }, [eventId]);
 
-  const handleSelect = (appt: Appointment) => {
-    const token = getStoredToken();
-    if (token) {
-      router.push("/confirm?appointmentId=" + appt._id);
-    } else {
-      router.push("/login?appointmentId=" + appt._id);
-    }
+  const handleSelect = (slot: Slot) => {
+    // Store booking context in sessionStorage for the confirm page
+    const context = {
+      eventId: Number(eventId),
+      service: DEFAULT_SERVICE,
+      startTime: slot.startTime,
+      displayTime: slot.displayTime,
+      ...(event && {
+        name: event.name,
+        area: event.area,
+        date: event.date,
+        displayDate: event.displayDate,
+        time: event.time,
+        amount: event.amount,
+        mapUrl: event.mapUrl,
+      }),
+    };
+    sessionStorage.setItem(BOOKING_CONTEXT_KEY, JSON.stringify(context));
+
+    const params = new URLSearchParams({
+      eventId,
+      service: DEFAULT_SERVICE,
+      startTime: slot.startTime,
+    });
+    router.push("/login?" + params.toString());
   };
 
   return (
@@ -92,14 +113,14 @@ function SelectTimeContent() {
         {!loading && !error && event && (
           <div className={styles.eventCard}>
             <h2>
-              {event.locationUrl ? (
+              {event.mapUrl ? (
                 <a
-                  href={event.locationUrl}
+                  href={event.mapUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.landmarkLink}
                 >
-                  {event.landmark}
+                  {event.name}
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                     <polyline points="15 3 21 3 21 9" />
@@ -107,13 +128,13 @@ function SelectTimeContent() {
                   </svg>
                 </a>
               ) : (
-                event.landmark
+                event.name
               )}
             </h2>
             <div className={styles.eventDetails}>
               <div className={styles.detailItem}>
                 <div className={styles.detailLabel}>Date</div>
-                <div className={styles.detailValue}>{event.fullDate}</div>
+                <div className={styles.detailValue}>{event.displayDate}</div>
               </div>
               <div className={styles.detailItem}>
                 <div className={styles.detailLabel}>Area</div>
@@ -121,11 +142,11 @@ function SelectTimeContent() {
               </div>
               <div className={styles.detailItem}>
                 <div className={styles.detailLabel}>Price</div>
-                <div className={styles.detailValue}>{formatPrice(event.amount)}</div>
+                <div className={styles.detailValue}>{formatPrice(Number(event.amount))}</div>
               </div>
             </div>
             {event.isPrivate && (
-              <div className={styles.accessNotice}>{event.accessText || "Private event"}</div>
+              <div className={styles.accessNotice}>{event.label || "Private event"}</div>
             )}
             <div className={styles.scanInfo}>
               <svg
@@ -146,19 +167,19 @@ function SelectTimeContent() {
           </div>
         )}
 
-        {/* Appointments grid */}
-        {!loading && !error && appointments.length > 0 && (
+        {/* Slots grid */}
+        {!loading && !error && slots.length > 0 && (
           <div className={styles.timeSection}>
             <h2>Available slots</h2>
             <p>All times are in local time</p>
             <div className={styles.timeGrid}>
-              {appointments.map((appt) => (
+              {slots.map((slot) => (
                 <button
-                  key={appt._id}
+                  key={slot.startTime}
                   className={styles.timeSlot}
-                  onClick={() => handleSelect(appt)}
+                  onClick={() => handleSelect(slot)}
                 >
-                  {appt.displayTime}
+                  {slot.displayTime}
                 </button>
               ))}
             </div>
@@ -166,7 +187,7 @@ function SelectTimeContent() {
         )}
 
         {/* Empty state */}
-        {!loading && !error && appointments.length === 0 && event && (
+        {!loading && !error && slots.length === 0 && event && (
           <div className={styles.emptyState}>
             <svg
               className={styles.emptyIcon}

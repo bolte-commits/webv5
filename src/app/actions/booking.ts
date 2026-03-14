@@ -1,200 +1,168 @@
 "use server";
 
-// TODO: Replace with your real backend URL
-const API_BASE = process.env.API_BASE_URL || "https://api.bodyinsight.in";
-const AUTH_API_BASE =
-  "https://pbkivbwxx9.execute-api.ap-south-1.amazonaws.com/prod";
-
-function isAuthError(status: number, message?: string): boolean {
-  if (status === 401 || status === 403) return true;
-  if (message && /authentication|token|unauthorized|login required/i.test(message)) return true;
-  return false;
-}
-
-export interface PendingDetails {
-  pendingAppointmentId: string;
-  bc: string;
-  landmark: string;
-  area: string;
-  date: string;
-  time: string;
-}
+const API_URL = process.env.API_URL || "http://localhost:3000";
 
 export interface UserProfile {
   name: string;
-  dateOfBirth: string;
-  gender: string;
-  height: number;
-  weight: number;
+  email: string;
   phone: string;
+  gender: string;
+  dateOfBirth: string;
+  height: string;
+  weight: string;
+}
+
+export interface PendingAppointment {
+  id: number;
+  token: string;
+  date: string;
+  time: string;
+  services: string[];
+  amountDue: string;
+  locationName: string;
+  locationArea: string;
+  locationCity: string;
 }
 
 export async function checkPendingAppointment(
-  token: string
-): Promise<{ hasPending: boolean; details?: PendingDetails; user?: UserProfile; unauthorized?: boolean; error?: string }> {
+  authToken: string
+): Promise<{
+  profile?: UserProfile;
+  pendingAppointment?: PendingAppointment | null;
+  unauthorized?: boolean;
+  error?: string;
+}> {
   try {
-    const res = await fetch(`${AUTH_API_BASE}/checkPendingAppointment`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token }),
+    const res = await fetch(`${API_URL}/bookings/pending`, {
+      headers: { Authorization: `Bearer ${authToken}` },
     });
+    if (res.status === 401) {
+      return { unauthorized: true };
+    }
     const data = await res.json();
-    if (!res.ok && isAuthError(res.status, data.message)) {
-      return { hasPending: false, unauthorized: true };
-    }
     if (!res.ok) {
-      return { hasPending: false, error: data.message };
+      return { error: data.error || "Failed to check pending appointment" };
     }
-    const user: UserProfile | undefined = data.user ? {
-      name: data.user.name || "",
-      dateOfBirth: data.user.dateOfBirth || "",
-      gender: data.user.gender || "",
-      height: data.user.height || 0,
-      weight: data.user.weight || 0,
-      phone: data.user.phone || "",
-    } : undefined;
-    if (data.hasPendingAppointment) {
-      return {
-        hasPending: true,
-        user,
-        details: {
-          pendingAppointmentId: data.pendingAppointmentId,
-          bc: data.bc,
-          landmark: data.landmark,
-          area: data.area,
-          date: data.date,
-          time: data.time,
-        },
-      };
-    }
-    return { hasPending: false, user };
+    return {
+      profile: data.profile || undefined,
+      pendingAppointment: data.pendingAppointment || null,
+    };
   } catch {
-    return { hasPending: false, error: "Network error" };
+    return { error: "Network error" };
   }
 }
 
-export interface AppointmentDetails {
-  landmark: string;
-  area: string;
-  amount: number;
+export interface ConfirmBookingPayload {
+  eventId: number;
+  service: string;
+  startTime: string;
+  name: string;
+  gender: string;
+  dateOfBirth: string;
+  height: string;
+  weight: string;
+  couponCode?: string;
+}
+
+export interface BookingResult {
+  id: number;
   date: string;
   time: string;
-}
-
-export async function getAppointment(
-  appointmentId: string
-): Promise<{ success: boolean; details?: AppointmentDetails; error?: string }> {
-  try {
-    const res = await fetch(`${AUTH_API_BASE}/getAppointment`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ appointmentId }),
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      return { success: false, error: data.message || "Failed to load appointment" };
-    }
-    return {
-      success: true,
-      details: {
-        landmark: data.landmark,
-        area: data.area,
-        amount: data.amount,
-        date: data.date,
-        time: data.time,
-      },
-    };
-  } catch {
-    return { success: false, error: "Network error. Please try again." };
-  }
-}
-
-export async function cancelUpcomingAppointment(
-  appointmentId: string,
-  bc: string
-): Promise<{ success: boolean; error?: string }> {
-  try {
-    const res = await fetch(`${AUTH_API_BASE}/cancelUpcomingAppointment`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ appointmentId, bc }),
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      return { success: false, error: data.message };
-    }
-    return { success: true };
-  } catch {
-    return { success: false, error: "Network error. Please try again." };
-  }
-}
-
-export interface BookingPayload {
-  token: string;
-  appointmentId: string;
-  name: string;
-  dateOfBirth: string;
-  phone?: string;
-  coupon?: string;
-  height?: number;
-  weight?: number;
-  gender?: string;
-}
-
-export interface BookingPricing {
-  basePrice: number;
-  discount: number;
-  finalPrice: number;
-}
-
-export async function applyCouponCode(
-  token: string,
-  appointmentId: string,
-  code: string
-): Promise<{ success: boolean; pricing?: BookingPricing; unauthorized?: boolean; error?: string }> {
-  try {
-    const res = await fetch(`${AUTH_API_BASE}/applyCouponCode`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, appointmentId, code }),
-    });
-    const data = await res.json();
-    if (!res.ok && isAuthError(res.status, data.message)) {
-      return { success: false, unauthorized: true };
-    }
-    if (!res.ok) {
-      return { success: false, error: data.message || "Invalid coupon code" };
-    }
-    return {
-      success: true,
-      pricing: {
-        basePrice: data.basePrice,
-        discount: data.discount,
-        finalPrice: data.finalPrice,
-      },
-    };
-  } catch {
-    return { success: false, error: "Network error. Please try again." };
-  }
+  services: string[];
+  amountDue: string;
+  locationName: string;
+  locationArea: string;
+  locationCity: string;
 }
 
 export async function confirmBooking(
-  data: BookingPayload
-): Promise<{ success: boolean; pricing?: BookingPricing; unauthorized?: boolean; error?: string }> {
+  authToken: string,
+  payload: ConfirmBookingPayload
+): Promise<{
+  success: boolean;
+  appointment?: BookingResult;
+  unauthorized?: boolean;
+  error?: string;
+}> {
   try {
-    const res = await fetch(`${AUTH_API_BASE}/bookAppointment`, {
+    const res = await fetch(`${API_URL}/bookings/confirm`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify(payload),
     });
-    const result = await res.json();
-    if (!res.ok && isAuthError(res.status, result.message)) {
+    if (res.status === 401) {
       return { success: false, unauthorized: true };
     }
+    const data = await res.json();
     if (!res.ok) {
-      return { success: false, error: result.message || "Booking failed" };
+      return { success: false, error: data.error || "Booking failed" };
     }
-    return { success: true, pricing: result.pricing };
+    return { success: true, appointment: data.appointment };
+  } catch {
+    return { success: false, error: "Network error. Please try again." };
+  }
+}
+
+export interface CouponValidationResult {
+  valid: boolean;
+  discount?: number;
+  finalAmount?: number;
+  coupon?: {
+    id: number;
+    code: string;
+    discountType: string;
+    discountValue: number;
+    description: string | null;
+  };
+  error?: string;
+}
+
+export async function validateCoupon(
+  authToken: string,
+  payload: { code: string; eventId: number; service: string; amount: number }
+): Promise<CouponValidationResult> {
+  try {
+    const res = await fetch(`${API_URL}/coupons/validate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      return { valid: false, error: data.error || "Invalid coupon" };
+    }
+    return {
+      valid: true,
+      discount: data.discount,
+      finalAmount: data.finalAmount,
+      coupon: data.coupon,
+    };
+  } catch {
+    return { valid: false, error: "Network error. Please try again." };
+  }
+}
+
+export async function cancelAppointment(
+  appointmentId: number,
+  token: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const res = await fetch(`${API_URL}/bookings/cancel`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ appointmentId, token }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      return { success: false, error: data.error || "Failed to cancel" };
+    }
+    return { success: true };
   } catch {
     return { success: false, error: "Network error. Please try again." };
   }

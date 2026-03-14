@@ -115,7 +115,7 @@
     cursor: pointer;
     transition: all 0.2s;
     color: var(--text);
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
 }
 
 .timeSlot:hover {
@@ -194,7 +194,7 @@
     border: none;
     cursor: pointer;
     transition: all 0.3s;
-    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+    font-family: 'Bw Modelica', sans-serif;
 }
 
 .confirmBtn:hover {

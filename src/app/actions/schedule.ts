@@ -1,77 +1,40 @@
 "use server";
 
-const API_BASE =
-  "https://pbkivbwxx9.execute-api.ap-south-1.amazonaws.com/prod";
+import { formatDate } from "@/lib/constants";
+
+const API_URL = process.env.API_URL || "http://localhost:3000";
 
 export interface ScheduleEvent {
   eventId: number;
+  name: string;
   area: string;
-  landmark: string;
-  city?: string;
+  city: string;
+  date: string;
   displayDate: string;
   time: string;
   isFull: boolean;
-  isPrivate?: boolean;
-  locationUrl?: string;
+  isPrivate: boolean;
+  label: string | null;
+  mapUrl: string | null;
 }
 
-export interface Appointment {
-  _id: string;
+export interface Slot {
+  startTime: string;
   displayTime: string;
-  amount: number;
-  basePrice: number;
-  finalPrice: number;
 }
 
 export interface EventInfo {
+  name: string;
   area: string;
-  landmark: string;
-  locationUrl: string;
+  city: string;
   date: string;
-  fullDate: string;
-  amount: number;
+  displayDate: string;
+  time: string;
+  services: string[];
+  amount: string;
   isPrivate: boolean;
-  accessText: string;
-}
-
-export async function fetchAppointments(eventId: number): Promise<{
-  success: boolean;
-  appointments: Appointment[];
-  event: EventInfo | null;
-  promo: string;
-  error?: string;
-}> {
-  try {
-    const res = await fetch(`${API_BASE}/findAvailableAppointments`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ eventId }),
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      return {
-        success: false,
-        appointments: [],
-        event: null,
-        promo: "",
-        error: data.message || "Failed to fetch appointments",
-      };
-    }
-    return {
-      success: true,
-      appointments: data.appointments || [],
-      event: data.event || null,
-      promo: data.promo || "",
-    };
-  } catch {
-    return {
-      success: false,
-      appointments: [],
-      event: null,
-      promo: "",
-      error: "Network error. Please try again.",
-    };
-  }
+  label: string | null;
+  mapUrl: string | null;
 }
 
 export async function fetchSchedule(): Promise<{
@@ -80,17 +43,63 @@ export async function fetchSchedule(): Promise<{
   error?: string;
 }> {
   try {
-    const res = await fetch(`${API_BASE}/schedule`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}),
-    });
+    const res = await fetch(`${API_URL}/schedule`);
     const data = await res.json();
     if (!res.ok) {
-      return { success: false, events: [], error: data.message || "Failed to fetch schedule" };
+      return {
+        success: false,
+        events: [],
+        error: data.error || "Failed to fetch schedule",
+      };
     }
-    return { success: true, events: data.events || [] };
+    const events: ScheduleEvent[] = (data.events || []).map(
+      (e: Record<string, unknown>) => ({
+        ...e,
+        displayDate: formatDate(e.date as string),
+      })
+    );
+    return { success: true, events };
   } catch {
-    return { success: false, events: [], error: "Network error. Please try again." };
+    return {
+      success: false,
+      events: [],
+      error: "Network error. Please try again.",
+    };
+  }
+}
+
+export async function fetchSlots(
+  eventId: number,
+  service: string
+): Promise<{
+  success: boolean;
+  slots: Slot[];
+  event: EventInfo | null;
+  error?: string;
+}> {
+  try {
+    const res = await fetch(
+      `${API_URL}/schedule/${eventId}/slots?service=${encodeURIComponent(service)}`
+    );
+    const data = await res.json();
+    if (!res.ok) {
+      return {
+        success: false,
+        slots: [],
+        event: null,
+        error: data.error || "Failed to fetch slots",
+      };
+    }
+    const event: EventInfo | null = data.event
+      ? { ...data.event, displayDate: formatDate(data.event.date) }
+      : null;
+    return { success: true, slots: data.slots || [], event };
+  } catch {
+    return {
+      success: false,
+      slots: [],
+      event: null,
+      error: "Network error. Please try again.",
+    };
   }
 }
