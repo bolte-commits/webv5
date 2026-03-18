@@ -112,7 +112,7 @@ export default function SchedulePage() {
               <div key={entry.eventId} className={styles.dateRow}>
                 <div className={styles.rowLeft}>
                   <div className={styles.dateLandmark}>
-                    {entry.landmark}, {entry.area}
+                    {entry.landmark}{entry.area ? `, ${entry.area}` : ''}
                     {entry.locationUrl && (
                       <a href={entry.locationUrl} target="_blank" rel="noopener noreferrer" className={styles.mapLink} title="Open in Maps">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -134,8 +134,12 @@ export default function SchedulePage() {
                   </div>
                   <div className={styles.dateTimeLine}>
                     <span className={styles.dateDate}>{entry.displayDate}</span>
-                    <span className={styles.dateSep}>&middot;</span>
-                    <span className={styles.dateTime}>{entry.time}</span>
+                    {entry.time && (
+                      <>
+                        <span className={styles.dateSep}>&middot;</span>
+                        <span className={styles.dateTime}>{entry.time}</span>
+                      </>
+                    )}
                   </div>
                 </div>
                 {entry.full ? (
