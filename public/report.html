@@ -665,7 +665,7 @@ function render(d) {
       </div>
       ${(()=>{const t=vf.thresholds;const v=vf.val;if(v==null)return`<div class="vf-scale" style="margin-top:25px; background:#e5e7eb !important;"></div><div style="display:flex; justify-content:space-between; font-size:0.48rem; color:var(--mute); font-weight:600;"><span>Safe</span><span>Moderate</span><span>High</span></div>`;const scalePos=Math.min(95,Math.max(5,v/t[3]*100));return`<div class="vf-scale" style="margin-top:25px; background:linear-gradient(90deg, #34d399 0%, #34d399 ${100*t[1]/t[3]}%, #fbbf24 ${100*t[2]/t[3]}%, #f87171 100%);"><div class="vf-you" style="left:${scalePos}%;">You</div><div class="vf-dot" style="left:${scalePos}%;"></div></div>
       <div style="display:flex; justify-content:space-between; font-size:0.48rem; color:var(--mute); font-weight:600;"><span>Safe</span><span>Moderate</span><span>High</span></div>`})()}
-      <div class="action ${ac(vf.insightColor)}" style="margin-top:12px;"><strong>${vf.insight.split('.')[0]}.</strong> ${vf.insight.split('.').slice(1).join('.').trim()}</div>
+      <p style="margin-top:12px; font-size:0.5rem; color:var(--dim); line-height:1.5;"><strong style="color:var(--txt);">${vf.insight.split('.')[0]}.</strong> ${vf.insight.split('.').slice(1).join('.').trim()}</p>
     </div>
     ${(()=>{
       const pts=vf.trend.map(t=>({date:t.date,value:t.grams}));
