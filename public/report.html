@@ -662,8 +662,8 @@ function render(d) {
       `}
     </div>
     <div class="card">
-      ${vf.subcutaneousKg!=null?`<div class="card-title">Visceral Fat Detail</div>
-      <div class="g3" style="margin-bottom:10px;">
+      <div class="card-title">${vf.subcutaneousKg!=null?'Visceral Fat Detail':'Health Assessment'}</div>
+      ${vf.subcutaneousKg!=null?`<div class="g3" style="margin-bottom:10px;">
         <div style="text-align:center;"><div class="label" style="color:var(--mute);">Mass</div><div class="num-sm" style="margin-top:3px;">${vf.massGrams}<small style="font-size:0.5rem; color:var(--mute); font-family:'Bw Modelica';"> g</small></div></div>
         <div style="text-align:center;"><div class="label" style="color:var(--mute);">Volume</div><div class="num-sm" style="margin-top:3px;">${vf.volumeCm3}<small style="font-size:0.5rem; color:var(--mute); font-family:'Bw Modelica';"> cm&sup3;</small></div></div>
         ${vf.areaCm2?`<div style="text-align:center;"><div class="label" style="color:var(--mute);">Area</div><div class="num-sm" style="margin-top:3px;">${vf.areaCm2}<small style="font-size:0.5rem; color:var(--mute); font-family:'Bw Modelica';"> cm&sup2;</small></div></div>`:''}
