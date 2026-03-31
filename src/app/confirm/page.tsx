@@ -170,6 +170,19 @@ function ConfirmContent() {
       return;
     }
 
+    // Age validation — must be 18 or older
+    if (dateOfBirth) {
+      const birth = new Date(dateOfBirth);
+      const today = new Date();
+      let age = today.getFullYear() - birth.getFullYear();
+      const m = today.getMonth() - birth.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+      if (age < 18) {
+        setBookingError("You must be 18 or older to book a scan.");
+        return;
+      }
+    }
+
     const h = Number(height) / 100;
     const bmi = Number(weight) / (h * h);
     if (bmi > 39) {
