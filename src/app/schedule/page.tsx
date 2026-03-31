@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import PageHero from "@/components/PageHero";
@@ -22,6 +22,14 @@ interface EventEntry {
 }
 
 export default function SchedulePage() {
+  return (
+    <Suspense fallback={<div />}>
+      <ScheduleContent />
+    </Suspense>
+  );
+}
+
+function ScheduleContent() {
   const searchParams = useSearchParams();
   const cityParam = searchParams.get("city");
   const defaultCity = cityParam && (CITIES as readonly string[]).includes(cityParam) ? cityParam : DEFAULT_CITY;
