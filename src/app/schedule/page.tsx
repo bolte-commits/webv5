@@ -2,9 +2,13 @@
 
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import PageHero from "@/components/PageHero";
 import { fetchSchedule, type ScheduleEvent } from "@/app/actions/schedule";
 import styles from "./page.module.css";
+
+const CITIES = ["Bengaluru", "Hyderabad"] as const;
+const DEFAULT_CITY = CITIES[0];
 
 interface EventEntry {
   eventId: number;
@@ -18,7 +22,10 @@ interface EventEntry {
 }
 
 export default function SchedulePage() {
-  const [selectedCity, setSelectedCity] = useState("Bengaluru");
+  const searchParams = useSearchParams();
+  const cityParam = searchParams.get("city");
+  const defaultCity = cityParam && (CITIES as readonly string[]).includes(cityParam) ? cityParam : DEFAULT_CITY;
+  const [selectedCity, setSelectedCity] = useState(defaultCity);
   const [allEvents, setAllEvents] = useState<ScheduleEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -36,7 +43,7 @@ export default function SchedulePage() {
 
   const entries = useMemo(() => {
     return allEvents
-      .filter((ev) => (ev.city || "Bengaluru") === selectedCity)
+      .filter((ev) => (ev.city || DEFAULT_CITY) === selectedCity)
       .map((ev): EventEntry => ({
         eventId: ev.eventId,
         name: ev.name,
@@ -62,8 +69,9 @@ export default function SchedulePage() {
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
           >
-            <option value="Bengaluru">Bengaluru</option>
-            <option value="Hyderabad">Hyderabad</option>
+            {CITIES.map((city) => (
+              <option key={city} value={city}>{city}</option>
+            ))}
           </select>
         </div>
       </PageHero>
