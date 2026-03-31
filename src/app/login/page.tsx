@@ -32,6 +32,7 @@ function LoginContent() {
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPhoneConfirm, setShowPhoneConfirm] = useState(false);
 
   const isValidPhone = /^\d{10}$/.test(phone.trim());
   const isOtpFilled = otp.every((d) => d.length === 1);
@@ -57,7 +58,7 @@ function LoginContent() {
       if (result.newUser && result.token) {
         // New user — token returned directly, no OTP needed
         setStoredToken(result.token);
-        router.push(buildConfirmUrl());
+        setShowPhoneConfirm(true);
       } else {
         // Existing user — OTP sent, show verification step
         setStep(2);
@@ -241,6 +242,37 @@ function LoginContent() {
           </button>
         </div>
       </section>
+
+      {/* Phone confirmation popup for new users */}
+      {showPhoneConfirm && (
+        <div className={styles.overlay} onClick={() => setShowPhoneConfirm(false)}>
+          <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
+            <h3>Confirm your number</h3>
+            <p className={styles.popupPhone}>{phone.trim()}</p>
+            <p className={styles.popupNote}>
+              Your DEXA report will be sent to this number on WhatsApp. Please make sure this is correct.
+            </p>
+            <div className={styles.popupButtons}>
+              <button
+                className={styles.popupSecondary}
+                onClick={() => {
+                  setShowPhoneConfirm(false);
+                  setPhone("");
+                  setStep(1);
+                }}
+              >
+                Change number
+              </button>
+              <button
+                className="pill-btn"
+                onClick={() => router.push(buildConfirmUrl())}
+              >
+                Yes, continue
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
