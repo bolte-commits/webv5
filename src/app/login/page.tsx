@@ -44,7 +44,7 @@ function LoginContent() {
     },
     2: {
       title: "Enter the code",
-      subtitle: "We sent a 6-digit OTP to your phone.",
+      subtitle: "We sent a 6-digit OTP on WhatsApp.",
     },
   };
 
