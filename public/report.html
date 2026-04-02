@@ -512,6 +512,40 @@ function render(d) {
         <div><strong style="color:var(--txt);">Why it matters</strong> - Where you carry fat matters more than how much. Two people at the same body fat % can have very different health risks.</div>
       </div>
     </div>
+    ${(()=>{
+      // Body map colored by fat distribution status
+      const colorMap = { [-1]: '#93c5fd', 0: '#86efac', 1: '#fcd34d' }; // blue=lower, green=typical, yellow=higher
+      const regionColors = {};
+      for (const key of REGION_ORDER) {
+        const s = ra[key]?.distribution?.status;
+        regionColors[key] = s != null ? colorMap[s] : '#d4d4d4';
+      }
+      // Map region keys to SVG original colors
+      const svgColorMap = {
+        arms: '#04fdfd',
+        trunk: '#00ff00',
+        android: '#0000ff',
+        legs: '#ff0000',
+        gynoid: '#ffff00',
+      };
+      // Build CSS to override SVG fill colors
+      const styleOverrides = Object.entries(svgColorMap).map(([key, origColor]) =>
+        `#region-${key} { fill: ${regionColors[key]} !important; }`
+      ).join(' ');
+      return `
+    <div class="card" style="text-align:center; padding:16px;">
+      <div class="card-title">Fat Distribution Map</div>
+      <div style="font-size:0.5rem; color:var(--dim); margin-bottom:8px;">Compared to healthy ${c.sex.toLowerCase()} population</div>
+      <div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+        <img src="${d.bodyMapDataUri}" style="width:140px; height:auto;" alt="Body fat distribution map" />
+        <div style="text-align:left; font-size:0.5rem; line-height:2;">
+          <div><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#86efac;margin-right:4px;vertical-align:middle;"></span> Typical</div>
+          <div><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#fcd34d;margin-right:4px;vertical-align:middle;"></span> Higher than average</div>
+          <div><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#93c5fd;margin-right:4px;vertical-align:middle;"></span> Lower than average</div>
+        </div>
+      </div>
+    </div>`;
+    })()}
   </div>
   ${FTR(5,tp)}
 </div>
