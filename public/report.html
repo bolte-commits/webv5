@@ -356,7 +356,7 @@ function render(d) {
   const ra = d.regionalAnalysis, rt = d.regionalTrends, sym = d.symmetry;
   const vf = d.visceralFat, bh = d.boneHealth, ag = d.agRatio;
   const sa = d.sarcopenia, met = d.metabolism, nut = met, ap = d.actionPlan;
-  const tp = c.totalPages + 4;
+  const tp = c.totalPages + 5; // +5 because of body map page
   const bf = bfScale(g.bodyFatThresholds);
 
   document.body.innerHTML = `
@@ -512,42 +512,39 @@ function render(d) {
         <div><strong style="color:var(--txt);">Why it matters</strong> - Where you carry fat matters more than how much. Two people at the same body fat % can have very different health risks.</div>
       </div>
     </div>
-    ${(()=>{
-      // Body map colored by fat distribution status
-      const colorMap = { [-1]: '#93c5fd', 0: '#86efac', 1: '#fcd34d' }; // blue=lower, green=typical, yellow=higher
-      const regionColors = {};
-      for (const key of REGION_ORDER) {
-        const s = ra[key]?.distribution?.status;
-        regionColors[key] = s != null ? colorMap[s] : '#d4d4d4';
-      }
-      // Map region keys to SVG original colors
-      const svgColorMap = {
-        arms: '#04fdfd',
-        trunk: '#00ff00',
-        android: '#0000ff',
-        legs: '#ff0000',
-        gynoid: '#ffff00',
-      };
-      // Build CSS to override SVG fill colors
-      const styleOverrides = Object.entries(svgColorMap).map(([key, origColor]) =>
-        `#region-${key} { fill: ${regionColors[key]} !important; }`
-      ).join(' ');
-      return `
-    <div class="card" style="text-align:center; padding:16px;">
-      <div class="card-title">Fat Distribution Map</div>
-      <div style="font-size:0.5rem; color:var(--dim); margin-bottom:8px;">Compared to healthy ${c.sex.toLowerCase()} population</div>
-      <div style="display:flex; justify-content:center; align-items:center; gap:20px;">
-        <img src="${d.bodyMapDataUri}" style="width:140px; height:auto;" alt="Body fat distribution map" />
-        <div style="text-align:left; font-size:0.5rem; line-height:2;">
-          <div><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#86efac;margin-right:4px;vertical-align:middle;"></span> Typical</div>
-          <div><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#fcd34d;margin-right:4px;vertical-align:middle;"></span> Higher than average</div>
-          <div><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#93c5fd;margin-right:4px;vertical-align:middle;"></span> Lower than average</div>
-        </div>
-      </div>
-    </div>`;
-    })()}
   </div>
   ${FTR(5,tp)}
+</div>
+
+<!-- PAGE 5b: FAT DISTRIBUTION COMPARISON -->
+<div class="page">
+  ${HDR('Fat Distribution')}
+  <div class="content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+    <div><div class="section-title">Your Fat Distribution</div><div class="section-desc">How your regional fat percentages compare to healthy ${c.sex.toLowerCase()} population averages.</div></div>
+    <div style="margin:20px 0;">
+      <img src="${d.bodyMapDataUri}" style="width:200px; height:auto;" alt="Body fat distribution map" />
+    </div>
+    <div style="display:flex; justify-content:center; gap:24px; margin-bottom:20px;">
+      <div style="display:flex; align-items:center; gap:6px; font-size:0.55rem;"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#86efac;"></span> Typical</div>
+      <div style="display:flex; align-items:center; gap:6px; font-size:0.55rem;"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#fcd34d;"></span> Higher than average</div>
+      <div style="display:flex; align-items:center; gap:6px; font-size:0.55rem;"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#93c5fd;"></span> Lower than average</div>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
+      ${REGION_ORDER.map(key => {
+        const r = ra[key];
+        if (!r || !r.distribution) return '';
+        const info = REGIONS[key];
+        const colors = { [-1]: '#93c5fd', 0: '#86efac', 1: '#fcd34d' };
+        const bg = colors[r.distribution.status] || '#e5e7eb';
+        return `<div style="background:${bg}; border-radius:10px; padding:10px 16px; min-width:100px;">
+          <div style="font-size:0.6rem; font-weight:800; color:#111; text-transform:uppercase; letter-spacing:0.04em;">${info.name}</div>
+          <div style="font-size:1rem; font-weight:800; color:#111; margin:4px 0;">${r.fatPercent}%</div>
+          <div style="font-size:0.45rem; color:#333;">${r.distribution.verdict}</div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>
+  ${FTR(6,tp)}
 </div>
 
 <!-- PAGE 6: REGIONAL TRENDS -->
@@ -605,7 +602,7 @@ function render(d) {
       </table>
     </div>`}
   </div>
-  ${FTR(6,tp)}
+  ${FTR(7,tp)}
 </div>
 
 <!-- PAGE 7: LEFT VS RIGHT - Arms & Legs -->
@@ -632,7 +629,7 @@ function render(d) {
       <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:0;">${r.insight}</div>
     </div>`}).join('')}
   </div>
-  ${FTR(7,tp)}
+  ${FTR(8,tp)}
 </div>
 
 <!-- PAGE 8: LEFT VS RIGHT - Trunk + Insight -->
@@ -678,7 +675,7 @@ function render(d) {
       </div>
     </div>
   </div>
-  ${FTR(8,tp)}
+  ${FTR(9,tp)}
 </div>
 
 <!-- PAGE 9: VISCERAL & SUBCUTANEOUS FAT -->
@@ -727,7 +724,7 @@ function render(d) {
       <div class="action ${ac('neutral')}" style="margin-top:12px;"><strong>Visceral fat data is not available for this scan.</strong> DEXA visceral fat estimation is not calculated for individuals under 18 years of age or beyond a certain height-to-weight ratio. If you believe this is an error, please contact Body Insight for assistance.</div>
     </div>`}
   </div>
-  ${FTR(9,tp)}
+  ${FTR(10,tp)}
 </div>
 
 <!-- PAGE 10: UNDERSTANDING VISCERAL FAT -->
@@ -777,7 +774,7 @@ function render(d) {
       </div>
     </div>
   </div>
-  ${FTR(10,tp)}
+  ${FTR(11,tp)}
 </div>
 
 <!-- PAGE 11: BONE HEALTH -->
@@ -802,7 +799,7 @@ function render(d) {
     </div>
     <div style="font-size:0.48rem; color:var(--mute); line-height:1.5; font-style:italic; padding:6px 10px; background:var(--card); border-left:3px solid var(--border); border-radius:4px;">Note: Doctors may also measure bone density at other sites such as the wrist, forearm, or lumbar spine to diagnose osteoporosis. A whole-body DEXA scan provides a general overview but may not replace site-specific assessments.</div>
   </div>
-  ${FTR(11,tp)}
+  ${FTR(12,tp)}
 </div>
 
 <!-- PAGE 12: BONE TRENDS -->
@@ -818,7 +815,7 @@ function render(d) {
     </div>
     ${blurredTrendCard('Total BMD Trend (g/cm&sup2;)', bh.trend.totalBmd, 'BMD', '')}
   </div>
-  ${FTR(12,tp)}
+  ${FTR(13,tp)}
 </div>
 
 <!-- PAGE 13: A/G RATIO -->
@@ -842,7 +839,7 @@ function render(d) {
     <div class="action ${ac(ag.value<ag.thresholds[1]?'green':ag.value<ag.thresholds[2]?'yellow':'red')}"><strong>${ag.insight.split('.')[0]}.</strong> ${ag.insight.split('.').slice(1).join('.').trim()}</div>
     ${blurredTrendCard('A/G Ratio Trend', ag.trend, 'A/G Ratio', '')}
   </div>
-  ${FTR(13,tp)}
+  ${FTR(14,tp)}
 </div>
 
 <!-- PAGE 14: SARCOPENIA SCREENING -->
@@ -867,7 +864,7 @@ function render(d) {
     <div class="action ${ac(sa.value<sa.thresholds[1]?'red':sa.value<sa.thresholds[2]?'yellow':'green')}"><strong>${sa.insight.split('.')[0]}.</strong> ${sa.insight.split('.').slice(1).join('.').trim()}</div>
     ${blurredTrendCard('ALMI Trend', sa.trend, 'ALMI', '')}
   </div>
-  ${FTR(14,tp)}
+  ${FTR(15,tp)}
 </div>
 
 <!-- PAGE 15: METABOLISM -->
@@ -905,7 +902,7 @@ function render(d) {
       </div>
     </div>
   </div>
-  ${FTR(15,tp)}
+  ${FTR(16,tp)}
 </div>
 
 <!-- PAGE 16: RMR DEEP DIVE -->
@@ -954,7 +951,7 @@ function render(d) {
       </div>
     </div>
   </div>
-  ${FTR(16,tp)}
+  ${FTR(17,tp)}
 </div>
 
 <!-- PAGE 17: NUTRITION -->
@@ -973,7 +970,7 @@ function render(d) {
       <p><strong style="color:var(--txt);">Protein is the key.</strong> It signals your body to preserve lean tissue during a deficit and build it during a surplus. Carbs fuel your workouts and daily energy. Fat supports hormones and cell health. Getting the ratio right makes every calorie count.</p>
     </div>
   </div>
-  ${FTR(17,tp)}
+  ${FTR(18,tp)}
 </div>
 
 <!-- PAGE 18: ACTION PLAN (skipped if actionPlan not present) -->
@@ -990,7 +987,7 @@ ${ap ? `<div class="page">
     </div>
     <div style="font-size:0.48rem; color:var(--mute); line-height:1.6; font-style:italic;">This report is generated from DEXA (Dual-Energy X-ray Absorptiometry) scan data and is intended for informational purposes. It does not constitute medical advice. Consult a healthcare professional before making changes to your diet or exercise program.</div>
   </div>
-  ${FTR(18,tp)}
+  ${FTR(19,tp)}
 </div>` : ''}
 ` + /* COMMENTED OUT - Workout & Diet pages
 <!-- PAGE 19: SAMPLE WORKOUT - REASONING + DAYS 1 & 2 -->
@@ -1035,7 +1032,7 @@ ${ap ? `<div class="page">
       </div>
     </div>
   </div>
-  ${FTR(19,tp)}
+  ${FTR(20,tp)}
 </div>
 
 <!-- PAGE 20: SAMPLE WORKOUT - DAYS 3 & 4 -->
@@ -1078,7 +1075,7 @@ ${ap ? `<div class="page">
       <div class="insight"><h4>Progressive Overload</h4><p>Try to add a little weight or an extra rep each week.</p></div>
     </div>
   </div>
-  ${FTR(20,tp)}
+  ${FTR(21,tp)}
 </div>
 
 <!-- PAGE 21: SAMPLE DIET PLAN -->
@@ -1156,7 +1153,7 @@ ${ap ? `<div class="page">
 
     <div style="font-size:0.52rem; color:var(--mute); line-height:1.6; font-style:italic;">This is a sample plan for illustrative purposes. Adjust portions based on your personalized macro targets from the Nutrition page. Consult a dietitian for a tailored plan.</div>
   </div>
-  ${FTR(21,tp)}
+  ${FTR(22,tp)}
 </div>
 END COMMENTED OUT */ `
   `; // end of template literal
