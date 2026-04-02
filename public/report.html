@@ -232,7 +232,9 @@ async function fetchReportData() {
   const token = params.get('t');
   if (!reportId || !token) return null;
   try {
-    const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://api.bodyinsight.in';
+    const API_URL = window.location.hostname === 'localhost'
+      ? 'https://t6b77bfg7usxb3qryg3kmdt7ri0nqqya.lambda-url.ap-south-1.on.aws'
+      : 'https://api.bodyinsight.in';
     const res = await fetch(`${API_URL}/reports/${reportId}/${token}`);
     if (!res.ok) return null;
     return await res.json();
@@ -518,46 +520,45 @@ function render(d) {
 
 <!-- PAGE 5b: FAT DISTRIBUTION COMPARISON -->
 <div class="page">
-  ${HDR('Fat Distribution')}
-  <div class="content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+  ${HDR('Regional Analysis')}
+  <div class="content">
     <div><div class="section-title">Fat Distribution</div><div class="section-desc">How fat is distributed across your body compared to healthy ${c.sex.toLowerCase()} population norms.</div></div>
-    <div class="g2" style="gap:16px; align-items:start;">
-      <div style="text-align:center;">
-        <img src="${d.bodyMapDataUri}" style="width:180px; height:auto;" alt="Body fat distribution map" />
-        <div style="display:flex; justify-content:center; gap:16px; margin-top:8px;">
-          <div style="display:flex; align-items:center; gap:4px; font-size:0.45rem;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#34d399;"></span> Lower</div>
-          <div style="display:flex; align-items:center; gap:4px; font-size:0.45rem;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#fbbf24;"></span> Typical</div>
-          <div style="display:flex; align-items:center; gap:4px; font-size:0.45rem;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#f87171;"></span> Higher</div>
-        </div>
-      </div>
-      <div class="card" style="flex:1;">
-        <table style="width:100%; font-size:0.6rem; border-collapse:collapse;">
-          <thead>
-            <tr style="border-bottom:1.5px solid var(--border);">
-              <th style="text-align:left; padding:6px 8px; color:var(--mute); font-weight:600;">Region</th>
-              <th style="text-align:center; padding:6px 8px; color:var(--mute); font-weight:600;">You</th>
-              <th style="text-align:center; padding:6px 8px; color:var(--mute); font-weight:600;">Expected</th>
-              <th style="text-align:left; padding:6px 8px; color:var(--mute); font-weight:600;"></th>
-            </tr>
-          </thead>
-          <tbody>
-            ${REGION_ORDER.map(key => {
-              const r = ra[key];
-              if (!r || !r.distribution) return '';
-              const info = REGIONS[key];
-              const colors = { [-1]: '#34d399', 0: '#fbbf24', 1: '#f87171' };
-              const dotColor = colors[r.distribution.status] || '#d4d4d4';
-              return `<tr style="border-bottom:1px solid #f0f0f0;">
-                <td style="padding:8px; font-weight:700; color:var(--txt);">${info.name}</td>
-                <td style="padding:8px; text-align:center; font-weight:800; color:var(--pri);">${r.fatPercent}%</td>
-                <td style="padding:8px; text-align:center; color:var(--mute);">${r.distribution.expectedFatPercent}%</td>
-                <td style="padding:8px;"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${dotColor};"></span></td>
-              </tr>`;
-            }).join('')}
-          </tbody>
-        </table>
+    <div style="text-align:center; margin:12px 0;">
+      <img src="${d.bodyMapDataUri}" style="width:200px; height:auto;" alt="Body fat distribution map" />
+      <div style="display:flex; justify-content:center; gap:16px; margin-top:8px;">
+        <div style="display:flex; align-items:center; gap:4px; font-size:0.45rem;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#34d399;"></span> Lower</div>
+        <div style="display:flex; align-items:center; gap:4px; font-size:0.45rem;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#fbbf24;"></span> Typical</div>
+        <div style="display:flex; align-items:center; gap:4px; font-size:0.45rem;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#f87171;"></span> Higher</div>
       </div>
     </div>
+    <div class="card">
+      <table style="width:100%; font-size:0.6rem; border-collapse:collapse;">
+        <thead>
+          <tr style="border-bottom:1.5px solid var(--border);">
+            <th style="text-align:left; padding:6px 8px; color:var(--mute); font-weight:600;">Region</th>
+            <th style="text-align:center; padding:6px 8px; color:var(--mute); font-weight:600;">You</th>
+            <th style="text-align:center; padding:6px 8px; color:var(--mute); font-weight:600;">Expected</th>
+            <th style="text-align:left; padding:6px 8px; color:var(--mute); font-weight:600;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${REGION_ORDER.map(key => {
+            const r = ra[key];
+            if (!r || !r.distribution) return '';
+            const info = REGIONS[key];
+            const colors = { [-1]: '#34d399', 0: '#fbbf24', 1: '#f87171' };
+            const dotColor = colors[r.distribution.status] || '#d4d4d4';
+            return `<tr style="border-bottom:1px solid #f0f0f0;">
+              <td style="padding:8px; font-weight:700; color:var(--txt);">${info.name}</td>
+              <td style="padding:8px; text-align:center; font-weight:800; color:var(--pri);">${r.fatPercent}%</td>
+              <td style="padding:8px; text-align:center; color:var(--mute);">${r.distribution.expectedFatPercent}%</td>
+              <td style="padding:8px;"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${dotColor};"></span></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:0.42rem; color:var(--mute); text-align:center; margin-top:8px; line-height:1.5;">This is not medical advice. Please consult your physician before acting on this information.</div>
   </div>
   ${FTR(6,tp)}
 </div>
