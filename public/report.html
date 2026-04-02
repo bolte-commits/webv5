@@ -520,28 +520,43 @@ function render(d) {
 <div class="page">
   ${HDR('Fat Distribution')}
   <div class="content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
-    <div><div class="section-title">Your Fat Distribution</div><div class="section-desc">Your fat distribution pattern compared to healthy ${c.sex.toLowerCase()} population norms.</div></div>
-    <div style="margin:20px 0;">
-      <img src="${d.bodyMapDataUri}" style="width:200px; height:auto;" alt="Body fat distribution map" />
-    </div>
-    <div style="display:flex; justify-content:center; gap:24px; margin-bottom:20px;">
-      <div style="display:flex; align-items:center; gap:6px; font-size:0.55rem;"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#34d399;"></span> Typical</div>
-      <div style="display:flex; align-items:center; gap:6px; font-size:0.55rem;"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#f87171;"></span> Higher</div>
-      <div style="display:flex; align-items:center; gap:6px; font-size:0.55rem;"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#3b82f6;"></span> Lower</div>
-    </div>
-    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
-      ${REGION_ORDER.map(key => {
-        const r = ra[key];
-        if (!r || !r.distribution) return '';
-        const info = REGIONS[key];
-        const colors = { [-1]: '#3b82f6', 0: '#34d399', 1: '#f87171' };
-        const bg = colors[r.distribution.status] || '#e5e7eb';
-        return `<div style="background:${bg}; border-radius:10px; padding:10px 16px; min-width:100px;">
-          <div style="font-size:0.6rem; font-weight:800; color:#fff; text-transform:uppercase; letter-spacing:0.04em;">${info.name}</div>
-          <div style="font-size:1rem; font-weight:800; color:#fff; margin:4px 0;">${r.fatPercent}%</div>
-          <div style="font-size:0.45rem; color:rgba(255,255,255,0.8);">${r.distribution.verdict}</div>
-        </div>`;
-      }).join('')}
+    <div><div class="section-title">Fat Distribution</div><div class="section-desc">How fat is distributed across your body compared to healthy ${c.sex.toLowerCase()} population norms.</div></div>
+    <div class="g2" style="gap:16px; align-items:start;">
+      <div style="text-align:center;">
+        <img src="${d.bodyMapDataUri}" style="width:180px; height:auto;" alt="Body fat distribution map" />
+        <div style="display:flex; justify-content:center; gap:16px; margin-top:8px;">
+          <div style="display:flex; align-items:center; gap:4px; font-size:0.45rem;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#34d399;"></span> Lower</div>
+          <div style="display:flex; align-items:center; gap:4px; font-size:0.45rem;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#fbbf24;"></span> Typical</div>
+          <div style="display:flex; align-items:center; gap:4px; font-size:0.45rem;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#f87171;"></span> Higher</div>
+        </div>
+      </div>
+      <div class="card" style="flex:1;">
+        <table style="width:100%; font-size:0.6rem; border-collapse:collapse;">
+          <thead>
+            <tr style="border-bottom:1.5px solid var(--border);">
+              <th style="text-align:left; padding:6px 8px; color:var(--mute); font-weight:600;">Region</th>
+              <th style="text-align:center; padding:6px 8px; color:var(--mute); font-weight:600;">You</th>
+              <th style="text-align:center; padding:6px 8px; color:var(--mute); font-weight:600;">Expected</th>
+              <th style="text-align:left; padding:6px 8px; color:var(--mute); font-weight:600;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${REGION_ORDER.map(key => {
+              const r = ra[key];
+              if (!r || !r.distribution) return '';
+              const info = REGIONS[key];
+              const colors = { [-1]: '#34d399', 0: '#fbbf24', 1: '#f87171' };
+              const dotColor = colors[r.distribution.status] || '#d4d4d4';
+              return `<tr style="border-bottom:1px solid #f0f0f0;">
+                <td style="padding:8px; font-weight:700; color:var(--txt);">${info.name}</td>
+                <td style="padding:8px; text-align:center; font-weight:800; color:var(--pri);">${r.fatPercent}%</td>
+                <td style="padding:8px; text-align:center; color:var(--mute);">${r.distribution.expectedFatPercent}%</td>
+                <td style="padding:8px;"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${dotColor};"></span></td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   ${FTR(6,tp)}
