@@ -520,26 +520,26 @@ function render(d) {
 <div class="page">
   ${HDR('Fat Distribution')}
   <div class="content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
-    <div><div class="section-title">Your Fat Distribution</div><div class="section-desc">How your regional fat percentages compare to healthy ${c.sex.toLowerCase()} population averages.</div></div>
+    <div><div class="section-title">Your Fat Distribution</div><div class="section-desc">Your fat distribution pattern compared to healthy ${c.sex.toLowerCase()} population norms.</div></div>
     <div style="margin:20px 0;">
       <img src="${d.bodyMapDataUri}" style="width:200px; height:auto;" alt="Body fat distribution map" />
     </div>
     <div style="display:flex; justify-content:center; gap:24px; margin-bottom:20px;">
-      <div style="display:flex; align-items:center; gap:6px; font-size:0.55rem;"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#86efac;"></span> Typical</div>
-      <div style="display:flex; align-items:center; gap:6px; font-size:0.55rem;"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#fcd34d;"></span> Higher than average</div>
-      <div style="display:flex; align-items:center; gap:6px; font-size:0.55rem;"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#93c5fd;"></span> Lower than average</div>
+      <div style="display:flex; align-items:center; gap:6px; font-size:0.55rem;"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#34d399;"></span> Typical</div>
+      <div style="display:flex; align-items:center; gap:6px; font-size:0.55rem;"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#f87171;"></span> Higher</div>
+      <div style="display:flex; align-items:center; gap:6px; font-size:0.55rem;"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#3b82f6;"></span> Lower</div>
     </div>
     <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
       ${REGION_ORDER.map(key => {
         const r = ra[key];
         if (!r || !r.distribution) return '';
         const info = REGIONS[key];
-        const colors = { [-1]: '#93c5fd', 0: '#86efac', 1: '#fcd34d' };
+        const colors = { [-1]: '#3b82f6', 0: '#34d399', 1: '#f87171' };
         const bg = colors[r.distribution.status] || '#e5e7eb';
         return `<div style="background:${bg}; border-radius:10px; padding:10px 16px; min-width:100px;">
-          <div style="font-size:0.6rem; font-weight:800; color:#111; text-transform:uppercase; letter-spacing:0.04em;">${info.name}</div>
-          <div style="font-size:1rem; font-weight:800; color:#111; margin:4px 0;">${r.fatPercent}%</div>
-          <div style="font-size:0.45rem; color:#333;">${r.distribution.verdict}</div>
+          <div style="font-size:0.6rem; font-weight:800; color:#fff; text-transform:uppercase; letter-spacing:0.04em;">${info.name}</div>
+          <div style="font-size:1rem; font-weight:800; color:#fff; margin:4px 0;">${r.fatPercent}%</div>
+          <div style="font-size:0.45rem; color:rgba(255,255,255,0.8);">${r.distribution.verdict}</div>
         </div>`;
       }).join('')}
     </div>
