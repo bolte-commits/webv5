@@ -551,7 +551,7 @@ function render(d) {
             return `<tr style="border-bottom:1px solid #f0f0f0;">
               <td style="padding:8px; font-weight:700; color:var(--txt);">${info.name}</td>
               <td style="padding:8px; text-align:center; font-weight:800; color:var(--pri);">${r.fatPercent}%</td>
-              <td style="padding:8px; text-align:center; color:var(--mute);">${r.distribution.expectedFatPercent}%</td>
+              <td style="padding:8px; text-align:center; font-weight:700; color:var(--dim);">${r.distribution.expectedFatPercent}%</td>
               <td style="padding:8px;"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${dotColor};"></span></td>
             </tr>`;
           }).join('')}
