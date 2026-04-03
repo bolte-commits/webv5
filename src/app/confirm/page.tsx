@@ -170,7 +170,7 @@ function ConfirmContent() {
       return;
     }
 
-    // Age validation — must be 18 or older
+    // Age validation
     if (dateOfBirth) {
       const birth = new Date(dateOfBirth);
       const today = new Date();
@@ -181,6 +181,24 @@ function ConfirmContent() {
         setBookingError("You must be 18 or older to book a scan.");
         return;
       }
+      if (age > 90) {
+        setBookingError("Age must be 90 or below.");
+        return;
+      }
+    }
+
+    // Height validation
+    const hCm = Number(height);
+    if (hCm < 100 || hCm > 210) {
+      setBookingError("Height must be between 100 and 210 cm.");
+      return;
+    }
+
+    // Weight validation
+    const w = Number(weight);
+    if (w < 35 || w > 135) {
+      setBookingError("Weight must be between 35 and 135 kg.");
+      return;
     }
 
     const h = Number(height) / 100;

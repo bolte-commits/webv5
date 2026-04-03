@@ -24,7 +24,8 @@ export default function KioskPage() {
     gender &&
     dateOfBirth &&
     weight &&
-    Number(weight) >= 35 && Number(weight) <= 135;
+    Number(weight) >= 35 && Number(weight) <= 135 &&
+    Number(height) >= 100 && Number(height) <= 210;
 
   const handleSubmit = async () => {
     setError("");
@@ -187,8 +188,8 @@ export default function KioskPage() {
             type="number"
             className={styles.input}
             placeholder="70"
-            min={35}
-            max={135}
+            min={20}
+            max={300}
             value={weight}
             onChange={(e) => { setWeight(e.target.value); setError(""); }}
           />
