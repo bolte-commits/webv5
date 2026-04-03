@@ -8,10 +8,32 @@ export default function Navbar() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showNavCta, setShowNavCta] = useState(false);
 
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (!isHome) {
+      setShowNavCta(true);
+      return;
+    }
+
+    // Show nav CTA only when hero CTA scrolls out of view
+    const heroCta = document.getElementById("hero-cta");
+    if (!heroCta) {
+      setShowNavCta(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowNavCta(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(heroCta);
+    return () => observer.disconnect();
+  }, [isHome, pathname]);
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -30,15 +52,19 @@ export default function Navbar() {
               <a href="#scan">The Scan</a>
               <a href="#pricing">Pricing</a>
               <Link href="/contact">Contact</Link>
-              <Link href="/schedule" className="cta-button">
-                Book Your Scan
-              </Link>
+              {showNavCta && (
+                <Link href="/schedule" className="cta-button">
+                  Book Your Scan
+                </Link>
+              )}
             </>
           ) : (
             <>
               <Link href="/#how-it-works">How it works</Link>
               <Link href="/#pricing">Pricing</Link>
-              <Link href="/schedule">Book</Link>
+              <Link href="/schedule" className="cta-button">
+                Book Your Scan
+              </Link>
             </>
           )}
         </div>
@@ -64,15 +90,19 @@ export default function Navbar() {
               <a href="#scan" onClick={closeMenu}>The Scan</a>
               <a href="#pricing" onClick={closeMenu}>Pricing</a>
               <Link href="/contact" onClick={closeMenu}>Contact</Link>
-              <Link href="/schedule" className="cta-button" onClick={closeMenu}>
-                Book Your Scan
-              </Link>
+              {showNavCta && (
+                <Link href="/schedule" className="cta-button" onClick={closeMenu}>
+                  Book Your Scan
+                </Link>
+              )}
             </>
           ) : (
             <>
               <Link href="/#how-it-works" onClick={closeMenu}>How it works</Link>
               <Link href="/#pricing" onClick={closeMenu}>Pricing</Link>
-              <Link href="/schedule" onClick={closeMenu}>Book</Link>
+              <Link href="/schedule" className="cta-button" onClick={closeMenu}>
+                Book Your Scan
+              </Link>
             </>
           )}
         </div>

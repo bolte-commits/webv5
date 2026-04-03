@@ -106,7 +106,7 @@ export default function HomePage() {
               guesswork.
             </p>
             <div className={styles.heroButtons}>
-              <Link href="/schedule" className="cta-button">
+              <Link href="/schedule" className="cta-button" id="hero-cta">
                 Book Your Scan
               </Link>
               <a href="https://d3vn46qh52pv01.cloudfront.net/Sample%20Report.pdf" target="_blank" rel="noopener noreferrer" className={styles.ctaButtonOutline}>
