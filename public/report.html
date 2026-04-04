@@ -358,7 +358,7 @@ function render(d) {
   const ra = d.regionalAnalysis, rt = d.regionalTrends, sym = d.symmetry;
   const vf = d.visceralFat, bh = d.boneHealth, ag = d.agRatio;
   const sa = d.sarcopenia, met = d.metabolism, nut = met, ap = d.actionPlan;
-  const tp = c.totalPages + 5; // +5 because of body map page
+  const tp = 19;
   const bf = bfScale(g.bodyFatThresholds);
 
   document.body.innerHTML = `
@@ -527,7 +527,7 @@ function render(d) {
       <img src="${d.bodyMapDataUri}" style="width:200px; height:auto;" alt="Body fat distribution map" />
       <div style="display:flex; justify-content:center; gap:16px; margin-top:8px;">
         <div style="display:flex; align-items:center; gap:4px; font-size:0.45rem;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#34d399;"></span> Less fat concentration</div>
-        <div style="display:flex; align-items:center; gap:4px; font-size:0.45rem;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#fbbf24;"></span> Expected range</div>
+        <div style="display:flex; align-items:center; gap:4px; font-size:0.45rem;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#fbbf24;"></span> Avg for body type</div>
         <div style="display:flex; align-items:center; gap:4px; font-size:0.45rem;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#f87171;"></span> More fat concentration</div>
       </div>
     </div>
@@ -537,7 +537,7 @@ function render(d) {
           <tr style="border-bottom:1.5px solid var(--border);">
             <th style="text-align:left; padding:6px 8px; color:var(--mute); font-weight:600;">Region</th>
             <th style="text-align:center; padding:6px 8px; color:var(--mute); font-weight:600;">You</th>
-            <th style="text-align:center; padding:6px 8px; color:var(--mute); font-weight:600;">Expected</th>
+            <th style="text-align:center; padding:6px 8px; color:var(--mute); font-weight:600;">Avg for body type</th>
             <th style="text-align:left; padding:6px 8px; color:var(--mute); font-weight:600;"></th>
           </tr>
         </thead>
