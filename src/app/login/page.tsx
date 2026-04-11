@@ -176,7 +176,7 @@ function LoginContent() {
         >
           <h2>Enter your phone number</h2>
           <p className={styles.subtitle}>
-            We&apos;ll send you a one-time verification code.
+            We&apos;ll send you a one-time code via WhatsApp.
           </p>
           <input
             type="tel"
@@ -207,7 +207,7 @@ function LoginContent() {
         >
           <h2>Verify OTP</h2>
           <p className={styles.subtitle}>
-            Enter the 6-digit code sent to <strong>{phone.trim()}</strong>
+            Enter the 6-digit code sent via WhatsApp to <strong>{phone.trim()}</strong>
           </p>
           <div className={styles.otpInputs}>
             {otp.map((digit, i) => (
