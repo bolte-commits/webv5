@@ -258,7 +258,7 @@ const vc = c => ({green:'var(--grn)',yellow:'var(--ylw)',red:'var(--red)',grey:'
 const vd = c => ({green:'#34d399',yellow:'#f59e0b',red:'#dc2626',grey:'#9CA3AF'}[c]||'#9CA3AF');
 const tc = c => ({green:'tag-g',yellow:'tag-y',red:'tag-r',grey:'tag-n'}[c]||'tag-n');
 const ac = c => ({green:'action-g',yellow:'action-y',red:'action-r',neutral:'action-n',grey:'action-n'}[c]||'action-g');
-const BF_CATEGORIES = ['Low Body Fat Risk','Ultra Lean','Lean Body','Higher than average','Excess Body Fat','High Fat Risk'];
+const BF_CATEGORIES = ['Low Body Fat Risk','Ultra Lean','Lean Body','Moderate Body Fat','Excess Body Fat','High Fat Risk'];
 function bfScale(thresholds) {
   // thresholds: [0, 7, 14, 21, 29, 36, 43] - first is min, last is max, 5 zone boundaries in between
   const min = thresholds[0], max = thresholds[thresholds.length - 1];
