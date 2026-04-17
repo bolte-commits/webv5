@@ -23,7 +23,7 @@ export default function KioskLayout({
   return (
     <div className={styles.kioskWrapper}>
       <div className={styles.logoBar}>
-        <span className={styles.logo}>BODY INSIGHT</span>
+        <img src="/logo.png" alt="Body Insight" style={{ height: 28, width: 'auto' }} />
       </div>
       {children}
     </div>

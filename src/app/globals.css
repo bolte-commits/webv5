@@ -3,7 +3,7 @@
 
 /* ===== CSS Variables ===== */
 :root {
-    --font-heading: 'Bw Modelica', sans-serif;
+    --font-heading: 'Mozilla Text', 'Bw Modelica', sans-serif;
     --primary: #0F0F0F;
     --accent: #007aff;
     --accent-dark: #0051D5;
@@ -26,7 +26,7 @@ html {
 }
 
 body {
-    font-family: 'Bw Modelica', sans-serif;
+    font-family: 'Creato Display', 'Bw Modelica', sans-serif;
     background: var(--bg);
     color: var(--text);
     overflow-x: hidden;
@@ -39,6 +39,7 @@ h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading), 'Bw Modelica', sans-serif;
     font-weight: 800;
     line-height: 1.1;
+    text-transform: uppercase;
 }
 
 /* ===== Navigation ===== */
@@ -74,12 +75,16 @@ nav {
 }
 
 .logo {
-    font-family: var(--font-syne), 'Syne', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: var(--primary);
     text-decoration: none;
-    letter-spacing: -0.03em;
+    display: flex;
+    align-items: center;
+}
+.logo-img {
+    height: 32px;
+    width: auto;
+}
+.footer-logo-img {
+    filter: brightness(0) invert(1);
 }
 
 .nav-links {
@@ -121,6 +126,17 @@ nav {
 
 .nav-links .cta-button:hover {
     color: white !important;
+}
+
+/* Smooth CTA appear/disappear without reflowing the nav */
+.nav-cta {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+.nav-cta-visible {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 /* Hamburger button — hidden on desktop */
@@ -230,7 +246,7 @@ nav {
     border: none;
     cursor: pointer;
     transition: all 0.3s;
-    font-family: 'Bw Modelica', sans-serif;
+    font-family: 'Creato Display', 'Bw Modelica', sans-serif;
     width: 100%;
     margin-top: 1.5rem;
 }
@@ -369,8 +385,8 @@ footer {
         font-size: 1.05rem;
     }
 
-    .logo {
-        font-size: 1.5rem;
+    .logo-img {
+        height: 26px;
     }
 
     .page-hero {
@@ -401,8 +417,8 @@ footer {
         padding: 1rem 1rem;
     }
 
-    .logo {
-        font-size: 1.3rem;
+    .logo-img {
+        height: 22px;
     }
 
     .cta-button {

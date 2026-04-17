@@ -5,7 +5,7 @@ export default function Footer() {
     <footer>
       <div className="footer-content">
         <div>
-          <div className="footer-logo">BODY INSIGHT</div>
+          <div className="footer-logo"><img src="/logo.png" alt="Body Insight" className="logo-img footer-logo-img" /></div>
           <p
             style={{
               color: "rgba(255, 255, 255, 0.7)",

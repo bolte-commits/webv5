@@ -67,7 +67,7 @@ export default function ReportView({ id }: { id: string }) {
     <div className={s.app}>
       {/* Report Header */}
       <header className={`${s.reportHeader} ${headerHidden ? s.reportHeaderHidden : ""}`}>
-        <Link href="/" className={s.reportHeaderLogo}>BODY INSIGHT</Link>
+        <Link href="/" className={s.reportHeaderLogo}><img src="/logo.png" alt="Body Insight" style={{ height: 28, width: 'auto' }} /></Link>
 
         {/* Hamburger button */}
         <button

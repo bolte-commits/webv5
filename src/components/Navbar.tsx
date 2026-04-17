@@ -41,7 +41,7 @@ export default function Navbar() {
     <nav>
       <div className="nav-content">
         <Link href="/" className="logo">
-          BODY INSIGHT
+          <img src="/logo.png" alt="Body Insight" className="logo-img" />
         </Link>
 
         {/* Desktop nav links */}
@@ -52,11 +52,9 @@ export default function Navbar() {
               <a href="#scan">The Scan</a>
               <a href="#pricing">Pricing</a>
               <Link href="/contact">Contact</Link>
-              {showNavCta && (
-                <Link href="/schedule" className="cta-button">
-                  Book Your Scan
-                </Link>
-              )}
+              <Link href="/schedule" className={`cta-button nav-cta ${showNavCta ? 'nav-cta-visible' : ''}`}>
+                Book Your Scan
+              </Link>
             </>
           ) : (
             <>
