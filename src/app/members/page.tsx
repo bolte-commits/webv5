@@ -21,15 +21,10 @@ const PLAN_TITLES: Record<string, string> = {
   "6m": "6-month",
   "12m": "12-month",
 };
-const PLAN_SUBS: Record<string, string> = {
-  "3m": "Up to 3 free DEXA scans",
-  "6m": "Up to 4 free DEXA scans",
-  "12m": "Up to 8 free DEXA scans",
-};
 const planTitle = (plan: string) => PLAN_TITLES[plan] || plan;
-const planSub = (plan: string) => PLAN_SUBS[plan] || "Free DEXA scans";
+const planSub = (p: CouponPlan) => p.freeScans ? `Up to ${p.freeScans} free DEXA scans` : "Free DEXA scans";
 
-type Step = "coupon" | "phone" | "otp" | "plan" | "success";
+type Step = "coupon" | "plan" | "phone" | "otp" | "pay" | "success";
 
 interface RazorpayOptions {
   key: string;
@@ -92,10 +87,17 @@ export default function MembersPage() {
     }
     setCoupon(result.coupon);
     if (result.coupon.plans.length > 0) setPlan(result.coupon.plans[0].plan);
+    setStep("plan");
+  }
+
+  // ── Step 1: plan select ──
+  function handlePlanContinue() {
+    setError("");
+    if (!plan) return setError("Pick a plan to continue");
     setStep("phone");
   }
 
-  // ── Step 1: phone ──
+  // ── Step 2: phone ──
   async function handlePhoneSubmit() {
     setError("");
     if (!isValidPhone) return setError("Enter a 10-digit phone number");
@@ -104,17 +106,17 @@ export default function MembersPage() {
     setSubmitting(false);
     if (!result.success) return setError(result.error || "Could not send OTP");
     if (result.newUser && result.token) {
-      // Skip OTP for new users
+      // Skip OTP for new users — go straight to pay since plan is already chosen.
       setToken(result.token);
       setStoredToken(result.token);
-      setStep("plan");
+      setStep("pay");
     } else {
       setStep("otp");
       setTimeout(() => otpRefs.current[0]?.focus(), 100);
     }
   }
 
-  // ── Step 2: OTP ──
+  // ── Step 3: OTP ──
   function handleOtpChange(i: number, value: string) {
     const cleaned = value.replace(/\D/g, "");
     const next = [...otp];
@@ -141,13 +143,23 @@ export default function MembersPage() {
     if (!result.success || !result.token) return setError(result.error || "Invalid OTP");
     setToken(result.token);
     setStoredToken(result.token);
-    setStep("plan");
+    // If somehow we lost the plan selection (e.g. session quirk), bounce back
+    // to the plan step instead of dropping the user into a half-set pay flow.
+    if (!plan || !coupon) {
+      setStep(coupon ? "plan" : "coupon");
+      return;
+    }
+    setStep("pay");
   }
 
-  // ── Step 3: plan + checkout ──
+  // ── Step 4: pay ──
   async function handlePay() {
     setError("");
-    if (!coupon || !plan) return setError("Pick a plan");
+    if (!coupon || !plan) {
+      setError("Plan info missing — please pick a plan again.");
+      setStep(coupon ? "plan" : "coupon");
+      return;
+    }
     if (startDate < todayStr()) return setError("Start date cannot be in the past");
     if (!window.Razorpay) return setError("Payment library failed to load. Refresh and try again.");
 
@@ -196,9 +208,10 @@ export default function MembersPage() {
 
   const stepContent: Record<Step, { title: string; subtitle: string }> = {
     coupon: { title: "Become a member", subtitle: "Enter your invite code to see what's available." },
-    phone: { title: "Become a member", subtitle: "Enter your phone to get started." },
-    otp: { title: "Verify your phone", subtitle: "We sent a 6-digit code on WhatsApp." },
     plan: { title: "Pick your plan", subtitle: "All plans cover unlimited free DEXA scans, with a 40-day gap between scans." },
+    phone: { title: "Verify your phone", subtitle: "We'll send a one-time code via WhatsApp." },
+    otp: { title: "Verify your phone", subtitle: "We sent a 6-digit code on WhatsApp." },
+    pay: { title: "Confirm & pay", subtitle: "Pick your start date and pay to activate." },
     success: { title: "You're a member!", subtitle: "" },
   };
 
@@ -245,24 +258,41 @@ export default function MembersPage() {
           </div>
         )}
 
-        {step === "phone" && coupon && (
-          <>
-            <div className={styles.pricingCard}>
-              <h2 style={{ marginBottom: "0.5rem" }}>Your membership pricing</h2>
-              <p className={styles.subtitle} style={{ marginBottom: "1.25rem" }}>
-                Code <strong>{coupon.code}</strong> unlocks the following plans.
-              </p>
-              <div className={styles.pricingGrid}>
-                {coupon.plans.map((p) => (
-                  <div key={p.plan} className={styles.pricingTile}>
-                    <div className={styles.pricingTitle}>{planTitle(p.plan)}</div>
-                    <div className={styles.pricingPrice}>₹{Number(p.price).toLocaleString("en-IN")}</div>
-                    <div className={styles.pricingSub}>{planSub(p.plan)}</div>
+        {step === "plan" && coupon && (
+          <div className={styles.stepCard}>
+            <h2>Pick your plan</h2>
+            <p className={styles.subtitle}>
+              Code <strong>{coupon.code}</strong> unlocks the following plans. 40-day gap between free scans.
+            </p>
+
+            <div className={styles.planList}>
+              {coupon.plans.map((p) => (
+                <div
+                  key={p.plan}
+                  className={plan === p.plan ? styles.planOptionActive : styles.planOption}
+                  onClick={() => setPlan(p.plan)}
+                >
+                  <div>
+                    <div className={styles.planTitle}>{planTitle(p.plan)}</div>
+                    <div className={styles.planSub}>
+                      {planSub(p)}
+                      {p.pricePerScan ? ` · ₹${p.pricePerScan.toLocaleString("en-IN")} per scan` : ""}
+                    </div>
                   </div>
-                ))}
-              </div>
+                  <div className={styles.planPrice}>₹{Number(p.price).toLocaleString("en-IN")}</div>
+                </div>
+              ))}
             </div>
-            <div className={styles.stepCard}>
+
+            {error && <p className={styles.error}>{error}</p>}
+            <button className="pill-btn" disabled={!plan} onClick={handlePlanContinue}>
+              Continue
+            </button>
+          </div>
+        )}
+
+        {step === "phone" && (
+          <div className={styles.stepCard}>
             <h2>Enter your phone number</h2>
             <p className={styles.subtitle}>We&apos;ll send a one-time code via WhatsApp.</p>
             <input
@@ -286,8 +316,7 @@ export default function MembersPage() {
             <p className={styles.subtitle} style={{ marginTop: "0.75rem", fontSize: "0.85rem" }}>
               By continuing, you confirm you are at least 18 years old.
             </p>
-            </div>
-          </>
+          </div>
         )}
 
         {step === "otp" && (
@@ -330,28 +359,32 @@ export default function MembersPage() {
           </div>
         )}
 
-        {step === "plan" && coupon && (
+        {step === "pay" && coupon && plan && planEntry && (
           <div className={styles.stepCard}>
-            <h2>Pick your plan</h2>
-            <p className={styles.subtitle}>You can change your plan after this purchase only by contacting us.</p>
+            <h2>Confirm & pay</h2>
 
             <div className={styles.planList}>
-              {coupon.plans.map((p) => (
-                <div
-                  key={p.plan}
-                  className={plan === p.plan ? styles.planOptionActive : styles.planOption}
-                  onClick={() => setPlan(p.plan)}
-                >
-                  <div>
-                    <div className={styles.planTitle}>{planTitle(p.plan)}</div>
-                    <div className={styles.planSub}>{planSub(p.plan)}</div>
+              <div className={styles.planOptionActive}>
+                <div>
+                  <div className={styles.planTitle}>{planTitle(planEntry.plan)} membership</div>
+                  <div className={styles.planSub}>
+                    {planSub(planEntry)}
+                    {planEntry.pricePerScan ? ` · ₹${planEntry.pricePerScan.toLocaleString("en-IN")} per scan` : ""}
                   </div>
-                  <div className={styles.planPrice}>₹{Number(p.price).toLocaleString("en-IN")}</div>
                 </div>
-              ))}
+                <div className={styles.planPrice}>₹{Number(planEntry.price).toLocaleString("en-IN")}</div>
+              </div>
             </div>
+            <button
+              type="button"
+              className={styles.linkButton}
+              onClick={() => setStep("plan")}
+              style={{ marginTop: "0.5rem" }}
+            >
+              Change plan
+            </button>
 
-            <div className={styles.field}>
+            <div className={styles.field} style={{ marginTop: "1rem" }}>
               <label className={styles.label}>Membership starts on</label>
               <input
                 type="date"
@@ -362,21 +395,15 @@ export default function MembersPage() {
               />
             </div>
 
-            {planEntry && (
-              <div className={styles.priceBox}>
-                <div className={styles.priceRow}>
-                  <span>{planTitle(planEntry.plan)} membership</span>
-                  <span>₹{Number(planEntry.price).toLocaleString("en-IN")}</span>
-                </div>
-                <div className={styles.priceTotal}>
-                  <span>Total</span>
-                  <span>₹{Number(planEntry.price).toLocaleString("en-IN")}</span>
-                </div>
+            <div className={styles.priceBox}>
+              <div className={styles.priceTotal}>
+                <span>Total</span>
+                <span>₹{Number(planEntry.price).toLocaleString("en-IN")}</span>
               </div>
-            )}
+            </div>
 
             {error && <p className={styles.error}>{error}</p>}
-            <button className="pill-btn" disabled={submitting || !plan} onClick={handlePay}>
+            <button className="pill-btn" disabled={submitting} onClick={handlePay}>
               {submitting ? "Processing..." : "Pay & activate"}
             </button>
           </div>

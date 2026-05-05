@@ -7,6 +7,8 @@ export type Plan = "3m" | "6m" | "12m";
 export interface CouponPlan {
   plan: Plan;
   price: string;
+  freeScans: number | null;
+  pricePerScan: number | null;
 }
 
 export async function lookupMembershipCoupon(
