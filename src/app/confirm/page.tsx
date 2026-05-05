@@ -252,7 +252,7 @@ function ConfirmContent() {
   const displayAmount = bookingResult?.amountDue || bookingCtx?.amount || "";
 
   // Membership covers this slot when (a) the membership window includes the
-  // slot date and (b) the 45-day gap is satisfied (server has already
+  // slot date and (b) the 40-day gap is satisfied (server has already
   // computed nextFreeScanDate based on past covered scans).
   const slotDate = startTime ? startTime.slice(0, 10) : "";
   const membershipCovers = !!(

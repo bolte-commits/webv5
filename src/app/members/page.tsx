@@ -17,12 +17,12 @@ import styles from "./page.module.css";
 const OTP_LENGTH = 6;
 
 const PLAN_TITLES: Record<Plan, string> = {
-  "100d": "100-day",
+  "3m": "3-month",
   "6m": "6-month",
   "12m": "12-month",
 };
 const PLAN_SUBS: Record<Plan, string> = {
-  "100d": "Up to 3 free DEXA scans",
+  "3m": "Up to 3 free DEXA scans",
   "6m": "Up to 4 free DEXA scans",
   "12m": "Up to 8 free DEXA scans",
 };
@@ -196,7 +196,7 @@ export default function MembersPage() {
     coupon: { title: "Become a member", subtitle: "Enter your invite code to see what's available." },
     phone: { title: "Become a member", subtitle: "Enter your phone to get started." },
     otp: { title: "Verify your phone", subtitle: "We sent a 6-digit code on WhatsApp." },
-    plan: { title: "Pick your plan", subtitle: "All plans cover unlimited free DEXA scans, with a 45-day gap between scans." },
+    plan: { title: "Pick your plan", subtitle: "All plans cover unlimited free DEXA scans, with a 40-day gap between scans." },
     success: { title: "You're a member!", subtitle: "" },
   };
 

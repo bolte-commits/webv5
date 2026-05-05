@@ -2,7 +2,7 @@
 
 const API_URL = process.env.API_URL || "http://localhost:3000";
 
-export type Plan = "100d" | "6m" | "12m";
+export type Plan = "3m" | "6m" | "12m";
 
 export interface CouponPlan {
   plan: Plan;
