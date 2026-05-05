@@ -4,6 +4,32 @@ const API_URL = process.env.API_URL || "http://localhost:3000";
 
 export type Plan = "100d" | "6m" | "12m";
 
+export interface CouponPlan {
+  plan: Plan;
+  price: string;
+}
+
+export async function lookupMembershipCoupon(
+  couponCode: string,
+): Promise<{
+  success: boolean;
+  coupon?: { code: string; description: string | null; plans: CouponPlan[] };
+  error?: string;
+}> {
+  try {
+    const res = await fetch(`${API_URL}/memberships/lookup-coupon`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ couponCode }),
+    });
+    const data = await res.json();
+    if (!res.ok) return { success: false, error: data.error || "Coupon lookup failed" };
+    return { success: true, coupon: data };
+  } catch {
+    return { success: false, error: "Network error. Please try again." };
+  }
+}
+
 export async function createMembershipOrder(
   token: string,
   body: {
