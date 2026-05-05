@@ -27,7 +27,7 @@ const PLAN_SUBS: Record<Plan, string> = {
   "12m": "Up to 8 free DEXA scans",
 };
 
-type Step = "coupon" | "phone" | "otp" | "profile" | "plan" | "success";
+type Step = "coupon" | "phone" | "otp" | "plan" | "success";
 
 interface RazorpayOptions {
   key: string;
@@ -55,24 +55,12 @@ function todayStr() {
   return new Date().toISOString().slice(0, 10);
 }
 
-function ageFrom(dob: string): number {
-  const birth = new Date(dob);
-  const today = new Date();
-  let age = today.getFullYear() - birth.getFullYear();
-  const m = today.getMonth() - birth.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
-  return age;
-}
-
 export default function MembersPage() {
   const [step, setStep] = useState<Step>("coupon");
   const [token, setToken] = useState<string>("");
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(""));
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
-
-  const [name, setName] = useState("");
-  const [dob, setDob] = useState("");
 
   const [couponCode, setCouponCode] = useState("");
   const [coupon, setCoupon] = useState<{ code: string; description: string | null; plans: CouponPlan[] } | null>(null);
@@ -117,7 +105,7 @@ export default function MembersPage() {
       // Skip OTP for new users
       setToken(result.token);
       setStoredToken(result.token);
-      setStep("profile");
+      setStep("plan");
     } else {
       setStep("otp");
       setTimeout(() => otpRefs.current[0]?.focus(), 100);
@@ -151,21 +139,10 @@ export default function MembersPage() {
     if (!result.success || !result.token) return setError(result.error || "Invalid OTP");
     setToken(result.token);
     setStoredToken(result.token);
-    setStep("profile");
-  }
-
-  // ── Step 3: profile ──
-  function handleProfileNext() {
-    setError("");
-    if (!name.trim()) return setError("Please enter your name");
-    if (!dob) return setError("Please enter your date of birth");
-    const age = ageFrom(dob);
-    if (age < 18) return setError("You must be 18 or older");
-    if (age > 90) return setError("Please enter a valid date of birth");
     setStep("plan");
   }
 
-  // ── Step 4: plan + checkout ──
+  // ── Step 3: plan + checkout ──
   async function handlePay() {
     setError("");
     if (!coupon || !plan) return setError("Pick a plan");
@@ -177,8 +154,6 @@ export default function MembersPage() {
       plan,
       startDate,
       couponCode: coupon.code,
-      name: name.trim(),
-      dateOfBirth: dob,
     });
     setSubmitting(false);
     if (!orderResult.success || !orderResult.order) {
@@ -193,7 +168,7 @@ export default function MembersPage() {
       name: "Body Insight",
       description: `${PLAN_TITLES[plan]} membership`,
       order_id: order.orderId,
-      prefill: { name: name.trim(), contact: phone.trim() },
+      prefill: { contact: phone.trim() },
       theme: { color: "#000000" },
       handler: async (response) => {
         setSubmitting(true);
@@ -221,7 +196,6 @@ export default function MembersPage() {
     coupon: { title: "Become a member", subtitle: "Enter your invite code to see what's available." },
     phone: { title: "Become a member", subtitle: "Enter your phone to get started." },
     otp: { title: "Verify your phone", subtitle: "We sent a 6-digit code on WhatsApp." },
-    profile: { title: "Tell us about yourself", subtitle: "We need this to set up your membership." },
     plan: { title: "Pick your plan", subtitle: "All plans cover unlimited free DEXA scans, with a 45-day gap between scans." },
     success: { title: "You're a member!", subtitle: "" },
   };
@@ -307,6 +281,9 @@ export default function MembersPage() {
             >
               {submitting ? "Sending..." : "Continue"}
             </button>
+            <p className={styles.subtitle} style={{ marginTop: "0.75rem", fontSize: "0.85rem" }}>
+              By continuing, you confirm you are at least 18 years old.
+            </p>
             </div>
           </>
         )}
@@ -347,37 +324,6 @@ export default function MembersPage() {
               style={{ marginTop: "0.75rem", display: "block", textAlign: "center", width: "100%" }}
             >
               Resend code
-            </button>
-          </div>
-        )}
-
-        {step === "profile" && (
-          <div className={styles.stepCard}>
-            <h2>Tell us about yourself</h2>
-            <p className={styles.subtitle}>This is what will appear on your invoice.</p>
-            <div className={styles.field}>
-              <label className={styles.label}>Full name</label>
-              <input
-                type="text"
-                className={styles.input}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="As on your ID"
-              />
-            </div>
-            <div className={styles.field}>
-              <label className={styles.label}>Date of birth</label>
-              <input
-                type="date"
-                className={styles.input}
-                value={dob}
-                max={todayStr()}
-                onChange={(e) => setDob(e.target.value)}
-              />
-            </div>
-            {error && <p className={styles.error}>{error}</p>}
-            <button className="pill-btn" onClick={handleProfileNext} style={{ marginTop: "0.5rem" }}>
-              Continue
             </button>
           </div>
         )}

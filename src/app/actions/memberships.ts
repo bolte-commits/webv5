@@ -36,8 +36,6 @@ export async function createMembershipOrder(
     plan: Plan;
     startDate: string;
     couponCode: string;
-    name?: string;
-    dateOfBirth?: string;
   },
 ): Promise<{
   success: boolean;
