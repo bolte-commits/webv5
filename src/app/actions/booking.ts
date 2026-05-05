@@ -24,11 +24,20 @@ export interface PendingAppointment {
   locationCity: string;
 }
 
+export interface ActiveMembership {
+  id: number;
+  plan: string;
+  startDate: string;
+  expiresAt: string;
+  nextFreeScanDate: string | null;
+}
+
 export async function checkPendingAppointment(
   authToken: string
 ): Promise<{
   profile?: UserProfile;
   pendingAppointment?: PendingAppointment | null;
+  activeMembership?: ActiveMembership | null;
   unauthorized?: boolean;
   error?: string;
 }> {
@@ -46,6 +55,7 @@ export async function checkPendingAppointment(
     return {
       profile: data.profile || undefined,
       pendingAppointment: data.pendingAppointment || null,
+      activeMembership: data.activeMembership || null,
     };
   } catch {
     return { error: "Network error" };

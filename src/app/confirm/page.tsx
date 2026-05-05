@@ -12,6 +12,7 @@ import {
   type PendingAppointment,
   type BookingResult,
   type CouponValidationResult,
+  type ActiveMembership,
 } from "@/app/actions/booking";
 import { getStoredToken, logout } from "@/lib/auth";
 import { formatPrice, formatDate } from "@/lib/constants";
@@ -57,6 +58,7 @@ function ConfirmContent() {
   const [hasPending, setHasPending] = useState(false);
   const [pendingDetails, setPendingDetails] = useState<PendingAppointment | null>(null);
   const [checkingPending, setCheckingPending] = useState(true);
+  const [activeMembership, setActiveMembership] = useState<ActiveMembership | null>(null);
   const [cancelling, setCancelling] = useState(false);
   const [cancelError, setCancelError] = useState("");
 
@@ -101,6 +103,9 @@ function ConfirmContent() {
       if (result.pendingAppointment) {
         setHasPending(true);
         setPendingDetails(result.pendingAppointment);
+      }
+      if (result.activeMembership) {
+        setActiveMembership(result.activeMembership);
       }
       if (result.profile) {
         const p = result.profile;
@@ -245,6 +250,18 @@ function ConfirmContent() {
   const displayDate = rawDate ? formatDate(rawDate) : "";
   const displayTime = bookingResult?.time || bookingCtx?.displayTime || "";
   const displayAmount = bookingResult?.amountDue || bookingCtx?.amount || "";
+
+  // Membership covers this slot when (a) the membership window includes the
+  // slot date and (b) the 45-day gap is satisfied (server has already
+  // computed nextFreeScanDate based on past covered scans).
+  const slotDate = startTime ? startTime.slice(0, 10) : "";
+  const membershipCovers = !!(
+    activeMembership &&
+    slotDate &&
+    slotDate >= activeMembership.startDate &&
+    slotDate <= activeMembership.expiresAt &&
+    (!activeMembership.nextFreeScanDate || slotDate >= activeMembership.nextFreeScanDate)
+  );
 
   const heroTitle = hasPending
     ? "You already have a booking"
@@ -470,47 +487,55 @@ function ConfirmContent() {
                   onChange={(e) => setWeight(e.target.value)}
                 />
               </div>
-              {/* Coupon */}
-              <div className={styles.formGroup}>
-                <label>Have a coupon?</label>
-                <div className={styles.couponWrap}>
-                  <input
-                    type="text"
-                    value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                    placeholder="Enter code"
-                    disabled={!!couponResult?.valid}
-                    onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleApplyCoupon(); } }}
-                  />
-                  {couponResult?.valid ? (
-                    <button type="button" className={styles.couponRemoveBtn} onClick={handleRemoveCoupon}>
-                      Remove
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      className={styles.couponApplyBtn}
-                      onClick={handleApplyCoupon}
-                      disabled={couponApplying || !couponCode.trim()}
-                    >
-                      {couponApplying ? "..." : "Apply"}
-                    </button>
+              {/* Coupon — hidden when an active membership covers this slot */}
+              {!membershipCovers && (
+                <div className={styles.formGroup}>
+                  <label>Have a coupon?</label>
+                  <div className={styles.couponWrap}>
+                    <input
+                      type="text"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                      placeholder="Enter code"
+                      disabled={!!couponResult?.valid}
+                      onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleApplyCoupon(); } }}
+                    />
+                    {couponResult?.valid ? (
+                      <button type="button" className={styles.couponRemoveBtn} onClick={handleRemoveCoupon}>
+                        Remove
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className={styles.couponApplyBtn}
+                        onClick={handleApplyCoupon}
+                        disabled={couponApplying || !couponCode.trim()}
+                      >
+                        {couponApplying ? "..." : "Apply"}
+                      </button>
+                    )}
+                  </div>
+                  {couponResult?.valid && couponResult.coupon && (
+                    <p className={styles.couponMsgSuccess}>
+                      {couponResult.coupon.code} applied — {formatPrice(couponResult.discount!)} off
+                    </p>
+                  )}
+                  {couponError && (
+                    <p className={styles.couponMsgError}>{couponError}</p>
                   )}
                 </div>
-                {couponResult?.valid && couponResult.coupon && (
-                  <p className={styles.couponMsgSuccess}>
-                    {couponResult.coupon.code} applied — {formatPrice(couponResult.discount!)} off
-                  </p>
-                )}
-                {couponError && (
-                  <p className={styles.couponMsgError}>{couponError}</p>
-                )}
-              </div>
+              )}
 
               <div className={styles.summaryPrice}>
                 <span className={styles.priceLabel}>Price</span>
                 <span className={styles.priceValue}>
-                  {couponResult?.valid && displayAmount ? (
+                  {membershipCovers ? (
+                    <>
+                      {displayAmount && <span className={styles.priceOriginal}>{formatPrice(Number(displayAmount))}</span>}
+                      {formatPrice(0)}
+                      <span className={styles.priceDiscountTag}>Member</span>
+                    </>
+                  ) : couponResult?.valid && displayAmount ? (
                     <>
                       <span className={styles.priceOriginal}>{formatPrice(Number(displayAmount))}</span>
                       {formatPrice(couponResult.finalAmount!)}
