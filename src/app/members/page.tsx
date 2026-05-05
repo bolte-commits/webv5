@@ -16,16 +16,18 @@ import styles from "./page.module.css";
 
 const OTP_LENGTH = 6;
 
-const PLAN_TITLES: Record<Plan, string> = {
+const PLAN_TITLES: Record<string, string> = {
   "3m": "3-month",
   "6m": "6-month",
   "12m": "12-month",
 };
-const PLAN_SUBS: Record<Plan, string> = {
+const PLAN_SUBS: Record<string, string> = {
   "3m": "Up to 3 free DEXA scans",
   "6m": "Up to 4 free DEXA scans",
   "12m": "Up to 8 free DEXA scans",
 };
+const planTitle = (plan: string) => PLAN_TITLES[plan] || plan;
+const planSub = (plan: string) => PLAN_SUBS[plan] || "Free DEXA scans";
 
 type Step = "coupon" | "phone" | "otp" | "plan" | "success";
 
@@ -166,7 +168,7 @@ export default function MembersPage() {
       amount: order.amount * 100,
       currency: order.currency,
       name: "Body Insight",
-      description: `${PLAN_TITLES[plan]} membership`,
+      description: `${planTitle(plan)} membership`,
       order_id: order.orderId,
       prefill: { contact: phone.trim() },
       theme: { color: "#000000" },
@@ -253,9 +255,9 @@ export default function MembersPage() {
               <div className={styles.pricingGrid}>
                 {coupon.plans.map((p) => (
                   <div key={p.plan} className={styles.pricingTile}>
-                    <div className={styles.pricingTitle}>{PLAN_TITLES[p.plan]}</div>
+                    <div className={styles.pricingTitle}>{planTitle(p.plan)}</div>
                     <div className={styles.pricingPrice}>₹{Number(p.price).toLocaleString("en-IN")}</div>
-                    <div className={styles.pricingSub}>{PLAN_SUBS[p.plan]}</div>
+                    <div className={styles.pricingSub}>{planSub(p.plan)}</div>
                   </div>
                 ))}
               </div>
@@ -341,8 +343,8 @@ export default function MembersPage() {
                   onClick={() => setPlan(p.plan)}
                 >
                   <div>
-                    <div className={styles.planTitle}>{PLAN_TITLES[p.plan]}</div>
-                    <div className={styles.planSub}>{PLAN_SUBS[p.plan]}</div>
+                    <div className={styles.planTitle}>{planTitle(p.plan)}</div>
+                    <div className={styles.planSub}>{planSub(p.plan)}</div>
                   </div>
                   <div className={styles.planPrice}>₹{Number(p.price).toLocaleString("en-IN")}</div>
                 </div>
@@ -363,7 +365,7 @@ export default function MembersPage() {
             {planEntry && (
               <div className={styles.priceBox}>
                 <div className={styles.priceRow}>
-                  <span>{PLAN_TITLES[planEntry.plan]} membership</span>
+                  <span>{planTitle(planEntry.plan)} membership</span>
                   <span>₹{Number(planEntry.price).toLocaleString("en-IN")}</span>
                 </div>
                 <div className={styles.priceTotal}>
@@ -386,7 +388,7 @@ export default function MembersPage() {
               <div className={styles.successCheck}>✓</div>
               <h2>Welcome to Body Insight</h2>
               <p style={{ color: "var(--text-light)", marginTop: "0.5rem" }}>
-                Your <strong>{PLAN_TITLES[confirmed.plan]}</strong> membership is active.
+                Your <strong>{planTitle(confirmed.plan)}</strong> membership is active.
               </p>
               <p style={{ color: "var(--text-light)", marginTop: "0.5rem", fontSize: "0.95rem" }}>
                 Active through <strong>{new Date(confirmed.expiresAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</strong>
