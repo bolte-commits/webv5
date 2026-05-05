@@ -11,6 +11,33 @@ export interface CouponPlan {
   pricePerScan: number | null;
 }
 
+export interface MyActiveMembership {
+  id: number;
+  plan: Plan;
+  startDate: string;
+  expiresAt: string;
+  nextFreeScanDate: string | null;
+}
+
+export async function getMyMemberships(
+  token: string,
+): Promise<{
+  success: boolean;
+  activeMembership?: MyActiveMembership | null;
+  error?: string;
+}> {
+  try {
+    const res = await fetch(`${API_URL}/memberships/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    if (!res.ok) return { success: false, error: data.error || "Failed to load membership" };
+    return { success: true, activeMembership: data.activeMembership || null };
+  } catch {
+    return { success: false, error: "Network error. Please try again." };
+  }
+}
+
 export async function lookupMembershipCoupon(
   couponCode: string,
 ): Promise<{

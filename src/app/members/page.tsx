@@ -6,9 +6,11 @@ import PageHero from "@/components/PageHero";
 import { sendOtp, verifyOtp } from "@/app/actions/auth";
 import {
   createMembershipOrder,
+  getMyMemberships,
   lookupMembershipCoupon,
   verifyMembership,
   type CouponPlan,
+  type MyActiveMembership,
   type Plan,
 } from "@/app/actions/memberships";
 import { setStoredToken } from "@/lib/auth";
@@ -24,7 +26,7 @@ const PLAN_TITLES: Record<string, string> = {
 const planTitle = (plan: string) => PLAN_TITLES[plan] || plan;
 const planSub = (p: CouponPlan) => p.freeScans ? `Up to ${p.freeScans} free DEXA scans` : "Free DEXA scans";
 
-type Step = "coupon" | "plan" | "phone" | "otp" | "pay" | "success";
+type Step = "coupon" | "plan" | "phone" | "otp" | "pay" | "ineligible" | "success";
 
 interface RazorpayOptions {
   key: string;
@@ -63,11 +65,11 @@ export default function MembersPage() {
   const [coupon, setCoupon] = useState<{ code: string; description: string | null; plans: CouponPlan[] } | null>(null);
 
   const [plan, setPlan] = useState<Plan | "">("");
-  const [startDate, setStartDate] = useState(todayStr());
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
+  const [existingMembership, setExistingMembership] = useState<MyActiveMembership | null>(null);
   const [confirmed, setConfirmed] = useState<{ plan: Plan; expiresAt: string } | null>(null);
 
   const isValidPhone = /^\d{10}$/.test(phone.trim());
@@ -97,20 +99,38 @@ export default function MembersPage() {
     setStep("phone");
   }
 
+  // After login (OTP verify or new-user skip), gate on existing active
+  // membership before letting the user pay. New users can't have one but
+  // we check anyway for consistency.
+  async function gateOnExistingMembership(authToken: string): Promise<boolean> {
+    const me = await getMyMemberships(authToken);
+    if (me.activeMembership) {
+      setExistingMembership(me.activeMembership);
+      setStep("ineligible");
+      return true;
+    }
+    return false;
+  }
+
   // ── Step 2: phone ──
   async function handlePhoneSubmit() {
     setError("");
     if (!isValidPhone) return setError("Enter a 10-digit phone number");
     setSubmitting(true);
     const result = await sendOtp(phone.trim());
-    setSubmitting(false);
-    if (!result.success) return setError(result.error || "Could not send OTP");
+    if (!result.success) {
+      setSubmitting(false);
+      return setError(result.error || "Could not send OTP");
+    }
     if (result.newUser && result.token) {
       // Skip OTP for new users — go straight to pay since plan is already chosen.
       setToken(result.token);
       setStoredToken(result.token);
-      setStep("pay");
+      const blocked = await gateOnExistingMembership(result.token);
+      setSubmitting(false);
+      if (!blocked) setStep("pay");
     } else {
+      setSubmitting(false);
       setStep("otp");
       setTimeout(() => otpRefs.current[0]?.focus(), 100);
     }
@@ -139,10 +159,17 @@ export default function MembersPage() {
     setError("");
     setSubmitting(true);
     const result = await verifyOtp(phone.trim(), otp.join(""));
-    setSubmitting(false);
-    if (!result.success || !result.token) return setError(result.error || "Invalid OTP");
+    if (!result.success || !result.token) {
+      setSubmitting(false);
+      return setError(result.error || "Invalid OTP");
+    }
     setToken(result.token);
     setStoredToken(result.token);
+    // Pre-pay gate: if they already have an active membership, show the
+    // ineligible screen instead of letting them try to buy a duplicate.
+    const blocked = await gateOnExistingMembership(result.token);
+    setSubmitting(false);
+    if (blocked) return;
     // If somehow we lost the plan selection (e.g. session quirk), bounce back
     // to the plan step instead of dropping the user into a half-set pay flow.
     if (!plan || !coupon) {
@@ -160,9 +187,9 @@ export default function MembersPage() {
       setStep(coupon ? "plan" : "coupon");
       return;
     }
-    if (startDate < todayStr()) return setError("Start date cannot be in the past");
     if (!window.Razorpay) return setError("Payment library failed to load. Refresh and try again.");
 
+    const startDate = todayStr();
     setSubmitting(true);
     const orderResult = await createMembershipOrder(token, {
       plan,
@@ -211,7 +238,8 @@ export default function MembersPage() {
     plan: { title: "Pick your plan", subtitle: "All plans cover unlimited free DEXA scans, with a 40-day gap between scans." },
     phone: { title: "Verify your phone", subtitle: "We'll send a one-time code via WhatsApp." },
     otp: { title: "Verify your phone", subtitle: "We sent a 6-digit code on WhatsApp." },
-    pay: { title: "Confirm & pay", subtitle: "Pick your start date and pay to activate." },
+    pay: { title: "Confirm & pay", subtitle: "Membership activates as soon as your payment goes through." },
+    ineligible: { title: "You're already a member", subtitle: "" },
     success: { title: "You're a member!", subtitle: "" },
   };
 
@@ -384,28 +412,41 @@ export default function MembersPage() {
               Change plan
             </button>
 
-            <div className={styles.field} style={{ marginTop: "1rem" }}>
-              <label className={styles.label}>Membership starts on</label>
-              <input
-                type="date"
-                className={styles.input}
-                value={startDate}
-                min={todayStr()}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-            </div>
-
-            <div className={styles.priceBox}>
+            <div className={styles.priceBox} style={{ marginTop: "1rem" }}>
               <div className={styles.priceTotal}>
                 <span>Total</span>
                 <span>₹{Number(planEntry.price).toLocaleString("en-IN")}</span>
               </div>
+              <p className={styles.subtitle} style={{ marginTop: "0.5rem", fontSize: "0.85rem" }}>
+                Membership starts immediately on payment.
+              </p>
             </div>
 
             {error && <p className={styles.error}>{error}</p>}
             <button className="pill-btn" disabled={submitting} onClick={handlePay}>
               {submitting ? "Processing..." : "Pay & activate"}
             </button>
+          </div>
+        )}
+
+        {step === "ineligible" && existingMembership && (
+          <div className={styles.stepCard}>
+            <div className={styles.success}>
+              <h2>You already have an active membership</h2>
+              <p style={{ color: "var(--text-light)", marginTop: "0.75rem" }}>
+                Your <strong>{planTitle(existingMembership.plan)}</strong> membership is active through{" "}
+                <strong>{new Date(existingMembership.expiresAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</strong>.
+              </p>
+              <p style={{ color: "var(--text-light)", marginTop: "0.5rem", fontSize: "0.9rem" }}>
+                You can purchase a new membership after it ends.
+                {existingMembership.nextFreeScanDate && (
+                  <> Your next free scan is available on or after <strong>{new Date(existingMembership.nextFreeScanDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</strong>.</>
+                )}
+              </p>
+              <a href="/schedule" className="pill-btn" style={{ marginTop: "1.5rem", display: "inline-block" }}>
+                Book a scan
+              </a>
+            </div>
           </div>
         )}
 
