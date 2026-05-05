@@ -1,0 +1,191 @@
+.contentSection {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+.stepCard {
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1rem;
+}
+
+.stepCard h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  background: white;
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+
+.input:focus,
+.select:focus {
+  border-color: var(--accent);
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.field {
+  margin-bottom: 1.25rem;
+}
+
+.error {
+  color: #dc2626;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0.5rem 0;
+}
+
+.priceBox {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.priceRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.priceRow:last-child {
+  margin-bottom: 0;
+}
+
+.priceTotal {
+  composes: priceRow;
+  font-weight: 700;
+  border-top: 1px solid #eee;
+  padding-top: 0.7rem;
+  margin-top: 0.5rem;
+  font-size: 1.05rem;
+}
+
+.planList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.planOption {
+  border: 2px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.planOption:hover {
+  border-color: var(--accent);
+}
+
+.planOptionActive {
+  composes: planOption;
+  border-color: var(--accent);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.planTitle {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.planSub {
+  color: var(--text-light);
+  font-size: 0.85rem;
+  margin-top: 0.15rem;
+}
+
+.planPrice {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.success {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.successCheck {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #16a34a;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 2rem;
+}
+
+.otpInputs {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 1.5rem 0 1rem;
+}
+
+.otpDigit {
+  width: 2.75rem;
+  height: 3.25rem;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  outline: none;
+}
+
+.otpDigit:focus {
+  border-color: var(--accent);
+}
+
+.linkButton {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  font-weight: 600;
+}
