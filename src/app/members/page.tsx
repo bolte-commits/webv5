@@ -217,7 +217,23 @@ export default function MembersPage() {
 
       <section className={styles.contentSection}>
         {step === "phone" && (
-          <div className={styles.stepCard}>
+          <>
+            <div className={styles.pricingCard}>
+              <h2 style={{ marginBottom: "0.5rem" }}>Membership pricing</h2>
+              <p className={styles.subtitle} style={{ marginBottom: "1.25rem" }}>
+                All plans include unlimited free DEXA scans, with a 45-day gap between scans.
+              </p>
+              <div className={styles.pricingGrid}>
+                {PLANS.map((p) => (
+                  <div key={p.value} className={styles.pricingTile}>
+                    <div className={styles.pricingTitle}>{p.title}</div>
+                    <div className={styles.pricingPrice}>₹{p.price.toLocaleString("en-IN")}</div>
+                    <div className={styles.pricingSub}>{p.sub}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className={styles.stepCard}>
             <h2>Enter your phone number</h2>
             <p className={styles.subtitle}>We&apos;ll send a one-time code via WhatsApp.</p>
             <input
@@ -238,7 +254,8 @@ export default function MembersPage() {
             >
               {submitting ? "Sending..." : "Continue"}
             </button>
-          </div>
+            </div>
+          </>
         )}
 
         {step === "otp" && (

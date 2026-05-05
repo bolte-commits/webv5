@@ -12,6 +12,74 @@
   margin-bottom: 1rem;
 }
 
+.pricingCard {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.5rem;
+}
+
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.pricingTile {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.pricingTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+}
+
+.pricingPrice {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.pricingSub {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+@media (max-width: 600px) {
+  .pricingGrid {
+    grid-template-columns: 1fr;
+  }
+  .pricingTile {
+    text-align: left;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 0.25rem 1rem;
+    align-items: baseline;
+  }
+  .pricingTitle {
+    grid-column: 1;
+    margin-bottom: 0;
+  }
+  .pricingPrice {
+    grid-column: 2;
+    grid-row: 1;
+    margin-bottom: 0;
+    font-size: 1.1rem;
+  }
+  .pricingSub {
+    grid-column: 1 / -1;
+  }
+}
+
 .stepCard h2 {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
