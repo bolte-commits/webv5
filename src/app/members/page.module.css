@@ -108,6 +108,34 @@
   border-color: var(--accent);
 }
 
+.codeInput {
+  width: 100%;
+  padding: 0.75rem 0.5rem;
+  font-size: 1.5rem;
+  letter-spacing: 0.15em;
+  border: none;
+  border-bottom: 2px solid #d4d4d4;
+  background: transparent;
+  outline: none;
+  text-align: center;
+  font-family: monospace;
+  text-transform: uppercase;
+  transition: border-color 0.2s;
+}
+
+.codeInput::placeholder {
+  letter-spacing: 0.1em;
+  color: #cbcbcb;
+}
+
+.codeInput:focus {
+  border-bottom-color: var(--accent);
+}
+
+.couponCard {
+  padding: 3rem 2.5rem;
+}
+
 .label {
   display: block;
   font-size: 0.875rem;

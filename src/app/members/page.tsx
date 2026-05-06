@@ -234,7 +234,7 @@ export default function MembersPage() {
   }
 
   const stepContent: Record<Step, { title: string; subtitle: string }> = {
-    coupon: { title: "Become a member", subtitle: "Enter your invite code to see what's available." },
+    coupon: { title: "Become a member", subtitle: "" },
     plan: { title: "Pick your plan", subtitle: "All plans cover unlimited free DEXA scans, with a 40-day gap between scans." },
     phone: { title: "Verify your phone", subtitle: "We'll send a one-time code via WhatsApp." },
     otp: { title: "Verify your phone", subtitle: "We sent a 6-digit code on WhatsApp." },
@@ -263,23 +263,21 @@ export default function MembersPage() {
 
       <section className={styles.contentSection}>
         {step === "coupon" && (
-          <div className={styles.stepCard}>
-            <h2>Enter your invite code</h2>
-            <p className={styles.subtitle}>Memberships are invite-only. Have a code? Enter it below to continue.</p>
+          <div className={`${styles.stepCard} ${styles.couponCard}`}>
+            <h2 style={{ textAlign: "center", marginBottom: "1.5rem" }}>Enter your invite code</h2>
             <input
               type="text"
-              className={styles.input}
-              placeholder="EARLYBIRD"
+              className={styles.codeInput}
+              placeholder="ENTER CODE"
               value={couponCode}
               onChange={(e) => { setCouponCode(e.target.value.toUpperCase()); setError(""); }}
-              style={{ textTransform: "uppercase", fontFamily: "monospace" }}
             />
-            {error && <p className={styles.error}>{error}</p>}
+            {error && <p className={styles.error} style={{ textAlign: "center" }}>{error}</p>}
             <button
               className="pill-btn"
               disabled={!couponCode.trim() || submitting}
               onClick={handleCouponSubmit}
-              style={{ marginTop: "1.25rem" }}
+              style={{ marginTop: "2rem", display: "block", marginInline: "auto" }}
             >
               {submitting ? "Checking..." : "Continue"}
             </button>
