@@ -48,6 +48,7 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         </Script>
       </head>
       <body>
+        <div className="announcement-bar">We are now in Bengaluru and Hyderabad</div>
         <Navbar />
         {children}
         <Footer />
