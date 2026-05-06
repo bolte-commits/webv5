@@ -234,7 +234,7 @@ export default function MembersPage() {
   }
 
   const stepContent: Record<Step, { title: string; subtitle: string }> = {
-    coupon: { title: "Become a member", subtitle: "" },
+    coupon: { title: "Become a member", subtitle: "Enter your invite code." },
     plan: { title: "Pick your plan", subtitle: "All plans cover unlimited free DEXA scans, with a 40-day gap between scans." },
     phone: { title: "Verify your phone", subtitle: "We'll send a one-time code via WhatsApp." },
     otp: { title: "Verify your phone", subtitle: "We sent a 6-digit code on WhatsApp." },
@@ -264,7 +264,6 @@ export default function MembersPage() {
       <section className={styles.contentSection}>
         {step === "coupon" && (
           <div className={`${styles.stepCard} ${styles.couponCard}`}>
-            <h2 style={{ textAlign: "center", marginBottom: "1.5rem" }}>Enter your invite code</h2>
             <input
               type="text"
               className={styles.codeInput}
