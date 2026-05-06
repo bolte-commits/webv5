@@ -235,7 +235,7 @@ export default function MembersPage() {
 
   const stepContent: Record<Step, { title: string; subtitle: string }> = {
     coupon: { title: "Become a member", subtitle: "Enter your invite code." },
-    plan: { title: coupon?.code || "Pick your plan", subtitle: "Pick your plan. All plans cover free DEXA scans, with a 40-day gap between scans." },
+    plan: { title: coupon?.code || "Pick your plan", subtitle: "All plans cover free DEXA scans, with a 40-day gap between scans." },
     phone: { title: "Verify your phone", subtitle: "We'll send a one-time code via WhatsApp." },
     otp: { title: "Verify your phone", subtitle: "We sent a 6-digit code on WhatsApp." },
     pay: { title: "Confirm & pay", subtitle: "Membership activates as soon as your payment goes through." },
