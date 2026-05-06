@@ -110,6 +110,7 @@
 
 .codeInput {
   width: 100%;
+  margin-top: 1.5rem;
   padding: 0.75rem 0.5rem;
   font-size: 1.5rem;
   letter-spacing: 0.15em;
@@ -133,6 +134,7 @@
 }
 
 .couponCard {
+  margin-top: 2rem;
   padding: 3rem 2.5rem;
 }
 
