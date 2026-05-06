@@ -232,9 +232,19 @@
   margin-top: 0.15rem;
 }
 
+.planPriceWrap {
+  text-align: right;
+}
+
 .planPrice {
   font-weight: 700;
   font-size: 1.1rem;
+}
+
+.planPriceSub {
+  color: var(--text-light);
+  font-size: 0.75rem;
+  margin-top: 0.15rem;
 }
 
 .success {

@@ -235,7 +235,7 @@ export default function MembersPage() {
 
   const stepContent: Record<Step, { title: string; subtitle: string }> = {
     coupon: { title: "Become a member", subtitle: "Enter your invite code." },
-    plan: { title: "Pick your plan", subtitle: "All plans cover unlimited free DEXA scans, with a 40-day gap between scans." },
+    plan: { title: coupon?.code || "Pick your plan", subtitle: "Pick your plan. All plans cover free DEXA scans, with a 40-day gap between scans." },
     phone: { title: "Verify your phone", subtitle: "We'll send a one-time code via WhatsApp." },
     otp: { title: "Verify your phone", subtitle: "We sent a 6-digit code on WhatsApp." },
     pay: { title: "Confirm & pay", subtitle: "Membership activates as soon as your payment goes through." },
@@ -285,11 +285,6 @@ export default function MembersPage() {
 
         {step === "plan" && coupon && (
           <div className={styles.stepCard}>
-            <h2>Pick your plan</h2>
-            <p className={styles.subtitle}>
-              Code <strong>{coupon.code}</strong> unlocks the following plans. 40-day gap between free scans.
-            </p>
-
             <div className={styles.planList}>
               {coupon.plans.map((p) => (
                 <div
@@ -299,12 +294,16 @@ export default function MembersPage() {
                 >
                   <div>
                     <div className={styles.planTitle}>{planTitle(p.plan)}</div>
-                    <div className={styles.planSub}>
-                      {planSub(p)}
-                      {p.pricePerScan ? ` · ₹${p.pricePerScan.toLocaleString("en-IN")} per scan` : ""}
-                    </div>
+                    <div className={styles.planSub}>{planSub(p)}</div>
                   </div>
-                  <div className={styles.planPrice}>₹{Number(p.price).toLocaleString("en-IN")}</div>
+                  <div className={styles.planPriceWrap}>
+                    <div className={styles.planPrice}>₹{Number(p.price).toLocaleString("en-IN")}</div>
+                    {p.pricePerScan ? (
+                      <div className={styles.planPriceSub}>
+                        ≈ ₹{p.pricePerScan.toLocaleString("en-IN")} / scan
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
               ))}
             </div>
@@ -392,12 +391,16 @@ export default function MembersPage() {
               <div className={styles.planOptionActive}>
                 <div>
                   <div className={styles.planTitle}>{planTitle(planEntry.plan)} membership</div>
-                  <div className={styles.planSub}>
-                    {planSub(planEntry)}
-                    {planEntry.pricePerScan ? ` · ₹${planEntry.pricePerScan.toLocaleString("en-IN")} per scan` : ""}
-                  </div>
+                  <div className={styles.planSub}>{planSub(planEntry)}</div>
                 </div>
-                <div className={styles.planPrice}>₹{Number(planEntry.price).toLocaleString("en-IN")}</div>
+                <div className={styles.planPriceWrap}>
+                  <div className={styles.planPrice}>₹{Number(planEntry.price).toLocaleString("en-IN")}</div>
+                  {planEntry.pricePerScan ? (
+                    <div className={styles.planPriceSub}>
+                      ≈ ₹{planEntry.pricePerScan.toLocaleString("en-IN")} / scan
+                    </div>
+                  ) : null}
+                </div>
               </div>
             </div>
             <button
