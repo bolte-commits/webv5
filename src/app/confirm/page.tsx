@@ -199,15 +199,15 @@ function ConfirmContent() {
       return;
     }
 
-    // Weight validation
-    const w = Number(weight);
+    // Weight validation — accept decimals, but round to a whole number for use
+    const w = Math.round(Number(weight));
     if (w < 35 || w > 135) {
       setBookingError("Weight must be between 35 and 135 kg.");
       return;
     }
 
     const h = Number(height) / 100;
-    const bmi = Number(weight) / (h * h);
+    const bmi = w / (h * h);
     if (bmi > 39) {
       const proceed = window.confirm(
         "Visceral fat measurement is not clinically validated for BMI above 39 and will not be included in your report. All other metrics will be available. Do you wish to proceed?"
@@ -224,7 +224,7 @@ function ConfirmContent() {
       gender,
       dateOfBirth,
       height,
-      weight,
+      weight: String(w),
       ...(couponResult?.valid && couponResult.coupon ? { couponCode: couponResult.coupon.code } : {}),
     });
     setLoading(false);
@@ -483,6 +483,8 @@ function ConfirmContent() {
                   required
                   min={35}
                   max={135}
+                  step="any"
+                  inputMode="decimal"
                   value={weight}
                   onChange={(e) => setWeight(e.target.value)}
                 />
