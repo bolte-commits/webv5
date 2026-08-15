@@ -630,7 +630,7 @@ function render(d) {
     ${Object.entries(sym.regions).filter(([key])=>key!=='trunk').map(([key,r])=>{const name=key.charAt(0).toUpperCase()+key.slice(1);const t=r.thresholds;const v=r.leanImbalancePercent;const hasValue=v!=null;const scalePos=hasValue?Math.min(95,Math.max(5,v/t[3]*100)):0;return`<div class="sym-region" style="flex-wrap:wrap;">
       <div class="sym-img"><img src="/images/regions/${key}.png" alt="${name}" style="width:100%; height:100%; object-fit:contain; border-radius:8px;" /></div>
       <div class="sym-data">
-        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><div class="sym-name" style="margin-bottom:0;">${name}</div><span style="font-size:0.5rem; font-weight:700; color:${vc(r.statusColor)};">${r.status}</span></div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><div class="sym-name" style="margin-bottom:0;">${name}${r.estimated?'*':''}</div><span style="font-size:0.5rem; font-weight:700; color:${vc(r.statusColor)};">${r.status}</span></div>
         <table class="sym-table">
           <tr><th></th><th>Left</th><th>Right</th></tr>
           <tr><td>Fat %</td><td><strong>${r.left.fatPercent}%</strong></td><td><strong>${r.right.fatPercent}%</strong></td></tr>
@@ -645,6 +645,7 @@ function render(d) {
       </div>
       <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:0;">${r.insight}</div>
     </div>`}).join('')}
+    ${(sym.regions.arms.estimated||sym.regions.legs.estimated)?`<div style="font-size:0.6rem; color:var(--mute); margin-top:8px;">*${sym.estimatedNote}</div>`:''}
   </div>
   ${FTR(8,tp)}
 </div>
@@ -656,7 +657,7 @@ function render(d) {
     ${(()=>{const key='trunk';const r=sym.regions[key];const name='Trunk';const t=r.thresholds;const v=r.leanImbalancePercent;const hasValue=v!=null;const scalePos=hasValue?Math.min(95,Math.max(5,v/t[3]*100)):0;return`<div class="sym-region" style="flex-wrap:wrap;">
       <div class="sym-img"><img src="/images/regions/${key}.png" alt="${name}" style="width:100%; height:100%; object-fit:contain; border-radius:8px;" /></div>
       <div class="sym-data">
-        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><div class="sym-name" style="margin-bottom:0;">${name}</div><span style="font-size:0.5rem; font-weight:700; color:${vc(r.statusColor)};">${r.status}</span></div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;"><div class="sym-name" style="margin-bottom:0;">${name}${r.estimated?'*':''}</div><span style="font-size:0.5rem; font-weight:700; color:${vc(r.statusColor)};">${r.status}</span></div>
         <table class="sym-table">
           <tr><th></th><th>Left</th><th>Right</th></tr>
           <tr><td>Fat %</td><td><strong>${r.left.fatPercent}%</strong></td><td><strong>${r.right.fatPercent}%</strong></td></tr>
@@ -671,6 +672,7 @@ function render(d) {
       </div>
       <div style="width:100%; font-size:0.8rem; color:var(--dim); line-height:1.5; margin-top:0;">${r.insight}</div>
     </div>`})()}
+    ${sym.regions.trunk.estimated?`<div style="font-size:0.6rem; color:var(--mute); margin-top:8px;">*${sym.estimatedNote}</div>`:''}
     ${sym.insight?`<div class="action ${ac(sym.insightColor||'green')}"><strong>${sym.insight.split(':')[0]}:</strong> ${sym.insight.split(':').slice(1).join(':').trim()}</div>`:''}
     <div class="card" style="margin-top:10px;">
       <div class="card-title">What Causes Imbalances?</div>
